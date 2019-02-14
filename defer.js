@@ -1,5 +1,5 @@
 /*
- * defer.js
+ * @shinsenter/defer.js
  * https://github.com/shinsenter/defer.js
  *
  * Minified by jscompress
@@ -32,7 +32,7 @@
  *
  */
 
-/*! shinsenter/defer.js */
+/*! @shinsenter/defer.js */
 (function(env, doc, dequeue_fn, defer_name, deferscript_name) {
 
     var script_tag = 'script';

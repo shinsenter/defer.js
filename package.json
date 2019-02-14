@@ -1,5 +1,5 @@
 {
-  "name": "defer.js",
+  "name": "@shinsenter/defer.js",
   "version": "1.0.0",
   "description": "Super tiny script to efficiently load javascript (and more).",
   "main": "defer.js",
