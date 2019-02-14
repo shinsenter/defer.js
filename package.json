@@ -1,0 +1,31 @@
+{
+  "name": "defer.js",
+  "version": "1.0.0",
+  "description": "Super tiny script to efficiently load javascript (and more).",
+  "main": "defer.js",
+  "scripts": {
+    "dist": "uglifyjs defer.js -c -m --ie8 --comments /^!/ -o defer.min.js --verbose",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shinsenter/defer.js.git"
+  },
+  "keywords": [
+    "defer.js",
+    "defer",
+    "script",
+    "javascript",
+    "js",
+    "pagespeed",
+    "tiny",
+    "inline",
+    "compact"
+  ],
+  "author": "Mai Nhut Tan <shin@shin.company>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shinsenter/defer.js/issues"
+  },
+  "homepage": "https://github.com/shinsenter/defer.js#readme"
+}
