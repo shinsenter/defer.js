@@ -32,57 +32,54 @@
  *
  */
 
-/*! @shinsenter/defer.js */
-(function(env, doc, dequeue_fn, defer_name, deferscript_name) {
+(function(env, doc, deferstyle_name, deferiframe_name) {
+    var defer       = env.defer;
 
-    var script_tag      = 'SCRIPT';
-    var fn_queue        = [];
-    var time_queue      = [];
-    var context_queue   = [];
-    var ready           = doc.readyState;
+    var jquery_name = 'jQuery';
+    var tag_attr    = 'tagName';
+    var style_tag   = 'LINK';
+    var iframe_tag  = 'IFRAME';
 
-    function onload() {
-        ready = true;
+    if (!defer) return;
 
-        fn_queue.forEach(function(fn, i) {
-            dequeue_fn(fn.bind(context_queue[i]), time_queue[i]);
-        });
-
-        fn_queue        = [];
-        time_queue      = [];
-        context_queue   = [];
-    }
-
-    function defer(fn, delay, context) {
-        context = context || env;
-        delay   = delay || 0;
-
-        if (ready) {
-            dequeue_fn(fn.bind(context), delay);
-        } else {
-            fn_queue.push(fn);
-            time_queue.push(delay);
-            context_queue.push(context);
-        }
-    }
-
-    function deferscript(src, id, delay) {
+    function deferjquery(fn, delay) {
         defer(function() {
-            var node;
-
-            if (!doc.getElementById(id)) {
-                node        = doc.createElement(script_tag);
-                node.id     = id;
-                node.defer  = true;
-                node.src    = src;
-
-                doc.getElementsByTagName(script_tag)[0].parentNode.appendChild(node);
+            if (env[jquery_name]) {
+                env[jquery_name].call(env, fn);
             }
         }, delay);
     }
 
-    env[defer_name]         = env[defer_name]       || defer;
-    env[deferscript_name]   = env[deferscript_name] || deferscript;
-    env.addEventListener('load', onload);
+    function deferstyle(src, id, delay) {
+        defer(function() {
+            var node = doc.getElementById(id);
 
-})(window, document, setTimeout, 'defer', 'deferscript');
+            if (node && node[tag_attr] !== style_tag) return;
+
+            if (!node) {
+                node    = doc.createElement(style_tag);
+                node.id = id;
+                doc.getElementsByTagName(style_tag)[0].parentNode.appendChild(node);
+            }
+
+            node.rel    = 'stylesheet';
+            node.type   = 'text/css';
+            node.href   = src;
+        }, delay);
+    }
+
+    function deferiframe(src, id, delay) {
+        defer(function() {
+            var node = doc.getElementById(id);
+
+            if (node && node[tag_attr] === iframe_tag) {
+                node.src = src;
+            }
+        }, delay);
+    }
+
+    env['$']                = deferjquery;
+    env[deferstyle_name]    = env[deferstyle_name]  || deferstyle;
+    env[deferiframe_name]   = env[deferiframe_name] || deferiframe;
+
+})(window, document, 'deferstyle', 'deferiframe');
