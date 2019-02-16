@@ -41,7 +41,7 @@
     var context_queue   = [];
     var ready           = doc.readyState;
 
-    function onload() {
+    function onload () {
         ready = true;
 
         fn_queue.forEach(function(fn, i) {
@@ -53,7 +53,7 @@
         context_queue   = [];
     }
 
-    function defer(fn, delay, context) {
+    function defer (fn, delay, context) {
         context = context || env;
         delay   = delay || 0;
 
@@ -66,17 +66,18 @@
         }
     }
 
-    function deferscript(src, id, delay) {
+    function deferscript (src, id, delay) {
         defer(function() {
             var node;
 
             if (!doc.getElementById(id)) {
                 node        = doc.createElement(script_tag);
                 node.id     = id;
+                node.async  = true;
                 node.defer  = true;
                 node.src    = src;
 
-                doc.getElementsByTagName(script_tag)[0].parentNode.appendChild(node);
+                doc.getElementsByTagName('head')[0].appendChild(node);
             }
         }, delay);
     }

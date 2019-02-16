@@ -1,11 +1,11 @@
 {
   "name": "@shinsenter/defer.js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Super tiny script to efficiently load javascript (and more).",
-  "main": "defer.js",
+  "main": "defer_plus.min.js",
   "scripts": {
-    "dist": "uglifyjs defer.js -c -m --ie8 --comments '/^!/' --verbose -o defer.min.js",
-    "plus": "uglifyjs defer.js extensions.js -c -m --ie8 --comments '/^!/' --verbose -o defer_plus.min.js",
+    "dist": "uglifyjs ./.src/defer.js -c -m --comments '/^!/' --verbose -o defer.min.js",
+    "plus": "uglifyjs ./.src/defer.js ./.src/extensions.js -c -m --comments '/^!/' --verbose -o defer_plus.min.js",
     "deploy": "npm publish --access=public",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
