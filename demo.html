@@ -257,7 +257,13 @@ deferimg('fade', 100, 'loaded', function(img) {
     frameborder="0" width="560" height="315" allowfullscreen
     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"&gt;&lt;/iframe&gt;
 
-&lt;script type="text/javascript"&gt;deferiframe('video', 100);&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+deferimg('video', 100, 'loaded', function(img) {
+    img.onload = function() {
+        img.classList.add('show');
+    }
+});
+&lt;/script&gt;
         </code></pre>
     </div>
     <script type="text/javascript">

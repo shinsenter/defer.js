@@ -179,7 +179,7 @@ Believe me, page speed performance is very important to us.
 
 ## Extended defer.js
 
-I also added some extra helpers to lazy load CSS files, images and iframe. They are all easy to use.
+I also added some extra helpers to lazy load CSS files, images and iframes. They are all easy to use.
 
 You can view all full examples [here](https://appseeds.net/defer.js/demo.html).
 
@@ -190,6 +190,11 @@ You can view all full examples [here](https://appseeds.net/defer.js/demo.html).
 deferstyle(fn [, delay [, context ]])
 ```
 
+Example:
+```js
+deferstyle('https://highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css', 1000);
+```
+
 
 ### deferimg
 
@@ -197,11 +202,47 @@ deferstyle(fn [, delay [, context ]])
 deferimg(class_name = 'lazy' [, delay = 0 [, load_class = 'loaded' [, callback = null ]]])
 ```
 
+Example: Control your lazy images, anywhere, anytime.
+```html
+<img class="basic"
+    data-src="https://picsum.photos/400/300/?image=314"
+    width="400" height="300" alt="Random image" />
+
+<script type="text/javascript">deferimg('basic', 100);</script>
+```
+
 
 ### deferiframe
 
 ```js
 deferiframe(class_name = 'lazy' [, delay = 0 [, load_class = 'loaded' [, callback = null ]]])
+```
+
+Example: Lazy load iframes (Youtube videos) with CSS effect.
+```html
+<style type="text/css">
+.fade {
+    transition: opacity 500ms ease;
+    opacity: 0;
+}
+
+.fade.show {
+    opacity: 1;
+}
+</style>
+
+<iframe class="video fade"
+    data-src="https://www.youtube.com/embed/Uz970DggW7E"
+    frameborder="0" width="560" height="315" allowfullscreen
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
+
+<script type="text/javascript">
+deferiframe('video', 100, 'loaded', function(frame) {
+    frame.onload = function() {
+        frame.classList.add('show');
+    }
+});
+</script>
 ```
 
 ---
