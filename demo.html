@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Demo - @shinsenter/defer.js</title>
+    <script type="text/javascript" src="defer_plus.min.js"></script>
+    <style type="text/css">
+    html {
+        box-sizing: border-box;
+        font-family: Arial;
+        font-size: 16px;
+    }
+
+    *,
+    *:before,
+    *:after {
+        box-sizing: inherit;
+    }
+
+    h1,
+    h2,
+    div,
+    p {
+        margin: 2em auto;
+        padding: 0;
+        font-weight: normal;
+    }
+
+    body {
+        margin: 0;
+        padding: 1em 2em;
+    }
+
+    pre,
+    code {
+        margin: 0;
+        display: block;
+        font-size: smaller;
+    }
+
+    table,
+    img,
+    pre,
+    code {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .fade {
+        transition: opacity 500ms ease;
+        opacity: 0;
+        background: #fafafa;
+    }
+
+    .fade.show {
+        opacity: 1;
+        background: transparent;
+    }
+
+    .long-content {
+        display: block;
+        height: 50rem;
+        background: #f0f0f0;
+    }
+
+    .fb-like {
+        margin: 0;
+    }
+    </style>
+    <script type="text/javascript">
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-34520609-2');
+
+    deferscript('https://www.googletagmanager.com/gtag/js?id=UA-34520609-2', 'google-tag', 500);
+    deferscript('https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2', 'facebook-sdk', 5000);
+
+    deferscript('https://highlightjs.org/static/highlight.site.pack.js', 'highlightjs-api', 500);
+    deferstyle('https://highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css', 1000);
+    defer(function() {
+        document.querySelectorAll('pre code').forEach((block) => {
+            hljs.highlightBlock(block);
+        });
+    }, 2000);
+    </script>
+</head>
+
+<body>
+    <h1>Demo - @shinsenter/defer.js</h1>
+    <div id="fb-root"></div>
+    <div class="fb-like" data-href="https://github.com/shinsenter/defer.js" data-layout="standard" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
+    <h2>Usage (with defer_plus.js)</h2>
+    <div>
+        This page is using <a href="https://github.com/shinsenter/defer.js#extended-deferjs" title="defer.js plus" target="_blank">extended version</a> of <a href="https://github.com/shinsenter/defer.js/" title="Visit defer.js on GitHub" target="_blank">defer.js</a>.
+        <br><br>
+        Code:
+        <pre><code class="highlight html">
+&lt;head&gt;
+    &lt;title&gt;My awesome page&lt;/title&gt;
+    &lt;script type="text/javascript" src="//raw.githubusercontent.com/shinsenter/defer.js/master/defer_plus.min.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+        </code></pre>
+    </div>
+    <div>
+        You can use browser's <strong>Developer Tool</strong> (press F12) to watch how requests are sent.
+        <br>
+        I added some spaces with gray background to demo lazy load. Please scroll down.
+    </div>
+    <div>
+        <strong>But wait.</strong> Do you notice that there is a Facebook block on the top?
+        <br>
+        Your browser loaded it after 5 seconds since your page fires the 'load' event.
+        <br><br>
+        Code:
+        <pre><code class="highlight html">
+&lt;script type="text/javascript"&gt;
+deferscript('https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2', 'facebook-sdk', 5000);
+&lt;/script&gt;
+        </code></pre>
+        You may reload the page and find it out your self.
+    </div>
+    <div>
+        We also <strong>lazy load 3rd-party library's JavaScript and CSS</strong>.
+        <br>
+        Thanks to highlightjs for a lightweight, extensible syntax highlighter.
+        <br><br>
+        Code:
+        <pre><code class="highlight html">
+&lt;script type="text/javascript"&gt;
+deferscript('https://highlightjs.org/static/highlight.site.pack.js', 'highlightjs-api', 500);
+deferstyle('https://highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css', 1000);
+defer(function() {
+    document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+}, 2000);
+&lt;/script&gt;
+        </code></pre>
+    </div>
+    <p class="long-content"></p>
+    <h2>Easiest way to lazy load images</h2>
+    <div>
+        <table border="0" cellpadding="20" cellspacing="0" align="center" valign="middle" width="100%">
+            <tr>
+                <td>
+                    <img class="basic" width="400" height="300" data-src="https://picsum.photos/400/300/?image=311" alt="Random image" />
+                </td>
+                <td>
+                    <img class="basic" width="400" height="300" data-src="https://picsum.photos/400/300/?image=312" alt="Random image" />
+                </td>
+                <td>
+                    <img class="basic" width="400" height="300" data-src="https://picsum.photos/400/300/?image=313" alt="Random image" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <img class="basic" width="400" height="300" data-src="https://picsum.photos/400/300/?image=314" alt="Random image" />
+                </td>
+                <td>
+                    <img class="basic" width="400" height="300" data-src="https://picsum.photos/400/300/?image=315" alt="Random image" />
+                </td>
+                <td>
+                    <img class="basic" width="400" height="300" data-src="https://picsum.photos/400/300/?image=316" alt="Random image" />
+                </td>
+            </tr>
+        </table>
+        <div>
+            Code:
+            <pre><code class="highlight html">
+&lt;img class="basic"
+    data-src="https://picsum.photos/400/300/?image=314"
+    width="400" height="300" alt="Random image" /&gt;
+
+&lt;script type="text/javascript"&gt;deferimg('basic', 100);&lt;/script&gt;
+            </code></pre>
+        </div>
+        <script type="text/javascript">
+        deferimg('basic', 100);
+        </script>
+    </div>
+    <p class="long-content"></p>
+    <h2>Lazy load images with CSS effect</h2>
+    <div>
+        <table border="0" cellpadding="20" cellspacing="0" align="center" valign="middle" width="100%">
+            <tr>
+                <td>
+                    <img class="fade" width="400" height="300" data-src="https://picsum.photos/400/300/?image=321" alt="Random image" />
+                </td>
+                <td>
+                    <img class="fade" width="400" height="300" data-src="https://picsum.photos/400/300/?image=322" alt="Random image" />
+                </td>
+                <td>
+                    <img class="fade" width="400" height="300" data-src="https://picsum.photos/400/300/?image=323" alt="Random image" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <img class="fade" width="400" height="300" data-src="https://picsum.photos/400/300/?image=324" alt="Random image" />
+                </td>
+                <td>
+                    <img class="fade" width="400" height="300" data-src="https://picsum.photos/400/300/?image=325" alt="Random image" />
+                </td>
+                <td>
+                    <img class="fade" width="400" height="300" data-src="https://picsum.photos/400/300/?image=326" alt="Random image" />
+                </td>
+            </tr>
+        </table>
+        <div>
+            Code:
+            <pre><code class="highlight html">
+&lt;style type="text/css"&gt;
+.fade {
+    transition: opacity 500ms ease;
+    opacity: 0;
+}
+
+.fade.show {
+    opacity: 1;
+}
+&lt;/style&gt;
+
+
+&lt;img class="fade"
+    data-src="https://picsum.photos/400/300/?image=314"
+    width="400" height="300" alt="Random image" /&gt;
+
+
+&lt;script type="text/javascript"&gt;
+deferimg('fade', 100, 'loaded', function(img) {
+    img.onload = function() {
+        img.classList.add('show');
+    }
+});
+&lt;/script&gt;
+            </code></pre>
+        </div>
+        <script type="text/javascript">
+        deferimg('fade', 100, 'loaded', function(img) {
+            img.onload = function() {
+                img.classList.add('show');
+            }
+        });
+        </script>
+    </div>
+    <p class="long-content"></p>
+    <h2>Lazy load iframes (Youtube videos) with CSS effect</h2>
+    <div align="center">
+        <iframe class="video fade" data-src="https://www.youtube.com/embed/Uz970DggW7E" frameborder="0" width="560" height="315" allowfullscreen allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
+    </div>
+    <div>
+        Code:
+        <pre><code class="highlight html">
+&lt;iframe class="video fade"
+    data-src="https://www.youtube.com/embed/Uz970DggW7E"
+    frameborder="0" width="560" height="315" allowfullscreen
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"&gt;&lt;/iframe&gt;
+
+&lt;script type="text/javascript"&gt;
+deferimg('video', 100, 'loaded', function(img) {
+    img.onload = function() {
+        img.classList.add('show');
+    }
+});
+&lt;/script&gt;
+        </code></pre>
+    </div>
+    <script type="text/javascript">
+    deferiframe('video', 100, 'loaded', function(frame) {
+        frame.onload = function() {
+            frame.classList.add('show');
+        }
+    });
+    </script>
+    <p class="long-content"></p>
+    <div align="center">
+        <img width="375" height="246" data-src="https://every-tuesday.com/wp-content/uploads/2015/11/thank-you-preview.jpg" alt="Thank you" class="fade" />
+    </div>
+        <hr>
+        <p>
+            <a href="https://github.com/shinsenter/defer.js" title="Visit defer.js on GitHub" target="_blank">defer.js</a> is released under the <a href="https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE" target="_blank">MIT license</a>.
+            Copyright (c) 2019 <a href="mailto:shin@shin.company" target="_blank">Mai Nhut Tan</a>.
+            <br>
+            From <big>🇻🇳</big> with love.
+        </p>
+</body>
+
+</html>

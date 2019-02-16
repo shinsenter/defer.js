@@ -35,28 +35,27 @@
 /*! @shinsenter/defer.js */
 (function(env, doc, dequeue_fn, defer_name, deferscript_name) {
 
-    var script_tag = 'script';
+    var script_tag      = 'SCRIPT';
+    var fn_queue        = [];
+    var time_queue      = [];
+    var context_queue   = [];
+    var ready           = doc.readyState;
 
-    var fn_queue = [];
-    var time_queue = [];
-    var context_queue = [];
-    var ready = doc.readyState;
-
-    function onload() {
+    function onload () {
         ready = true;
 
         fn_queue.forEach(function(fn, i) {
             dequeue_fn(fn.bind(context_queue[i]), time_queue[i]);
         });
 
-        fn_queue = [];
-        time_queue = [];
-        context_queue = [];
+        fn_queue        = [];
+        time_queue      = [];
+        context_queue   = [];
     }
 
-    function defer(fn, delay, context) {
+    function defer (fn, delay, context) {
         context = context || env;
-        delay = delay || 0;
+        delay   = delay || 0;
 
         if (ready) {
             dequeue_fn(fn.bind(context), delay);
@@ -67,22 +66,24 @@
         }
     }
 
-    function deferscript(src, id, delay) {
+    function deferscript (src, id, delay) {
         defer(function() {
             var node;
 
             if (!doc.getElementById(id)) {
-                node = doc.createElement(script_tag);
-                node.id = id;
-                node.defer = true;
-                node.src = src;
-                doc.getElementsByTagName(script_tag)[0].parentNode.appendChild(node)
+                node        = doc.createElement(script_tag);
+                node.id     = id;
+                node.async  = true;
+                node.defer  = true;
+                node.src    = src;
+
+                doc.getElementsByTagName('head')[0].appendChild(node);
             }
         }, delay);
     }
 
-    env[defer_name] = env[defer_name] || defer;
-    env[deferscript_name] = env[deferscript_name] || deferscript;
+    env[defer_name]         = env[defer_name]       || defer;
+    env[deferscript_name]   = env[deferscript_name] || deferscript;
     env.addEventListener('load', onload);
 
 })(window, document, setTimeout, 'defer', 'deferscript');
