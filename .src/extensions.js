@@ -86,20 +86,20 @@
         return function (class_name, delay, load_class, callback) {
             var selector, lazy_items, target, lazy_media_observer, original_callback;
 
-            class_name  = (class_name   || 'lazy')[replace_func](class_regex, '');
-            load_class  = (load_class   || 'deferred')[replace_func](class_regex, '');
-            callback    = (callback     || noop);
-            selector    = (tagname + class_prefix + class_name + ':not(' + class_prefix + load_class + ')');
-
-            function showmedia (media){
+            var showmedia = function (media){
                 if(callback(media) !== false) {
                     media[src_attr]     = (media[dataset_attr][src_attr]    || media[src_attr]);
                     media[srcset_attr]  = (media[dataset_attr][srcset_attr] || media[srcset_attr]);
                 }
             }
 
+            class_name  = (class_name   || 'lazy')[replace_func](class_regex, '');
+            load_class  = (load_class   || 'deferred')[replace_func](class_regex, '');
+            callback    = (callback     || noop);
+            selector    = (tagname + class_prefix + class_name + ':not(' + class_prefix + load_class + ')');
+
             if (observer_class in env) {
-                original_callback   = callback;
+                original_callback   = showmedia;
                 lazy_media_observer = new env[observer_class](function(entries, observer) {
                     entries.forEach(function(entry) {
                         if (entry.isIntersecting) {
@@ -114,12 +114,12 @@
                     });
                 });
 
-                callback = lazy_media_observer.observe.bind(lazy_media_observer);
+                showmedia = lazy_media_observer.observe.bind(lazy_media_observer);
             }
 
             defer(function() {
                 lazy_items = doc.querySelectorAll(selector);
-                [].forEach.call(lazy_items, callback);
+                [].forEach.call(lazy_items, showmedia);
             }, delay);
         }
     }
