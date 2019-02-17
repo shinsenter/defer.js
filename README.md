@@ -52,11 +52,13 @@ The `context` argument sets the value of `this` when the `fn` function is called
 ### deferscript
 
 ```js
-deferscript(src, id [, delay = 0 ])
+deferscript(src, id [, delay = 0 [, callback = function() {} ]])
 ```
 This method allows us to load a JavaScript file from the `src` URL, then execute it after the `onload` event.
 
 We also can assign the `id` for the `<script>` tag, and delay time in miliseconds with the `delay` argument.
+
+The `callback` argument can be set, as you may do some great stuffs after external file is fully loaded.
 
 
 
@@ -158,18 +160,17 @@ deferscript('//platform.twitter.com/widgets.js', 'twitter-wjs', 2000);
 
 It saves huge amount of HTTP requests. Don't worry, all of your loved social widgets work well 2 seconds later.
 
-We also lazy load 3rd-party library's JavaScript and CSS.
+We also lazy-load 3rd-party library's JavaScript and CSS.
 Thanks to highlightjs for a lightweight, extensible syntax highlighter.
 
 ```js
 <script type="text/javascript">
-deferscript('https://highlightjs.org/static/highlight.site.pack.js', 'highlightjs-api', 500);
 deferstyle('https://highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css', 1000);
-defer(function() {
-    document.querySelectorAll('pre code').forEach((block) => {
+deferscript('https://highlightjs.org/static/highlight.site.pack.js', 'highlightjs-api', 1000, function() {
+    document.querySelectorAll('pre code').forEach(function(block) {
         hljs.highlightBlock(block);
     });
-}, 2000);
+});
 </script>
 ```
 The `deferstyle` function is a part of [extended version](#extended-deferjs) of deder.js. You can read about it below.
@@ -179,8 +180,21 @@ Believe me, page speed performance is very important to us.
 
 ## Extended defer.js
 
-I also added some extra helpers to lazy load CSS files, images and iframes. They are all easy to use.
+I also added some extra helpers to lazy-load CSS files, images and iframes. They are all easy to use.
 
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My awesome page</title>
+    <script type="text/javascript" src="//raw.githubusercontent.com/shinsenter/defer.js/master/defer_plus.min.js"></script>
+</head>
+<body>
+
+</body>
+</html>
+```
+**More powerful, but still light-weight.**
 You can view all full examples [here](https://appseeds.net/defer.js/demo.html).
 
 
@@ -199,8 +213,9 @@ deferstyle('https://highlightjs.org/static/demo/styles/tomorrow.css', 'highlight
 ### deferimg
 
 ```js
-deferimg(class_name = 'lazy' [, delay = 0 [, load_class = 'loaded' [, callback = null ]]])
+deferimg(class_name = 'lazy' [, delay = 0 [, load_class = 'loaded' [, callback = function(image) {} ]]])
 ```
+The `this` in `callback` is a reference to the target `<img>` DOM element.
 
 Example: Control your lazy images, anywhere, anytime.
 ```html
@@ -215,10 +230,11 @@ Example: Control your lazy images, anywhere, anytime.
 ### deferiframe
 
 ```js
-deferiframe(class_name = 'lazy' [, delay = 0 [, load_class = 'loaded' [, callback = null ]]])
+deferiframe(class_name = 'lazy' [, delay = 0 [, load_class = 'loaded' [, callback = function(frame) {} ]]])
 ```
+The `this` in `callback` is a reference to the target `<iframe>` DOM element.
 
-Example: Lazy load iframes (Youtube videos) with CSS effect.
+Example: Lazy-load iframes (Youtube videos) with CSS effect.
 ```html
 <style type="text/css">
 .fade {
@@ -248,7 +264,7 @@ deferiframe('video', 100, 'loaded', function(frame) {
 ---
 
 
-Report an issue
+Report an issue:
 
 https://github.com/shinsenter/defer.js/issues
 
@@ -259,4 +275,4 @@ https://github.com/shinsenter/defer.js/issues
 Released under the MIT license.
 https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE
 
-Copyright (c) 2019 Mai Nhut Tan <shin@shin.company>
+Copyright (c) 2019 Mai Nhut Tan &lt;shin@shin.company&gt;
