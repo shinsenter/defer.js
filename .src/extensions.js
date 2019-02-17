@@ -87,15 +87,15 @@
             var selector, lazy_items, target, lazy_media_observer, original_callback;
 
             var showmedia = function (media){
-                if(callback(media) !== false) {
+                if(callback.call(media, media) !== false) {
                     media[src_attr]     = (media[dataset_attr][src_attr]    || media[src_attr]);
                     media[srcset_attr]  = (media[dataset_attr][srcset_attr] || media[srcset_attr]);
                 }
             }
 
-            class_name  = (class_name   || 'lazy')[replace_func](class_regex, '');
-            load_class  = (load_class   || 'deferred')[replace_func](class_regex, '');
-            callback    = (callback     || noop);
+            class_name  = (class_name || 'lazy')[replace_func](class_regex, '');
+            load_class  = (load_class || 'deferred')[replace_func](class_regex, '');
+            callback    = (callback   || noop);
             selector    = (tagname + class_prefix + class_name + ':not(' + class_prefix + load_class + ')');
 
             if (observer_class in env) {
