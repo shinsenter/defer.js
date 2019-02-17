@@ -1,6 +1,6 @@
 {
   "name": "@shinsenter/defer.js",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Super tiny script to efficiently load javascript (and more).",
   "main": "defer_plus.min.js",
   "scripts": {

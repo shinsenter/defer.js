@@ -36,47 +36,45 @@
 (function(env, doc, dequeue_fn, defer_name, deferscript_name) {
 
     var script_tag      = 'SCRIPT';
+    var load_attr       = 'onload';
+
     var fn_queue        = [];
     var time_queue      = [];
-    var context_queue   = [];
     var ready           = doc.readyState;
 
     function onload () {
         ready = true;
 
         fn_queue.forEach(function(fn, i) {
-            dequeue_fn(fn.bind(context_queue[i]), time_queue[i]);
+            dequeue_fn(fn, time_queue[i]);
         });
 
         fn_queue        = [];
         time_queue      = [];
-        context_queue   = [];
     }
 
     function defer (fn, delay, context) {
-        context = context || env;
+        fn      = fn.bind(context || env);
         delay   = delay || 0;
 
         if (ready) {
-            dequeue_fn(fn.bind(context), delay);
+            dequeue_fn(fn, delay);
         } else {
             fn_queue.push(fn);
             time_queue.push(delay);
-            context_queue.push(context);
         }
     }
 
-    function deferscript (src, id, delay) {
+    function deferscript (src, id, delay, callback) {
         defer(function() {
             var node;
 
             if (!doc.getElementById(id)) {
-                node        = doc.createElement(script_tag);
-                node.id     = id;
-                node.async  = true;
-                node.defer  = true;
-                node.src    = src;
-
+                node            = doc.createElement(script_tag);
+                node.id         = id;
+                node.async      = node.defer      = true;
+                node[load_attr] = callback || node[load_attr];
+                node.src        = src;
                 doc.getElementsByTagName('head')[0].appendChild(node);
             }
         }, delay);
