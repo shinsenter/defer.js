@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>Demo - @shinsenter/defer.js</title>
-    <script src="defer_plus.min.js"></script>
+    <script src="defer_plus.min.js?v=1.0.4"></script>
     <meta name="description" content="defer.js by shinsenter is a super tiny script to efficiently load JavaScript (and more). Loading your deferred JavaScript also means no render blocking, your browsing experience needn't wait for code you may not need yet. Extended version helps you to lazy-load any CSS files, images and iframes. They are all easy to use.">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="mobile-web-app-capable" content="yes">
@@ -63,13 +63,13 @@
             z-index: 10;
         }
 
-        #lang>li {
+        #lang li {
             display: inline-block;
             line-height: 2;
             text-align: center;
         }
 
-        #lang>li>a {
+        #lang li a {
             padding: 0 0.5em;
             display: block;
         }
@@ -168,7 +168,7 @@
 
         // lazy-load Google Tag Manager and social button scripts
         deferscript('https://www.googletagmanager.com/gtag/js?id=UA-34520609-2', 'google-tag', 500);
-        deferscript('https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5c68e61cf456f1cb', 'social-buttons', 5000);
+        deferscript('https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5c68e61cf456f1cb', 'social-buttons', 3000);
 
         // lazy-load 3rd-party library's JavaScript and CSS
         deferstyle('https://highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css', 1000);
@@ -187,8 +187,7 @@
         <li><a title="日本語翻訳" rel="alternate" hreflang="ja" href="https://translate.google.com/translate?hl=&sl=auto&tl=ja&u=https%3A%2F%2Fappseeds.net%2Fdefer.js%2Fdemo.html">JA</a></li>
         <li><a title="Tiếng Việt" rel="alternate" hreflang="vi" href="https://translate.google.com/translate?hl=&sl=auto&tl=vi&u=https%3A%2F%2Fappseeds.net%2Fdefer.js%2Fdemo.html">VI</a></li>
     </ul>
-    <div id="fb-root"></div>
-    <div class="addthis_inline_share_toolbox" data-url="https://github.com/shinsenter/defer.js" data-title="defer.js - A super tiny script to efficiently load JavaScript (and more)"></div>
+    <div class="addthis_inline_share_toolbox" data-url="https://github.com/shinsenter/defer.js" data-title="defer.js - A super tiny script to efficiently load JavaScript (and more)" data-description="defer.js by shinsenter is a super tiny script to efficiently load JavaScript (and more). Loading your deferred JavaScript also means no render blocking, your browsing experience needn't wait for code you may not need yet. Extended version helps you to lazy-load any CSS files, images and iframes. They are all easy to use."></div>
     <section id="deferjs-usage">
         <h2 id="getting-started">Getting started</h2>
         <div>
@@ -210,13 +209,13 @@
             <p>I added some spaces with gray background to demo lazy-load. Please scroll down.</p>
         </div>
         <div id="lazyload-widgets">
-            <p><strong>But wait.</strong> Do you notice that there is a Facebook block on <a href="#top">the top</a>?</p>
-            <p>Your browser loaded it after 5 seconds since your page fired the 'load' event.</p>
+            <p><strong>But wait.</strong> Do you notice that there is a share buttons block on <a href="#top">the top</a>?</p>
+            <p>Your browser loaded it after 3 seconds since your page fired the 'load' event.</p>
             <br />
             <code>Code:</code>
             <pre><code class="highlight html">
 &lt;script type="text/javascript"&gt;
-deferscript('https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5c68e61cf456f1cb', 'social-buttons', 5000);
+deferscript('https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5c68e61cf456f1cb', 'social-buttons', 3000);
 &lt;/script&gt;
         </code></pre>
             <p>You may reload the page and find it out your self.</p>
