@@ -35,29 +35,30 @@
 /*! @shinsenter/defer.js */
 (function(env, doc, dequeue_fn, defer_name, deferscript_name) {
 
-    var script_tag      = 'SCRIPT';
-    var load_attr       = 'onload';
+    var head_tag    = 'HEAD';
+    var script_tag  = 'SCRIPT';
+    var load_attr   = 'onload';
 
-    var fn_queue        = [];
-    var time_queue      = [];
-    var ready           = doc.readyState;
+    var fn_queue    = [];
+    var time_queue  = [];
+    var DOM_ready   = doc.readyState;
 
     function onload () {
-        ready = true;
+        DOM_ready   = true;
 
         fn_queue.forEach(function(fn, i) {
             dequeue_fn(fn, time_queue[i]);
         });
 
-        fn_queue        = [];
-        time_queue      = [];
+        fn_queue    = [];
+        time_queue  = [];
     }
 
     function defer (fn, delay, context) {
         fn      = fn.bind(context || env);
         delay   = delay || 0;
 
-        if (ready) {
+        if (DOM_ready) {
             dequeue_fn(fn, delay);
         } else {
             fn_queue.push(fn);
@@ -75,7 +76,7 @@
                 node.async      = node.defer      = true;
                 node[load_attr] = callback || node[load_attr];
                 node.src        = src;
-                doc.getElementsByTagName('head')[0].appendChild(node);
+                doc.getElementsByTagName(head_tag)[0].appendChild(node);
             }
         }, delay);
     }

@@ -38,6 +38,7 @@
     var observer_class  = 'IntersectionObserver';
     var jquery_name     = 'jQuery';
 
+    var head_tag        = 'HEAD';
     var style_tag       = 'LINK';
     var img_tag         = 'IMG';
     var iframe_tag      = 'IFRAME';
@@ -73,7 +74,7 @@
             if (!node) {
                 node    = doc.createElement(style_tag);
                 node.id = id;
-                doc.getElementsByTagName('head')[0].appendChild(node);
+                doc.getElementsByTagName(head_tag)[0].appendChild(node);
             }
 
             node.rel    = 'stylesheet';
@@ -84,7 +85,7 @@
 
     function defermedia (tagname) {
         return function (class_name, delay, load_class, callback) {
-            var selector, lazy_items, target, lazy_media_observer, original_callback;
+            var selector, target, lazy_media_observer, original_callback;
 
             var showmedia = function (media){
                 if(callback.call(media, media) !== false) {
@@ -118,8 +119,7 @@
             }
 
             defer(function() {
-                lazy_items = doc.querySelectorAll(selector);
-                [].forEach.call(lazy_items, showmedia);
+                doc.querySelectorAll(selector).forEach(showmedia);
             }, delay);
         }
     }
