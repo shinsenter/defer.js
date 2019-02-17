@@ -2,8 +2,15 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
     <title>Demo - @shinsenter/defer.js</title>
     <script type="text/javascript" src="defer_plus.min.js"></script>
+    <meta name="description" content="defer.js by shinsenter is a super tiny script to efficiently load JavaScript (and more). Loading your deferred JavaScript also means no render blocking, your browsing experience needn't wait for code you may not need yet. Extended version helps you to lazy load any CSS files, images and iframes. They are all easy to use.">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="375">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,width=device-width">
     <style type="text/css">
     html {
         box-sizing: border-box;
@@ -24,6 +31,7 @@
         margin: 2em auto;
         padding: 0;
         font-weight: normal;
+        overflow: auto;
     }
 
     body {
@@ -66,6 +74,30 @@
     .fb-like {
         margin: 0;
     }
+
+    .fb-like * {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .w640 {
+        max-width: 640px;
+    }
+
+    div.r16-9 {
+        position: relative;
+        max-width: 100%;
+        padding-bottom: 56.25%;
+        margin: 0;
+    }
+
+    div.r16-9 iframe {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+    }
     </style>
     <script type="text/javascript">
     window.dataLayer = window.dataLayer || [];
@@ -90,10 +122,10 @@
 <body>
     <h1>Demo - @shinsenter/defer.js</h1>
     <div id="fb-root"></div>
-    <div class="fb-like" data-href="https://github.com/shinsenter/defer.js" data-layout="standard" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
+    <div class="fb-like" data-href="https://github.com/shinsenter/defer.js" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
     <h2>Usage (with defer_plus.js)</h2>
     <div>
-        This page is using <a href="https://github.com/shinsenter/defer.js#extended-deferjs" title="defer.js plus" target="_blank">extended version</a> of <a href="https://github.com/shinsenter/defer.js/" title="Visit defer.js on GitHub" target="_blank">defer.js</a>.
+        This page is using <a href="https://github.com/shinsenter/defer.js/blob/master/README.md#extended-deferjs" title="Extended version defer_plus.min.js" target="_blank">extended version</a> of <a href="https://github.com/shinsenter/defer.js/" title="Visit defer.js on GitHub" target="_blank">defer.js</a>.
         <br><br>
         Code:
         <pre><code class="highlight html">
@@ -111,7 +143,7 @@
     <div>
         <strong>But wait.</strong> Do you notice that there is a Facebook block on the top?
         <br>
-        Your browser loaded it after 5 seconds since your page fires the 'load' event.
+        Your browser loaded it after 5 seconds since your page fired the 'load' event.
         <br><br>
         Code:
         <pre><code class="highlight html">
@@ -246,8 +278,10 @@ deferimg('fade', 100, 'loaded', function(img) {
     </div>
     <p class="long-content"></p>
     <h2>Lazy load iframes (Youtube videos) with CSS effect</h2>
-    <div align="center">
-        <iframe class="video fade" data-src="https://www.youtube.com/embed/Uz970DggW7E" frameborder="0" width="560" height="315" allowfullscreen allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
+    <div class="w640">
+        <div align="center" class="r16-9">
+            <iframe class="video fade" data-src="https://www.youtube.com/embed/Uz970DggW7E" frameborder="0" width="560" height="315" allowfullscreen allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        </div>
     </div>
     <div>
         Code:
@@ -258,9 +292,9 @@ deferimg('fade', 100, 'loaded', function(img) {
     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"&gt;&lt;/iframe&gt;
 
 &lt;script type="text/javascript"&gt;
-deferimg('video', 100, 'loaded', function(img) {
-    img.onload = function() {
-        img.classList.add('show');
+deferiframe('video', 100, 'loaded', function(frame) {
+    frame.onload = function() {
+        frame.classList.add('show');
     }
 });
 &lt;/script&gt;
@@ -274,16 +308,20 @@ deferimg('video', 100, 'loaded', function(img) {
     });
     </script>
     <p class="long-content"></p>
+    <h2>And it's SEO friendly</h2>
+    <div align="center" class="w640">
+        <img width="2270" height="1344" data-src="demo.jpg" alt="defer.js is SEO friendly" class="fade" />
+    </div>
+    <hr>
     <div align="center">
         <img width="375" height="246" data-src="https://every-tuesday.com/wp-content/uploads/2015/11/thank-you-preview.jpg" alt="Thank you" class="fade" />
     </div>
-        <hr>
-        <p>
-            <a href="https://github.com/shinsenter/defer.js" title="Visit defer.js on GitHub" target="_blank">defer.js</a> is released under the <a href="https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE" target="_blank">MIT license</a>.
-            Copyright (c) 2019 <a href="mailto:shin@shin.company" target="_blank">Mai Nhut Tan</a>.
-            <br>
-            From <big>🇻🇳</big> with love.
-        </p>
+    <p>
+        <a href="https://github.com/shinsenter/defer.js" title="Visit defer.js on GitHub" target="_blank">defer.js</a> is released under the <a href="https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE" target="_blank">MIT license</a>.
+        Copyright (c) 2019 <a href="mailto:shin@shin.company" target="_blank">Mai Nhut Tan</a>.
+        <br>
+        From <big>🇻🇳</big> with love.
+    </p>
 </body>
 
 </html>
