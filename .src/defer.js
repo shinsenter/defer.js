@@ -41,7 +41,7 @@
 
     var fn_queue    = [];
     var time_queue  = [];
-    var DOM_ready   = doc.readyState;
+    var DOM_ready   = (doc.readyState == 'complete');
 
     function onload () {
         DOM_ready   = true;
