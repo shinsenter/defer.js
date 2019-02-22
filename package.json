@@ -1,6 +1,6 @@
 {
   "name": "@shinsenter/defer.js",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "defer.js by shinsenter is a super tiny script to efficiently load JavaScript. Extended version supports CSS files, images and iframes. They are all easy to use.",
   "main": "defer_plus.min.js",
   "scripts": {
