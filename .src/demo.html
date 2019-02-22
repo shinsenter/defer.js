@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>Easily lazy-load JS, CSS, images, iframes - @shinsenter / defer.js</title>
-    <script src="defer_plus.min.js?v=wip-1.0.6"></script>
+    <script src="defer_plus.min.js?v=wip-1.0.7"></script>
     <meta name="description" content="defer.js by shinsenter is a super tiny script to efficiently load JavaScript. Extended version supports CSS files, images and iframes. They are all easy to use.">
     <meta name="keywords" content="defer.js,defer,lazyload,fast,pagespeed,javascript,css,style,image,iframe">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -293,11 +293,11 @@ deferscript('https://highlightjs.org/static/highlight.site.pack.js', 'highlightj
     width="400" height="300" alt="Random image" /&gt;
 
 &lt;script type="text/javascript"&gt;
-deferimg('basic', 100);
+deferimg('img.basic', 100);
 &lt;/script&gt;</code></pre>
             </div>
             <script>
-                deferimg('basic', 100);
+                deferimg('img.basic', 100);
             </script>
         </div>
         <div class="long-content"></div>
@@ -360,7 +360,7 @@ deferimg('basic', 100);
 
 
 &lt;script type="text/javascript"&gt;
-deferimg('fade', 100, 'loaded', function(img) {
+deferimg('img.fade', 100, 'loaded', function(img) {
     img.onload = function() {
         img.classList.add('show');
     }
@@ -368,7 +368,7 @@ deferimg('fade', 100, 'loaded', function(img) {
 &lt;/script&gt;</code></pre>
             </div>
             <script>
-                deferimg('fade', 100, 'loaded', function(img) {
+                deferimg('img.fade', 100, 'loaded', function(img) {
                     img.onload = function() {
                         img.classList.add('show');
                     }
@@ -402,7 +402,7 @@ deferimg('fade', 100, 'loaded', function(img) {
     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"&gt;&lt;/iframe&gt;
 
 &lt;script type="text/javascript"&gt;
-deferiframe('video', 100, 'loaded', function(frame) {
+deferiframe('iframe.video', 100, 'loaded', function(frame) {
     frame.onload = function() {
         frame.classList.add('show');
     }
@@ -410,7 +410,7 @@ deferiframe('video', 100, 'loaded', function(frame) {
 &lt;/script&gt;</code></pre>
         </div>
         <script>
-            deferiframe('video', 100, 'loaded', function(frame) {
+            deferiframe('iframe.video', 100, 'loaded', function(frame) {
                 frame.onload = function() {
                     frame.classList.add('show');
                 }

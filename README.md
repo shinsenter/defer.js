@@ -213,7 +213,7 @@ deferstyle('https://highlightjs.org/static/demo/styles/tomorrow.css', 'highlight
 ### deferimg
 
 ```js
-deferimg(class_name = 'lazy' [, delay = 0 [, load_class = 'loaded' [, callback = function(image) {} ]]])
+deferimg(query_selector = 'img.lazy' [, delay = 0 [, load_class = 'loaded' [, callback = function(image) {} ]]])
 ```
 The `this` in `callback` is a reference to the target `<img>` DOM element.
 
@@ -223,14 +223,14 @@ Example: Control your lazy images, anywhere, anytime.
     data-src="https://picsum.photos/400/300/?image=314"
     width="400" height="300" alt="Random image" />
 
-<script type="text/javascript">deferimg('basic', 100);</script>
+<script type="text/javascript">deferimg('img.basic', 100);</script>
 ```
 
 
 ### deferiframe
 
 ```js
-deferiframe(class_name = 'lazy' [, delay = 0 [, load_class = 'loaded' [, callback = function(frame) {} ]]])
+deferiframe(query_selector = 'iframe.lazy' [, delay = 0 [, load_class = 'loaded' [, callback = function(frame) {} ]]])
 ```
 The `this` in `callback` is a reference to the target `<iframe>` DOM element.
 
@@ -253,7 +253,7 @@ Example: Lazy-load iframes (Youtube videos) with CSS effect.
     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
 
 <script type="text/javascript">
-deferiframe('video', 100, 'loaded', function(frame) {
+deferiframe('iframe.video', 100, 'loaded', function(frame) {
     frame.onload = function() {
         frame.classList.add('show');
     }

@@ -49,7 +49,6 @@
     var classlist_attr  = 'classList';
     var tagname_attr    = 'tagName';
 
-    var class_prefix    = '.';
     var class_regex     = /^\.+/;
     var replace_func    = 'replace';
 
@@ -84,7 +83,7 @@
     }
 
     function defermedia (tagname) {
-        return function (class_name, delay, load_class, callback) {
+        return function (query, delay, load_class, callback) {
             var selector, target, lazy_media_observer, original_callback;
 
             var showmedia = function (media){
@@ -94,10 +93,10 @@
                 }
             }
 
-            class_name  = (class_name || 'lazy')[replace_func](class_regex, '');
+            query       = (query      || tagname + '.lazy');
             load_class  = (load_class || 'deferred')[replace_func](class_regex, '');
             callback    = (callback   || noop);
-            selector    = (tagname + class_prefix + class_name + ':not(' + class_prefix + load_class + ')');
+            selector    = (query + ':not(.' + load_class + ')');
 
             if (observer_class in env) {
                 original_callback   = showmedia;
