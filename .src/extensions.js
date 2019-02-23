@@ -1,9 +1,10 @@
-/*
- * @shinsenter/defer.js
+/**
+ *
+ * Package shinsenter/defer.js
  * https://github.com/shinsenter/defer.js
  *
- * Minified by jscompress
- * https://jscompress.com/
+ * Minified by UglifyJS2
+ * http://lisperator.net/uglifyjs/
  *
  * Released under the MIT license
  * https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE
@@ -12,7 +13,7 @@
  *
  * Copyright (c) 2019 Mai Nhut Tan <shin@shin.company>
  *
- * Permission is hereby granted, free of charge, to any person obtaining node copy
+ * Permission is hereby granted, free of charge, to any person obtaining last_insert copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
@@ -32,100 +33,140 @@
  *
  */
 
-(function(env, doc, deferstyle_name, deferimg_name, deferiframe_name) {
-    var defer;
+(function($window, $document, deferstyle_fn, deferimg_fn, deferiframe_fn) {
 
-    var observer_class  = 'IntersectionObserver';
-    var jquery_name     = 'jQuery';
+    var FALSE   = false;
+    var NULL    = null;
+    var NOOP    = function (){};
 
-    var head_tag        = 'HEAD';
-    var style_tag       = 'LINK';
-    var img_tag         = 'IMG';
-    var iframe_tag      = 'IFRAME';
+    var JQUERY_NAME     = 'jQuery';
+    var OBSERVER_CLASS  = 'IntersectionObserver';
 
-    var src_attr        = 'src';
-    var srcset_attr     = 'srcset';
-    var dataset_attr    = 'dataset';
-    var classlist_attr  = 'classList';
-    var tagname_attr    = 'tagName';
+    var DATASET = 'dataset';
+    var SRC     = 'src';
+    var SRCSET  = 'srcset';
 
-    var class_regex     = /^\.+/;
-    var replace_func    = 'replace';
+    var IFRAME  = 'IFRAME';
+    var IMG     = 'IMG';
+    var LINK    = 'LINK';
 
-    function noop (){}
+    var APPEND_CHILD             = 'appendChild';
+    var CREATE_ELEMENT           = 'createElement';
+    var FOR_EACH                 = 'forEach';
+    var GET_ELEMENT_BY_ID        = 'getElementById';
+    var GET_ELEMENTS_BY_TAG_NAME = 'getElementsByTagName';
+    var QUERY_SELECTOR_ALL       = 'querySelectorAll';
 
-    if (!(defer = env.defer)) return;
+    var defer   = $window.defer || NOOP;
+    var $head   = $document[GET_ELEMENTS_BY_TAG_NAME]('HEAD')[0];
+    var last_insert;
 
-    function deferjquery (fn, delay) {
+    /**
+     * This function is a placeholder for jQuery's `$(function() { })` calls.
+     * It may be helpful when you want to lazy-load jQuery library.
+     *
+     * @param   {function}  func    The callback function when jQuery load
+     * @returns {void}
+     */
+    function deferjquery (func) {
         defer(function() {
-            if (env[jquery_name]) {
-                env[jquery_name].call(env, fn);
+            if (deferjquery == $window[JQUERY_NAME]) {
+                func($window);
+            } else {
+                $window[JQUERY_NAME](func);
+            }
+        }, 500);
+    }
+
+    /**
+     * This function will lazy-load stylesheet from given URL in `src` argument.
+     * The tag id and delay time can be set in `id` and `delay` arguments.
+     * Sometimes you may call a `callback` function when the file is loaded.
+     *
+     * @param   {string}        src         The file URL
+     * @param   {string|false}  id          The tag id
+     * @param   {integer}       delay       The delay time to create the tag
+     * @param   {function}      callback    The callback function when load
+     * @returns {void}
+     */
+    function deferstyle (src, id, delay, callback) {
+        defer(function() {
+            if (!id || !$document[GET_ELEMENT_BY_ID](id)) {
+                last_insert     = $document[CREATE_ELEMENT](LINK);
+                last_insert.rel = 'stylesheet';
+
+                if (id) {
+                    last_insert.id = id;
+                }
+
+                if (callback) {
+                    last_insert.onload = callback;
+                }
+
+                last_insert.href = src;
+                $head[APPEND_CHILD](last_insert);
+
+                // Free memory after attaching to DOM
+                last_insert = NULL;
             }
         }, delay);
     }
 
-    function deferstyle (src, id, delay) {
-        defer(function() {
-            var node = doc.getElementById(id);
-
-            if (node && node[tagname_attr] !== style_tag) return;
-
-            if (!node) {
-                node    = doc.createElement(style_tag);
-                node.id = id;
-                doc.getElementsByTagName(head_tag)[0].appendChild(node);
-            }
-
-            node.rel    = 'stylesheet';
-            node.type   = 'text/css';
-            node.href   = src;
-        }, delay);
-    }
-
+    /**
+     * Returns a function to create lazy-load for `tagname` element.
+     * For example: defermedia('img') with return a function to lazy-load
+     *              creating a `<img>` tag.
+     *
+     * @param   {string}    tagname     The tag name (E.g. IMG, IFRAME)
+     * @returns {function}              The returned function
+     */
     function defermedia (tagname) {
-        return function (query, delay, load_class, callback) {
-            var selector, target, lazy_media_observer, original_callback;
+        return function (query, delay, done_class, callback) {
+            var selector, target, dataset, observer, display, deferred_display;
 
-            var showmedia = function (media){
-                if(callback.call(media, media) !== false) {
-                    media[src_attr]     = (media[dataset_attr][src_attr]    || media[src_attr]);
-                    media[srcset_attr]  = (media[dataset_attr][srcset_attr] || media[srcset_attr]);
+            // Variable convertions
+            query       = query      || tagname + '.lazy';
+            done_class  = done_class || 'lazied';
+            callback    = callback   || NOOP;
+            selector    = query + ':not(.' + done_class + ')';
+
+            // This method sets true `src` from `data-src` attribute
+            display = function (media){
+                if(callback.call(media, media) !== FALSE) {
+                    dataset       = media[DATASET];
+                    media[SRCSET] = dataset[SRCSET] || media[SRCSET];
+                    media[SRC]    = dataset[SRC]    || media[SRC];
                 }
             }
 
-            query       = (query      || tagname + '.lazy');
-            load_class  = (load_class || 'deferred')[replace_func](class_regex, '');
-            callback    = (callback   || noop);
-            selector    = (query + ':not(.' + load_class + ')');
-
-            if (observer_class in env) {
-                original_callback   = showmedia;
-                lazy_media_observer = new env[observer_class](function(entries, observer) {
-                    entries.forEach(function(entry) {
-                        if (entry.isIntersecting) {
-                            lazy_media_observer.unobserve(target = entry.target);
-
-                            if(classlist_attr in target) {
-                                target[classlist_attr].add(load_class);
-                            }
-
-                            original_callback(target);
+            // Force using IntersectionObserver when posible
+            // It class is the heart of media lazy-loading
+            if (OBSERVER_CLASS in $window) {
+                deferred_display = display;
+                observer         = new $window[OBSERVER_CLASS](function(items) {
+                    items[FOR_EACH](function(item) {
+                        if (item.isIntersecting && (target = item.target)) {
+                            observer.unobserve(target);
+                            target.className += ' ' + done_class;
+                            deferred_display(target);
                         }
                     });
                 });
 
-                showmedia = lazy_media_observer.observe.bind(lazy_media_observer);
+                display = observer.observe.bind(observer);
             }
 
+            // Then let `defer` function do the rest
             defer(function() {
-                doc.querySelectorAll(selector).forEach(showmedia);
+                $document[QUERY_SELECTOR_ALL](selector)[FOR_EACH](display);
             }, delay);
         }
     }
 
-    env['$']                = deferjquery;
-    env[deferstyle_name]    = env[deferstyle_name]  || deferstyle;
-    env[deferimg_name]      = env[deferimg_name]    || defermedia(img_tag);
-    env[deferiframe_name]   = env[deferiframe_name] || defermedia(iframe_tag);
+    // Export functions into the global scope
+    $window.$               = $window[JQUERY_NAME] = deferjquery;
+    $window[deferstyle_fn]  = $window[deferstyle_fn]    || deferstyle;
+    $window[deferimg_fn]    = $window[deferimg_fn]      || defermedia(IMG);
+    $window[deferiframe_fn] = $window[deferiframe_fn]   || defermedia(IFRAME);
 
 })(window, document, 'deferstyle', 'deferimg', 'deferiframe');
