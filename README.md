@@ -201,7 +201,7 @@ You can view all full examples [here](https://appseeds.net/defer.js/demo.html).
 ### deferstyle
 
 ```js
-deferstyle(fn [, delay [, context ]])
+deferstyle(src, id [, delay = 0 [, callback = function() {} ]])
 ```
 
 Example:
