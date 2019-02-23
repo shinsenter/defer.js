@@ -1,9 +1,10 @@
-/*
- * @shinsenter/defer.js
+/**
+ *
+ * Package shinsenter/defer.js
  * https://github.com/shinsenter/defer.js
  *
- * Minified by jscompress
- * https://jscompress.com/
+ * Minified by UglifyJS2
+ * http://lisperator.net/uglifyjs/
  *
  * Released under the MIT license
  * https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE
@@ -32,57 +33,102 @@
  *
  */
 
-/*! @shinsenter/defer.js */
-(function(env, doc, dequeue_fn, defer_name, deferscript_name) {
+/*!shinsenter/defer.js*/
+(function ($window, $document, dequeue, defer_fn, deferscript_fn) {
 
-    var head_tag    = 'HEAD';
-    var script_tag  = 'SCRIPT';
-    var load_attr   = 'onload';
+    var NULL    = null;
+    var TRUE    = true;
 
-    var fn_queue    = [];
-    var time_queue  = [];
-    var DOM_ready   = (doc.readyState == 'complete');
+    var SCRIPT  = 'SCRIPT';
 
-    function onload () {
-        DOM_ready   = true;
+    var ADD_EVENT_LISTENER       = 'addEventListener';
+    var APPEND_CHILD             = 'appendChild';
+    var CREATE_ELEMENT           = 'createElement';
+    var GET_ELEMENT_BY_ID        = 'getElementById';
+    var GET_ELEMENTS_BY_TAG_NAME = 'getElementsByTagName';
+    var READY_STATE              = 'readyState';
 
-        fn_queue.forEach(function(fn, i) {
-            dequeue_fn(fn, time_queue[i]);
-        });
+    var $head       = $document[GET_ELEMENTS_BY_TAG_NAME]('HEAD')[0];
+    var dom_loaded  = $document[READY_STATE] == 'complete';
+    var func_queue  = [];
+    var last_insert;
 
-        fn_queue    = [];
-        time_queue  = [];
-    }
-
-    function defer (fn, delay, context) {
-        fn      = fn.bind(context || env);
+    /**
+     * This is our hero: the `defer` function.
+     * This will push target function into queue with its delay time.
+     * If the `load` method was fired, it will execute the function.
+     *
+     * @param   {function}  func    The function
+     * @param   {integer}   delay   The delay time to call the function
+     * @param   {Object}    context The context to bind with the function
+     * @returns {void}
+     */
+    function defer (func, delay, context) {
+        func    = func.bind(context || NULL);
         delay   = delay || 0;
 
-        if (DOM_ready) {
-            dequeue_fn(fn, delay);
+        if (dom_loaded) {
+            dequeue(func, delay);
         } else {
-            fn_queue.push(fn);
-            time_queue.push(delay);
+            func_queue.push(func);
+            func_queue.push(delay);
         }
     }
 
+    /**
+     * This function will lazy-load a script from given URL in `src` argument.
+     * The tag id and delay time can be set in `id` and `delay` arguments.
+     * Sometimes you may call a `callback` function when the file is loaded.
+     *
+     * @param   {string}        src         The file URL
+     * @param   {string|false}  id          The tag id
+     * @param   {integer}       delay       The delay time to create the tag
+     * @param   {function}      callback    The callback function when load
+     * @returns {void}
+     */
     function deferscript (src, id, delay, callback) {
         defer(function() {
-            var node;
+            if (!id || !$document[GET_ELEMENT_BY_ID](id)) {
+                last_insert = $document[CREATE_ELEMENT](SCRIPT);
+                last_insert.defer = TRUE;
 
-            if (!doc.getElementById(id)) {
-                node            = doc.createElement(script_tag);
-                node.id         = id;
-                node.async      = node.defer      = true;
-                node[load_attr] = callback || node[load_attr];
-                node.src        = src;
-                doc.getElementsByTagName(head_tag)[0].appendChild(node);
+                if (id) {
+                    last_insert.id = id;
+                }
+
+                if (callback) {
+                    last_insert.onload = callback;
+                }
+
+                last_insert.src = src;
+                $head[APPEND_CHILD](last_insert);
+
+                // Free memory after attaching to DOM
+                last_insert = NULL;
             }
         }, delay);
     }
 
-    env[defer_name]         = env[defer_name]       || defer;
-    env[deferscript_name]   = env[deferscript_name] || deferscript;
-    env.addEventListener('load', onload);
+    /**
+     * This method will be triggled when `load` event was fired.
+     * This will also turn `dom_loaded` into `true`...
+     * ... and run all function in queue using `dequeue` method.
+     *
+     * @returns {void}
+     */
+    function onload () {
+        dom_loaded = TRUE;
+
+        for (;func_queue.length;) {
+            dequeue(func_queue.shift(), func_queue.shift());
+        }
+    }
+
+    // Export functions into the global scope
+    $window[defer_fn]       = $window[defer_fn]       || defer;
+    $window[deferscript_fn] = $window[deferscript_fn] || deferscript;
+
+    // Add event listener into global scope
+    $window[ADD_EVENT_LISTENER]('load', onload);
 
 })(window, document, setTimeout, 'defer', 'deferscript');
