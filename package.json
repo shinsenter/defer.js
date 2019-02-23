@@ -1,15 +1,17 @@
 {
   "name": "@shinsenter/defer.js",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "defer.js by shinsenter is a super tiny script to efficiently load JavaScript. Extended version supports CSS files, images and iframes. They are all easy to use.",
   "main": "defer_plus.min.js",
   "scripts": {
-    "dist": "uglifyjs ./.src/defer.js -c -m --comments /^!/ --verbose -o defer.min.js",
-    "plus": "uglifyjs ./.src/defer.js ./.src/extensions.js -c -m --comments /^!/ --verbose -o defer_plus.min.js",
+    "format": "js-beautify --config .src/.beautify -r -f .src/*.js",
+    "mini": "uglifyjs -c -m --comments /^!/ -o defer.min.js .src/defer.js",
+    "plus": "uglifyjs -c -m --comments /^!/ -o defer_plus.min.js .src/defer.js .src/extensions.js",
     "demo": "html-minifier ./.src/demo.html -o demo.html --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true",
-    "all": "npm run dist && npm run plus && npm run demo",
-    "deploy": "npm publish --access=public",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm test && npm run mini && npm run plus && npm run demo",
+    "up": "npm test && npm --no-git-tag-version version patch -m 'Ready to publish version %s'",
+    "publish": "npm publish --access=public",
+    "test": "eslint --config .src/.eslintrc --ext .js .src"
   },
   "repository": {
     "type": "git",
