@@ -1,4 +1,6 @@
 * text=auto
 /demo.html -diff -merge
 /defer.min.js -diff -merge
+/defer.min.js.map -diff -merge
 /defer_plus.min.js -diff -merge
+/defer_plus.min.js.map -diff -merge

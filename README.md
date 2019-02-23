@@ -213,7 +213,7 @@ deferstyle('https://highlightjs.org/static/demo/styles/tomorrow.css', 'highlight
 ### deferimg
 
 ```js
-deferimg(query_selector = 'img.lazy' [, delay = 0 [, load_class = 'loaded' [, callback = function(image) {} ]]])
+deferimg(query_selector = 'img.lazy' [, delay = 0 [, load_class = 'lazied' [, callback = function(image) {} ]]])
 ```
 The `this` in `callback` is a reference to the target `<img>` DOM element.
 
@@ -230,7 +230,7 @@ Example: Control your lazy images, anywhere, anytime.
 ### deferiframe
 
 ```js
-deferiframe(query_selector = 'iframe.lazy' [, delay = 0 [, load_class = 'loaded' [, callback = function(frame) {} ]]])
+deferiframe(query_selector = 'iframe.lazy' [, delay = 0 [, load_class = 'lazied' [, callback = function(frame) {} ]]])
 ```
 The `this` in `callback` is a reference to the target `<iframe>` DOM element.
 
