@@ -248,7 +248,7 @@ SOFTWARE.
             // lazy-load 3rd-party library's JavaScript and CSS
             deferstyle('https://highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css', 1000);
             deferscript('https://highlightjs.org/static/highlight.site.pack.js', 'highlightjs-api', 1000, function () {
-                var code_blocks = [].slice.call(document.querySelectorAll('pre code'), 0);
+                var code_blocks = [].slice.call(document.querySelectorAll('pre code'));
                 code_blocks.forEach(function(block) {
                     hljs.highlightBlock(block);
                 });
@@ -319,7 +319,7 @@ deferscript('https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5c68e61cf4
                 <pre class="notranslate"><code>Code:</code><code class="highlight html">&lt;script type="text/javascript"&gt;
 deferstyle('https://highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css', 1000);
 deferscript('https://highlightjs.org/static/highlight.site.pack.js', 'highlightjs-api', 1000, function() {
-    var code_blocks = [].slice.call(document.querySelectorAll('pre code'), 0);
+    var code_blocks = [].slice.call(document.querySelectorAll('pre code'));
     code_blocks.forEach(function(block) {
         hljs.highlightBlock(block);
     });

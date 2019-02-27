@@ -167,7 +167,8 @@ Thanks to highlightjs for a lightweight, extensible syntax highlighter.
 <script type="text/javascript">
 deferstyle('https://highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css', 1000);
 deferscript('https://highlightjs.org/static/highlight.site.pack.js', 'highlightjs-api', 1000, function() {
-    document.querySelectorAll('pre code').forEach(function(block) {
+    var code_blocks = [].slice.call(document.querySelectorAll('pre code'));
+    code_blocks.forEach(function(block) {
         hljs.highlightBlock(block);
     });
 });

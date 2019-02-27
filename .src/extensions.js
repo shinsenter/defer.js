@@ -158,7 +158,7 @@
 
             // Then let `defer` function do the rest
             defer(function() {
-                [].slice.call($document[QUERY_SELECTOR_ALL](selector), 0)[FOR_EACH](display);
+                [].slice.call($document[QUERY_SELECTOR_ALL](selector))[FOR_EACH](display);
             }, delay);
         }
     }

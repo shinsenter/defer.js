@@ -11,7 +11,7 @@
     "build": "npm test && npm run mini && npm run plus && npm run demo",
     "up": "npm test && npm --no-git-tag-version version patch -m 'Ready to publish version %s'",
     "publish": "npm publish --access=public",
-    "test": "eslint --config .src/.eslintrc --ext .js .src"
+    "test": "eslint --config .src/.eslintrc --ext .js .src --fix"
   },
   "repository": {
     "type": "git",
