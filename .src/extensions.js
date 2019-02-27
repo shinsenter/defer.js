@@ -35,9 +35,9 @@
 
 (function($window, $document, deferstyle_fn, deferimg_fn, deferiframe_fn) {
 
-    var FALSE   = false;
-    var NULL    = null;
-    var NOOP    = function (){};
+    var FALSE        = false;
+    var NULL         = null;
+    var NOOP         = function (){};
 
     var JQUERY_NAME     = 'jQuery';
     var OBSERVER_CLASS  = 'IntersectionObserver';
@@ -158,7 +158,7 @@
 
             // Then let `defer` function do the rest
             defer(function() {
-                $document[QUERY_SELECTOR_ALL](selector)[FOR_EACH](display);
+                [].slice.call($document[QUERY_SELECTOR_ALL](selector), 0)[FOR_EACH](display);
             }, delay);
         }
     }
