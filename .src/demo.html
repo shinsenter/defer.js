@@ -37,6 +37,7 @@ SOFTWARE.
     <head>
         <meta charset="utf-8">
         <title>Easily lazy-load JS, CSS, images, iframes - @shinsenter / defer.js</title>
+        <script src="defer_plus.min.js?v=1.0.9"></script>
         <link rel="canonical" href="https://appseeds.net/defer.js/demo.html">
 
         <meta name="description" content="defer.js by shinsenter is a super tiny script to efficiently load JavaScript. Extended version supports CSS files, images and iframes. They are all easy to use.">
@@ -231,7 +232,6 @@ SOFTWARE.
             }
         </style>
 
-        <script src="defer_plus.min.js?v=1.0.8"></script>
         <script>
             // For Google Analytics
             window.dataLayer = window.dataLayer || [];
@@ -248,10 +248,10 @@ SOFTWARE.
             // lazy-load 3rd-party library's JavaScript and CSS
             deferstyle('https://highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css', 1000);
             deferscript('https://highlightjs.org/static/highlight.site.pack.js', 'highlightjs-api', 1000, function () {
-                document.querySelectorAll('pre code')
-                    .forEach(function (block) {
-                        hljs.highlightBlock(block);
-                    });
+                var code_blocks = [].slice.call(document.querySelectorAll('pre code'));
+                code_blocks.forEach(function(block) {
+                    hljs.highlightBlock(block);
+                });
             });
         </script>
     </head>
@@ -319,7 +319,8 @@ deferscript('https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5c68e61cf4
                 <pre class="notranslate"><code>Code:</code><code class="highlight html">&lt;script type="text/javascript"&gt;
 deferstyle('https://highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css', 1000);
 deferscript('https://highlightjs.org/static/highlight.site.pack.js', 'highlightjs-api', 1000, function() {
-    document.querySelectorAll('pre code').forEach(function(block) {
+    var code_blocks = [].slice.call(document.querySelectorAll('pre code'));
+    code_blocks.forEach(function(block) {
         hljs.highlightBlock(block);
     });
 });
