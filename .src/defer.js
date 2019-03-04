@@ -36,8 +36,8 @@
 /*!shinsenter/defer.js*/
 (function ($window, $document, dequeue, defer_fn, deferscript_fn) {
 
-    var NULL    = null;
-    var TRUE    = true;
+    var NULL = null;
+    var TRUE = true;
 
     var SCRIPT  = 'SCRIPT';
 
@@ -45,10 +45,9 @@
     var APPEND_CHILD             = 'appendChild';
     var CREATE_ELEMENT           = 'createElement';
     var GET_ELEMENT_BY_ID        = 'getElementById';
-    var GET_ELEMENTS_BY_TAG_NAME = 'getElementsByTagName';
     var READY_STATE              = 'readyState';
 
-    var $head       = $document[GET_ELEMENTS_BY_TAG_NAME]('HEAD')[0];
+    var $head       = $document.head;
     var dom_loaded  = $document[READY_STATE] == 'complete';
     var func_queue  = [];
     var last_insert;
@@ -64,14 +63,12 @@
      * @returns {void}
      */
     function defer (func, delay, context) {
-        func    = func.bind(context || NULL);
-        delay   = delay || 0;
+        func = func.bind(context || $window);
 
         if (dom_loaded) {
             dequeue(func, delay);
         } else {
-            func_queue.push(func);
-            func_queue.push(delay);
+            func_queue.push(func, delay);
         }
     }
 
@@ -88,7 +85,7 @@
      */
     function deferscript (src, id, delay, callback) {
         defer(function() {
-            if (!id || !$document[GET_ELEMENT_BY_ID](id)) {
+            if (!$document[GET_ELEMENT_BY_ID](id)) {
                 last_insert = $document[CREATE_ELEMENT](SCRIPT);
                 last_insert.defer = TRUE;
 

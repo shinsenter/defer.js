@@ -35,9 +35,9 @@
 
 (function($window, $document, deferstyle_fn, deferimg_fn, deferiframe_fn) {
 
-    var FALSE        = false;
-    var NULL         = null;
-    var NOOP         = function (){};
+    var FALSE   = false;
+    var NULL    = null;
+    var NOOP    = function (){};
 
     var JQUERY_NAME     = 'jQuery';
     var OBSERVER_CLASS  = 'IntersectionObserver';
@@ -50,15 +50,17 @@
     var IMG     = 'IMG';
     var LINK    = 'LINK';
 
+    var LAZY_CLASS      = '.lazy';
+    var LAZIED_CLASS    = 'lazied';
+
     var APPEND_CHILD             = 'appendChild';
     var CREATE_ELEMENT           = 'createElement';
     var FOR_EACH                 = 'forEach';
     var GET_ELEMENT_BY_ID        = 'getElementById';
-    var GET_ELEMENTS_BY_TAG_NAME = 'getElementsByTagName';
     var QUERY_SELECTOR_ALL       = 'querySelectorAll';
 
     var defer   = $window.defer || NOOP;
-    var $head   = $document[GET_ELEMENTS_BY_TAG_NAME]('HEAD')[0];
+    var $head   = $document.head;
     var last_insert;
 
     /**
@@ -71,7 +73,7 @@
     function deferjquery (func) {
         defer(function() {
             if (deferjquery == $window[JQUERY_NAME]) {
-                func($window);
+                func();
             } else {
                 $window[JQUERY_NAME](func);
             }
@@ -91,7 +93,7 @@
      */
     function deferstyle (src, id, delay, callback) {
         defer(function() {
-            if (!id || !$document[GET_ELEMENT_BY_ID](id)) {
+            if (!$document[GET_ELEMENT_BY_ID](id)) {
                 last_insert     = $document[CREATE_ELEMENT](LINK);
                 last_insert.rel = 'stylesheet';
 
@@ -125,8 +127,8 @@
             var selector, target, dataset, observer, display, deferred_display;
 
             // Variable convertions
-            query       = query      || tagname + '.lazy';
-            done_class  = done_class || 'lazied';
+            query       = query      || tagname + LAZY_CLASS;
+            done_class  = done_class || LAZIED_CLASS;
             callback    = callback   || NOOP;
             selector    = query + ':not(.' + done_class + ')';
 
