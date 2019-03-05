@@ -3,7 +3,7 @@
  * Package shinsenter/defer.js
  * https://github.com/shinsenter/defer.js
  *
- * Minified by UglifyJS2
+ * Minified by UglifyJS3
  * http://lisperator.net/uglifyjs/
  *
  * Released under the MIT license
@@ -13,7 +13,7 @@
  *
  * Copyright (c) 2019 Mai Nhut Tan <shin@shin.company>
  *
- * Permission is hereby granted, free of charge, to any person obtaining last_insert copy
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
@@ -33,11 +33,16 @@
  *
  */
 
-(function($window, $document, deferstyle_fn, deferimg_fn, deferiframe_fn) {
+(function(
+    // Global objects
+    $window, $document,
 
-    var FALSE        = false;
-    var NULL         = null;
-    var NOOP         = function (){};
+    // Internal data
+    deferstyle_fn, deferimg_fn, deferiframe_fn
+) {
+
+    var NOOP    = Function();
+    var defer   = $window.defer || NOOP;
 
     var JQUERY_NAME     = 'jQuery';
     var OBSERVER_CLASS  = 'IntersectionObserver';
@@ -50,16 +55,14 @@
     var IMG     = 'IMG';
     var LINK    = 'LINK';
 
-    var APPEND_CHILD             = 'appendChild';
-    var CREATE_ELEMENT           = 'createElement';
-    var FOR_EACH                 = 'forEach';
-    var GET_ELEMENT_BY_ID        = 'getElementById';
-    var GET_ELEMENTS_BY_TAG_NAME = 'getElementsByTagName';
-    var QUERY_SELECTOR_ALL       = 'querySelectorAll';
+    var LAZY_CLASS      = '.lazy';
+    var LAZIED_CLASS    = 'lazied';
 
-    var defer   = $window.defer || NOOP;
-    var $head   = $document[GET_ELEMENTS_BY_TAG_NAME]('HEAD')[0];
-    var last_insert;
+    var APPEND_CHILD        = 'appendChild';
+    var CREATE_ELEMENT      = 'createElement';
+    var FOR_EACH            = 'forEach';
+    var GET_ELEMENT_BY_ID   = 'getElementById';
+    var QUERY_SELECTOR_ALL  = 'querySelectorAll';
 
     /**
      * This function is a placeholder for jQuery's `$(function() { })` calls.
@@ -71,7 +74,7 @@
     function deferjquery (func) {
         defer(function() {
             if (deferjquery == $window[JQUERY_NAME]) {
-                func($window);
+                func();
             } else {
                 $window[JQUERY_NAME](func);
             }
@@ -90,24 +93,21 @@
      * @returns {void}
      */
     function deferstyle (src, id, delay, callback) {
-        defer(function() {
-            if (!id || !$document[GET_ELEMENT_BY_ID](id)) {
-                last_insert     = $document[CREATE_ELEMENT](LINK);
-                last_insert.rel = 'stylesheet';
+        defer(function(dom) {
+            if (!$document[GET_ELEMENT_BY_ID](id)) {
+                dom = $document[CREATE_ELEMENT](LINK);
+                dom.rel = 'stylesheet';
 
                 if (id) {
-                    last_insert.id = id;
+                    dom.id = id;
                 }
 
                 if (callback) {
-                    last_insert.onload = callback;
+                    dom.onload = callback;
                 }
 
-                last_insert.href = src;
-                $head[APPEND_CHILD](last_insert);
-
-                // Free memory after attaching to DOM
-                last_insert = NULL;
+                dom.href = src;
+                $document.head[APPEND_CHILD](dom);
             }
         }, delay);
     }
@@ -122,51 +122,52 @@
      */
     function defermedia (tagname) {
         return function (query, delay, done_class, callback) {
-            var selector, target, dataset, observer, display, deferred_display;
+            var observer, walker;
 
             // Variable convertions
-            query       = query      || tagname + '.lazy';
-            done_class  = done_class || 'lazied';
+            done_class  = done_class || LAZIED_CLASS;
             callback    = callback   || NOOP;
-            selector    = query + ':not(.' + done_class + ')';
 
             // This method sets true `src` from `data-src` attribute
-            display = function (media){
-                if(callback.call(media, media) !== FALSE) {
-                    dataset       = media[DATASET];
-                    media[SRCSET] = dataset[SRCSET] || media[SRCSET];
-                    media[SRC]    = dataset[SRC]    || media[SRC];
+            function display(media, dataset) {
+                media.className += ' ' + done_class;
+
+                if(callback.call(media, media) !== false) {
+                    dataset = media[DATASET] || {};
+                    if(dataset[SRCSET]) {media[SRCSET] = dataset[SRCSET]}
+                    if(dataset[SRC])    {media[SRC]    = dataset[SRC]}
                 }
             }
 
             // Force using IntersectionObserver when posible
             // It class is the heart of media lazy-loading
             if (OBSERVER_CLASS in $window) {
-                deferred_display = display;
-                observer         = new $window[OBSERVER_CLASS](function(items) {
-                    items[FOR_EACH](function(item) {
+                observer = new $window[OBSERVER_CLASS](function(items) {
+                    items[FOR_EACH](function(item, target) {
                         if (item.isIntersecting && (target = item.target)) {
                             observer.unobserve(target);
-                            target.className += ' ' + done_class;
-                            deferred_display(target);
+                            display(target);
                         }
                     });
                 });
 
-                display = observer.observe.bind(observer);
+                walker = observer.observe.bind(observer);
+            } else {
+                walker = display;
             }
 
             // Then let `defer` function do the rest
-            defer(function() {
-                [].slice.call($document[QUERY_SELECTOR_ALL](selector))[FOR_EACH](display);
+            defer(function(selector) {
+                selector = (query || tagname + LAZY_CLASS) + ':not(.' + done_class + ')';
+                [].slice.call($document[QUERY_SELECTOR_ALL](selector))[FOR_EACH](walker);
             }, delay);
         }
     }
 
     // Export functions into the global scope
     $window.$               = $window[JQUERY_NAME] = deferjquery;
-    $window[deferstyle_fn]  = $window[deferstyle_fn]    || deferstyle;
-    $window[deferimg_fn]    = $window[deferimg_fn]      || defermedia(IMG);
-    $window[deferiframe_fn] = $window[deferiframe_fn]   || defermedia(IFRAME);
+    $window[deferstyle_fn]  = $window[deferstyle_fn]  || deferstyle;
+    $window[deferimg_fn]    = $window[deferimg_fn]    || defermedia(IMG);
+    $window[deferiframe_fn] = $window[deferiframe_fn] || defermedia(IFRAME);
 
-})(window, document, 'deferstyle', 'deferimg', 'deferiframe');
+})(this, document, 'deferstyle', 'deferimg', 'deferiframe');
