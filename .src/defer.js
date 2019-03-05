@@ -41,11 +41,11 @@
 
     var SCRIPT  = 'SCRIPT';
 
-    var ADD_EVENT_LISTENER       = 'addEventListener';
-    var APPEND_CHILD             = 'appendChild';
-    var CREATE_ELEMENT           = 'createElement';
-    var GET_ELEMENT_BY_ID        = 'getElementById';
-    var READY_STATE              = 'readyState';
+    var ADD_EVENT_LISTENER   = 'addEventListener';
+    var APPEND_CHILD         = 'appendChild';
+    var CREATE_ELEMENT       = 'createElement';
+    var GET_ELEMENT_BY_ID    = 'getElementById';
+    var READY_STATE          = 'readyState';
 
     var $head       = $document.head;
     var dom_loaded  = $document[READY_STATE] == 'complete';
@@ -86,7 +86,7 @@
     function deferscript (src, id, delay, callback) {
         defer(function() {
             if (!$document[GET_ELEMENT_BY_ID](id)) {
-                last_insert = $document[CREATE_ELEMENT](SCRIPT);
+                last_insert       = $document[CREATE_ELEMENT](SCRIPT);
                 last_insert.defer = TRUE;
 
                 if (id) {

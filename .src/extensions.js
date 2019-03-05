@@ -53,11 +53,11 @@
     var LAZY_CLASS      = '.lazy';
     var LAZIED_CLASS    = 'lazied';
 
-    var APPEND_CHILD             = 'appendChild';
-    var CREATE_ELEMENT           = 'createElement';
-    var FOR_EACH                 = 'forEach';
-    var GET_ELEMENT_BY_ID        = 'getElementById';
-    var QUERY_SELECTOR_ALL       = 'querySelectorAll';
+    var APPEND_CHILD        = 'appendChild';
+    var CREATE_ELEMENT      = 'createElement';
+    var FOR_EACH            = 'forEach';
+    var GET_ELEMENT_BY_ID   = 'getElementById';
+    var QUERY_SELECTOR_ALL  = 'querySelectorAll';
 
     var defer   = $window.defer || NOOP;
     var $head   = $document.head;
@@ -135,9 +135,9 @@
             // This method sets true `src` from `data-src` attribute
             display = function (media){
                 if(callback.call(media, media) !== FALSE) {
-                    dataset       = media[DATASET];
-                    media[SRCSET] = dataset[SRCSET] || media[SRCSET];
-                    media[SRC]    = dataset[SRC]    || media[SRC];
+                    dataset = media[DATASET] || {};
+                    if(dataset[SRCSET]) {media[SRCSET] = dataset[SRCSET]}
+                    if(dataset[SRC])    {media[SRC]    = dataset[SRC]}
                 }
             }
 
@@ -145,7 +145,7 @@
             // It class is the heart of media lazy-loading
             if (OBSERVER_CLASS in $window) {
                 deferred_display = display;
-                observer         = new $window[OBSERVER_CLASS](function(items) {
+                observer = new $window[OBSERVER_CLASS](function(items) {
                     items[FOR_EACH](function(item) {
                         if (item.isIntersecting && (target = item.target)) {
                             observer.unobserve(target);
@@ -167,8 +167,8 @@
 
     // Export functions into the global scope
     $window.$               = $window[JQUERY_NAME] = deferjquery;
-    $window[deferstyle_fn]  = $window[deferstyle_fn]    || deferstyle;
-    $window[deferimg_fn]    = $window[deferimg_fn]      || defermedia(IMG);
-    $window[deferiframe_fn] = $window[deferiframe_fn]   || defermedia(IFRAME);
+    $window[deferstyle_fn]  = $window[deferstyle_fn]  || deferstyle;
+    $window[deferimg_fn]    = $window[deferimg_fn]    || defermedia(IMG);
+    $window[deferiframe_fn] = $window[deferiframe_fn] || defermedia(IFRAME);
 
 })(window, document, 'deferstyle', 'deferimg', 'deferiframe');
