@@ -131,7 +131,7 @@
         "no-negated-in-lhs": "error",
         "no-nested-ternary": "error",
         "no-new": "error",
-        "no-new-func": "error",
+        "no-new-func": "off",
         "no-new-object": "error",
         "no-new-require": "error",
         "no-new-wrappers": "error",
@@ -211,7 +211,7 @@
         "require-atomic-updates": "error",
         "require-await": "error",
         "require-jsdoc": "off",
-        "require-unicode-regexp": "error",
+        "require-unicode-regexp": "off",
         "rest-spread-spacing": "error",
         "semi": "off",
         "semi-spacing": [

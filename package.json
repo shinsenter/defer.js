@@ -1,6 +1,6 @@
 {
   "name": "@shinsenter/defer.js",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "defer.js by shinsenter is a super tiny script to efficiently load JavaScript. Extended version supports CSS files, images and iframes. They are all easy to use.",
   "main": "defer_plus.min.js",
   "scripts": {
@@ -42,7 +42,7 @@
     "iframe",
     "inline",
     "website",
-    "100scores"
+    "score100"
   ],
   "author": "Mai Nhut Tan <shin@shin.company>",
   "license": "MIT",

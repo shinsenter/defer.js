@@ -3,7 +3,7 @@
  * Package shinsenter/defer.js
  * https://github.com/shinsenter/defer.js
  *
- * Minified by UglifyJS2
+ * Minified by UglifyJS3
  * http://lisperator.net/uglifyjs/
  *
  * Released under the MIT license
@@ -13,7 +13,7 @@
  *
  * Copyright (c) 2019 Mai Nhut Tan <shin@shin.company>
  *
- * Permission is hereby granted, free of charge, to any person obtaining node copy
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
@@ -34,24 +34,26 @@
  */
 
 /*!shinsenter/defer.js*/
-(function ($window, $document, dequeue, defer_fn, deferscript_fn) {
+(function (
+    // Global objects
+    $window, $document, dequeue,
 
-    var NULL    = null;
-    var TRUE    = true;
+    // Internal data
+    func_queue, defer_fn, deferscript_fn,
+
+    // Variable placeholder
+    dom_loaded
+) {
 
     var SCRIPT  = 'SCRIPT';
 
-    var ADD_EVENT_LISTENER       = 'addEventListener';
-    var APPEND_CHILD             = 'appendChild';
-    var CREATE_ELEMENT           = 'createElement';
-    var GET_ELEMENT_BY_ID        = 'getElementById';
-    var GET_ELEMENTS_BY_TAG_NAME = 'getElementsByTagName';
-    var READY_STATE              = 'readyState';
+    var ADD_EVENT_LISTENER   = 'addEventListener';
+    var APPEND_CHILD         = 'appendChild';
+    var CREATE_ELEMENT       = 'createElement';
+    var GET_ELEMENT_BY_ID    = 'getElementById';
+    var READY_STATE          = 'readyState';
 
-    var $head       = $document[GET_ELEMENTS_BY_TAG_NAME]('HEAD')[0];
-    var dom_loaded  = $document[READY_STATE] == 'complete';
-    var func_queue  = [];
-    var last_insert;
+    dom_loaded = (/p/).test($document[READY_STATE]);
 
     /**
      * This is our hero: the `defer` function.
@@ -64,14 +66,12 @@
      * @returns {void}
      */
     function defer (func, delay, context) {
-        func    = func.bind(context || NULL);
-        delay   = delay || 0;
+        func = func.bind(context || $window);
 
         if (dom_loaded) {
             dequeue(func, delay);
         } else {
-            func_queue.push(func);
-            func_queue.push(delay);
+            func_queue.push(func, delay);
         }
     }
 
@@ -87,24 +87,20 @@
      * @returns {void}
      */
     function deferscript (src, id, delay, callback) {
-        defer(function() {
-            if (!id || !$document[GET_ELEMENT_BY_ID](id)) {
-                last_insert = $document[CREATE_ELEMENT](SCRIPT);
-                last_insert.defer = TRUE;
+        defer(function(dom) {
+            if (!$document[GET_ELEMENT_BY_ID](id)) {
+                dom = $document[CREATE_ELEMENT](SCRIPT);
 
                 if (id) {
-                    last_insert.id = id;
+                    dom.id = id;
                 }
 
                 if (callback) {
-                    last_insert.onload = callback;
+                    dom.onload = callback;
                 }
 
-                last_insert.src = src;
-                $head[APPEND_CHILD](last_insert);
-
-                // Free memory after attaching to DOM
-                last_insert = NULL;
+                dom.src = src;
+                $document.head[APPEND_CHILD](dom);
             }
         }, delay);
     }
@@ -117,7 +113,7 @@
      * @returns {void}
      */
     function onload () {
-        dom_loaded = TRUE;
+        dom_loaded = true;
 
         for (;func_queue.length;) {
             dequeue(func_queue.shift(), func_queue.shift());
@@ -131,4 +127,4 @@
     // Add event listener into global scope
     $window[ADD_EVENT_LISTENER]('load', onload);
 
-})(window, document, setTimeout, 'defer', 'deferscript');
+})(this, document, setTimeout, [], 'defer', 'deferscript');
