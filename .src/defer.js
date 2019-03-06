@@ -65,8 +65,8 @@
      * @param   {Object}    context The context to bind with the function
      * @returns {void}
      */
-    function defer (func, delay, context) {
-        func = func.bind(context || $window);
+    function defer (func, delay) {
+        // func = func.bind(context || $window);
 
         if (dom_loaded) {
             dequeue(func, delay);

@@ -41,15 +41,13 @@
     deferstyle_fn, deferimg_fn, deferiframe_fn
 ) {
 
-    var NOOP    = Function();
-    var defer   = $window.defer || NOOP;
-
     var JQUERY_NAME     = 'jQuery';
     var OBSERVER_CLASS  = 'IntersectionObserver';
 
     var DATASET = 'dataset';
     var SRC     = 'src';
     var SRCSET  = 'srcset';
+    var DATA    = 'data';
 
     var IFRAME  = 'IFRAME';
     var IMG     = 'IMG';
@@ -63,6 +61,9 @@
     var FOR_EACH            = 'forEach';
     var GET_ELEMENT_BY_ID   = 'getElementById';
     var QUERY_SELECTOR_ALL  = 'querySelectorAll';
+
+    var NOOP    = Function();
+    var defer   = $window.defer || NOOP;
 
     /**
      * This function is a placeholder for jQuery's `$(function() { })` calls.
@@ -118,12 +119,15 @@
      *              creating a `<img>` tag.
      *
      * @param   {string}    tagname     The tag name (E.g. IMG, IFRAME)
+     * @param   {array}     attributes  Attributes to be deferred
      * @returns {function}              The returned function
      */
-    function defermedia (tagname) {
-        return function (query, delay, done_class, callback) {
-            var observer, walker;
+    function defermedia (tagname, attributes) {
+        if (!attributes) {
+            attributes = [SRCSET, SRC, DATA];
+        }
 
+        return function (query, delay, done_class, callback, observer, walker) {
             // Variable convertions
             done_class  = done_class || LAZIED_CLASS;
             callback    = callback   || NOOP;
@@ -132,10 +136,11 @@
             function display(media, dataset) {
                 media.className += ' ' + done_class;
 
-                if(callback.call(media, media) !== false) {
+                if (callback.call(media, media) !== false) {
                     dataset = media[DATASET] || {};
-                    if(dataset[SRCSET]) {media[SRCSET] = dataset[SRCSET]}
-                    if(dataset[SRC])    {media[SRC]    = dataset[SRC]}
+                    attributes[FOR_EACH](function(attr) {
+                        if (dataset[attr]) {media[attr] = dataset[attr]}
+                    });
                 }
             }
 

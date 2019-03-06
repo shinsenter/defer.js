@@ -42,11 +42,9 @@ Because the minified version is super tiny (less than 500 bytes), you can inline
 ### defer
 
 ```js
-defer(fn [, delay = 0 [, context = null ]])
+defer(fn [, delay = 0])
 ```
 This method allows us to delay the execution of `fn` function in `delay` miliseconds (default: 0) after the `onload` event.
-
-The `context` argument sets the value of `this` when the `fn` function is called.
 
 
 ### deferscript
