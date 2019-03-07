@@ -65,6 +65,8 @@
     var NOOP    = Function();
     var defer   = $window.defer || NOOP;
 
+    var DEFAULT_DELAY = 96;
+
     /**
      * This function is a placeholder for jQuery's `$(function() { })` calls.
      * It may be helpful when you want to lazy-load jQuery library.
@@ -79,7 +81,7 @@
             } else {
                 $window[JQUERY_NAME](func);
             }
-        }, 500);
+        }, DEFAULT_DELAY);
     }
 
     /**
@@ -110,7 +112,7 @@
                 dom.href = src;
                 $document.head[APPEND_CHILD](dom);
             }
-        }, delay);
+        }, delay || DEFAULT_DELAY);
     }
 
     /**
@@ -165,14 +167,14 @@
             defer(function(selector) {
                 selector = (query || tagname + LAZY_CLASS) + ':not(.' + done_class + ')';
                 [].slice.call($document[QUERY_SELECTOR_ALL](selector))[FOR_EACH](walker);
-            }, delay);
+            }, delay || DEFAULT_DELAY);
         }
     }
 
     // Export functions into the global scope
     $window.$               = $window[JQUERY_NAME] = deferjquery;
-    $window[deferstyle_fn]  = $window[deferstyle_fn]  || deferstyle;
-    $window[deferimg_fn]    = $window[deferimg_fn]    || defermedia(IMG);
-    $window[deferiframe_fn] = $window[deferiframe_fn] || defermedia(IFRAME);
+    $window[deferstyle_fn]  = deferstyle;
+    $window[deferimg_fn]    = defermedia(IMG);
+    $window[deferiframe_fn] = defermedia(IFRAME);
 
 })(this, document, 'deferstyle', 'deferimg', 'deferiframe');

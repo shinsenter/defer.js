@@ -1,9 +1,10 @@
 {
   "name": "@shinsenter/defer.js",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "defer.js by shinsenter is a super tiny script to efficiently load JavaScript. Extended version supports CSS files, images and iframes. They are all easy to use.",
   "main": "defer_plus.min.js",
   "scripts": {
+    "polyfill": "npm i && uglifyjs -c -m -o assets/polyfill.min.js node_modules/intersection-observer/intersection-observer.js",
     "format": "js-beautify --config .src/.beautify -r -f .src/*.js",
     "mini": "uglifyjs -c -m --comments /^!/ -o defer.min.js .src/defer.js",
     "plus": "uglifyjs -c -m --comments /^!/ -o defer_plus.min.js .src/defer.js .src/extensions.js",
@@ -49,5 +50,8 @@
   "bugs": {
     "url": "https://github.com/shinsenter/defer.js/issues"
   },
-  "homepage": "https://github.com/shinsenter/defer.js#readme"
+  "homepage": "https://github.com/shinsenter/defer.js#readme",
+  "devDependencies": {
+    "intersection-observer": "^0.5.1"
+  }
 }

@@ -121,8 +121,8 @@
     }
 
     // Export functions into the global scope
-    $window[defer_fn]       = $window[defer_fn]       || defer;
-    $window[deferscript_fn] = $window[deferscript_fn] || deferscript;
+    $window[defer_fn]       = defer;
+    $window[deferscript_fn] = deferscript;
 
     // Add event listener into global scope
     $window[ADD_EVENT_LISTENER]('load', onload);
