@@ -1,58 +1,90 @@
-# defer.js
+# @shinsenter/defer.js
 
 ![JavaScript Style Guide: Good Parts](https://img.shields.io/badge/code%20style-goodparts-brightgreen.svg?style=flat)
 ![Dependency Status](https://david-dm.org/shinsenter/defer.js.svg)
 [![Post an issue](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/shinsenter/defer.js/issues)
 ![HitCount](http://hits.dwyl.com/shinsenter/defer.js.svg)
 
+Super tiny script to efficiently load JavaScript.
 
-Super tiny script to efficiently load JavaScript (and more).
+[Extended version](#extended-deferjs) supports CSS files, images and iframes. They are all easy to use.
+
+
 
 ![Why it fast?](https://img.shields.io/badge/start%20with-why%3F-brightgreen.svg?style=flat)
 
 **It makes your pages feel faster.**
 
+![Scoring 100/100 on Google PageSpeed Test](assets/scores.jpg)
+
 According to [Google's PageSpeed Insights](https://developers.google.com/speed/docs/insights/BlockingJS), loading your deferred JavaScript also means no blocking, your browsing experience needn't wait for code you may not need yet.
 
-*TL;DR*: You can view full examples [here](https://appseeds.net/defer.js/demo.html).
+*TL;DR*: You can view full examples in [my demo](https://appseeds.net/defer.js/demo.html).
+
+
+
+## Browser support
+
+ - IE9+
+ - Firefox 4+
+ - Safari 3+
+ - Chrome *
+ - Opera *
+ - Android 4+
+ - iOS 3.2+
+
+Compatibility with IE6, IE7, and IE8 has been fully dropped.
+
 
 
 ## Usage
 
+### General usage
+
 You need to load this library only once on a page, ideally right after the opening `<head>` tag:
 
 ```html
-<!DOCTYPE html>
-<html>
 <head>
     <title>My awesome page</title>
-    <script type="text/javascript" src="//raw.githubusercontent.com/shinsenter/defer.js/master/defer.min.js"></script>
+    <script src="//raw.githubusercontent.com/shinsenter/defer.js/master/defer.min.js"></script>
 </head>
-<body>
-
-</body>
-</html>
 ```
 
 Because the minified version is super tiny (less than 500 bytes), you can inline its content directly into the HTML document and avoid the network request.
+
+If your want to lazy-load CSS files, images or iframes, let's use the [extended version](#extended-deferjs).
+
+
+
+### Using npm
+
+You can host [defer.js](https://npmjs.com/package/@shinsenter/defer.js) on your server, or install from [npm package](https://npmjs.com/package/@shinsenter/defer.js):
+
+```bash
+npm install @shinsenter/defer.js
+```
+
 
 
 ## Methods
 
 ### defer
 
-```js
+```javascript
 defer(fn [, delay = 0])
 ```
-This method allows us to delay the execution of `fn` function in `delay` miliseconds (default: 0) after the `onload` event.
+
+This method allows us to delay the execution of `fn` function in `delay` miliseconds (default: 0) after the `load` event.
+
 
 
 ### deferscript
 
-```js
+```javascript
 deferscript(src, id [, delay = 0 [, callback = function() {} ]])
 ```
-This method allows us to load a JavaScript file from the `src` URL, then execute it after the `onload` event.
+
+This method allows us to load a JavaScript file from the `src` URL, then execute it after the `load` event.
 
 We also can assign the `id` for the `<script>` tag, and delay time in miliseconds with the `delay` argument.
 
@@ -65,106 +97,52 @@ The `callback` argument can be set, as you may do some great stuffs after extern
 ### Defer a inline script block
 
 Delay the execution of a simple inline script (and also complex inline scipt) for 2 seconds.
-```js
+
+```javascript
+// You can use defer.js without jQuery
 defer(function() {
-    alert("This message is shown after 2 seconds since 'onload' event.");
+    alert("This message is shown after 2 seconds after the 'load' event.");
 }, 2000);
+
+// Or with jQuery
+defer(function () {
+    $('body').html('<p>Your awesome content</p>');
+}, 500);
 ```
 
-Real life example: lazy-load your images without using jQuery
-```js
-// here is a simple inline code block
-var lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
 
-if ("IntersectionObserver" in window) {
-    var lazyImageObserver = new IntersectionObserver(function(entries, observer) {
-        entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-                var lazyImage = entry.target;
-                lazyImage.src = lazyImage.dataset.src;
-                lazyImage.srcset = lazyImage.dataset.srcset;
-                lazyImage.classList.remove("lazy");
-                lazyImageObserver.unobserve(lazyImage);
-            }
-        });
-    });
-    lazyImages.forEach(function(lazyImage) {
-        lazyImageObserver.observe(lazyImage);
-    });
-}
-
-// You can try wrap your code in a function, then pass it to defer() like this
-
-function lazyLoadImages() {
-    var lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
-    if ("IntersectionObserver" in window) {
-        var lazyImageObserver = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(function(entry) {
-                if (entry.isIntersecting) {
-                    var lazyImage = entry.target;
-                    lazyImage.src = lazyImage.dataset.src;
-                    lazyImage.srcset = lazyImage.dataset.srcset;
-                    lazyImage.classList.remove("lazy");
-                    lazyImageObserver.unobserve(lazyImage);
-                }
-            });
-        });
-        lazyImages.forEach(function(lazyImage) {
-            lazyImageObserver.observe(lazyImage);
-        });
-    }
-}
-
-defer(lazyLoadImages);
-
-// ... or put them together like this
-
-defer(function() {
-    var lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
-    if ("IntersectionObserver" in window) {
-        var lazyImageObserver = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(function(entry) {
-                if (entry.isIntersecting) {
-                    var lazyImage = entry.target;
-                    lazyImage.src = lazyImage.dataset.src;
-                    lazyImage.srcset = lazyImage.dataset.srcset;
-                    lazyImage.classList.remove("lazy");
-                    lazyImageObserver.unobserve(lazyImage);
-                }
-            });
-        });
-        lazyImages.forEach(function(lazyImage) {
-            lazyImageObserver.observe(lazyImage);
-        });
-    }
-});
-```
 
 ### Defer libraries you may not need yet
 
 Delay loading Google Publisher Tag script for 1 second (to prevent advertisement iframes that may block rendering).
-```js
+
+```javascript
 deferscript('//www.googletagservices.com/tag/js/gpt.js', 'gpt-js', 1000);
 ```
 
 That is simple, isn't it?
 
+---
 
-Delay loading Facebook, Twitter scripts for 2 second (social widgets usually are expensive resources).
-```js
+You can delay loading Facebook, Twitter scripts for 2 second (social widgets usually are expensive resources).
+
+```javascript
 deferscript('//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.5', 'facebook-jssdk', 2000);
 deferscript('//platform.twitter.com/widgets.js', 'twitter-wjs', 2000);
 ```
 
 It saves huge amount of HTTP requests. Don't worry, all of your loved social widgets work well 2 seconds later.
 
+---
+
 We also lazy-load 3rd-party library's JavaScript and CSS.
+
 Thanks to highlightjs for a lightweight, extensible syntax highlighter.
 
-```js
+```html
 <script type="text/javascript">
-deferstyle('https://highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css', 1000);
-deferscript('https://highlightjs.org/static/highlight.site.pack.js', 'highlightjs-api', 1000, function() {
+deferstyle('//highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css', 1000);
+deferscript('//highlightjs.org/static/highlight.site.pack.js', 'highlightjs-api', 1000, function() {
     var code_blocks = [].slice.call(document.querySelectorAll('pre code'));
     code_blocks.forEach(function(block) {
         hljs.highlightBlock(block);
@@ -172,9 +150,11 @@ deferscript('https://highlightjs.org/static/highlight.site.pack.js', 'highlightj
 });
 </script>
 ```
-The `deferstyle` function is a part of [extended version](#extended-deferjs) of deder.js. You can read about it below.
+
+The `deferstyle` function is a part of [extended version](#extended-deferjs) of deder.js.
 
 Believe me, page speed performance is very important to us.
+
 
 
 ## Extended defer.js
@@ -193,30 +173,38 @@ I also added some extra helpers to lazy-load CSS files, images and iframes. They
 </body>
 </html>
 ```
+
 **More powerful, but still light-weight.**
+
 You can view all full examples [here](https://appseeds.net/defer.js/demo.html).
+
 
 
 ### deferstyle
 
-```js
+```javascript
 deferstyle(src, id [, delay = 0 [, callback = function() {} ]])
 ```
 
 Example:
-```js
-deferstyle('https://highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css', 1000);
+```javascript
+deferstyle('//highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css', 1000);
 ```
+
 
 
 ### deferimg
 
-```js
+```javascript
 deferimg(query_selector = 'img.lazy' [, delay = 0 [, load_class = 'lazied' [, callback = function(image) {} ]]])
 ```
+
 The `this` in `callback` is a reference to the target `<img>` DOM element.
 
+---
+
 Example: Control your lazy images, anywhere, anytime.
+
 ```html
 <img class="basic"
     data-src="https://picsum.photos/400/300/?image=314"
@@ -226,14 +214,19 @@ Example: Control your lazy images, anywhere, anytime.
 ```
 
 
+
 ### deferiframe
 
-```js
+```javascript
 deferiframe(query_selector = 'iframe.lazy' [, delay = 0 [, load_class = 'lazied' [, callback = function(frame) {} ]]])
 ```
+
 The `this` in `callback` is a reference to the target `<iframe>` DOM element.
 
+---
+
 Example: Lazy-load iframes (Youtube videos) with CSS effect.
+
 ```html
 <style type="text/css">
 .fade {
@@ -266,7 +259,6 @@ deferiframe('iframe.video', 100, 'loaded', function(frame) {
 Report an issue:
 
 https://github.com/shinsenter/defer.js/issues
-
 
 ---
 
