@@ -33,7 +33,7 @@
  *
  */
 
-/*!shinsenter/defer.js*/
+/*@shinsenter/defer.js*/
 (function (
     // Global objects
     $window, $document, dequeue,

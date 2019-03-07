@@ -56,7 +56,9 @@
     var LAZY_CLASS      = '.lazy';
     var LAZIED_CLASS    = 'lazied';
 
+    // var ADD_EVENT_LISTENER  = 'addEventListener';
     var APPEND_CHILD        = 'appendChild';
+    var CLASS_NAME          = 'className';
     var CREATE_ELEMENT      = 'createElement';
     var FOR_EACH            = 'forEach';
     var GET_ELEMENT_BY_ID   = 'getElementById';
@@ -129,21 +131,23 @@
             attributes = [SRCSET, SRC, DATA];
         }
 
-        return function (query, delay, done_class, callback, observer, walker) {
+        return function (query, delay, done_class, callback, options, observer, walker) {
             // Variable convertions
             done_class  = done_class || LAZIED_CLASS;
             callback    = callback   || NOOP;
 
             // This method sets true `src` from `data-src` attribute
             function display(media, dataset) {
-                media.className += ' ' + done_class;
-
                 if (callback.call(media, media) !== false) {
                     dataset = media[DATASET] || {};
                     attributes[FOR_EACH](function(attr) {
-                        if (dataset[attr]) {media[attr] = dataset[attr]}
+                        if (dataset[attr]) {
+                            media[attr] = dataset[attr];
+                        }
                     });
                 }
+
+                media[CLASS_NAME] += ' ' + done_class;
             }
 
             // Force using IntersectionObserver when posible
@@ -156,7 +160,7 @@
                             display(target);
                         }
                     });
-                });
+                }, options);
 
                 walker = observer.observe.bind(observer);
             } else {
