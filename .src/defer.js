@@ -106,6 +106,31 @@
     }
 
     /**
+     * This function aims to provide both function
+     * throttling and debouncing in as few bytes as possible.
+     *
+     * @param   {function}  func        The file URL
+     * @param   {integer}   delay       The delay time to create the tag
+     * @param   {integer}   ticker      Placeholder for holding current timeout context
+     * @returns {function}              Return a new function
+     */
+    // function defersmart (func, delay, ticker) {
+    //     return function() {
+    //         var context = this;
+    //         var args = arguments;
+
+    //         if (ticker) {
+    //             reset(ticker);
+    //         }
+
+    //         ticker = dequeue(function() {
+    //             ticker = null;
+    //             func.apply(context, args);
+    //         }, delay);
+    //     }
+    // }
+
+    /**
      * This method will be triggled when `load` event was fired.
      * This will also turn `dom_loaded` into `true`...
      * ... and run all function in queue using `dequeue` method.

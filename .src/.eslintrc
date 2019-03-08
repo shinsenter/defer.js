@@ -38,7 +38,7 @@
             "never"
         ],
         "consistent-return": "error",
-        "consistent-this": "error",
+        "consistent-this": "off",
         "curly": "error",
         "default-case": "error",
         "dot-location": "error",
@@ -199,7 +199,7 @@
         "prefer-object-spread": "error",
         "prefer-promise-reject-errors": "error",
         "prefer-reflect": "off",
-        "prefer-rest-params": "error",
+        "prefer-rest-params": "off",
         "prefer-spread": "error",
         "prefer-template": "off",
         "quote-props": "error",
