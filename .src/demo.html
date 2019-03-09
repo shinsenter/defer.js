@@ -33,28 +33,29 @@ SOFTWARE.
 <html lang="en">
     <head>
         <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible"  content="IE=EmulateIE9">
         <title>Easily lazy-load JS, CSS, images, iframes - @shinsenter / defer.js</title>
-        <script src="defer_plus.min.js?v=1.0.10"></script>
-        <link rel="canonical" href="https://appseeds.net/defer.js/demo.html">
-        <link rel="preload" href="https://www.youtube.com/embed/Uz970DggW7E" as="document">
 
-        <meta name="description" content="defer.js by shinsenter is a super tiny script to efficiently load JavaScript. Extended version supports CSS files, images and iframes. They are all easy to use.">
-        <meta name="keywords" content="defer.js,defer,lazyload,fast,pagespeed,javascript,css,style,image,iframe">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <script src="defer_plus.min.js?v=1.0.11"></script>
+        <script>deferscript('assets/polyfill.min.js', 'polyfill-js', 1)</script>
+
         <meta name="mobile-web-app-capable" content="yes">
-        <meta name="HandheldFriendly" content="True">
-        <meta name="MobileOptimized" content="375">
-        <meta name="viewport" content="initial-scale=1,maximum-scale=1,width=device-width">
-        <meta name="twitter:card" content="summary_large_image">
+        <meta name="HandheldFriendly"       content="True">
+        <meta name="MobileOptimized"        content="375">
+        <meta name="viewport"               content="initial-scale=1,maximum-scale=1,width=device-width">
 
-        <meta property="og:title" content="Easily lazy-load JS, CSS, images, iframes">
+        <link rel="canonical" href="https://appseeds.net/defer.js/demo.html">
+        <meta name="description"        content="defer.js by shinsenter is a super tiny script to efficiently load JavaScript. Extended version supports CSS files, images and iframes. They are all easy to use.">
+        <meta name="keywords"           content="defer.js,defer,lazyload,fast,pagespeed,javascript,css,style,image,iframe">
+        <meta name="twitter:image"      content="https://appseeds.net/defer.js/assets/scores.jpg">
+        <meta name="twitter:card"       content="summary_large_image">
+        <meta name="twitter:image:alt"  content="Archive 100/100 Google PageSpeed score">
+        <meta name="twitter:card"       content="summary_large_image">
+        <meta property="og:title"       content="Easily lazy-load JS, CSS, images, iframes">
         <meta property="og:description" content="defer.js by shinsenter is a super tiny script to efficiently load JavaScript. Extended version supports CSS files, images and iframes. They are all easy to use.">
-        <meta property="og:image" content="https://appseeds.net/defer.js/img/scores.jpg">
-        <meta property="og:url" content="https://appseeds.net/defer.js/demo.html">
-        <meta property="og:site_name" content="shinsenter/defer.js">
-        <meta name="twitter:image" content="https://appseeds.net/defer.js/img/scores.jpg">
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image:alt" content="Archive 100/100 Google PageSpeed score">
+        <meta property="og:image"       content="https://appseeds.net/defer.js/assets/scores.jpg">
+        <meta property="og:url"         content="https://appseeds.net/defer.js/demo.html">
+        <meta property="og:site_name"   content="shinsenter/defer.js">
 
         <style>
             html {
@@ -282,6 +283,9 @@ SOFTWARE.
                 <pre class="notranslate"><code>Code:</code><code class="highlight html">&lt;head&gt;
     &lt;title&gt;My awesome page&lt;/title&gt;
     &lt;script src="//raw.githubusercontent.com/shinsenter/defer.js/master/defer_plus.min.js"&gt;&lt;/script&gt;
+
+    &lt;!-- You may want to add small polyfill for IE 9~11 --&gt;
+    &lt;script&gt;deferscript('//raw.githubusercontent.com/shinsenter/defer.js/master/assets/polyfill.min.js', 'polyfill-js', 1)&lt;/script&gt;
 &lt;/head&gt;</code></pre>
                 <p>Because the <a href="//raw.githubusercontent.com/shinsenter/defer.js/master/defer_plus.min.js"
                         target="_blank" title="minified version of defer.js">minified version</a> of defer.js is super
@@ -336,19 +340,19 @@ deferscript('https://highlightjs.org/static/highlight.site.pack.js', 'highlightj
                     <tr>
                         <td>
                             <div class="aspect">
-                                <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" class="basic"
+                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="basic"
                                     width="400" height="300" data-src="https://picsum.photos/400/300/?image=311" alt="Random image" />
                             </div>
                         </td>
                         <td>
                             <div class="aspect">
-                                <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" class="basic"
+                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="basic"
                                     width="400" height="300" data-src="https://picsum.photos/400/300/?image=312" alt="Random image" />
                             </div>
                         </td>
                         <td>
                             <div class="aspect">
-                                <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" class="basic"
+                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="basic"
                                     width="400" height="300" data-src="https://picsum.photos/400/300/?image=313" alt="Random image" />
                             </div>
                         </td>
@@ -356,19 +360,19 @@ deferscript('https://highlightjs.org/static/highlight.site.pack.js', 'highlightj
                     <tr>
                         <td>
                             <div class="aspect">
-                                <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" class="basic"
+                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="basic"
                                     width="400" height="300" data-src="https://picsum.photos/400/300/?image=314" alt="Random image" />
                             </div>
                         </td>
                         <td>
                             <div class="aspect">
-                                <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" class="basic"
+                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="basic"
                                     width="400" height="300" data-src="https://picsum.photos/400/300/?image=315" alt="Random image" />
                             </div>
                         </td>
                         <td>
                             <div class="aspect">
-                                <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" class="basic"
+                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="basic"
                                     width="400" height="300" data-src="https://picsum.photos/400/300/?image=316" alt="Random image" />
                             </div>
                         </td>
@@ -385,7 +389,7 @@ deferimg('img.basic', 100);
 &lt;/script&gt;</code></pre>
                 </div>
 
-                <script>deferimg('img.basic', 100);</script>
+                <script>deferimg('img.basic', 100, 'lazied', null, {rootMargin: '100px'});</script>
             </div>
         </section>
 
@@ -399,19 +403,19 @@ deferimg('img.basic', 100);
                     <tr>
                         <td>
                             <div class="aspect">
-                                <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" class="fade"
+                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="fade"
                                     width="400" height="300" data-src="https://picsum.photos/400/300/?image=321" alt="Random image" />
                             </div>
                         </td>
                         <td>
                             <div class="aspect">
-                                <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" class="fade"
+                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="fade"
                                     width="400" height="300" data-src="https://picsum.photos/400/300/?image=322" alt="Random image" />
                             </div>
                         </td>
                         <td>
                             <div class="aspect">
-                                <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" class="fade"
+                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="fade"
                                     width="400" height="300" data-src="https://picsum.photos/400/300/?image=323" alt="Random image" />
                             </div>
                         </td>
@@ -419,19 +423,19 @@ deferimg('img.basic', 100);
                     <tr>
                         <td>
                             <div class="aspect">
-                                <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" class="fade"
+                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="fade"
                                     width="400" height="300" data-src="https://picsum.photos/400/300/?image=324" alt="Random image" />
                             </div>
                         </td>
                         <td>
                             <div class="aspect">
-                                <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" class="fade"
+                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="fade"
                                     width="400" height="300" data-src="https://picsum.photos/400/300/?image=325" alt="Random image" />
                             </div>
                         </td>
                         <td>
                             <div class="aspect">
-                                <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" class="fade"
+                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="fade"
                                     width="400" height="300" data-src="https://picsum.photos/400/300/?image=326" alt="Random image" />
                             </div>
                         </td>
@@ -518,7 +522,7 @@ deferiframe('iframe.video', 100, 'lazied', function(frame) {
                     frame.onload = function () {
                         frame.classList.add('show');
                     }
-                });
+                }, {rootMargin: '100px'});
             </script>
         </section>
 
@@ -528,18 +532,18 @@ deferiframe('iframe.video', 100, 'lazied', function(frame) {
             <h2>And it's SEO friendly</h2>
 
             <div class="w640 center">
-                <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="950" height="552" data-src="img/demo.jpg"
+                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" width="950" height="552" data-src="assets/demo.jpg"
                     alt="defer.js is SEO friendly" class="fade" />
             </div>
 
             <div class="w640 center">
-                <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="950" height="700" data-src="img/scores.jpg"
+                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" width="950" height="700" data-src="assets/scores.jpg"
                     alt="Archive perfect Google PageSpeed score" class="fade" />
             </div>
         </section>
 
         <p class="center">
-            <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="375" height="246" data-src="https://every-tuesday.com/wp-content/uploads/2015/11/thank-you-preview.jpg"
+            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" width="375" height="246" data-src="https://every-tuesday.com/wp-content/uploads/2015/11/thank-you-preview.jpg"
                 alt="Thank you" class="fade" />
         </p>
 
@@ -552,8 +556,24 @@ deferiframe('iframe.video', 100, 'lazied', function(frame) {
                     target="_blank">MIT license</a>.
             </p>
             <p>Copyright (c) 2019 <a href="mailto:shin@shin.company" target="_blank">Mai Nhựt Tân</a>.</p>
-            <p>From <span class="big">🇻🇳</span> with love.</p>
+            <p>From <span class="big" title="Vietnam">🇻🇳</span> with love.</p>
         </div>
+
+        <script>
+            // Defer Test
+            $(function() {
+                window.console = window.console || {}
+                window.console.info = window.console.info || Function();
+                var tracker = [];
+                defer(function(){tracker.push(1),console.info('defer.js test #1 (with exception: foo is not defined)'),foo.push(bar)},300);
+                defer(function(){tracker.push(2),console.info('defer.js test #2 (was executed even though above error)')},300);
+                defer(function(){tracker.push(3),console.info('defer.js test #3')},300);
+                defer(function(){tracker.push(4),console.info('defer.js test #4')},300);
+                defer(function(){tracker.push(5),console.info('defer.js test #5')},300);
+                defer(function(){tracker.push(0),console.info('defer.js test #0 (the latest call, but has lower delay time)')},299);
+                defer(function(){console.info(''+tracker=='0,1,2,3,4,5'?'Test passed!!!':'Test failed.'+tracker)},301);
+            });
+        </script>
     </body>
 
 </html>

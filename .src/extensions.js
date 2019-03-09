@@ -33,16 +33,12 @@
  *
  */
 
-(function(
-    // Global objects
-    $window, $document,
+(function(window, document) {
 
-    // Internal data
-    deferstyle_fn, deferimg_fn, deferiframe_fn
-) {
-
-    var NOOP    = Function();
-    var defer   = $window.defer || NOOP;
+    // Method names
+    var deferstyle_fn   = 'deferstyle';
+    var deferimg_fn     = 'deferimg';
+    var deferiframe_fn  = 'deferiframe';
 
     var JQUERY_NAME     = 'jQuery';
     var OBSERVER_CLASS  = 'IntersectionObserver';
@@ -50,6 +46,7 @@
     var DATASET = 'dataset';
     var SRC     = 'src';
     var SRCSET  = 'srcset';
+    var DATA    = 'data';
 
     var IFRAME  = 'IFRAME';
     var IMG     = 'IMG';
@@ -58,27 +55,23 @@
     var LAZY_CLASS      = '.lazy';
     var LAZIED_CLASS    = 'lazied';
 
+    // var ADD_EVENT_LISTENER  = 'addEventListener';
     var APPEND_CHILD        = 'appendChild';
+    var CLASS_NAME          = 'className';
     var CREATE_ELEMENT      = 'createElement';
     var FOR_EACH            = 'forEach';
     var GET_ELEMENT_BY_ID   = 'getElementById';
     var QUERY_SELECTOR_ALL  = 'querySelectorAll';
 
+    var NOOP    = Function();
+    var defer   = window.defer || NOOP;
+
     /**
-     * This function is a placeholder for jQuery's `$(function() { })` calls.
+     * This is a placeholder for jQuery's `$(function() { })` calls.
      * It may be helpful when you want to lazy-load jQuery library.
-     *
-     * @param   {function}  func    The callback function when jQuery load
-     * @returns {void}
      */
-    function deferjquery (func) {
-        defer(function() {
-            if (deferjquery == $window[JQUERY_NAME]) {
-                func();
-            } else {
-                $window[JQUERY_NAME](func);
-            }
-        }, 500);
+    if (!window[JQUERY_NAME]) {
+        window.$ = window[JQUERY_NAME] = defer;
     }
 
     /**
@@ -94,8 +87,8 @@
      */
     function deferstyle (src, id, delay, callback) {
         defer(function(dom) {
-            if (!$document[GET_ELEMENT_BY_ID](id)) {
-                dom = $document[CREATE_ELEMENT](LINK);
+            if (!document[GET_ELEMENT_BY_ID](id)) {
+                dom = document[CREATE_ELEMENT](LINK);
                 dom.rel = 'stylesheet';
 
                 if (id) {
@@ -107,7 +100,7 @@
                 }
 
                 dom.href = src;
-                $document.head[APPEND_CHILD](dom);
+                document.head[APPEND_CHILD](dom);
             }
         }, delay);
     }
@@ -118,38 +111,44 @@
      *              creating a `<img>` tag.
      *
      * @param   {string}    tagname     The tag name (E.g. IMG, IFRAME)
+     * @param   {array}     attributes  Attributes to be deferred
      * @returns {function}              The returned function
      */
-    function defermedia (tagname) {
-        return function (query, delay, done_class, callback) {
-            var observer, walker;
+    function defermedia (tagname, attributes) {
+        if (!attributes) {
+            attributes = [SRCSET, SRC, DATA];
+        }
 
+        return function (query, delay, done_class, callback, options, observer, walker) {
             // Variable convertions
             done_class  = done_class || LAZIED_CLASS;
             callback    = callback   || NOOP;
 
             // This method sets true `src` from `data-src` attribute
             function display(media, dataset) {
-                media.className += ' ' + done_class;
-
-                if(callback.call(media, media) !== false) {
+                if (callback.call(media, media) !== false) {
                     dataset = media[DATASET] || {};
-                    if(dataset[SRCSET]) {media[SRCSET] = dataset[SRCSET]}
-                    if(dataset[SRC])    {media[SRC]    = dataset[SRC]}
+                    attributes[FOR_EACH](function(attr) {
+                        if (dataset[attr]) {
+                            media[attr] = dataset[attr];
+                        }
+                    });
                 }
+
+                media[CLASS_NAME] += ' ' + done_class;
             }
 
             // Force using IntersectionObserver when posible
             // It class is the heart of media lazy-loading
-            if (OBSERVER_CLASS in $window) {
-                observer = new $window[OBSERVER_CLASS](function(items) {
+            if (OBSERVER_CLASS in window) {
+                observer = new window[OBSERVER_CLASS](function(items) {
                     items[FOR_EACH](function(item, target) {
                         if (item.isIntersecting && (target = item.target)) {
                             observer.unobserve(target);
                             display(target);
                         }
                     });
-                });
+                }, options);
 
                 walker = observer.observe.bind(observer);
             } else {
@@ -159,15 +158,14 @@
             // Then let `defer` function do the rest
             defer(function(selector) {
                 selector = (query || tagname + LAZY_CLASS) + ':not(.' + done_class + ')';
-                [].slice.call($document[QUERY_SELECTOR_ALL](selector))[FOR_EACH](walker);
+                [].slice.call(document[QUERY_SELECTOR_ALL](selector))[FOR_EACH](walker);
             }, delay);
         }
     }
 
     // Export functions into the global scope
-    $window.$               = $window[JQUERY_NAME] = deferjquery;
-    $window[deferstyle_fn]  = $window[deferstyle_fn]  || deferstyle;
-    $window[deferimg_fn]    = $window[deferimg_fn]    || defermedia(IMG);
-    $window[deferiframe_fn] = $window[deferiframe_fn] || defermedia(IFRAME);
+    window[deferstyle_fn]  = deferstyle;
+    window[deferimg_fn]    = defermedia(IMG);
+    window[deferiframe_fn] = defermedia(IFRAME);
 
-})(this, document, 'deferstyle', 'deferimg', 'deferiframe');
+})(this, document);
