@@ -38,15 +38,18 @@
     // Global objects
     window, document,
 
-    // Dequeue method
-    func_queue, dequeue,
+    // Page load event name
+    load_event,
 
-    // Internal data
-    defer_fn, deferscript_fn,
+    // Dequeue method
+    dequeue, func_queue,
 
     // Variable placeholder
     dom_loaded
 ) {
+    // Method names
+    var defer_fn        = 'defer';
+    var deferscript_fn  = 'deferscript';
 
     var SCRIPT  = 'SCRIPT';
 
@@ -68,6 +71,7 @@
      * @returns {void}
      */
     function defer (func, delay) {
+        // Let's set default timeout to 5 browser tick cycles
         delay = delay || 80;
 
         if (dom_loaded) {
@@ -108,6 +112,7 @@
     }
 
     /**
+     * [WIP]
      * This function aims to provide both function
      * throttling and debouncing in as few bytes as possible.
      *
@@ -155,6 +160,6 @@
     window[deferscript_fn] = deferscript;
 
     // Add event listener into global scope
-    window[ADD_EVENT_LISTENER]('load', onload);
+    window[ADD_EVENT_LISTENER]('on' + load_event in window ? load_event : 'load', onload);
 
-})(this, document, [], setTimeout, 'defer', 'deferscript');
+})(this, document, 'pageshow', setTimeout, []);

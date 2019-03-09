@@ -36,8 +36,8 @@ SOFTWARE.
         <meta http-equiv="X-UA-Compatible"  content="IE=EmulateIE9">
         <title>Easily lazy-load JS, CSS, images, iframes - @shinsenter / defer.js</title>
 
-        <!--[if IE]><script src="assets/polyfill.min.js"></script><![endif]-->
-        <script src="defer_plus.min.js?v=wip-1.0.11"></script>
+        <script src="defer_plus.min.js?v=1.0.11"></script>
+        <script>deferscript('assets/polyfill.min.js', 'polyfill-js', 1)</script>
 
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="HandheldFriendly"       content="True">
@@ -283,6 +283,9 @@ SOFTWARE.
                 <pre class="notranslate"><code>Code:</code><code class="highlight html">&lt;head&gt;
     &lt;title&gt;My awesome page&lt;/title&gt;
     &lt;script src="//raw.githubusercontent.com/shinsenter/defer.js/master/defer_plus.min.js"&gt;&lt;/script&gt;
+
+    &lt;!-- You may want to add small polyfill for IE 9~11 --&gt;
+    &lt;script&gt;deferscript('//raw.githubusercontent.com/shinsenter/defer.js/master/assets/polyfill.min.js', 'polyfill-js', 1)&lt;/script&gt;
 &lt;/head&gt;</code></pre>
                 <p>Because the <a href="//raw.githubusercontent.com/shinsenter/defer.js/master/defer_plus.min.js"
                         target="_blank" title="minified version of defer.js">minified version</a> of defer.js is super
@@ -386,7 +389,7 @@ deferimg('img.basic', 100);
 &lt;/script&gt;</code></pre>
                 </div>
 
-                <script>deferimg('img.basic', 100);</script>
+                <script>deferimg('img.basic', 100, 'lazied', null, {rootMargin: '100px'});</script>
             </div>
         </section>
 
@@ -519,7 +522,7 @@ deferiframe('iframe.video', 100, 'lazied', function(frame) {
                     frame.onload = function () {
                         frame.classList.add('show');
                     }
-                });
+                }, {rootMargin: '100px'});
             </script>
         </section>
 
@@ -555,6 +558,22 @@ deferiframe('iframe.video', 100, 'lazied', function(frame) {
             <p>Copyright (c) 2019 <a href="mailto:shin@shin.company" target="_blank">Mai Nhựt Tân</a>.</p>
             <p>From <span class="big" title="Vietnam">🇻🇳</span> with love.</p>
         </div>
+
+        <script>
+            // Defer Test
+            $(function() {
+                window.console = window.console || {}
+                window.console.info = window.console.info || Function();
+                var tracker = [];
+                defer(function(){tracker.push(1),console.info('defer.js test #1 (with exception: foo is not defined)'),foo.push(bar)},300);
+                defer(function(){tracker.push(2),console.info('defer.js test #2 (was executed even though above error)')},300);
+                defer(function(){tracker.push(3),console.info('defer.js test #3')},300);
+                defer(function(){tracker.push(4),console.info('defer.js test #4')},300);
+                defer(function(){tracker.push(5),console.info('defer.js test #5')},300);
+                defer(function(){tracker.push(0),console.info('defer.js test #0 (the latest call, but has lower delay time)')},299);
+                defer(function(){console.info(''+tracker=='0,1,2,3,4,5'?'Test passed!!!':'Test failed.'+tracker)},301);
+            });
+        </script>
     </body>
 
 </html>

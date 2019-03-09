@@ -164,16 +164,13 @@ Believe me, page speed performance is very important to us.
 I also added some extra helpers to lazy-load CSS files, images and iframes. They are all easy to use.
 
 ```html
-<!DOCTYPE html>
-<html>
 <head>
     <title>My awesome page</title>
-    <script type="text/javascript" src="//raw.githubusercontent.com/shinsenter/defer.js/master/defer_plus.min.js"></script>
-</head>
-<body>
+    <script src="//raw.githubusercontent.com/shinsenter/defer.js/master/defer_plus.min.js"></script>
 
-</body>
-</html>
+    <!-- You may want to add small polyfill for IE 9~11 -->
+    <script>deferscript('//raw.githubusercontent.com/shinsenter/defer.js/master/assets/polyfill.min.js', 'polyfill-js', 1)</script>
+</head>
 ```
 
 **More powerful, but still light-weight.**

@@ -33,13 +33,12 @@
  *
  */
 
-(function(
-    // Global objects
-    window, document,
+(function(window, document) {
 
-    // Internal data
-    deferstyle_fn, deferimg_fn, deferiframe_fn
-) {
+    // Method names
+    var deferstyle_fn   = 'deferstyle';
+    var deferimg_fn     = 'deferimg';
+    var deferiframe_fn  = 'deferiframe';
 
     var JQUERY_NAME     = 'jQuery';
     var OBSERVER_CLASS  = 'IntersectionObserver';
@@ -169,4 +168,4 @@
     window[deferimg_fn]    = defermedia(IMG);
     window[deferiframe_fn] = defermedia(IFRAME);
 
-})(this, document, 'deferstyle', 'deferimg', 'deferiframe');
+})(this, document);
