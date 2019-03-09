@@ -33,18 +33,17 @@ SOFTWARE.
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible"  content="IE=EmulateIE9">
-        <title>Easily lazy-load JS, CSS, images, iframes - @shinsenter / defer.js</title>
+        <title>@shinsenter/defer.js - Easily lazy-load JS, CSS, images, iframes</title>
 
-        <script src="defer_plus.min.js?v=1.0.11"></script>
+        <script src="defer_plus.min.js?v=1.0.11b"></script>
         <script>deferscript('assets/polyfill.min.js', 'polyfill-js', 1)</script>
 
+        <meta http-equiv="X-UA-Compatible"  content="IE=Edge">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="HandheldFriendly"       content="True">
         <meta name="MobileOptimized"        content="375">
         <meta name="viewport"               content="initial-scale=1,maximum-scale=1,width=device-width">
 
-        <link rel="canonical" href="https://appseeds.net/defer.js/demo.html">
         <meta name="description"        content="defer.js by shinsenter is a super tiny script to efficiently load JavaScript. Extended version supports CSS files, images and iframes. They are all easy to use.">
         <meta name="keywords"           content="defer.js,defer,lazyload,fast,pagespeed,javascript,css,style,image,iframe">
         <meta name="twitter:image"      content="https://appseeds.net/defer.js/assets/scores.jpg">
@@ -56,6 +55,8 @@ SOFTWARE.
         <meta property="og:image"       content="https://appseeds.net/defer.js/assets/scores.jpg">
         <meta property="og:url"         content="https://appseeds.net/defer.js/demo.html">
         <meta property="og:site_name"   content="shinsenter/defer.js">
+
+        <link rel="canonical" href="https://appseeds.net/defer.js/demo.html">
 
         <style>
             html {
@@ -245,8 +246,8 @@ SOFTWARE.
             deferscript('https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5c68e61cf456f1cb', 'social-buttons', 3000);
 
             // lazy-load 3rd-party library's JavaScript and CSS
-            deferstyle('https://highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css', 1000);
-            deferscript('https://highlightjs.org/static/highlight.site.pack.js', 'highlightjs-api', 1000, function () {
+            deferstyle('https://highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css', 2000);
+            deferscript('https://highlightjs.org/static/highlight.site.pack.js', 'highlightjs-api', 2000, function () {
                 var code_blocks = [].slice.call(document.querySelectorAll('pre code'));
                 code_blocks.forEach(function(block) {
                     hljs.highlightBlock(block);
@@ -282,12 +283,12 @@ SOFTWARE.
                 <br />
                 <pre class="notranslate"><code>Code:</code><code class="highlight html">&lt;head&gt;
     &lt;title&gt;My awesome page&lt;/title&gt;
-    &lt;script src="//raw.githubusercontent.com/shinsenter/defer.js/master/defer_plus.min.js"&gt;&lt;/script&gt;
+    &lt;script src="//appseeds.net/defer.js/defer_plus.min.js"&gt;&lt;/script&gt;
 
     &lt;!-- You may want to add small polyfill for IE 9~11 --&gt;
-    &lt;script&gt;deferscript('//raw.githubusercontent.com/shinsenter/defer.js/master/assets/polyfill.min.js', 'polyfill-js', 1)&lt;/script&gt;
+    &lt;script&gt;deferscript('//appseeds.net/defer.js/assets/polyfill.min.js', 'polyfill-js', 1)&lt;/script&gt;
 &lt;/head&gt;</code></pre>
-                <p>Because the <a href="//raw.githubusercontent.com/shinsenter/defer.js/master/defer_plus.min.js"
+                <p>Because the <a href="//appseeds.net/defer.js/defer_plus.min.js"
                         target="_blank" title="minified version of defer.js">minified version</a> of defer.js is super
                     tiny, you can inline its content directly into the
                     HTML document and avoid the network request.</p>
@@ -301,6 +302,7 @@ SOFTWARE.
             <div>
                 <p>You can use browser's <strong>Developer Tool</strong> (press F12) to watch how requests are sent.</p>
                 <p>I added some spaces with gray background to demo lazy-load. Please scroll down.</p>
+                <p>Looking for a complex demo? <a href="#wordpress-demo" title="Wordpress demo">please click here</a></p>
             </div>
 
             <div id="lazyload-widgets">
@@ -463,7 +465,7 @@ deferimg('img.basic', 100);
 &lt;script type="text/javascript"&gt;
 deferimg('img.fade', 100, 'lazied', function(img) {
     img.onload = function() {
-        img.classList.add('show');
+        img.className+=' show';
     }
 });
 &lt;/script&gt;</code></pre>
@@ -472,7 +474,7 @@ deferimg('img.fade', 100, 'lazied', function(img) {
                 <script>
                     deferimg('img.fade', 100, 'lazied', function (img) {
                         img.onload = function () {
-                            img.classList.add('show');
+                            img.className+=' show';
                         }
                     });
                 </script>
@@ -511,7 +513,7 @@ deferimg('img.fade', 100, 'lazied', function(img) {
 &lt;script type="text/javascript"&gt;
 deferiframe('iframe.video', 100, 'lazied', function(frame) {
     frame.onload = function() {
-        frame.classList.add('show');
+        frame.className+=' show';
     }
 });
 &lt;/script&gt;</code></pre>
@@ -520,13 +522,24 @@ deferiframe('iframe.video', 100, 'lazied', function(frame) {
             <script>
                 deferiframe('iframe.video', 100, 'lazied', function (frame) {
                     frame.onload = function () {
-                        frame.classList.add('show');
+                        frame.className+=' show';
                     }
-                }, {rootMargin: '100px'});
+                }, {rootMargin: '200px'});
             </script>
         </section>
 
         <div class="long-content"></div>
+
+        <section id="wordpress-demo">
+            <h2>Wordpress demo</h2>
+            <p>I added Wordpress demo of using defer.js. You should open both of demo links in Private Mode, or make sure browser caches were cleared.</p>
+            <p>Original template: <a href="https://appseeds.net/defer.js/wp/original" target="_blank">https://appseeds.net/defer.js/wp/original</a></p>
+            <p>Optimized with defer.js: <a href="https://appseeds.net/defer.js/wp/optimized" target="_blank">https://appseeds.net/defer.js/wp/optimized</a></p>
+            <p>Sponsored:<br />
+            In this demo, I only used one HTML template of Wayfarer Theme. Thanks Phát Bùi for the HTML source.</p>
+            <p>Disclamers:<br />
+            I did not minify HTML, CSS and JS files. You can not get the perfect score on Pagespeed Test with this demo.</p>
+        </section>
 
         <section id="deferjs-seo-friendly">
             <h2>And it's SEO friendly</h2>

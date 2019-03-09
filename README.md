@@ -25,6 +25,30 @@ According to [Google's PageSpeed Insights](https://developers.google.com/speed/d
 
 
 
+## Wordpress demo
+
+I added Wordpress demo of using defer.js. You should open both of demo links in Private Mode, or make sure browser caches were cleared.
+
+Original template:
+
+https://appseeds.net/defer.js/wp/original
+
+Optimized with defer.js:
+
+https://appseeds.net/defer.js/wp/optimized
+
+
+
+*Sponsored:*
+
+In this demo, I only used one HTML template of [Wayfarer Theme](https://www.theme-junkie.com/introducing-new-theme-wayfarer/). Thanks [Phát Bùi](https://www.facebook.com/sight.love) for the HTML source.
+
+*Disclamers:*
+
+I did not minify HTML, CSS and JS files. You can not get the perfect score on Pagespeed Test with this demo.
+
+
+
 ## Browser support
 
  - IE9+
@@ -166,10 +190,10 @@ I also added some extra helpers to lazy-load CSS files, images and iframes. They
 ```html
 <head>
     <title>My awesome page</title>
-    <script src="//raw.githubusercontent.com/shinsenter/defer.js/master/defer_plus.min.js"></script>
+    <script src="//appseeds.net/defer.js/defer_plus.min.js"></script>
 
     <!-- You may want to add small polyfill for IE 9~11 -->
-    <script>deferscript('//raw.githubusercontent.com/shinsenter/defer.js/master/assets/polyfill.min.js', 'polyfill-js', 1)</script>
+    <script>deferscript('//appseeds.net/defer.js/assets/polyfill.min.js', 'polyfill-js', 1)</script>
 </head>
 ```
 
@@ -246,7 +270,7 @@ Example: Lazy-load iframes (Youtube videos) with CSS effect.
 <script type="text/javascript">
 deferiframe('iframe.video', 100, 'loaded', function(frame) {
     frame.onload = function() {
-        frame.classList.add('show');
+        frame.className+=' show';
     }
 });
 </script>
