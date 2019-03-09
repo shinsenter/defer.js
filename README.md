@@ -73,17 +73,17 @@ npm install @shinsenter/defer.js
 ### defer
 
 ```javascript
-defer(fn [, delay = 0])
+defer(fn [, delay ])
 ```
 
-This method allows us to delay the execution of `fn` function in `delay` miliseconds (default: 0) after the `load` event.
+This method allows us to delay the execution of `fn` function in `delay` miliseconds (default: 80) after the `load` event.
 
 
 
 ### deferscript
 
 ```javascript
-deferscript(src, id [, delay = 0 [, callback = function() {} ]])
+deferscript(src, id [, delay [, callback = Function ]])
 ```
 
 This method allows us to load a JavaScript file from the `src` URL, then execute it after the `load` event.
@@ -185,7 +185,7 @@ You can view all full examples [here](https://appseeds.net/defer.js/demo.html).
 ### deferstyle
 
 ```javascript
-deferstyle(src, id [, delay = 0 [, callback = function() {} ]])
+deferstyle(src, id [, delay [, callback = Function ]])
 ```
 
 Example:
@@ -198,7 +198,7 @@ deferstyle('//highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css
 ### deferimg
 
 ```javascript
-deferimg(query_selector = 'img.lazy' [, delay = 0 [, load_class = 'lazied' [, callback = function(image) {} ]]])
+deferimg(query_selector = 'img.lazy' [, delay [, load_class = 'lazied' [, callback = function(image) {} ]]])
 ```
 
 The `this` in `callback` is a reference to the target `<img>` DOM element.
@@ -220,7 +220,7 @@ Example: Control your lazy images, anywhere, anytime.
 ### deferiframe
 
 ```javascript
-deferiframe(query_selector = 'iframe.lazy' [, delay = 0 [, load_class = 'lazied' [, callback = function(frame) {} ]]])
+deferiframe(query_selector = 'iframe.lazy' [, delay [, load_class = 'lazied' [, callback = function(frame) {} ]]])
 ```
 
 The `this` in `callback` is a reference to the target `<iframe>` DOM element.

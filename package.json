@@ -1,23 +1,11 @@
 {
-  "name": "@shinsenter/defer.js",
-  "version": "1.0.11",
-  "description": "defer.js by shinsenter is a super tiny script to efficiently load JavaScript. Extended version supports CSS files, images and iframes. They are all easy to use.",
-  "main": "defer_plus.min.js",
-  "scripts": {
-    "polyfill": "npm i && uglifyjs -c -m -o assets/polyfill.min.js node_modules/intersection-observer/intersection-observer.js",
-    "format": "js-beautify --config .src/.beautify -r -f .src/*.js",
-    "mini": "uglifyjs -c -m --comments /^@/ -o defer.min.js .src/defer.js",
-    "plus": "uglifyjs -c -m --comments /^@/ -o defer_plus.min.js .src/defer.js .src/extensions.js",
-    "demo": "html-minifier ./.src/demo.html -o demo.html --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true",
-    "build": "npm test && npm run mini && npm run plus && npm run demo",
-    "up": "npm test && npm --no-git-tag-version version patch -m 'Ready to publish version %s'",
-    "publish": "npm publish --access=public",
-    "test": "eslint --config .src/.eslintrc --ext .js .src --fix"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/shinsenter/defer.js.git"
-  },
+  "name":         "@shinsenter/defer.js",
+  "version":      "1.0.11",
+  "description":  "defer.js by shinsenter is a super tiny script to efficiently load JavaScript. Extended version supports CSS files, images and iframes. They are all easy to use.",
+  "homepage":     "https://github.com/shinsenter/defer.js#readme",
+  "author":       "Mai Nhut Tan <shin@shin.company>",
+  "license":      "MIT",
+  "main":         "defer_plus.min.js",
   "keywords": [
     "defer.js",
     "deferjs",
@@ -45,12 +33,24 @@
     "website",
     "score100"
   ],
-  "author": "Mai Nhut Tan <shin@shin.company>",
-  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url":  "git+https://github.com/shinsenter/defer.js.git"
+  },
   "bugs": {
     "url": "https://github.com/shinsenter/defer.js/issues"
   },
-  "homepage": "https://github.com/shinsenter/defer.js#readme",
+  "scripts": {
+    "test":     "eslint --config .src/.eslintrc --ext .js .src --fix",
+    "format":   "js-beautify --config .src/.beautify -r -f .src/*.js",
+    "mini":     "uglifyjs --config-file=.src/.uglifyjs -o defer.min.js .src/defer.js",
+    "plus":     "uglifyjs --config-file=.src/.uglifyjs -o defer_plus.min.js .src/defer.js .src/extensions.js",
+    "polyfill": "uglifyjs --config-file=.src/.uglifyjs -o assets/polyfill.min.js node_modules/intersection-observer/intersection-observer.js",
+    "demo":     "html-minifier ./.src/demo.html -o demo.html --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true",
+    "build":    "npm test && npm run mini && npm run plus && npm run demo",
+    "up":       "npm test && npm --no-git-tag-version version patch -m 'Ready to publish version %s'",
+    "publish":  "npm publish --access=public"
+  },
   "devDependencies": {
     "intersection-observer": "^0.5.1"
   }

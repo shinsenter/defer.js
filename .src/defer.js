@@ -36,10 +36,13 @@
 /*@shinsenter/defer.js*/
 (function (
     // Global objects
-    $window, $document, dequeue,
+    window, document,
+
+    // Dequeue method
+    func_queue, dequeue,
 
     // Internal data
-    func_queue, defer_fn, deferscript_fn,
+    defer_fn, deferscript_fn,
 
     // Variable placeholder
     dom_loaded
@@ -53,7 +56,7 @@
     var GET_ELEMENT_BY_ID    = 'getElementById';
     var READY_STATE          = 'readyState';
 
-    dom_loaded = (/p/).test($document[READY_STATE]);
+    dom_loaded = (/p/).test(document[READY_STATE]);
 
     /**
      * This is our hero: the `defer` function.
@@ -62,11 +65,10 @@
      *
      * @param   {function}  func    The function
      * @param   {integer}   delay   The delay time to call the function
-     * @param   {Object}    context The context to bind with the function
      * @returns {void}
      */
     function defer (func, delay) {
-        // func = func.bind(context || $window);
+        delay = delay || 80;
 
         if (dom_loaded) {
             dequeue(func, delay);
@@ -88,8 +90,8 @@
      */
     function deferscript (src, id, delay, callback) {
         defer(function(dom) {
-            if (!$document[GET_ELEMENT_BY_ID](id)) {
-                dom = $document[CREATE_ELEMENT](SCRIPT);
+            if (!document[GET_ELEMENT_BY_ID](id)) {
+                dom = document[CREATE_ELEMENT](SCRIPT);
 
                 if (id) {
                     dom.id = id;
@@ -100,7 +102,7 @@
                 }
 
                 dom.src = src;
-                $document.head[APPEND_CHILD](dom);
+                document.head[APPEND_CHILD](dom);
             }
         }, delay);
     }
@@ -111,22 +113,25 @@
      *
      * @param   {function}  func        The file URL
      * @param   {integer}   delay       The delay time to create the tag
-     * @param   {integer}   ticker      Placeholder for holding current timeout context
+     * @param   {boolean}   throttle    Set false to debounce, true to throttle
+     * @param   {integer}   ticker      Placeholder for holding timer
      * @returns {function}              Return a new function
      */
-    // function defersmart (func, delay, ticker) {
+    // function defersmart (func, delay, throttle, ticker) {
     //     return function() {
     //         var context = this;
-    //         var args = arguments;
+    //         var args    = arguments;
 
-    //         if (ticker) {
-    //             reset(ticker);
+    //         if (!throttle) {
+    //             clearTimeout(ticker);
     //         }
 
-    //         ticker = dequeue(function() {
-    //             ticker = null;
-    //             func.apply(context, args);
-    //         }, delay);
+    //         if (!throttle || !ticker) {
+    //             ticker = dequeue(function() {
+    //                 ticker = null;
+    //                 func.apply(context, args);
+    //             }, delay);
+    //         }
     //     }
     // }
 
@@ -146,10 +151,10 @@
     }
 
     // Export functions into the global scope
-    $window[defer_fn]       = defer;
-    $window[deferscript_fn] = deferscript;
+    window[defer_fn]       = defer;
+    window[deferscript_fn] = deferscript;
 
     // Add event listener into global scope
-    $window[ADD_EVENT_LISTENER]('load', onload);
+    window[ADD_EVENT_LISTENER]('load', onload);
 
-})(this, document, setTimeout, [], 'defer', 'deferscript');
+})(this, document, [], setTimeout, 'defer', 'deferscript');

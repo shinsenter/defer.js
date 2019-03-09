@@ -35,7 +35,7 @@
 
 (function(
     // Global objects
-    $window, $document,
+    window, document,
 
     // Internal data
     deferstyle_fn, deferimg_fn, deferiframe_fn
@@ -65,25 +65,14 @@
     var QUERY_SELECTOR_ALL  = 'querySelectorAll';
 
     var NOOP    = Function();
-    var defer   = $window.defer || NOOP;
-
-    var DEFAULT_DELAY = 96;
+    var defer   = window.defer || NOOP;
 
     /**
-     * This function is a placeholder for jQuery's `$(function() { })` calls.
+     * This is a placeholder for jQuery's `$(function() { })` calls.
      * It may be helpful when you want to lazy-load jQuery library.
-     *
-     * @param   {function}  func    The callback function when jQuery load
-     * @returns {void}
      */
-    function deferjquery (func) {
-        defer(function() {
-            if (deferjquery == $window[JQUERY_NAME]) {
-                func();
-            } else {
-                $window[JQUERY_NAME](func);
-            }
-        }, DEFAULT_DELAY);
+    if (!window[JQUERY_NAME]) {
+        window.$ = window[JQUERY_NAME] = defer;
     }
 
     /**
@@ -99,8 +88,8 @@
      */
     function deferstyle (src, id, delay, callback) {
         defer(function(dom) {
-            if (!$document[GET_ELEMENT_BY_ID](id)) {
-                dom = $document[CREATE_ELEMENT](LINK);
+            if (!document[GET_ELEMENT_BY_ID](id)) {
+                dom = document[CREATE_ELEMENT](LINK);
                 dom.rel = 'stylesheet';
 
                 if (id) {
@@ -112,9 +101,9 @@
                 }
 
                 dom.href = src;
-                $document.head[APPEND_CHILD](dom);
+                document.head[APPEND_CHILD](dom);
             }
-        }, delay || DEFAULT_DELAY);
+        }, delay);
     }
 
     /**
@@ -152,8 +141,8 @@
 
             // Force using IntersectionObserver when posible
             // It class is the heart of media lazy-loading
-            if (OBSERVER_CLASS in $window) {
-                observer = new $window[OBSERVER_CLASS](function(items) {
+            if (OBSERVER_CLASS in window) {
+                observer = new window[OBSERVER_CLASS](function(items) {
                     items[FOR_EACH](function(item, target) {
                         if (item.isIntersecting && (target = item.target)) {
                             observer.unobserve(target);
@@ -170,15 +159,14 @@
             // Then let `defer` function do the rest
             defer(function(selector) {
                 selector = (query || tagname + LAZY_CLASS) + ':not(.' + done_class + ')';
-                [].slice.call($document[QUERY_SELECTOR_ALL](selector))[FOR_EACH](walker);
-            }, delay || DEFAULT_DELAY);
+                [].slice.call(document[QUERY_SELECTOR_ALL](selector))[FOR_EACH](walker);
+            }, delay);
         }
     }
 
     // Export functions into the global scope
-    $window.$               = $window[JQUERY_NAME] = deferjquery;
-    $window[deferstyle_fn]  = deferstyle;
-    $window[deferimg_fn]    = defermedia(IMG);
-    $window[deferiframe_fn] = defermedia(IFRAME);
+    window[deferstyle_fn]  = deferstyle;
+    window[deferimg_fn]    = defermedia(IMG);
+    window[deferiframe_fn] = defermedia(IFRAME);
 
 })(this, document, 'deferstyle', 'deferimg', 'deferiframe');
