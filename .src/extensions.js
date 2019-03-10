@@ -43,26 +43,33 @@
     var JQUERY_NAME     = 'jQuery';
     var OBSERVER_CLASS  = 'IntersectionObserver';
 
-    var DATASET = 'dataset';
+    // Real attributes for lazy-loaded media
     var SRC     = 'src';
     var SRCSET  = 'srcset';
     var DATA    = 'data';
 
+    // Tag names
     var IFRAME  = 'IFRAME';
     var IMG     = 'IMG';
     var LINK    = 'LINK';
 
-    var LAZY_CLASS      = '.lazy';
+    // Tag attributes
+    var DATASET = 'data-';
+    var LAZY_SELECTOR   = '[data-src]';
     var LAZIED_CLASS    = 'lazied';
+    var LAZIED_ATTR     = DATASET + LAZIED_CLASS;
 
-    // var ADD_EVENT_LISTENER  = 'addEventListener';
     var APPEND_CHILD        = 'appendChild';
     var CLASS_NAME          = 'className';
     var CREATE_ELEMENT      = 'createElement';
     var FOR_EACH            = 'forEach';
     var GET_ELEMENT_BY_ID   = 'getElementById';
     var QUERY_SELECTOR_ALL  = 'querySelectorAll';
+    var GET_ATTRIBUTE       = 'getAttribute';
+    var SET_ATTRIBUTE       = 'setAttribute';
 
+    // Common used constants
+    var FALSE   = false;
     var NOOP    = Function();
     var defer   = window.defer || NOOP;
 
@@ -125,16 +132,13 @@
             callback    = callback   || NOOP;
 
             // This method sets true `src` from `data-src` attribute
-            function display(media, dataset) {
-                if (callback.call(media, media) !== false) {
-                    dataset = media[DATASET] || {};
-                    attributes[FOR_EACH](function(attr) {
-                        if (dataset[attr]) {
-                            media[attr] = dataset[attr];
-                        }
+            function display(media) {
+                if (callback.call(media, media) !== FALSE) {
+                    attributes[FOR_EACH](function(attr, value) {
+                        value = media[GET_ATTRIBUTE](DATASET + attr);
+                        if (value) {media[attr] = value}
                     });
                 }
-
                 media[CLASS_NAME] += ' ' + done_class;
             }
 
@@ -156,9 +160,12 @@
             }
 
             // Then let `defer` function do the rest
-            defer(function(selector) {
-                selector = (query || tagname + LAZY_CLASS) + ':not(.' + done_class + ')';
-                [].slice.call(document[QUERY_SELECTOR_ALL](selector))[FOR_EACH](walker);
+            defer(function() {
+                var items = [].slice.call(document[QUERY_SELECTOR_ALL]((query || tagname + LAZY_SELECTOR) + ':not([' + LAZIED_ATTR + '])'));
+                items[FOR_EACH](function(media){
+                    media[SET_ATTRIBUTE](LAZIED_ATTR, tagname);
+                    walker(media);
+                });
             }, delay);
         }
     }
