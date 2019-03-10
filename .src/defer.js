@@ -63,8 +63,8 @@
 
     /**
      * This is our hero: the `defer` function.
-     * This will push target function into queue with its delay time.
-     * If the `load` method was fired, it will execute the function.
+     * This will push your function `func` into queue with its delay time.
+     * If browser's `load` event was fired, your function will be executed.
      *
      * @param   {function}  func    The function
      * @param   {integer}   delay   The delay time to call the function

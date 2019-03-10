@@ -35,8 +35,11 @@ SOFTWARE.
         <meta charset="utf-8">
         <title>@shinsenter/defer.js - Easily lazy-load JS, CSS, images, iframes</title>
 
-        <script src="defer_plus.min.js?v=1.0.11b"></script>
-        <script>deferscript('assets/polyfill.min.js', 'polyfill-js', 1)</script>
+        <!-- <script src="../defer_plus.min.js?v=1.0.11c"></script> -->
+        <!-- <script>deferscript('assets/polyfill.min.js', 'polyfill-js', 1)</script> -->
+
+        <script src="https://appseeds.net/defer.js/defer_plus.min.js?v=1.0.11c"></script>
+        <script>deferscript('https://appseeds.net/defer.js/assets/polyfill.min.js', 'polyfill-js', 1)</script>
 
         <meta http-equiv="X-UA-Compatible"  content="IE=Edge">
         <meta name="mobile-web-app-capable" content="yes">
@@ -71,11 +74,15 @@ SOFTWARE.
                 box-sizing: inherit;
             }
 
+            section {
+                margin: 8em auto;
+            }
+
             div,
             h1,
             h2,
             p {
-                margin: 2em auto;
+                margin: 1em auto;
                 padding: 0;
                 font-weight: 400;
                 overflow: auto;
@@ -104,6 +111,10 @@ SOFTWARE.
                 top: 0 !important;
                 margin: 0;
                 padding: 1em 2em;
+            }
+
+            li {
+                line-height: 2;
             }
 
             code,
@@ -169,7 +180,7 @@ SOFTWARE.
             }
 
             .fade {
-                transition: opacity 500ms ease;
+                transition: opacity 500ms ease-in-out;
                 opacity: 0;
             }
 
@@ -179,7 +190,7 @@ SOFTWARE.
             }
 
             .long-content {
-                display: block;
+                display: none;
                 height: 50rem;
                 background: #fafafa;
             }
@@ -208,6 +219,7 @@ SOFTWARE.
                 padding-bottom: 75%;
                 margin: 0;
                 background: #eee;
+                vertical-align: top;
             }
 
             div.aspect.r16-9 {
@@ -219,6 +231,7 @@ SOFTWARE.
                 width: 100%;
                 height: 100%;
                 object-fit: contain;
+                vertical-align: top;
             }
 
             sup {
@@ -262,6 +275,8 @@ SOFTWARE.
             <small>A demo using <span>@shinsenter / defer.js</span></small>
         </h1>
 
+        <div id="fb-root"></div>
+
         <ul id="lang" class="notranslate">
             <li><a title="English" rel="alternate" hreflang="en" onclick="top.location.href='https://appseeds.net/defer.js/demo.html';return false;"
                     href="https://appseeds.net/defer.js/demo.html">EN</a></li>
@@ -288,7 +303,7 @@ SOFTWARE.
     &lt;!-- You may want to add small polyfill for IE 9~11 --&gt;
     &lt;script&gt;deferscript('//appseeds.net/defer.js/assets/polyfill.min.js', 'polyfill-js', 1)&lt;/script&gt;
 &lt;/head&gt;</code></pre>
-                <p>Because the <a href="//appseeds.net/defer.js/defer_plus.min.js"
+                <p>Because the <a href="https://github.com/shinsenter/defer.js/blob/master/defer_plus.min.js"
                         target="_blank" title="minified version of defer.js">minified version</a> of defer.js is super
                     tiny, you can inline its content directly into the
                     HTML document and avoid the network request.</p>
@@ -300,18 +315,20 @@ SOFTWARE.
             </div>
 
             <div>
-                <p>You can use browser's <strong>Developer Tool</strong> (press F12) to watch how requests are sent.</p>
-                <p>I added some spaces with gray background to demo lazy-load. Please scroll down.</p>
-                <p>Looking for a complex demo? <a href="#wordpress-demo" title="Wordpress demo">please click here</a></p>
+                <p>You can use browser's <strong>Developer Tool</strong> (press F12 key) to watch how requests are sent.</p>
+                <!-- <p>I added some spaces with gray background to demo lazy-load. Please scroll down.</p> -->
+                <p>Looking for a complex demo? Check this <a href="#wordpress-demo" title="Wordpress demo">Wordpress demo</a>.</p>
+                <p>Or slowly scroll down to view how images and video are lazy-loaded.</p>
             </div>
 
             <div id="lazyload-widgets">
                 <p><strong>But wait.</strong> Do you notice that there is a share buttons block on <a href="#top">the
                         top</a>?</p>
-                <p>Your browser loaded it after 3 seconds since your page fired the 'load' event.</p>
+                <p>Your browser loaded it after 3 seconds since your page fired the 'load' event. There is a Facebook widget at the bottom, too. Here is how to load them without blocking page load speed:</p>
                 <br />
                 <pre class="notranslate"><code>Code:</code><code class="highlight html">&lt;script type="text/javascript"&gt;
 deferscript('https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5c68e61cf456f1cb', 'social-buttons', 3000);
+deferscript('https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2', 'facebook-sdk', 3000);
 &lt;/script&gt;</code></pre>
                 <p>You may reload the page and find it out your self.</p>
             </div>
@@ -487,7 +504,7 @@ deferimg('img.fade', 100, 'lazied', function(img) {
             <h2>Lazy-load iframe (Youtube video) with CSS effect</h2>
 
             <div class="w640">
-                <div class="aspect r16-9 center">
+                <div class="aspect r16-9 center" id="youtube-demo">
                     <iframe class="video fade" data-src="https://www.youtube.com/embed/Uz970DggW7E" width="560" height="315"
                         allowfullscreen allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
                 </div>
@@ -521,10 +538,11 @@ deferiframe('iframe.video', 100, 'lazied', function(frame) {
 
             <script>
                 deferiframe('iframe.video', 100, 'lazied', function (frame) {
+                    frame.parentNode.setAttribute('style', 'background:transparent url(https://img.youtube.com/vi/Uz970DggW7E/hqdefault.jpg) 50% 50% no-repeat;background-size:cover');
                     frame.onload = function () {
                         frame.className+=' show';
                     }
-                }, {rootMargin: '200px'});
+                }, {rootMargin: '500px'});
             </script>
         </section>
 
@@ -533,12 +551,21 @@ deferiframe('iframe.video', 100, 'lazied', function(frame) {
         <section id="wordpress-demo">
             <h2>Wordpress demo</h2>
             <p>I added Wordpress demo of using defer.js. You should open both of demo links in Private Mode, or make sure browser caches were cleared.</p>
-            <p>Original template: <a href="https://appseeds.net/defer.js/wp/original" target="_blank">https://appseeds.net/defer.js/wp/original</a></p>
-            <p>Optimized with defer.js: <a href="https://appseeds.net/defer.js/wp/optimized" target="_blank">https://appseeds.net/defer.js/wp/optimized</a></p>
-            <p>Sponsored:<br />
-            In this demo, I only used one HTML template of Wayfarer Theme. Thanks Phát Bùi for the HTML source.</p>
-            <p>Disclamers:<br />
-            I did not minify HTML, CSS and JS files. You can not get the perfect score on Pagespeed Test with this demo.</p>
+            <ul>
+                <li>
+                    <a href="https://appseeds.net/defer.js/wp/original" target="_blank">Original template</a>
+                </li>
+                <li>
+                    <a href="https://appseeds.net/defer.js/wp/optimized" target="_blank">Optmized template with defer.js</a>
+                </li>
+            </ul>
+
+            <div style="font-size: smaller">
+                <p>■ <i>Sponsored:</i><br />
+                In this demo, I only used one HTML template of Wayfarer Theme. Thanks Phát Bùi for the HTML source.</p>
+                <p>■ <i>Disclamers:</i><br />
+                I did not minify HTML, CSS and JS files. You can not get the perfect score on Pagespeed Test with this demo.</p>
+            </div>
         </section>
 
         <section id="deferjs-seo-friendly">
@@ -559,6 +586,46 @@ deferiframe('iframe.video', 100, 'lazied', function(frame) {
             <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" width="375" height="246" data-src="https://every-tuesday.com/wp-content/uploads/2015/11/thank-you-preview.jpg"
                 alt="Thank you" class="fade" />
         </p>
+
+        <section id="facebook-connect">
+            <h2>Like us on Facebook!</h2>
+
+            <div class="fb-post" data-href="https://www.facebook.com/appseeds/posts/1502937099839267" data-show-text="true">
+                <blockquote cite="https://developers.facebook.com/appseeds/posts/1502937099839267" class="fb-xfbml-parse-ignore">
+                    <p>&#064;shinsenter/defer.js A SUPER TINY library for web to efficiently load JavaScript. Extended version supports CSS files, images and iframes. They are all easy to use.</p>
+                    <p>Posted by <a href="https://www.facebook.com/appseeds/">AppSeeds</a>.</p>
+                </blockquote>
+            </div>
+
+            <script type="text/javascript">
+                deferscript('https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&autoLogAppEvents=1', 'facebook-sdk', 3000);
+            </script>
+        </section>
+
+        <div id="developer">
+            <h2>Follow the project on Github</h2>
+
+            <ul>
+                <li>Become a stargazer:
+                    <br /><a class="notranslate" target="_blank" href="https://github.com/shinsenter/defer.js/stargazers">https://github.com/shinsenter/defer.js/stargazers</a></li>
+                <li>Report an issue:
+                    <br /><a class="notranslate" target="_blank" href="https://github.com/shinsenter/defer.js/issues">https://github.com/shinsenter/defer.js/issues</a></li>
+                <li>Keep up-to-date with new releases:
+                    <br /><a class="notranslate" target="_blank" href="https://github.com/shinsenter/defer.js/releases">https://github.com/shinsenter/defer.js/releases</a></li>
+            </ul>
+
+            <div class="fb-post" data-href="https://www.facebook.com/appseeds/posts/1502937099839267" data-show-text="true">
+                <blockquote cite="https://developers.facebook.com/appseeds/posts/1502937099839267" class="fb-xfbml-parse-ignore">
+                    <p>&#064;shinsenter/defer.js A SUPER TINY library for web to efficiently load JavaScript. Extended version supports CSS files, images and iframes. They are all easy to use.</p>
+                    <p>Posted by <a href="https://www.facebook.com/appseeds/">AppSeeds</a>.</p>
+                </blockquote>
+            </div>
+
+            <script type="text/javascript">
+                deferscript('https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2', 'facebook-sdk', 3000);
+            </script>
+        </div>
+
 
         <hr />
 
