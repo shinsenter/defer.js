@@ -16,36 +16,14 @@ Super tiny script to efficiently load JavaScript.
 **It makes your pages feel faster.**
 
 
-![Scoring 100/100 on Google PageSpeed Test](assets/scores.jpg)
+![Scoring 100/100 on Google PageSpeed Test](docs/assets/scores.jpg)
 
 
 According to [Google's PageSpeed Insights](https://developers.google.com/speed/docs/insights/BlockingJS), loading your deferred JavaScript also means no blocking, your browsing experience needn't wait for code you may not need yet.
 
 *TL;DR*: You can view full examples in [my demo](https://appseeds.net/defer.js/demo.html).
 
-
-
-## Wordpress demo
-
-I added Wordpress demo of using defer.js. You should open both of demo links in Private Mode, or make sure browser caches were cleared.
-
-Original template:
-
-https://appseeds.net/defer.js/wp/original
-
-Optimized with defer.js:
-
-https://appseeds.net/defer.js/wp/optimized
-
-
-
-*Sponsored:*
-
-In this demo, I only used one HTML template of [Wayfarer Theme](https://www.theme-junkie.com/introducing-new-theme-wayfarer/). Thanks [Phát Bùi](https://www.facebook.com/sight.love) for the HTML source.
-
-*Disclamers:*
-
-I did not minify HTML, CSS and JS files. You can not get the perfect score on Pagespeed Test with this demo.
+Looking for more complex demo? Please check [Wordpress demo](#wordpress-demo).
 
 
 
@@ -63,16 +41,30 @@ Compatibility with IE6, IE7, and IE8 has been fully dropped.
 
 
 
+## Keep in touch
+
+- Become a stargazer:
+https://github.com/shinsenter/defer.js/stargazers
+
+- Report an issue:
+https://github.com/shinsenter/defer.js/issues
+
+- Keep up-to-date with new releases:
+https://github.com/shinsenter/defer.js/releases
+
+
+
+
 ## Usage
 
-### General usage
+### Basic usage
 
 You need to load this library only once on a page, ideally right after the opening `<head>` tag:
 
 ```html
 <head>
     <title>My awesome page</title>
-    <script src="//raw.githubusercontent.com/shinsenter/defer.js/master/defer.min.js"></script>
+    <script src="//appseeds.net/defer.js/defer.min.js"></script>
 </head>
 ```
 
@@ -97,10 +89,16 @@ npm install @shinsenter/defer.js
 ### defer
 
 ```javascript
-defer(fn [, delay ])
+defer(func [, delay ])
 ```
 
-This method allows us to delay the execution of `fn` function in `delay` miliseconds (default: 80) after the `load` event.
+This is our hero: the `defer` function.
+This will push your function `func` into queue with its delay time.
+If browser's `load` event was fired, your function will be executed.
+
+- @param   {function}  `func`    The function
+- @param   {integer}   `delay`   The delay time to call the function
+- @returns {void}
 
 
 
@@ -110,12 +108,15 @@ This method allows us to delay the execution of `fn` function in `delay` milisec
 deferscript(src, id [, delay [, callback = Function ]])
 ```
 
-This method allows us to load a JavaScript file from the `src` URL, then execute it after the `load` event.
+This function will lazy-load a script from given URL in `src` argument.
+The tag id and delay time can be set in `id` and `delay` arguments.
+Sometimes you may call a `callback` function when the file is loaded.
 
-We also can assign the `id` for the `<script>` tag, and delay time in miliseconds with the `delay` argument.
-
-The `callback` argument can be set, as you may do some great stuffs after external file is fully loaded.
-
+- @param   {string}        `src`         The file URL
+- @param   {string|false}  `id`          The id of the &lt;script&gt; tag
+- @param   {integer}       `delay`       The delay time to create the tag
+- @param   {function}      `callback`    The callback function when load
+- @returns {void}
 
 
 ## Examples
@@ -124,8 +125,9 @@ The `callback` argument can be set, as you may do some great stuffs after extern
 
 Delay the execution of a simple inline script (and also complex inline scipt) for 2 seconds.
 
-```javascript
-// You can use defer.js without jQuery
+```html
+<script type="text/javascript">
+// You can safely use defer.js without jQuery
 defer(function() {
     alert("This message is shown after 2 seconds after the 'load' event.");
 }, 2000);
@@ -134,6 +136,7 @@ defer(function() {
 defer(function () {
     $('body').html('<p>Your awesome content</p>');
 }, 500);
+</script>
 ```
 
 
@@ -142,8 +145,10 @@ defer(function () {
 
 Delay loading Google Publisher Tag script for 1 second (to prevent advertisement iframes that may block rendering).
 
-```javascript
+```html
+<script type="text/javascript">
 deferscript('//www.googletagservices.com/tag/js/gpt.js', 'gpt-js', 1000);
+</script>
 ```
 
 That is simple, isn't it?
@@ -152,9 +157,11 @@ That is simple, isn't it?
 
 You can delay loading Facebook, Twitter scripts for 2 second (social widgets usually are expensive resources).
 
-```javascript
-deferscript('//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.5', 'facebook-jssdk', 2000);
-deferscript('//platform.twitter.com/widgets.js', 'twitter-wjs', 2000);
+```html
+<script type="text/javascript">
+deferscript('https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2', 'facebook-sdk', 2000);
+deferscript('//platform.twitter.com/widgets.js', 'twitter-sdk', 2000);
+</script>
 ```
 
 It saves huge amount of HTTP requests. Don't worry, all of your loved social widgets work well 2 seconds later.
@@ -162,7 +169,6 @@ It saves huge amount of HTTP requests. Don't worry, all of your loved social wid
 ---
 
 We also lazy-load 3rd-party library's JavaScript and CSS.
-
 Thanks to highlightjs for a lightweight, extensible syntax highlighter.
 
 ```html
@@ -193,7 +199,7 @@ I also added some extra helpers to lazy-load CSS files, images and iframes. They
     <script src="//appseeds.net/defer.js/defer_plus.min.js"></script>
 
     <!-- You may want to add small polyfill for IE 9~11 -->
-    <script>deferscript('//appseeds.net/defer.js/assets/polyfill.min.js', 'polyfill-js', 1)</script>
+    <script>deferscript('//appseeds.net/defer.js/docs/assets/polyfill.min.js', 'polyfill-js', 1)</script>
 </head>
 ```
 
@@ -209,9 +215,21 @@ You can view all full examples [here](https://appseeds.net/defer.js/demo.html).
 deferstyle(src, id [, delay [, callback = Function ]])
 ```
 
+This function will lazy-load stylesheet from given URL in `src` argument.
+The tag id and delay time can be set in `id` and `delay` arguments.
+Sometimes you may call a `callback` function when the file is loaded.
+
+- @param   {string}        `src`         The file URL
+- @param   {string|false}  `id`          The id of the &lt;link&gt; tag
+- @param   {integer}       `delay`       The delay time to create the tag
+- @param   {function}      `callback`    The callback function when load
+- @returns {void}
+
 Example:
-```javascript
+```html
+<script type="text/javascript">
 deferstyle('//highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css', 1000);
+</script>
 ```
 
 
@@ -221,8 +239,15 @@ deferstyle('//highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css
 ```javascript
 deferimg(query_selector = 'img.lazy' [, delay [, load_class = 'lazied' [, callback = function(image) {} ]]])
 ```
-
 The `this` in `callback` is a reference to the target `<img>` DOM element.
+
+- @param   {string}        `query_selector` The query selctor (default: 'img.lazy')
+- @param   {integer}       `delay`          The delay time to trigger lazy-load on the image
+- @param   {string|false}  `load_class`     The class name when the image is swapped its real `src`
+- @param   {function}      `callback`       The callback function when the image is loaded
+- @returns {void}
+
+
 
 ---
 
@@ -245,6 +270,12 @@ deferiframe(query_selector = 'iframe.lazy' [, delay [, load_class = 'lazied' [, 
 ```
 
 The `this` in `callback` is a reference to the target `<iframe>` DOM element.
+
+- @param   {string}        `query_selector` The query selctor (default: 'iframe.lazy')
+- @param   {integer}       `delay`          The delay time to trigger lazy-load on the iframe
+- @param   {string|false}  `load_class`     The class name when the iframe is swapped its real `src`
+- @param   {function}      `callback`       The callback function when the iframe is loaded
+- @returns {void}
 
 ---
 
@@ -276,17 +307,32 @@ deferiframe('iframe.video', 100, 'loaded', function(frame) {
 </script>
 ```
 
----
 
 
-Report an issue:
+## Wordpress demo
 
-https://github.com/shinsenter/defer.js/issues
+I added Wordpress demo of using defer.js.
+
+You should open both of demo links in Private Mode, or make sure browser cache were cleared before the tests.
+
+■ Original template:
+https://appseeds.net/defer.js/wp/original
+
+■ Optimized with defer.js:
+https://appseeds.net/defer.js/wp/optimized
+
+■ *Sponsored:*
+In this demo, I used one HTML template of [Wayfarer Theme](https://www.theme-junkie.com/introducing-new-theme-wayfarer/). Thanks [Phát Bùi](https://www.facebook.com/sight.love) for sharing the HTML source.
+
+■ *Disclamers:*
+I did not minify HTML, CSS and JS files. You can not get the perfect score on Pagespeed Test with this demo.
 
 ---
 
 
 Released under the MIT license.
-https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE
+https://appseeds.net/defer.js/LICENSE
 
 Copyright (c) 2019 Mai Nhut Tan &lt;shin@shin.company&gt;
+
+
