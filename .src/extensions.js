@@ -54,10 +54,10 @@
     var LINK    = 'LINK';
 
     // Tag attributes
-    var DATASET = 'data-';
-    var LAZY_SELECTOR   = '[data-src]';
     var LAZIED_CLASS    = 'lazied';
-    var LAZIED_ATTR     = DATASET + LAZIED_CLASS;
+    var DATASET_PREFIX  = 'data-';
+    var LAZY_SELECTOR   = DATASET_PREFIX + SRC;
+    var LAZIED_SELECTOR = DATASET_PREFIX + LAZIED_CLASS;
 
     var APPEND_CHILD        = 'appendChild';
     var CLASS_NAME          = 'className';
@@ -135,7 +135,7 @@
             function display(media) {
                 if (callback.call(media, media) !== FALSE) {
                     attributes[FOR_EACH](function(attr, value) {
-                        value = media[GET_ATTRIBUTE](DATASET + attr);
+                        value = media[GET_ATTRIBUTE](DATASET_PREFIX + attr);
                         if (value) {media[attr] = value}
                     });
                 }
@@ -161,9 +161,9 @@
 
             // Then let `defer` function do the rest
             defer(function() {
-                var items = [].slice.call(document[QUERY_SELECTOR_ALL]((query || tagname + LAZY_SELECTOR) + ':not([' + LAZIED_ATTR + '])'));
+                var items = [].slice.call(document[QUERY_SELECTOR_ALL]((query || tagname + '[' + LAZY_SELECTOR + ']') + ':not([' + LAZIED_SELECTOR + '])'));
                 items[FOR_EACH](function(media){
-                    media[SET_ATTRIBUTE](LAZIED_ATTR, tagname);
+                    media[SET_ATTRIBUTE](LAZIED_SELECTOR, tagname);
                     walker(media);
                 });
             }, delay);

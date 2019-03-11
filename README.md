@@ -2,7 +2,7 @@
 
 Super tiny script to efficiently load JavaScript.
 
-[Extended version](#extended-deferjs) supports CSS files, images and iframes. They are all easy to use.
+[Extended version](#extended-deferjs) supports CSS files, images and iframes.
 
 
 ![JavaScript Style Guide: Good Parts](https://img.shields.io/badge/code%20style-goodparts-brightgreen.svg?style=flat)
@@ -16,8 +16,10 @@ Super tiny script to efficiently load JavaScript.
 **It makes your pages feel faster.**
 
 
-![Scoring 100/100 on Google PageSpeed Test](docs/assets/scores.jpg)
+![Scoring 100/100 in Google PageSpeed Test](docs/assets/scores.jpg)
 
+
+Scoring 100/100 in Google PageSpeed Insights has never been easier. They are all easy to use.
 
 According to [Google's PageSpeed Insights](https://developers.google.com/speed/docs/insights/BlockingJS), loading your deferred JavaScript also means no blocking, your browsing experience needn't wait for code you may not need yet.
 

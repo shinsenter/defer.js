@@ -122,7 +122,7 @@
      * @param   {integer}   ticker      Placeholder for holding timer
      * @returns {function}              Return a new function
      */
-    // function defersmart (func, delay, throttle, ticker) {
+    // function defersmart(func, delay, throttle, ticker) {
     //     return function() {
     //         var context = this;
     //         var args    = arguments;
