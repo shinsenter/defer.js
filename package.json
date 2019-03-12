@@ -1,6 +1,6 @@
 {
   "name":         "@shinsenter/defer.js",
-  "version":      "1.0.11d",
+  "version":      "1.0.12",
   "description":  "defer.js by shinsenter is super tiny library to efficiently load JavaScript, CSS files, images and iframes. Scoring 100/100 in Google PageSpeed Insights has never been easier.",
   "homepage":     "https://github.com/shinsenter/defer.js#readme",
   "author":       "Mai Nhut Tan <shin@shin.company>",

@@ -72,10 +72,10 @@
      */
     function defer (func, delay) {
         // Let's set default timeout to 5 browser tick cycles
-        delay = delay || 80;
+        var default_delay = 80;
 
         if (dom_loaded) {
-            dequeue(func, delay);
+            dequeue(func, delay || default_delay);
         } else {
             func_queue.push(func, delay);
         }
@@ -147,19 +147,19 @@
      *
      * @returns {void}
      */
-    function onload () {
-        dom_loaded = true;
+    function flushqueue () {
+        dom_loaded = 1;
 
         for (;func_queue.length;) {
-            dequeue(func_queue.shift(), func_queue.shift());
+            defer(func_queue.shift(), func_queue.shift());
         }
     }
+
+    // Add event listener into global scope
+    window[ADD_EVENT_LISTENER]('on' + load_event in window ? load_event : 'load', flushqueue);
 
     // Export functions into the global scope
     window[defer_fn]       = defer;
     window[deferscript_fn] = deferscript;
-
-    // Add event listener into global scope
-    window[ADD_EVENT_LISTENER]('on' + load_event in window ? load_event : 'load', onload);
 
 })(this, document, 'pageshow', setTimeout, []);
