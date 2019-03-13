@@ -131,8 +131,6 @@
 
             // Then let `defer` function do the rest
             defer(function(observer, walker) {
-                var items;
-
                 // This method sets true `src` from `data-src` attribute
                 function display(media) {
                     if (callback.call(media, media) !== FALSE) {
@@ -166,8 +164,7 @@
                     walker = display;
                 }
 
-                items = [].slice.call(document[QUERY_SELECTOR_ALL]((query || tagname + '[' + LAZY_SELECTOR + ']') + ':not([' + LAZIED_SELECTOR + '])'));
-                items[FOR_EACH](filter);
+                [][FOR_EACH].call(document[QUERY_SELECTOR_ALL]((query || tagname + '[' + LAZY_SELECTOR + ']') + ':not([' + LAZIED_SELECTOR + '])'), filter);
             }, delay);
         }
     }
