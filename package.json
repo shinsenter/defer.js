@@ -1,11 +1,12 @@
 {
   "name": "@shinsenter/defer.js",
   "version": "1.1.0",
-  "description": "defer.js by shinsenter is super tiny library to efficiently load JavaScript, CSS files, images and iframes. Scoring 100/100 in Google PageSpeed Insights has never been easier.",
+  "description": "🥇 A super tiny, native performant library for lazy-loading JS, CSS, images, iframes... Defer anything, easily speed up your website.",
   "homepage": "https://github.com/shinsenter/defer.js#readme",
   "author": "Mai Nhut Tan <shin@shin.company>",
   "license": "MIT",
   "browser": "dist/defer_plus.min.js",
+  "main": "dist/defer_plus.min.js",
   "files": [
     "dist/"
   ],
@@ -50,7 +51,7 @@
     "format": "js-beautify --config build/.beautify -r -f src/*.js",
     "mini": "uglifyjs --config-file=build/.uglifyjs -o dist/defer.min.js src/defer.js",
     "plus": "uglifyjs --config-file=build/.uglifyjs -o dist/defer_plus.min.js src/defer.js src/extensions.js",
-    "polyfill": "uglifyjs --config-file=build/.uglifyjs -o docs/assets/polyfill.min.js node_modules/intersection-observer/intersection-observer.js",
+    "polyfill": "uglifyjs --config-file=build/.uglifyjs -o dist/polyfill.min.js node_modules/intersection-observer/intersection-observer.js",
     "demo": "html-minifier ./src/demo.html -o docs/demo.html --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true",
     "build": "npm run lint && npm run mini && npm run plus && npm run demo",
     "up": "npm run lint && npm --no-git-tag-version version patch -m 'Ready to publish version %s'",

@@ -37,10 +37,10 @@ SOFTWARE.
     <title>@shinsenter/defer.js - Easily lazy-load JS, CSS, images, iframes</title>
 
     <script src="../dist/defer_plus.min.js?v=1.0.12"></script>
-    <script>deferscript('assets/polyfill.min.js', 'polyfill-js', 1)</script>
+    <script>deferscript('../dist/polyfill.min.js', 'polyfill-js', 1)</script>
 
-    <!-- <script src="https://appseeds.net/defer.js/dist/defer_plus.min.js?v=1.0.12"></script> -->
-    <!-- <script>deferscript('https://appseeds.net/defer.js/assets/polyfill.min.js', 'polyfill-js', 1)</script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.0/dist/defer_plus.min.js"></script> -->
+    <!-- <script>deferscript('https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.0/dist/polyfill.min.js', 'polyfill-js', 1)</script> -->
 
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="mobile-web-app-capable" content="yes">
@@ -48,14 +48,14 @@ SOFTWARE.
     <meta name="MobileOptimized" content="375">
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,width=device-width">
 
-    <meta name="description" content="defer.js by shinsenter is super tiny library to efficiently load JavaScript, CSS files, images and iframes. Scoring 100/100 in Google PSI has never been easier.">
+    <meta name="description" content="🥇 defer.js is a super tiny, native performant library for lazy-loading JS, CSS, images, iframes... Defer anything, easily speed up your website.">
     <meta name="keywords" content="defer.js,defer,lazyload,fast,pagespeed,javascript,css,style,image,iframe">
     <meta name="twitter:image" content="https://appseeds.net/defer.js/assets/scores.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image:alt" content="Archive 100/100 Google PageSpeed score">
     <meta name="twitter:card" content="summary_large_image">
     <meta property="og:title" content="Easily lazy-load JS, CSS, images, iframes">
-    <meta property="og:description" content="defer.js by shinsenter is super tiny library to efficiently load JavaScript, CSS files, images and iframes. Scoring 100/100 in Google PSI has never been easier.">
+    <meta property="og:description" content="🥇 defer.js is a super tiny, native performant library for lazy-loading JS, CSS, images, iframes... Defer anything, easily speed up your website.">
     <meta property="og:image" content="https://appseeds.net/defer.js/assets/scores.jpg">
     <meta property="og:url" content="https://appseeds.net/defer.js/demo.html">
     <meta property="og:site_name" content="shinsenter/defer.js">
@@ -332,7 +332,7 @@ SOFTWARE.
         <li><a title="Tiếng Việt" rel="alternate" hreflang="vi" onclick="top.location.href='https://translate.google.com/translate?hl=&sl=auto&tl=vi&u=https%3A%2F%2Fappseeds.net%2Fdefer.js%2Fdemo.html';return false;" href="https://translate.google.com/translate?hl=&sl=auto&tl=vi&u=https%3A%2F%2Fappseeds.net%2Fdefer.js%2Fdemo.html">VI</a></li>
     </ul>
 
-    <div class="addthis_inline_share_toolbox" data-url="https://github.com/shinsenter/defer.js" data-title="defer.js - A super tiny script to efficiently load JS, CSS, images, iframes - @shinsenter / defer.js" data-description="defer.js by shinsenter is super tiny library to efficiently load JavaScript, CSS files, images and iframes. Scoring 100/100 in Google PSI has never been easier."></div>
+    <div class="addthis_inline_share_toolbox" data-url="https://github.com/shinsenter/defer.js" data-title="defer.js - A super tiny script to efficiently load JS, CSS, images, iframes - @shinsenter / defer.js" data-description="🥇 defer.js is a super tiny, native performant library for lazy-loading JS, CSS, images, iframes... Defer anything, easily speed up your website."></div>
 
     <section id="deferjs-usage">
         <h2 id="getting-started">Getting started</h2>
@@ -554,7 +554,7 @@ deferimg('img.fade', 100, 'lazied', function(img) {
         <h2>Lazy-load iframe (Youtube video) with CSS effect</h2>
 
         <div class="w640">
-            <div class="aspect r16-9 center" id="youtube-demo">
+            <div class="aspect r16-9 center" id="youtube-demo" data-style="background: transparent url(https://img.youtube.com/vi/Uz970DggW7E/hqdefault.jpg) 50% 50% / cover no-repeat;">
                 <iframe class="video fade" data-src="https://www.youtube.com/embed/Uz970DggW7E" width="560" height="315" allowfullscreen allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
                 <span class="loading"></span>
             </div>
@@ -587,8 +587,7 @@ deferiframe('iframe.video', 100, 'lazied', function(frame) {
         </div>
 
         <script>
-            deferiframe('iframe.video', 100, 'lazied', function (frame) {
-                frame.parentNode.setAttribute('style', 'background:transparent url(https://img.youtube.com/vi/Uz970DggW7E/hqdefault.jpg) 50% 50% no-repeat;background-size:cover');
+            deferiframe('iframe.video, div.aspect', 100, 'lazied', function (frame) {
                 frame.onload = function () {
                     frame.className += ' show';
                 }

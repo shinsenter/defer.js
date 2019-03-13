@@ -46,6 +46,7 @@
     // Real attributes for lazy-loaded media
     var SRC     = 'src';
     var SRCSET  = 'srcset';
+    var STYLE   = 'style';
     var DATA    = 'data';
 
     // Tag names
@@ -118,33 +119,26 @@
      *              creating a `<img>` tag.
      *
      * @param   {string}    tagname     The tag name (E.g. IMG, IFRAME)
-     * @param   {array}     attributes  Attributes to be deferred
      * @returns {function}              The returned function
      */
-    function defermedia (tagname, attributes) {
-        attributes = attributes || [SRCSET, SRC, DATA];
-
-        return function (query, delay, done_class, callback, options) {
-            // Variable convertions
-            done_class  = done_class || LAZIED_CLASS;
-            callback    = callback   || NOOP;
-
-            // Then let `defer` function do the rest
+    function defermedia (tagname) {
+        return function (query, delay, lazied_class, callback, options, attributes) {
             defer(function(observer, walker) {
-                // This method sets true `src` from `data-src` attribute
+                // This function marks item initialized, then applies the callback
+                function filter(media){
+                    media[SET_ATTRIBUTE](LAZIED_SELECTOR, tagname);
+                    walker(media);
+                }
+
+                // This method sets the real attributes
                 function display(media) {
-                    if (callback.call(media, media) !== FALSE) {
-                        attributes[FOR_EACH](function(attr, value) {
+                    if ((callback || NOOP).call(media, media) !== FALSE) {
+                        (attributes || [SRCSET, SRC, DATA, STYLE])[FOR_EACH](function(attr, value) {
                             value = media[GET_ATTRIBUTE](DATASET_PREFIX + attr);
                             if (value) {media[attr] = value}
                         });
                     }
-                    media[CLASS_NAME] += ' ' + done_class;
-                }
-
-                function filter(media){
-                    media[SET_ATTRIBUTE](LAZIED_SELECTOR, tagname);
-                    walker(media);
+                    media[CLASS_NAME] += ' ' + (lazied_class || LAZIED_CLASS);
                 }
 
                 // Force using IntersectionObserver when posible
