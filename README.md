@@ -66,7 +66,7 @@ You need to load this library only once on a page, ideally right after the openi
 ```html
 <head>
     <title>My awesome page</title>
-    <script src="//appseeds.net/defer.js/defer.min.js"></script>
+    <script src="//appseeds.net/defer.js/dist/defer.min.js"></script>
 </head>
 ```
 
@@ -198,7 +198,7 @@ I also added some extra helpers to lazy-load CSS files, images and iframes. They
 ```html
 <head>
     <title>My awesome page</title>
-    <script src="//appseeds.net/defer.js/defer_plus.min.js"></script>
+    <script src="//appseeds.net/defer.js/dist/defer_plus.min.js"></script>
 
     <!-- You may want to add small polyfill for IE 9~11 -->
     <script>deferscript('//appseeds.net/defer.js/docs/assets/polyfill.min.js', 'polyfill-js', 1)</script>
