@@ -46,6 +46,7 @@
     // Real attributes for lazy-loaded media
     var SRC     = 'src';
     var SRCSET  = 'srcset';
+    var STYLE   = 'style';
     var DATA    = 'data';
 
     // Tag names
@@ -54,10 +55,10 @@
     var LINK    = 'LINK';
 
     // Tag attributes
-    var DATASET = 'data-';
-    var LAZY_SELECTOR   = '[data-src]';
     var LAZIED_CLASS    = 'lazied';
-    var LAZIED_ATTR     = DATASET + LAZIED_CLASS;
+    var DATASET_PREFIX  = 'data-';
+    var LAZY_SELECTOR   = DATASET_PREFIX + SRC;
+    var LAZIED_SELECTOR = DATASET_PREFIX + LAZIED_CLASS;
 
     var APPEND_CHILD        = 'appendChild';
     var CLASS_NAME          = 'className';
@@ -118,54 +119,46 @@
      *              creating a `<img>` tag.
      *
      * @param   {string}    tagname     The tag name (E.g. IMG, IFRAME)
-     * @param   {array}     attributes  Attributes to be deferred
      * @returns {function}              The returned function
      */
-    function defermedia (tagname, attributes) {
-        if (!attributes) {
-            attributes = [SRCSET, SRC, DATA];
-        }
-
-        return function (query, delay, done_class, callback, options, observer, walker) {
-            // Variable convertions
-            done_class  = done_class || LAZIED_CLASS;
-            callback    = callback   || NOOP;
-
-            // This method sets true `src` from `data-src` attribute
-            function display(media) {
-                if (callback.call(media, media) !== FALSE) {
-                    attributes[FOR_EACH](function(attr, value) {
-                        value = media[GET_ATTRIBUTE](DATASET + attr);
-                        if (value) {media[attr] = value}
-                    });
-                }
-                media[CLASS_NAME] += ' ' + done_class;
-            }
-
-            // Force using IntersectionObserver when posible
-            // It class is the heart of media lazy-loading
-            if (OBSERVER_CLASS in window) {
-                observer = new window[OBSERVER_CLASS](function(items) {
-                    items[FOR_EACH](function(item, target) {
-                        if (item.isIntersecting && (target = item.target)) {
-                            observer.unobserve(target);
-                            display(target);
-                        }
-                    });
-                }, options);
-
-                walker = observer.observe.bind(observer);
-            } else {
-                walker = display;
-            }
-
-            // Then let `defer` function do the rest
-            defer(function() {
-                var items = [].slice.call(document[QUERY_SELECTOR_ALL]((query || tagname + LAZY_SELECTOR) + ':not([' + LAZIED_ATTR + '])'));
-                items[FOR_EACH](function(media){
-                    media[SET_ATTRIBUTE](LAZIED_ATTR, tagname);
+    function defermedia (tagname) {
+        return function (query, delay, lazied_class, callback, options, attributes) {
+            defer(function(observer, walker) {
+                // This function marks item initialized, then applies the callback
+                function filter(media){
+                    media[SET_ATTRIBUTE](LAZIED_SELECTOR, tagname);
                     walker(media);
-                });
+                }
+
+                // This method sets the real attributes
+                function display(media) {
+                    if ((callback || NOOP).call(media, media) !== FALSE) {
+                        (attributes || [SRCSET, SRC, DATA, STYLE])[FOR_EACH](function(attr, value) {
+                            value = media[GET_ATTRIBUTE](DATASET_PREFIX + attr);
+                            if (value) {media[attr] = value}
+                        });
+                    }
+                    media[CLASS_NAME] += ' ' + (lazied_class || LAZIED_CLASS);
+                }
+
+                // Force using IntersectionObserver when posible
+                // It class is the heart of media lazy-loading
+                if (OBSERVER_CLASS in window) {
+                    observer = new window[OBSERVER_CLASS](function(items) {
+                        items[FOR_EACH](function(item, target) {
+                            if (item.isIntersecting && (target = item.target)) {
+                                observer.unobserve(target);
+                                display(target);
+                            }
+                        });
+                    }, options);
+
+                    walker = observer.observe.bind(observer);
+                } else {
+                    walker = display;
+                }
+
+                [][FOR_EACH].call(document[QUERY_SELECTOR_ALL]((query || tagname + '[' + LAZY_SELECTOR + ']') + ':not([' + LAZIED_SELECTOR + '])'), filter);
             }, delay);
         }
     }
