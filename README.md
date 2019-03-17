@@ -123,7 +123,7 @@ According to a [Google PageSpeed Insights article](https://developers.google.com
 
 > The loading and execution of scripts that are not necessary for the initial page render may be deferred until after the initial render or other critical parts of the page have finished loading. Doing so can help reduce resource contention and improve performance.
 
-But in real life, many JavaScript libraries, such as JQuery, are used to enhance the page to add additional interactivity, animations, and other effects. It takes time for browser to parse and execute those scripts, and each UI change may reflow your layout, make your load speed more slow.
+In real life, many JavaScript libraries, such as JQuery, are used to enhance the page to add additional interactivity, animations, and other effects. It takes time for browser to parse and execute those scripts, and each UI change may reflow your layout, make your load speed more slow.
 
 In various cases, using `async` or `defer` does not deliver faster page speed than [defer](#defer) or [deferscript](#deferscript) does.
 
@@ -215,7 +215,7 @@ Put this script anywhere you want within the `<body>` tag:
 
 
 
-##### Lazy an image with low quality placeholder
+##### Lazy an image with a low-quality placeholder
 
 ```html
 <img alt="A lazy image" src="low-resolution.jpg" data-src="lazy.jpg">
@@ -358,7 +358,7 @@ div.aspect.wide {
 }
 
 div.aspect.square {
-    padding-top: 50%;
+    padding-top: 100%;
 }
 ```
 
@@ -410,7 +410,54 @@ Then we apply above CSS concepts to `<img>`, `<video>` and `<iframe>` tags to ma
 
 ### Fade in video/image when it's completely loaded
 
-To be updated
+We can add a simple effect to our images when it is completely loaded.
+
+In this example, we are going to add a fade-in effect to image and iframe tags that have `fade` class name. it can be done like this:
+
+```html
+<style type="text/css">
+/* hide the element with opacity is set to 0 */
+.fade {
+    transition: opacity 500ms ease-in-out;
+    opacity: 0;
+}
+
+/* show it with the 'shown' class */
+.fade.shown {
+    opacity: 1;
+    background: 0 0;
+}
+</style>
+
+
+<script type="text/javascript">
+    // We define a callback function
+    // to add a 'shown' class into the element when it is loaded
+    var media_loaded = function (media) {
+        media.className += ' shown';
+    }
+
+    // Then call the deferimg and deferiframe methods
+    deferimg('img.fade', 300, 'lazied', media_loaded);
+    deferiframe('iframe.fade', 300, 'lazied', media_loaded);
+</script>
+
+
+<!-- Simple <img> tag with 'fade' class -->
+<div class="fade aspect">
+    <img alt="A lazy image" data-src="lazy.jpg">
+</div>
+
+
+<!-- I added a placeholder background image in the <div> tag -->
+<div class="fade aspect wide"
+    data-style="background: transparent url(https://img.youtube.com/vi/<youtube-video-id>/hqdefault.jpg) 50% 50% / cover no-repeat;">
+    <iframe src="about:blank"
+        data-src="https://www.youtube.com/embed/<youtube-video-id>"
+        frameborder="0" allowfullscreen
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
+</div>
+```
 
 
 
