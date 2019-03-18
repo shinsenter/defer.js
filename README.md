@@ -26,7 +26,7 @@
 
 
 - [Table of Contents](#table-of-contents)
-- [Defer/async script tags are not good enough](#defer-async-script-tags-are-not-good-enough)
+- [Defer/async script tags are not good enough](#deferasync-script-tags-are-not-good-enough)
 - [Lazy-loading contents](#lazy-loading-contents)
 - [Browser support](#browser-support)
 - [Install to your page](#install-to-your-page)
@@ -54,7 +54,7 @@
     - [deferimg](#deferimg)
     - [deferiframe](#deferiframe)
 - [Extensions](#extensions)
-    - [defer.php](#defer-php)
+    - [defer.php](#deferphp)
     - [defer-wordpress](#defer-wordpress)
 - [Demo](#demo)
 - [One more thing](#one-more-thing)
