@@ -26,7 +26,8 @@
 
 
 - [Table of Contents](#table-of-contents)
-- [Key notes](#key-notes)
+- [Defer/async script tags are not good enough](#defer-async-script-tags-are-not-good-enough)
+- [Lazy-loading contents](#lazy-loading-contents)
 - [Browser support](#browser-support)
 - [Install to your page](#install-to-your-page)
 - [Basic usage](#basic-usage)
@@ -52,26 +53,48 @@
     - [deferstyle](#deferstyle)
     - [deferimg](#deferimg)
     - [deferiframe](#deferiframe)
+- [Extensions](#extensions)
+    - [defer.php](#defer-php)
+    - [defer-wordpress](#defer-wordpress)
 - [Demo](#demo)
 - [One more thing](#one-more-thing)
 - [Keep in touch](#keep-in-touch)
 
 
 
-## Key notes
+## Defer/async script tags are not good enough
+
+In real life, many JavaScript libraries, such as JQuery, are used to enhance the page to add additional interactivity, animations, and other effects. Unfortunately, the third-party script was blocking the load of all the further resources of the page.
+
+According to a [Google PageSpeed Insights article](https://developers.google.com/speed/docs/insights/BlockingJS#deferJS):
+
+> The loading and execution of scripts that are not necessary for the initial page render may be deferred until after the initial render or other critical parts of the page have finished loading. Doing so can help reduce resource contention and improve performance.
+
+There is a common knowledge that you should use `<script src=".." async defer>` (or set `script.async = true` before assigning `src`, when you do it from JS) and/or put your scripts at the very bottom of the page, so that as much as possible of the page gets loaded and rendered to the user, as fast as possible.
+
+![Defer loading of JavaScript](docs/assets/defer-script.png)
+
+If your page is just an HTML page enhanced with some JavaScript, then you're good with just `<script async>`. It takes time for browser to parse and execute those scripts, and each UI change may reflow your layout, make your load speed more slow, no one likes staring at a blank white page; users are impatient and will leave quickly.
+
+In various cases, using `async` or `defer` does not deliver faster page speed than [defer](#defer) or [deferscript](#deferscript) does.
+
+
+
+## Lazy-loading contents
 
 
 Other lazy loading libraries hook up to the scroll event on elements that need to be lazy loaded. This approach forces the browser to re-layout the page and it is painfully slow.
 
 Here we are, [defer.js](https://github.com/shinsenter/defer.js) is written in plain JavaScript, making lazy-loading more efficient and performant. This library is using the recently added [Intersection Observer](https://developers.google.com/web/updates/2016/04/intersectionobserver) with tremendous native performance benefits.
 
-- Legacy browsers support (IE9+)
-- SEO friendly
-- Very easy to use
-- No dependencies, no jQuery
-- Works well with your favorite frameworks
-- Uses [IntersectionObserver API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) for optimized CPU usage
-- Supports for responsive images, both `srcset` and `sizes` attributes
+- ⚡️ Native API, blazing fast
+- 👍🏻 Legacy browsers support (IE9+)
+- 🥇 SEO friendly
+- ✅ Very easy to use
+- 💯 No dependencies, no jQuery
+- 🤝 Works well with your favorite frameworks
+- 🧩 Uses [IntersectionObserver API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) for optimized CPU usage
+- 🏞 Supports for responsive images, both `srcset` and `sizes` attributes
 
 
 
@@ -79,13 +102,13 @@ Here we are, [defer.js](https://github.com/shinsenter/defer.js) is written in pl
 
 Available in latest browsers. This library also works perfectly with Internet Explorer 9 and later.
 
-- IE9+ (with [W3C's Intersection Observer polyfill](https://github.com/w3c/IntersectionObserver))
-- Firefox 4+
-- Safari 3+
-- Chrome *
-- Opera *
-- Android 4+
-- iOS 3.2+
+- 🖥 IE9+ (with [W3C's Intersection Observer polyfill](https://github.com/w3c/IntersectionObserver))
+- 🖥 Firefox 4+
+- 🖥 Safari 3+
+- 🖥 Chrome *
+- 🖥 Opera *
+- 📱 Android 4+
+- 📱 iOS 3.2+
 
 
 
@@ -97,7 +120,7 @@ You can load the library via **CDN** and include it right after the opening `<he
 ```html
 <head>
     <title>My awesome page</title>
-    <script src="//cdn.jsdelivr.net/npm/@shinsenter/defer.js@latest/dist/defer_plus.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/@shinsenter/defer.js/dist/defer_plus.min.js"></script>
     <!-- And other HTML tags from here -->
 </head>
 ```
@@ -118,18 +141,6 @@ npm install @shinsenter/defer.js
 
 
 ### Defer loading of JavaScript
-
-According to a [Google PageSpeed Insights article](https://developers.google.com/speed/docs/insights/BlockingJS#deferJS):
-
-> The loading and execution of scripts that are not necessary for the initial page render may be deferred until after the initial render or other critical parts of the page have finished loading. Doing so can help reduce resource contention and improve performance.
-
-In real life, many JavaScript libraries, such as JQuery, are used to enhance the page to add additional interactivity, animations, and other effects. It takes time for browser to parse and execute those scripts, and each UI change may reflow your layout, make your load speed more slow.
-
-In various cases, using `async` or `defer` does not deliver faster page speed than [defer](#defer) or [deferscript](#deferscript) does.
-
-![Defer loading of JavaScript](docs/assets/defer-script.png)
-
-
 
 All you need to do now is just wrap all your code in `defer()` function.
 
@@ -189,9 +200,9 @@ In order to lazy-load your content, you must use some `data-` attributes instead
 💡 Best practice: To polyfill the native IntersectionObserver API in unsupporting browsers such as IE9, you may need to include below script right after the `defer_plus.min.js`.
 
 ```html
-<script src="//cdn.jsdelivr.net/npm/@shinsenter/defer.js@latest/dist/defer_plus.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/@shinsenter/defer.js/dist/defer_plus.min.js"></script>
 <script>
-    deferscript('//cdn.jsdelivr.net/npm/@shinsenter/defer.js@latest/dist/polyfill.min.js', 'polyfill-js', 1);
+    deferscript('//cdn.jsdelivr.net/npm/@shinsenter/defer.js/dist/polyfill.min.js', 'polyfill-js', 1);
 </script>
 ```
 
@@ -324,7 +335,7 @@ If you only need the `defer()` and `deferscript()` functions for lazy-loading Ja
 ```html
 <head>
     <title>My awesome page</title>
-    <script src="//cdn.jsdelivr.net/npm/@shinsenter/defer.js@latest/dist/defer.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/@shinsenter/defer.js/dist/defer.min.js"></script>
 </head>
 ```
 
@@ -499,7 +510,7 @@ Sometimes you may call a `callback` function when the file is loaded.
 | Argument | Type              | Description                                                  |
 | -------- | ----------------- | ------------------------------------------------------------ |
 | src      | String            | The URL of .js file.                                         |
-| id       | String or `false` | (Optional) The `id` attribute of of the &lt;script&gt; tag.  |
+| id       | String or `false` | (Optional) The `id` attribute of the &lt;script&gt; tag.  |
 | delay    | Integer           | (Optional) The delay time to start download and executing the .js file (in miliseconds). Default: 80. |
 | callback | Function          | (Optional) The callback function after the .js file is loaded and executed. |
 
@@ -518,7 +529,7 @@ Sometimes you may call a `callback` function when the file is loaded.
 | Argument | Type              | Description                                                  |
 | -------- | ----------------- | ------------------------------------------------------------ |
 | src      | String            | The URL of .css file.                                        |
-| id       | String or `false` | (Optional) The `id` attribute of of the &lt;link&gt; tag.    |
+| id       | String or `false` | (Optional) The `id` attribute of the &lt;link&gt; tag.    |
 | delay    | Integer           | (Optional) The delay time to start download and parsing the .css file (in miliseconds). Default: 80. |
 | callback | Function          | (Optional) The callback function after the .css file is loaded and executed. |
 
@@ -560,6 +571,22 @@ deferiframe(query_selector [, delay [, load_class [, callback ]]])
 
 
 
+## Extensions
+
+
+I am build other awesome extensions to integrate defer.js to your websites.
+
+### [defer.php](https://github.com/shinsenter/defer.php/releases)
+
+defer.php is a PHP helper class for your PHP website (compatible with Laravel, CodeIgniter...).
+
+
+### [defer-wordpress](https://github.com/shinsenter/defer-wordpress/releases)
+
+WordPress remains one of the most popular CMS platform until now. This is a WordPress plugin. Hope you guys like it.
+
+
+
 ## Demo
 
 
@@ -574,7 +601,7 @@ https://appseeds.net/defer.js/demo.html
 ## One more thing
 
 
-I added Wordpress demo of using defer.js.
+I added WordPress demo of using defer.js.
 
 You should open both of demo links in Private Mode, or make sure browser cache were cleared before the tests.
 
@@ -606,9 +633,13 @@ I did not minify HTML, CSS and JS files. You can not get the perfect score on Pa
 - Keep up-to-date with new releases:
   https://github.com/shinsenter/defer.js/releases
 
+
+
 ---
 
 Released under the MIT license.
 https://appseeds.net/defer.js/LICENSE
 
-Copyright (c) 2019 Mai Nhut Tan &lt;[shin@shin.company](mailto:shin@shin.company)&gt;
+Copyright (c) 2019 Mai Nhut Tan &lt;[shin@shin.company](mailto:shin@shin.company)&gt;.
+
+From Vietnam 🇻🇳 with love.
