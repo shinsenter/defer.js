@@ -126,6 +126,7 @@
             defer(function(observer, walker) {
                 // This function marks item initialized, then applies the callback
                 function filter(media){
+                    if(media[GET_ATTRIBUTE](LAZIED_SELECTOR)) {return;}
                     media[SET_ATTRIBUTE](LAZIED_SELECTOR, tagname);
                     walker(media);
                 }
@@ -158,7 +159,7 @@
                     walker = display;
                 }
 
-                [][FOR_EACH].call(document[QUERY_SELECTOR_ALL]((query || tagname + '[' + LAZY_SELECTOR + ']') + ':not([' + LAZIED_SELECTOR + '])'), filter);
+                [][FOR_EACH].call(document[QUERY_SELECTOR_ALL](query || tagname + '[' + LAZY_SELECTOR + ']:not([' + LAZIED_SELECTOR + '])'), filter);
             }, delay);
         }
     }
