@@ -40,7 +40,6 @@
     var deferimg_fn     = 'deferimg';
     var deferiframe_fn  = 'deferiframe';
 
-    var JQUERY_NAME     = 'jQuery';
     var OBSERVER_CLASS  = 'IntersectionObserver';
 
     // Real attributes for lazy-loaded media
@@ -73,14 +72,6 @@
     var FALSE   = false;
     var NOOP    = Function();
     var defer   = window.defer || NOOP;
-
-    /**
-     * This is a placeholder for jQuery's `$(function() { })` calls.
-     * It may be helpful when you want to lazy-load jQuery library.
-     */
-    if (!window[JQUERY_NAME]) {
-        window.$ = window[JQUERY_NAME] = defer;
-    }
 
     /**
      * This function will lazy-load stylesheet from given URL in `src` argument.
