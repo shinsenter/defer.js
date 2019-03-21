@@ -51,13 +51,13 @@
     var defer_fn        = 'defer';
     var deferscript_fn  = 'deferscript';
 
-    var SCRIPT  = 'SCRIPT';
-
     var ADD_EVENT_LISTENER   = 'addEventListener';
     var APPEND_CHILD         = 'appendChild';
     var CREATE_ELEMENT       = 'createElement';
     var GET_ELEMENT_BY_ID    = 'getElementById';
     var READY_STATE          = 'readyState';
+
+    var SCRIPT  = 'SCRIPT';
 
     dom_loaded = (/p/).test(document[READY_STATE]);
 
@@ -110,35 +110,6 @@
             }
         }, delay);
     }
-
-    /**
-     * [WIP]
-     * This function aims to provide both function
-     * throttling and debouncing in as few bytes as possible.
-     *
-     * @param   {function}  func        The file URL
-     * @param   {integer}   delay       The delay time to create the tag
-     * @param   {boolean}   throttle    Set false to debounce, true to throttle
-     * @param   {integer}   ticker      Placeholder for holding timer
-     * @returns {function}              Return a new function
-     */
-    // function defersmart(func, delay, throttle, ticker) {
-    //     return function() {
-    //         var context = this;
-    //         var args    = arguments;
-
-    //         if (!throttle) {
-    //             clearTimeout(ticker);
-    //         }
-
-    //         if (!throttle || !ticker) {
-    //             ticker = dequeue(function() {
-    //                 ticker = null;
-    //                 func.apply(context, args);
-    //             }, delay);
-    //         }
-    //     }
-    // }
 
     /**
      * This method will be triggled when `load` event was fired.

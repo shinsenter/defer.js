@@ -14,7 +14,7 @@
 ![GitHub Release Date](https://img.shields.io/github/release-date/shinsenter/defer.js.svg)
 ![npm](https://img.shields.io/npm/v/@shinsenter/defer.js.svg)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@shinsenter/defer.js.svg)
-![jsDelivr hits (GitHub)](https://img.shields.io/jsdelivr/gh/hm/shinsenter/defer.js.svg)
+[![jsDelivr hits (GitHub)](https://data.jsdelivr.com/v1/package/npm/@shinsenter/defer.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@shinsenter/defer.js)
 
 
 
@@ -72,7 +72,7 @@ According to a [Google PageSpeed Insights article](https://developers.google.com
 
 There is a common knowledge that you should use `<script src=".." async defer>` (or set `script.async = true` before assigning `src`, when you do it from JS) and/or put your scripts at the very bottom of the page, so that as much as possible of the page gets loaded and rendered to the user, as fast as possible.
 
-![Defer loading of JavaScript](docs/assets/defer-script.png)
+![Defer loading of JavaScript](docs/assets/defer-script.jpg)
 
 If your page is just an HTML page enhanced with some JavaScript, then you're good with just `<script async>`. It takes time for browser to parse and execute those scripts, and each UI change may reflow your layout, make your load speed more slow, no one likes staring at a blank white page; users are impatient and will leave quickly.
 

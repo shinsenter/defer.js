@@ -1,7 +1,8 @@
 * text=lf
-/demo.html -diff -merge
-/defer.min.js -diff -merge
-/defer.min.js.map -diff -merge
-/defer_plus.min.js -diff -merge
-/defer_plus.min.js.map -diff -merge
-/assets/polyfill.min.js -diff -merge
+/dist/defer.min.js -diff -merge
+/dist/defer.min.js.map -diff -merge
+/dist/defer_plus.min.js -diff -merge
+/dist/defer_plus.min.js.map -diff -merge
+/dist/polyfill.min.js -diff -merge
+/dist/polyfill.min.js.map -diff -merge
+/docs/* -diff -merge
