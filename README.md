@@ -581,7 +581,7 @@ I am build other awesome extensions to integrate defer.js to your websites.
 defer.php is a PHP helper class for your PHP website (compatible with Laravel, CodeIgniter...).
 
 
-### [defer-wordpress](https://github.com/shinsenter/defer-wordpress/releases)
+### [defer-wordpress](https://wordpress.org/plugins/shins-pageload-magic)
 
 WordPress remains one of the most popular CMS platform until now. This is a WordPress plugin. Hope you guys like it.
 
@@ -595,27 +595,6 @@ You can view full demo of using defer.js at below link.
 https://appseeds.net/defer.js/demo.html
 
 ✅ See Google Pagespeed Insights test result [here](https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Fappseeds.net%2Fdefer.js%2Fdemo.html).
-
-
-
-## One more thing
-
-
-I added WordPress demo of using defer.js.
-
-You should open both of demo links in Private Mode, or make sure browser cache were cleared before the tests.
-
-■ Original template:
-https://appseeds.net/defer.js/wp/original
-
-■ Optimized template with defer.js:
-https://appseeds.net/defer.js/wp/optimized
-
-🗂 *Sponsored:*
-In this demo, I used one HTML template of [Wayfarer Theme](https://www.theme-junkie.com/introducing-new-theme-wayfarer/). Thanks [Phát Bùi](https://www.facebook.com/sight.love) for sharing the HTML source.
-
-⚠️ *Disclamers:*
-I did not minify HTML, CSS and JS files. You can not get the perfect score on Pagespeed Test with this demo.
 
 
 
