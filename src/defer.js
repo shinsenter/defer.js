@@ -47,19 +47,12 @@
     // Variable placeholder
     dom_loaded
 ) {
+
     // Method names
     var defer_fn        = 'defer';
     var deferscript_fn  = 'deferscript';
 
-    var ADD_EVENT_LISTENER   = 'addEventListener';
-    var APPEND_CHILD         = 'appendChild';
-    var CREATE_ELEMENT       = 'createElement';
-    var GET_ELEMENT_BY_ID    = 'getElementById';
-    var READY_STATE          = 'readyState';
-
-    var SCRIPT  = 'SCRIPT';
-
-    dom_loaded = (/p/).test(document[READY_STATE]);
+    dom_loaded = (/p/).test(document.readyState);
 
     /**
      * This is our hero: the `defer` function.
@@ -82,6 +75,51 @@
     }
 
     /**
+     * This method will be triggled when `load` event was fired.
+     * This will also turn `dom_loaded` into `true`...
+     * ... and run all function in queue using `dequeue` method.
+     *
+     * @returns {void}
+     */
+    function flushqueue () {
+        dom_loaded = load_event;
+
+        for (;func_queue.length;) {
+            defer(func_queue.shift(), func_queue.shift());
+        }
+    }
+
+    // Add event listener into global scope
+    window.addEventListener('on' + load_event in window ? load_event : 'load', flushqueue);
+
+    /**
+     * Create a DOM element if not exist.
+     *
+     * @param   {string}    tag         Tag name
+     * @param   {string}    id          The DOM's id
+     * @param   {function}  callback    The callback function when load
+     * @param   {object}    dom         The placeholder for the DOM
+     * @returns {object}    The DOM
+     */
+    function dom(tag, id, callback, dom) {
+        if (!id || !document.getElementById(id)) {
+            dom = document.createElement(tag);
+
+            if (id) {
+                dom.id = id;
+            }
+
+            if (callback) {
+                dom.onload = callback;
+            }
+
+            document.head.appendChild(dom);
+        }
+
+        return dom || {};
+    }
+
+    /**
      * This function will lazy-load a script from given URL in `src` argument.
      * The tag id and delay time can be set in `id` and `delay` arguments.
      * Sometimes you may call a `callback` function when the file is loaded.
@@ -93,43 +131,14 @@
      * @returns {void}
      */
     function deferscript (src, id, delay, callback) {
-        defer(function(dom) {
-            if (!document[GET_ELEMENT_BY_ID](id)) {
-                dom = document[CREATE_ELEMENT](SCRIPT);
-
-                if (id) {
-                    dom.id = id;
-                }
-
-                if (callback) {
-                    dom.onload = callback;
-                }
-
-                dom.src = src;
-                document.head[APPEND_CHILD](dom);
-            }
+        defer(function(element) {
+            element = dom('SCRIPT', id, callback);
+            element.src = src;
         }, delay);
     }
 
-    /**
-     * This method will be triggled when `load` event was fired.
-     * This will also turn `dom_loaded` into `true`...
-     * ... and run all function in queue using `dequeue` method.
-     *
-     * @returns {void}
-     */
-    function flushqueue () {
-        dom_loaded = 1;
-
-        for (;func_queue.length;) {
-            defer(func_queue.shift(), func_queue.shift());
-        }
-    }
-
-    // Add event listener into global scope
-    window[ADD_EVENT_LISTENER]('on' + load_event in window ? load_event : 'load', flushqueue);
-
     // Export functions into the global scope
+    defer.$                = dom;
     window[defer_fn]       = defer;
     window[deferscript_fn] = deferscript;
 

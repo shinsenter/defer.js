@@ -43,10 +43,10 @@
     var OBSERVER_CLASS  = 'IntersectionObserver';
 
     // Real attributes for lazy-loaded media
-    var SRC     = 'src';
-    var SRCSET  = 'srcset';
-    var STYLE   = 'style';
-    var DATA    = 'data';
+    var ATTR_SRC    = 'src';
+    var ATTR_SRCSET = 'srcset';
+    var ATTR_STYLE  = 'style';
+    var ATTR_DATA   = 'data';
 
     // Tag names
     var IFRAME  = 'IFRAME';
@@ -54,17 +54,11 @@
     var LINK    = 'LINK';
 
     // Tag attributes
-    var LAZIED_CLASS    = 'lazied';
-    var DATASET_PREFIX  = 'data-';
-    var LAZY_SELECTOR   = DATASET_PREFIX + SRC;
-    var LAZIED_SELECTOR = DATASET_PREFIX + LAZIED_CLASS;
+    var APPLIED_CLASS       = 'lazied';
+    var DATASET_PREFIX      = 'data-';
+    var APPLIED_SELECTOR    = DATASET_PREFIX + APPLIED_CLASS;
 
-    var APPEND_CHILD        = 'appendChild';
-    var CLASS_NAME          = 'className';
-    var CREATE_ELEMENT      = 'createElement';
     var FOR_EACH            = 'forEach';
-    var GET_ELEMENT_BY_ID   = 'getElementById';
-    var QUERY_SELECTOR_ALL  = 'querySelectorAll';
     var GET_ATTRIBUTE       = 'getAttribute';
     var SET_ATTRIBUTE       = 'setAttribute';
 
@@ -72,6 +66,7 @@
     var FALSE   = false;
     var NOOP    = Function();
     var defer   = window.defer || NOOP;
+    var dom     = defer.$ || NOOP;
 
     /**
      * This function will lazy-load stylesheet from given URL in `src` argument.
@@ -85,22 +80,10 @@
      * @returns {void}
      */
     function deferstyle (src, id, delay, callback) {
-        defer(function(dom) {
-            if (!document[GET_ELEMENT_BY_ID](id)) {
-                dom = document[CREATE_ELEMENT](LINK);
-                dom.rel = 'stylesheet';
-
-                if (id) {
-                    dom.id = id;
-                }
-
-                if (callback) {
-                    dom.onload = callback;
-                }
-
-                dom.href = src;
-                document.head[APPEND_CHILD](dom);
-            }
+        defer(function(element) {
+            element      = dom(LINK, id, callback)
+            element.rel  = 'stylesheet';
+            element.href = src;
         }, delay);
     }
 
@@ -117,20 +100,20 @@
             defer(function(observer, walker) {
                 // This function marks item initialized, then applies the callback
                 function filter(media){
-                    if(media[GET_ATTRIBUTE](LAZIED_SELECTOR)) {return;}
-                    media[SET_ATTRIBUTE](LAZIED_SELECTOR, tagname);
+                    if(media[GET_ATTRIBUTE](APPLIED_SELECTOR)) {return;}
+                    media[SET_ATTRIBUTE](APPLIED_SELECTOR, tagname);
                     walker(media);
                 }
 
                 // This method sets the real attributes
                 function display(media) {
                     if ((callback || NOOP).call(media, media) !== FALSE) {
-                        (attributes || [SRCSET, SRC, DATA, STYLE])[FOR_EACH](function(attr, value) {
+                        (attributes || [ATTR_SRCSET, ATTR_SRC, ATTR_DATA, ATTR_STYLE])[FOR_EACH](function(attr, value) {
                             value = media[GET_ATTRIBUTE](DATASET_PREFIX + attr);
                             if (value) {media[attr] = value}
                         });
                     }
-                    media[CLASS_NAME] += ' ' + (lazied_class || LAZIED_CLASS);
+                    media.className += ' ' + (lazied_class || APPLIED_CLASS);
                 }
 
                 // Force using IntersectionObserver when posible
@@ -150,7 +133,7 @@
                     walker = display;
                 }
 
-                [][FOR_EACH].call(document[QUERY_SELECTOR_ALL](query || tagname + '[' + LAZY_SELECTOR + ']:not([' + LAZIED_SELECTOR + '])'), filter);
+                [][FOR_EACH].call(document.querySelectorAll(query || tagname + '[' + DATASET_PREFIX + ATTR_SRC + ']:not([' + APPLIED_SELECTOR + '])'), filter);
             }, delay);
         }
     }
