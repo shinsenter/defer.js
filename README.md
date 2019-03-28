@@ -36,7 +36,7 @@
     - [Lazy-load media](#lazy-load-media)
         - [Lazy an image or a video](#lazy-an-image-or-a-video)
             - [Basic HTML markup](#basic-html-markup)
-            - [Lazy an image with low quality placeholder](#lazy-an-image-with-low-quality-placeholder)
+            - [Lazy an image with a low quality placeholder](#lazy-an-image-with-a-low-quality-placeholder)
             - [Lazy a responsive image with `srcset` and `sizes` attributes](#lazy-a-responsive-image-with-srcset-and-sizes-attributes)
             - [Lazy a responsive image with flexible format selection](#lazy-a-responsive-image-with-flexible-format-selection)
             - [Lazy a responsive image with retina or Hi-DPI support](#lazy-a-responsive-image-with-retina-or-hi-dpi-support)
@@ -57,7 +57,6 @@
     - [defer.php](#deferphp)
     - [defer-wordpress](#defer-wordpress)
 - [Demo](#demo)
-- [One more thing](#one-more-thing)
 - [Keep in touch](#keep-in-touch)
 
 
