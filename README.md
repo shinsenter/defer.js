@@ -32,6 +32,8 @@
 - [Install to your page](#install-to-your-page)
 - [Basic usage](#basic-usage)
     - [Defer loading of JavaScript](#defer-loading-of-javascript)
+        - [The easiest way to defer JavaScript](#the-easiest-way-to-defer-java-script)
+        - [Dynamically load and run JavaScript](#dynamically-load-and-run-java-script)
     - [Lazy-load stylesheets](#lazy-load-stylesheets)
     - [Lazy-load media](#lazy-load-media)
         - [Lazy an image or a video](#lazy-an-image-or-a-video)
@@ -140,6 +142,36 @@ npm install @shinsenter/defer.js
 
 
 ### Defer loading of JavaScript
+
+JavaScript execuations, especially ones that trigger extensive visual changes, can stall application performance.
+
+Delaying loading and executing most of the JavaScript on your site minimizes the time it slows down the page rendering process. Your site will get a higher score in website speed tests.
+
+
+
+#### The easiest way to defer JavaScript
+
+The easiest way to delay the execution of the existing `<script>` tags on your site is to modify the `type` attribute of the tag to `deferjs` (<u>except the one which contains [defer_plus.min.js](#install-to-your-page) or [defer.min.js](#minimal-version))</u>.
+
+For example: if we have 2 script tags like this.
+
+```html
+<script type="text/javascript">/* my inline script */</script>
+<script type="text/javascript" src="path/to/my/script.js"></script>
+```
+
+Just change `type="text/javascript"` to `type="deferjs"`, like this:
+
+```html
+<script type="deferjs">/* my inline script */</script>
+<script type="deferjs" src="path/to/my/script.js"></script>
+```
+
+*Note: This method can only be used since version 1.1.5.*
+
+
+
+#### Dynamically load and run JavaScript
 
 All you need to do now is just wrap all your code in `defer()` function.
 

@@ -61,12 +61,19 @@
     var FOR_EACH            = 'forEach';
     var GET_ATTRIBUTE       = 'getAttribute';
     var SET_ATTRIBUTE       = 'setAttribute';
+    var REMOVE_ATTRIBUTE    = 'removeAttribute';
+    var APPEND_CHILD        = 'appendChild'
 
     // Common used constants
     var FALSE   = false;
     var NOOP    = Function();
     var defer   = window.defer || NOOP;
-    var dom     = defer.$ || NOOP;
+    var dom     = defer.dom || NOOP;
+
+    // Query selector
+    function query(selector) {
+        return [].slice.call(document.querySelectorAll(selector));
+    }
 
     /**
      * This function will lazy-load stylesheet from given URL in `src` argument.
@@ -96,7 +103,7 @@
      * @returns {function}              The returned function
      */
     function defermedia (tagname) {
-        return function (query, delay, lazied_class, callback, options, attributes) {
+        return function (selector, delay, lazied_class, callback, options, attributes) {
             defer(function(observer, walker) {
                 // This function marks item initialized, then applies the callback
                 function filter(media){
@@ -133,14 +140,53 @@
                     walker = display;
                 }
 
-                [][FOR_EACH].call(document.querySelectorAll(query || tagname + '[' + DATASET_PREFIX + ATTR_SRC + ']:not([' + APPLIED_SELECTOR + '])'), filter);
+                query(selector || tagname + '[' + DATASET_PREFIX + ATTR_SRC + ']:not([' + APPLIED_SELECTOR + '])')[FOR_EACH](filter);
             }, delay);
         }
     }
 
+    /**
+     * The easiest way to delay the execution of the existing <script> tags on website.
+     *
+     * @returns {void}
+     */
+    function defersmart() {
+        var head = document.head;
+
+        function loadscript(scripts, tag) {
+            scripts = query('script[type=deferjs]');
+            scripts[FOR_EACH](function(tag) {
+                tag.parentNode.removeChild(tag);
+                tag[REMOVE_ATTRIBUTE]('type');
+            });
+
+            function appendtag() {
+                if (scripts.length > 0) {
+                    tag = scripts.shift();
+
+                    if (tag.src != '' && !tag.hasAttribute('async')) {
+                        tag.onload = tag.onerror = appendtag
+                        head[APPEND_CHILD](tag);
+                    } else {
+                        head[APPEND_CHILD](tag);
+                        appendtag();
+                    }
+                }
+            }
+
+            appendtag();
+        }
+
+        defer(loadscript, 2);
+    }
+
     // Export functions into the global scope
+    defer.all              = defersmart;
     window[deferstyle_fn]  = deferstyle;
     window[deferimg_fn]    = defermedia(IMG);
     window[deferiframe_fn] = defermedia(IFRAME);
+
+    // Run once onload
+    defersmart();
 
 })(this, document);

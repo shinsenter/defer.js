@@ -39,11 +39,11 @@ SOFTWARE.
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="crossorigin">
 
-    <!-- <script src="../dist/defer_plus.min.js?v=1.1.4"></script> -->
+    <!-- <script src="../dist/defer_plus.min.js?v=1.1.5"></script> -->
     <!-- <script>deferscript('../dist/polyfill.min.js', 'polyfill-js', 1)</script> -->
 
-    <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.4/dist/defer_plus.min.js"></script>
-    <script>deferscript('https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.4/dist/polyfill.min.js', 'polyfill-js', 1)</script>
+    <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.5/dist/defer_plus.min.js"></script>
+    <script>deferscript('https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.5/dist/polyfill.min.js', 'polyfill-js', 1)</script>
 
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="mobile-web-app-capable" content="yes">
@@ -346,10 +346,10 @@ SOFTWARE.
             <br />
             <pre class="notranslate"><code>Code:</code><code class="highlight html">&lt;head&gt;
     &lt;title&gt;My awesome page&lt;/title&gt;
-    &lt;script src="//appseeds.net/defer.js/dist/defer_plus.min.js"&gt;&lt;/script&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.5/dist/defer_plus.min.js"&gt;&lt;/script&gt;
 
     &lt;!-- You may want to add small polyfill for IE 9~11 --&gt;
-    &lt;script&gt;deferscript('//appseeds.net/defer.js/assets/polyfill.min.js', 'polyfill-js', 1)&lt;/script&gt;
+    &lt;script&gt;deferscript('https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.5/dist/polyfill.min.js', 'polyfill-js', 1)&lt;/script&gt;
 &lt;/head&gt;</code></pre>
             <p>Because the <a href="https://github.com/shinsenter/defer.js/blob/master/defer_plus.min.js" target="_blank" title="minified version of defer.js">minified version</a> of defer.js is super
                 tiny, you can inline its content directly into the
@@ -359,7 +359,23 @@ SOFTWARE.
             </p>
         </div>
 
-        <div>
+        <div id="easiest-way">
+            <h3>The easiest way to defer JavaScript</h3>
+
+            <p>The easiest way to delay the execution of the existing <code>&lt;script&gt;</code> tags on your site is to modify the <code>type</code> attribute of the tag to <code>deferjs</code> <u>(except the one which contains defer_plus.min.js or defer.min.js)</u>.</p>
+
+            <p>For example: if we have 2 script tags like this.</p>
+            <pre class="notranslate"><code>Code:</code><code class="highlight html">&lt;script type="text/javascript"&gt;/* my inline script */&lt;/script&gt;
+&lt;script type="text/javascript" src="path/to/my/script.js"&gt;&lt;/script&gt;</code></pre>
+
+                <p>Just change `type="text/javascript"` to `type="deferjs"`, like this:</p>
+                <pre class="notranslate"><code>Code:</code><code class="highlight html">&lt;script type="deferjs"&gt;/* my inline script */&lt;/script&gt;
+&lt;script type="deferjs" src="path/to/my/script.js"&gt;&lt;/script&gt;</code></pre>
+
+            <p><i>Note: This method can only be used since version 1.1.5.</i></p>
+        </div>
+
+        <div id="developer-tool">
             <p>You can use browser's <strong>Developer Tool</strong> (press F12 key) to watch how requests are sent.</p>
             <!-- <p>I added some spaces with gray background to demo lazy-load. Please scroll down.</p> -->
             <p>Looking for a complex demo? Check this <a href="#wordpress-demo" title="Wordpress demo">Wordpress demo</a>.</p>
@@ -702,6 +718,12 @@ deferiframe('iframe.video', 100, 'lazied', function(frame) {
         }, 201);
     });
     </script>
+
+    <script type="deferjs">console.log('deferjs script tags test 1');</script>
+    <script type="deferjs">console.log('deferjs script tags test 2');</script>
+    <script type="deferjs">console.log('deferjs script tags test 3');</script>
+    <script type="deferjs">console.log('deferjs script tags test 4');</script>
+    <script type="deferjs">console.log('deferjs script tags test 5');</script>
 </body>
 
 </html>

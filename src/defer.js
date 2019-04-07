@@ -138,7 +138,7 @@
     }
 
     // Export functions into the global scope
-    defer.$                = dom;
+    defer.dom              = dom;
     window[defer_fn]       = defer;
     window[deferscript_fn] = deferscript;
 
