@@ -32,8 +32,8 @@
 - [Install to your page](#install-to-your-page)
 - [Basic usage](#basic-usage)
     - [Defer loading of JavaScript](#defer-loading-of-javascript)
-        - [The easiest way to defer JavaScript](#the-easiest-way-to-defer-java-script)
-        - [Dynamically load and run JavaScript](#dynamically-load-and-run-java-script)
+        - [The easiest way to defer JavaScript](#the-easiest-way-to-defer-javascript)
+        - [Dynamically load and run JavaScript](#dynamically-load-and-run-javascript)
     - [Lazy-load stylesheets](#lazy-load-stylesheets)
     - [Lazy-load media](#lazy-load-media)
         - [Lazy an image or a video](#lazy-an-image-or-a-video)
@@ -143,7 +143,7 @@ npm install @shinsenter/defer.js
 
 ### Defer loading of JavaScript
 
-JavaScript execuations, especially ones that trigger extensive visual changes, can stall application performance.
+JavaScript executions, especially ones that trigger extensive visual changes, can stall application performance.
 
 Delaying loading and executing most of the JavaScript on your site minimizes the time it slows down the page rendering process. Your site will get a higher score in website speed tests.
 
