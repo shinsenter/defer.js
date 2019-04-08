@@ -47,6 +47,7 @@
     var ATTR_SRCSET = 'srcset';
     var ATTR_STYLE  = 'style';
     var ATTR_DATA   = 'data';
+    var ATTR_TYPE   = 'type';
 
     // Tag names
     var IFRAME  = 'IFRAME';
@@ -86,7 +87,7 @@
      * @param   {function}      callback    The callback function when load
      * @returns {void}
      */
-    function deferstyle (src, id, delay, callback) {
+    function deferstyle(src, id, delay, callback) {
         defer(function(element) {
             element      = dom(LINK, id, callback)
             element.rel  = 'stylesheet';
@@ -102,12 +103,12 @@
      * @param   {string}    tagname     The tag name (E.g. IMG, IFRAME)
      * @returns {function}              The returned function
      */
-    function defermedia (tagname) {
-        return function (selector, delay, lazied_class, callback, options, attributes) {
+    function defermedia(tagname) {
+        return function(selector, delay, lazied_class, callback, options, attributes) {
             defer(function(observer, walker) {
                 // This function marks item initialized, then applies the callback
-                function filter(media){
-                    if(media[GET_ATTRIBUTE](APPLIED_SELECTOR)) {return;}
+                function filter(media) {
+                    if (media[GET_ATTRIBUTE](APPLIED_SELECTOR)) {return;}
                     media[SET_ATTRIBUTE](APPLIED_SELECTOR, tagname);
                     walker(media);
                 }
@@ -153,23 +154,26 @@
     function defersmart() {
         var head = document.head;
 
-        function loadscript(scripts, tag) {
-            scripts = query('script[type=deferjs]');
+        function loadscript(scripts, tag, base, async) {
+            base    = 'script[type=deferjs]';
+            async   = '[async]';
+            scripts = [].concat(query(base + ':not(' + async +')'), query(base + async));
+
             scripts[FOR_EACH](function(tag) {
                 tag.parentNode.removeChild(tag);
-                tag[REMOVE_ATTRIBUTE]('type');
+                tag[REMOVE_ATTRIBUTE](ATTR_TYPE);
             });
 
             function appendtag() {
                 if (scripts.length > 0) {
                     tag = scripts.shift();
 
-                    if (tag.src != '' && !tag.hasAttribute('async')) {
+                    if (tag[ATTR_SRC] && !tag.hasAttribute('async')) {
                         tag.onload = tag.onerror = appendtag
                         head[APPEND_CHILD](tag);
                     } else {
                         head[APPEND_CHILD](tag);
-                        appendtag();
+                        defer(appendtag, 0.1);
                     }
                 }
             }
@@ -177,14 +181,14 @@
             appendtag();
         }
 
-        defer(loadscript, 2);
+        defer(loadscript, 8);
     }
 
     // Export functions into the global scope
-    defer.all              = defersmart;
-    window[deferstyle_fn]  = deferstyle;
-    window[deferimg_fn]    = defermedia(IMG);
-    window[deferiframe_fn] = defermedia(IFRAME);
+    defer.all               = defersmart;
+    window[deferstyle_fn]   = deferstyle;
+    window[deferimg_fn]     = defermedia(IMG);
+    window[deferiframe_fn]  = defermedia(IFRAME);
 
     // Run once onload
     defersmart();

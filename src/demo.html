@@ -39,11 +39,11 @@ SOFTWARE.
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="crossorigin">
 
-    <!-- <script src="../dist/defer_plus.min.js?v=1.1.5"></script> -->
-    <!-- <script>deferscript('../dist/polyfill.min.js', 'polyfill-js', 1)</script> -->
+    <!-- <script src="../dist/defer_plus.min.js?v=1.1.6"></script> -->
+    <!-- <script type="deferjs">deferscript('../dist/polyfill.min.js', 'polyfill-js', 1)</script> -->
 
-    <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.5/dist/defer_plus.min.js"></script>
-    <script>deferscript('https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.5/dist/polyfill.min.js', 'polyfill-js', 1)</script>
+    <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.6/dist/defer_plus.min.js"></script>
+    <script type="deferjs">deferscript('https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.6/dist/polyfill.min.js', 'polyfill-js', 1)</script>
 
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="mobile-web-app-capable" content="yes">
@@ -292,7 +292,7 @@ SOFTWARE.
         }
     </style>
 
-    <script>
+    <script type="deferjs">
         // For Google Analytics
         window.dataLayer = window.dataLayer || [];
 
@@ -346,10 +346,10 @@ SOFTWARE.
             <br />
             <pre class="notranslate"><code>Code:</code><code class="highlight html">&lt;head&gt;
     &lt;title&gt;My awesome page&lt;/title&gt;
-    &lt;script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.5/dist/defer_plus.min.js"&gt;&lt;/script&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.6/dist/defer_plus.min.js"&gt;&lt;/script&gt;
 
     &lt;!-- You may want to add small polyfill for IE 9~11 --&gt;
-    &lt;script&gt;deferscript('https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.5/dist/polyfill.min.js', 'polyfill-js', 1)&lt;/script&gt;
+    &lt;script&gt;deferscript('https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.6/dist/polyfill.min.js', 'polyfill-js', 1)&lt;/script&gt;
 &lt;/head&gt;</code></pre>
             <p>Because the <a href="https://github.com/shinsenter/defer.js/blob/master/defer_plus.min.js" target="_blank" title="minified version of defer.js">minified version</a> of defer.js is super
                 tiny, you can inline its content directly into the
@@ -469,13 +469,13 @@ deferimg('img.basic', 100);
 &lt;/script&gt;</code></pre>
             </div>
 
-            <script>
+            <script type="deferjs">
                 deferimg('img.basic', 100, 'lazied', function (img) {
                     img.onload = function () {
                         img.className += ' show';
                     }
                 }, {
-                    rootMargin: '100px'
+                    rootMargin: '200px'
                 });
             </script>
         </div>
@@ -557,7 +557,7 @@ deferimg('img.fade', 100, 'lazied', function(img) {
 &lt;/script&gt;</code></pre>
             </div>
 
-            <script>
+            <script type="deferjs">
                 deferimg('img.fade', 100, 'lazied', function (img) {
                     img.onload = function () {
                         img.className += ' show';
@@ -605,7 +605,7 @@ deferiframe('iframe.video', 100, 'lazied', function(frame) {
 &lt;/script&gt;</code></pre>
         </div>
 
-        <script>
+        <script type="deferjs">
             deferiframe('iframe.video, div.aspect', 100, 'lazied', function (frame) {
                 frame.onload = function () {
                     frame.className += ' show';
@@ -689,7 +689,7 @@ deferiframe('iframe.video', 100, 'lazied', function(frame) {
         <p>From <span class="big" title="Vietnam">🇻🇳</span> with love.</p>
     </div>
 
-    <script>
+    <script type="deferjs">
     // Defer Test
     defer(function () {
         window.console = window.console || {}
