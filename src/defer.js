@@ -84,13 +84,10 @@
     function flushqueue () {
         dom_loaded = load_event;
 
-        for (;func_queue.length;) {
+        for (;func_queue[0];) {
             defer(func_queue.shift(), func_queue.shift());
         }
     }
-
-    // Add event listener into global scope
-    window.addEventListener('on' + load_event in window ? load_event : 'load', flushqueue);
 
     /**
      * Create a DOM element if not exist.
@@ -103,7 +100,7 @@
      */
     function dom(tag, id, callback, dom) {
         if (!id || !document.getElementById(id)) {
-            dom = document.createElement(tag);
+            dom = document.createElement(tag || 'SCRIPT');
 
             if (id) {
                 dom.id = id;
@@ -132,14 +129,17 @@
      */
     function deferscript (src, id, delay, callback) {
         defer(function(element) {
-            element = dom('SCRIPT', id, callback);
+            element     = dom(false, id, callback);
             element.src = src;
         }, delay);
     }
 
     // Export functions into the global scope
-    defer.dom              = dom;
-    window[defer_fn]       = defer;
+    defer.dom        = dom;
+    window[defer_fn] = defer;
+
+    // Add event listener into global scope
+    window.addEventListener('on' + load_event in window ? load_event : 'load', flushqueue);
     window[deferscript_fn] = deferscript;
 
 })(this, document, 'pageshow', setTimeout, []);
