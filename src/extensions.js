@@ -154,19 +154,23 @@
     function defersmart() {
         var head = document.head;
 
-        function loadscript(scripts, tag, base, async) {
+        function loadscript(scripts, tag, base, attr) {
             base    = 'script[type=deferjs]';
-            async   = '[async]';
-            scripts = [].concat(query(base + ':not(' + async +')'), query(base + async));
-
-            scripts[FOR_EACH](function(tag) {
-                tag.parentNode.removeChild(tag);
-                tag[REMOVE_ATTRIBUTE](ATTR_TYPE);
-            });
+            attr    = '[async]';
+            scripts = [].concat(query(base + ':not(' + attr +')'), query(base + attr));
 
             function appendtag() {
-                if (scripts.length > 0) {
-                    tag = scripts.shift();
+                if (scripts != FALSE) {
+                    tag  = dom();
+                    base = scripts.shift();
+                    base.parentNode.removeChild(base);
+                    base[REMOVE_ATTRIBUTE](ATTR_TYPE);
+
+                    for (attr in base) {
+                        if (typeof base[attr] == 'string' && tag[attr] != base[attr]) {
+                            tag[attr] = base[attr];
+                        }
+                    }
 
                     if (tag[ATTR_SRC] && !tag.hasAttribute('async')) {
                         tag.onload = tag.onerror = appendtag
