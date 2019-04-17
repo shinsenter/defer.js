@@ -3,15 +3,14 @@
 🥇 A super tiny, native performant library for lazy-loading JS, CSS, images, iframes... Defer almost anything, easily speed up your website.
 
 
-![HitCount](http://hits.dwyl.com/shinsenter/defer.js.svg)
 ![GitHub](https://img.shields.io/github/license/shinsenter/defer.js.svg)
+![GitHub Release Date](https://img.shields.io/github/release-date/shinsenter/defer.js.svg)
 
 [![CodeFactor](https://www.codefactor.io/repository/github/shinsenter/defer.js/badge)](https://www.codefactor.io/repository/github/shinsenter/defer.js)
+![GitHub issues](https://img.shields.io/github/issues-raw/shinsenter/defer.js.svg)
 ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/shinsenter/defer.js.svg)
 [![Post an issue](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/shinsenter/defer.js/issues)
-![GitHub issues](https://img.shields.io/github/issues-raw/shinsenter/defer.js.svg)
 
-![GitHub Release Date](https://img.shields.io/github/release-date/shinsenter/defer.js.svg)
 ![npm](https://img.shields.io/npm/v/@shinsenter/defer.js.svg)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@shinsenter/defer.js.svg)
 [![jsDelivr hits (GitHub)](https://data.jsdelivr.com/v1/package/npm/@shinsenter/defer.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@shinsenter/defer.js)
@@ -244,7 +243,7 @@ In order to lazy-load your content, you must use some `data-` attributes instead
 Put this script anywhere you want within the `<body>` tag:
 
 ```html
-<script>deferimg('img[data-src], source[data-src]')</script>
+<script>deferimg('img[data-src],picture,video,audio')</script>
 ```
 
 

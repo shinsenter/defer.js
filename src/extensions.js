@@ -40,40 +40,44 @@
     var deferimg_fn     = 'deferimg';
     var deferiframe_fn  = 'deferiframe';
 
+    // IntersectionObserver class
     var OBSERVER_CLASS  = 'IntersectionObserver';
 
     // Real attributes for lazy-loaded media
     var ATTR_SRC    = 'src';
     var ATTR_SRCSET = 'srcset';
     var ATTR_STYLE  = 'style';
-    var ATTR_DATA   = 'data';
     var ATTR_TYPE   = 'type';
 
     // Tag names
     var IFRAME  = 'IFRAME';
     var IMG     = 'IMG';
     var LINK    = 'LINK';
+    var SOURCE  = 'SOURCE';
 
     // Tag attributes
     var APPLIED_CLASS       = 'lazied';
     var DATASET_PREFIX      = 'data-';
     var APPLIED_SELECTOR    = DATASET_PREFIX + APPLIED_CLASS;
 
+    // Element methods
+    var LOAD                = 'load';
     var FOR_EACH            = 'forEach';
+    var APPEND_CHILD        = 'appendChild';
     var GET_ATTRIBUTE       = 'getAttribute';
     var SET_ATTRIBUTE       = 'setAttribute';
     var REMOVE_ATTRIBUTE    = 'removeAttribute';
-    var APPEND_CHILD        = 'appendChild'
 
     // Common used constants
-    var FALSE   = false;
+    var HEAD    = document.head;
     var NOOP    = Function();
+    var FALSE   = false;
     var defer   = window.defer || NOOP;
-    var dom     = defer.dom || NOOP;
+    var dom     = defer.dom    || NOOP;
 
     // Query selector
-    function query(selector) {
-        return [].slice.call(document.querySelectorAll(selector));
+    function query(selector, parent) {
+        return [].slice.call((parent || document).querySelectorAll(selector));
     }
 
     /**
@@ -116,18 +120,23 @@
                 // This method sets the real attributes
                 function display(media) {
                     if ((callback || NOOP).call(media, media) !== FALSE) {
-                        (attributes || [ATTR_SRCSET, ATTR_SRC, ATTR_DATA, ATTR_STYLE])[FOR_EACH](function(attr, value) {
+                        query(SOURCE, media)[FOR_EACH](display);
+
+                        (attributes || [ATTR_SRCSET, ATTR_SRC, ATTR_STYLE])[FOR_EACH](function(attr, value) {
                             value = media[GET_ATTRIBUTE](DATASET_PREFIX + attr);
                             if (value) {media[attr] = value}
                         });
+
+                        if (LOAD in media) {media[LOAD]();}
                     }
+
                     media.className += ' ' + (lazied_class || APPLIED_CLASS);
                 }
 
                 // Force using IntersectionObserver when posible
                 // It class is the heart of media lazy-loading
                 if (OBSERVER_CLASS in window) {
-                    observer = new window[OBSERVER_CLASS](function(items) {
+                    observer = window[OBSERVER_CLASS](function(items) {
                         items[FOR_EACH](function(item, target) {
                             if (item.isIntersecting && (target = item.target)) {
                                 observer.unobserve(target);
@@ -152,8 +161,6 @@
      * @returns {void}
      */
     function defersmart() {
-        var head = document.head;
-
         function loadscript(scripts, tag, base, attr) {
             base    = 'script[type=deferjs]';
             attr    = '[async]';
@@ -174,9 +181,9 @@
 
                     if (tag[ATTR_SRC] && !tag.hasAttribute('async')) {
                         tag.onload = tag.onerror = appendtag
-                        head[APPEND_CHILD](tag);
+                        HEAD[APPEND_CHILD](tag);
                     } else {
-                        head[APPEND_CHILD](tag);
+                        HEAD[APPEND_CHILD](tag);
                         defer(appendtag, 0.1);
                     }
                 }
