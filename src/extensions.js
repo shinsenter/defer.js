@@ -136,7 +136,7 @@
                 // Force using IntersectionObserver when posible
                 // It class is the heart of media lazy-loading
                 if (OBSERVER_CLASS in window) {
-                    observer = window[OBSERVER_CLASS](function(items) {
+                    observer = new window[OBSERVER_CLASS](function(items) {
                         items[FOR_EACH](function(item, target) {
                             if (item.isIntersecting && (target = item.target)) {
                                 observer.unobserve(target);
