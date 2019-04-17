@@ -1,6 +1,6 @@
 {
   "name": "@shinsenter/defer.js",
-  "version": "1.1.7",
+  "version": "1.1.7b",
   "description": "🥇 A super tiny, native performant library for lazy-loading JS, CSS, images, iframes... Defer almost anything, easily speed up your website. https://github.com/shinsenter/defer.js",
   "homepage": "https://github.com/shinsenter/defer.js#readme",
   "author": "Mai Nhut Tan <shin@shin.company>",
