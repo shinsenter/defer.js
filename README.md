@@ -630,6 +630,7 @@ https://appseeds.net/defer.js/demo.html
 
 ## Keep in touch
 
+[![Donate via Paypal](https://pics.paypal.com/00/s/NTQ4M2ZiN2YtZDg1My00ZmRiLWJiMDQtMTFlMjg2ODY2N2Uy/file.PNG)](https://www.paypal.me/shinsenter)
 
 [![Become a sponsor](https://c5.patreon.com/external/logo/become_a_patron_button@2x.png)](https://www.patreon.com/appseeds)
 
