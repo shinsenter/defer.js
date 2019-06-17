@@ -48,10 +48,7 @@
     dom_loaded
 ) {
 
-    // Method names
-    var defer_fn        = 'defer';
-    var deferscript_fn  = 'deferscript';
-
+    // Check if load event was fired
     dom_loaded = (/p/).test(document.readyState);
 
     /**
@@ -64,8 +61,8 @@
      * @returns {void}
      */
     function defer (func, delay) {
-        // Let's set default timeout to 5 browser tick cycles
-        var default_delay = 80;
+        // Let's set default timeout to 2 browser tick cycles
+        var default_delay = 32;
 
         if (dom_loaded) {
             dequeue(func, delay || default_delay);
@@ -100,7 +97,7 @@
      */
     function dom(tag, id, callback, dom) {
         if (!id || !document.getElementById(id)) {
-            dom = document.createElement(tag || 'SCRIPT');
+            dom = document.createElement(tag||'SCRIPT');
 
             if (id) {
                 dom.id = id;
@@ -129,17 +126,17 @@
      */
     function deferscript (src, id, delay, callback) {
         defer(function(element) {
-            element     = dom(false, id, callback);
+            element     = dom(0, id, callback);
             element.src = src;
         }, delay);
     }
 
-    // Export functions into the global scope
-    defer.dom        = dom;
-    window[defer_fn] = defer;
-
     // Add event listener into global scope
     window.addEventListener('on' + load_event in window ? load_event : 'load', flushqueue);
-    window[deferscript_fn] = deferscript;
+
+    // Export functions into the global scope
+    defer._             = dom;
+    window.defer        = defer;
+    window.deferscript  = deferscript;
 
 })(this, document, 'pageshow', setTimeout, []);

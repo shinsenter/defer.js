@@ -35,11 +35,6 @@
 
 (function(window, document) {
 
-    // Method names
-    var deferstyle_fn   = 'deferstyle';
-    var deferimg_fn     = 'deferimg';
-    var deferiframe_fn  = 'deferiframe';
-
     // IntersectionObserver class
     var OBSERVER_CLASS  = 'IntersectionObserver';
 
@@ -66,6 +61,7 @@
     var APPEND_CHILD        = 'appendChild';
     var GET_ATTRIBUTE       = 'getAttribute';
     var SET_ATTRIBUTE       = 'setAttribute';
+    var HAS_ATTRIBUTE       = 'hasAttribute';
     var REMOVE_ATTRIBUTE    = 'removeAttribute';
 
     // Common used constants
@@ -73,7 +69,7 @@
     var NOOP    = Function();
     var FALSE   = false;
     var defer   = window.defer || NOOP;
-    var dom     = defer.dom    || NOOP;
+    var dom     = defer._      || NOOP;
 
     // Query selector
     function query(selector, parent) {
@@ -179,7 +175,7 @@
                         }
                     }
 
-                    if (tag[ATTR_SRC] && !tag.hasAttribute('async')) {
+                    if (tag[ATTR_SRC] && !tag[HAS_ATTRIBUTE]('async')) {
                         tag.onload = tag.onerror = appendtag
                         HEAD[APPEND_CHILD](tag);
                     } else {
@@ -192,16 +188,16 @@
             appendtag();
         }
 
-        defer(loadscript, 8);
+        defer(loadscript, 4);
     }
-
-    // Export functions into the global scope
-    defer.all               = defersmart;
-    window[deferstyle_fn]   = deferstyle;
-    window[deferimg_fn]     = defermedia(IMG);
-    window[deferiframe_fn]  = defermedia(IFRAME);
 
     // Run once onload
     defersmart();
+
+    // Export functions into the global scope
+    window.deferstyle   = deferstyle;
+    window.deferimg     = defermedia(IMG);
+    window.deferiframe  = defermedia(IFRAME);
+    defer.all           = defersmart;
 
 })(this, document);
