@@ -33,10 +33,10 @@
  *
  */
 
-(function(window, document) {
+(function (window, document) {
 
     // IntersectionObserver class
-    var OBSERVER_CLASS  = 'IntersectionObserver';
+    var OBSERVER_CLASS = 'IntersectionObserver';
 
     // Real attributes for lazy-loaded media
     var ATTR_SRC    = 'src';
@@ -45,31 +45,29 @@
     var ATTR_TYPE   = 'type';
 
     // Tag names
-    var IFRAME  = 'IFRAME';
-    var IMG     = 'IMG';
-    var LINK    = 'LINK';
-    var SOURCE  = 'SOURCE';
+    var IFRAME = 'IFRAME';
+    var IMG    = 'IMG';
+    var LINK   = 'LINK';
+    var SOURCE = 'SOURCE';
 
     // Tag attributes
-    var APPLIED_CLASS       = 'lazied';
-    var DATASET_PREFIX      = 'data-';
-    var APPLIED_SELECTOR    = DATASET_PREFIX + APPLIED_CLASS;
+    var APPLIED_CLASS    = 'lazied';
+    var DATASET_PREFIX   = 'data-';
+    var APPLIED_SELECTOR = DATASET_PREFIX + APPLIED_CLASS;
 
     // Element methods
-    var LOAD                = 'load';
-    var FOR_EACH            = 'forEach';
-    var APPEND_CHILD        = 'appendChild';
-    var GET_ATTRIBUTE       = 'getAttribute';
-    var SET_ATTRIBUTE       = 'setAttribute';
-    var HAS_ATTRIBUTE       = 'hasAttribute';
-    var REMOVE_ATTRIBUTE    = 'removeAttribute';
+    var LOAD             = 'load';
+    var FOR_EACH         = 'forEach';
+    var GET_ATTRIBUTE    = 'getAttribute';
+    var SET_ATTRIBUTE    = 'setAttribute';
+    var HAS_ATTRIBUTE    = 'hasAttribute';
+    var REMOVE_ATTRIBUTE = 'removeAttribute';
 
     // Common used constants
-    var HEAD    = document.head;
-    var NOOP    = Function();
-    var FALSE   = false;
-    var defer   = window.defer || NOOP;
-    var dom     = defer._      || NOOP;
+    var NOOP  = Function();
+    var FALSE = false;
+    var defer = window.defer || NOOP;
+    var dom   = defer._ || NOOP;
 
     // Query selector
     function query(selector, parent) {
@@ -88,7 +86,7 @@
      * @returns {void}
      */
     function deferstyle(src, id, delay, callback) {
-        defer(function(element) {
+        defer(function (element) {
             element      = dom(LINK, id, callback)
             element.rel  = 'stylesheet';
             element.href = src;
@@ -104,11 +102,11 @@
      * @returns {function}              The returned function
      */
     function defermedia(tagname) {
-        return function(selector, delay, lazied_class, callback, options, attributes) {
-            defer(function(observer, walker) {
+        return function (selector, delay, lazied_class, callback, options, attributes) {
+            defer(function (observer, walker) {
                 // This function marks item initialized, then applies the callback
                 function filter(media) {
-                    if (media[GET_ATTRIBUTE](APPLIED_SELECTOR)) {return;}
+                    if (media[GET_ATTRIBUTE](APPLIED_SELECTOR)) {return}
                     media[SET_ATTRIBUTE](APPLIED_SELECTOR, tagname);
                     walker(media);
                 }
@@ -116,14 +114,12 @@
                 // This method sets the real attributes
                 function display(media) {
                     if ((callback || NOOP).call(media, media) !== FALSE) {
-                        query(SOURCE, media)[FOR_EACH](display);
-
                         (attributes || [ATTR_SRCSET, ATTR_SRC, ATTR_STYLE])[FOR_EACH](function(attr, value) {
                             value = media[GET_ATTRIBUTE](DATASET_PREFIX + attr);
                             if (value) {media[attr] = value}
                         });
-
-                        if (LOAD in media) {media[LOAD]();}
+                        query(SOURCE, media)[FOR_EACH](display);
+                        (media[LOAD]||NOOP)();
                     }
 
                     media.className += ' ' + (lazied_class || APPLIED_CLASS);
@@ -132,21 +128,21 @@
                 // Force using IntersectionObserver when posible
                 // It class is the heart of media lazy-loading
                 if (OBSERVER_CLASS in window) {
-                    observer = new window[OBSERVER_CLASS](function(items) {
-                        items[FOR_EACH](function(item, target) {
+                    observer = new window[OBSERVER_CLASS](function (items) {
+                        items[FOR_EACH](function (item, target) {
                             if (item.isIntersecting && (target = item.target)) {
                                 observer.unobserve(target);
                                 display(target);
                             }
                         });
                     }, options);
-
                     walker = observer.observe.bind(observer);
                 } else {
                     walker = display;
                 }
 
-                query(selector || tagname + '[' + DATASET_PREFIX + ATTR_SRC + ']:not([' + APPLIED_SELECTOR + '])')[FOR_EACH](filter);
+                query(selector ||
+                    tagname + '[' + DATASET_PREFIX + ATTR_SRC + ']:not([' + APPLIED_SELECTOR + '])')[FOR_EACH](filter);
             }, delay);
         }
     }
@@ -157,35 +153,32 @@
      * @returns {void}
      */
     function defersmart() {
-        function loadscript(scripts, tag, base, attr) {
-            base    = 'script[type=deferjs]';
-            attr    = '[async]';
-            scripts = [].concat(query(base + ':not(' + attr +')'), query(base + attr));
+        function loadscript(scripts, tag, base, attr, value) {
+            base = 'script[type=deferjs]';
+            attr = '[async]';
+            scripts = query(base + ':not(' + attr + ')').concat(query(base + attr));
 
-            function appendtag() {
-                if (scripts != FALSE) {
-                    tag  = dom();
-                    base = scripts.shift();
-                    base.parentNode.removeChild(base);
-                    base[REMOVE_ATTRIBUTE](ATTR_TYPE);
+            (function appendtag() {
+                if (scripts == FALSE) {return}
 
-                    for (attr in base) {
-                        if (typeof base[attr] == 'string' && tag[attr] != base[attr]) {
-                            tag[attr] = base[attr];
-                        }
-                    }
+                base = scripts.shift();
+                base.parentNode.removeChild(base);
+                base[REMOVE_ATTRIBUTE](ATTR_TYPE);
+                tag = dom();
 
-                    if (tag[ATTR_SRC] && !tag[HAS_ATTRIBUTE]('async')) {
-                        tag.onload = tag.onerror = appendtag
-                        HEAD[APPEND_CHILD](tag);
-                    } else {
-                        HEAD[APPEND_CHILD](tag);
-                        defer(appendtag, 0.1);
+                for (attr in base) {
+                    value = base[attr];
+                    if (typeof value == 'string' && tag[attr] != value) {
+                        tag[attr] = value;
                     }
                 }
-            }
 
-            appendtag();
+                if (tag[ATTR_SRC] && !tag[HAS_ATTRIBUTE]('async')) {
+                    tag.onload = tag.onerror = appendtag;
+                } else {
+                    defer(appendtag, 0.1);
+                }
+            })();
         }
 
         defer(loadscript, 4);
@@ -195,9 +188,9 @@
     defersmart();
 
     // Export functions into the global scope
-    window.deferstyle   = deferstyle;
-    window.deferimg     = defermedia(IMG);
-    window.deferiframe  = defermedia(IFRAME);
-    defer.all           = defersmart;
+    window.deferstyle  = deferstyle;
+    window.deferimg    = defermedia(IMG);
+    window.deferiframe = defermedia(IFRAME);
+    defer.all          = defersmart;
 
 })(this, document);
