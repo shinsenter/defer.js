@@ -119,7 +119,7 @@
                             if (value) {media[attr] = value}
                         });
                         query(SOURCE, media)[FOR_EACH](display);
-                        (media[LOAD]||NOOP)();
+                        if(LOAD in media) {media[LOAD]()}
                     }
 
                     media.className += ' ' + (lazied_class || APPLIED_CLASS);
