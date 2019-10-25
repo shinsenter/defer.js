@@ -63,6 +63,6 @@
     "html-minifier": "^4.0.0",
     "intersection-observer": "^0.7.0",
     "js-beautify": "^1.10.2",
-    "uglify-js": "^3.6.3"
+    "uglify-js": "^3.6.4"
   }
 }
