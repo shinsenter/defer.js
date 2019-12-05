@@ -3,16 +3,16 @@
 🥇 A super tiny, native performant library for lazy-loading JS, CSS, images, iframes... Defer almost anything, easily speed up your website.
 
 
-![GitHub](https://img.shields.io/github/license/shinsenter/defer.js.svg)
-![GitHub Release Date](https://img.shields.io/github/release-date/shinsenter/defer.js.svg)
+[![GitHub](https://img.shields.io/github/license/shinsenter/defer.js.svg)](https://github.com/shinsenter/defer.js)
+[![GitHub Release Date](https://img.shields.io/github/release-date/shinsenter/defer.js.svg)](https://github.com/shinsenter/defer.js/releases)
 
 [![CodeFactor](https://www.codefactor.io/repository/github/shinsenter/defer.js/badge)](https://www.codefactor.io/repository/github/shinsenter/defer.js)
-![GitHub issues](https://img.shields.io/github/issues-raw/shinsenter/defer.js.svg)
-![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/shinsenter/defer.js.svg)
-[![Post an issue](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/shinsenter/defer.js/issues)
+[![GitHub issues](https://img.shields.io/github/issues-raw/shinsenter/defer.js.svg)](https://github.com/shinsenter/defer.js/issues)
+[![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/shinsenter/defer.js.svg)](https://libraries.io/npm/@shinsenter%2Fdefer.js)
+[![Post an issue](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/shinsenter/defer.js/issues/new/choose)
 
-![npm](https://img.shields.io/npm/v/@shinsenter/defer.js.svg)
-![npm bundle size](https://img.shields.io/bundlephobia/minzip/@shinsenter/defer.js.svg)
+[![npm](https://img.shields.io/npm/v/@shinsenter/defer.js.svg)](https://www.npmjs.com/package/@shinsenter/defer.js)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/@shinsenter/defer.js.svg)](https://www.npmjs.com/package/@shinsenter/defer.js)
 [![jsDelivr hits (GitHub)](https://data.jsdelivr.com/v1/package/npm/@shinsenter/defer.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@shinsenter/defer.js)
 
 
