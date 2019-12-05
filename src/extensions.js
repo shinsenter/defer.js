@@ -116,7 +116,7 @@
                     if ((callback || NOOP).call(media, media) !== FALSE) {
                         (attributes || [ATTR_SRCSET, ATTR_SRC, ATTR_STYLE])[FOR_EACH](function(attr, value) {
                             value = media[GET_ATTRIBUTE](DATASET_PREFIX + attr);
-                            if (value) {media[attr] = value}
+                            if (value) {media[SET_ATTRIBUTE](attr, value)}
                         });
                         query(SOURCE, media)[FOR_EACH](display);
                         if(LOAD in media) {media[LOAD]()}
