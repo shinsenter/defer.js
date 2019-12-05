@@ -56,12 +56,13 @@
     var APPLIED_SELECTOR = DATASET_PREFIX + APPLIED_CLASS;
 
     // Element methods
-    var LOAD             = 'load';
-    var FOR_EACH         = 'forEach';
-    var GET_ATTRIBUTE    = 'getAttribute';
-    var SET_ATTRIBUTE    = 'setAttribute';
-    var HAS_ATTRIBUTE    = 'hasAttribute';
+    var LOAD          = 'load';
+    var FOR_EACH      = 'forEach';
+    var GET_ATTRIBUTE = 'getAttribute';
+    var SET_ATTRIBUTE = 'setAttribute';
+    var HAS_ATTRIBUTE = 'hasAttribute';
     var REMOVE_ATTRIBUTE = 'removeAttribute';
+    var NODE_NAME     = 'nodeName';
 
     // Common used constants
     var NOOP  = Function();
@@ -114,12 +115,12 @@
                 // This method sets the real attributes
                 function display(media) {
                     if ((callback || NOOP).call(media, media) !== FALSE) {
-                        (attributes || [ATTR_SRCSET, ATTR_SRC, ATTR_STYLE])[FOR_EACH](function(attr, value) {
+                        (attributes || [ATTR_SRCSET, ATTR_SRC, ATTR_STYLE])[FOR_EACH](function (attr, value) {
                             value = media[GET_ATTRIBUTE](DATASET_PREFIX + attr);
-                            if (value) {media[attr] = value}
+                            if (value) {media[SET_ATTRIBUTE](attr, value)}
                         });
                         query(SOURCE, media)[FOR_EACH](display);
-                        if(LOAD in media) {media[LOAD]()}
+                        if (LOAD in media) {media[LOAD]()}
                     }
 
                     media.className += ' ' + (lazied_class || APPLIED_CLASS);
@@ -154,8 +155,8 @@
      */
     function defersmart() {
         function loadscript(scripts, tag, base, attr, value) {
-            base = 'script[type=deferjs]';
-            attr = '[async]';
+            base    = '[type=deferjs]';
+            attr    = '[async]';
             scripts = query(base + ':not(' + attr + ')').concat(query(base + attr));
 
             (function appendtag() {
@@ -164,7 +165,7 @@
                 base = scripts.shift();
                 base.parentNode.removeChild(base);
                 base[REMOVE_ATTRIBUTE](ATTR_TYPE);
-                tag = dom();
+                tag = dom(base[NODE_NAME]);
 
                 for (attr in base) {
                     value = base[attr];
