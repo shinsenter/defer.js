@@ -58,11 +58,11 @@
     "publish": "npm publish --access=public"
   },
   "devDependencies": {
-    "clean-css": "^4.2.1",
-    "eslint": "^6.7.2",
+    "clean-css": "^4.2.3",
+    "eslint": "^6.8.0",
     "html-minifier": "^4.0.0",
     "intersection-observer": "^0.7.0",
-    "js-beautify": "^1.10.2",
-    "uglify-js": "^3.7.1"
+    "js-beautify": "^1.10.3",
+    "uglify-js": "^3.8.1"
   }
 }
