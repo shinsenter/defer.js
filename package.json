@@ -49,9 +49,9 @@
     "test": "npm run lint",
     "lint": "eslint --config build/.eslintrc --ext .js src --fix",
     "format": "js-beautify --config build/.beautify -r -f src/*.js",
-    "mini": "uglifyjs --config-file=build/.uglifyjs -o dist/defer.min.js src/defer.js",
-    "plus": "uglifyjs --config-file=build/.uglifyjs -o dist/defer_plus.min.js src/defer.js src/extensions.js",
-    "polyfill": "uglifyjs --config-file=build/.uglifyjs -o dist/polyfill.min.js node_modules/intersection-observer/intersection-observer.js",
+    "mini": "uglifyjs --config-file build/.uglifyjs -o dist/defer.min.js src/defer.js",
+    "plus": "uglifyjs --config-file build/.uglifyjs -o dist/defer_plus.min.js src/defer.js src/extensions.js",
+    "polyfill": "uglifyjs --config-file build/.uglifyjs -o dist/polyfill.min.js node_modules/intersection-observer/intersection-observer.js",
     "demo": "html-minifier ./src/demo.html -o docs/demo.html --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true",
     "build": "npm run lint && npm run mini && npm run plus && npm run demo",
     "up": "npm run lint && npm --no-git-tag-version version patch -m 'Ready to publish version %s'",
@@ -59,10 +59,10 @@
   },
   "devDependencies": {
     "clean-css": "^4.2.3",
-    "eslint": "^6.8.0",
+    "eslint": "^7.14.0",
     "html-minifier": "^4.0.0",
-    "intersection-observer": "^0.7.0",
-    "js-beautify": "^1.10.3",
-    "uglify-js": "^3.8.1"
+    "intersection-observer": "^0.11.0",
+    "js-beautify": "^1.13.0",
+    "uglify-js": "^3.12.1"
   }
 }
