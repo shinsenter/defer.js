@@ -1,11 +1,16 @@
 {
     "compress": true,
-    "mangle": true,
+    "mangle": {
+        "eval": false,
+        "keep_fnames": false,
+        "reserved": [],
+        "toplevel": true
+    },
     "output": {
         "ascii_only":         true,
         "beautify":           false,
         "braces":             false,
-        "indent_level":       2,
+        "indent_level":       0,
         "indent_start":       0,
         "inline_script":      true,
         "keep_quoted_props":  false,
@@ -24,4 +29,3 @@
         "webkit":             true
     }
 }
-
