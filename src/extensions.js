@@ -62,13 +62,13 @@
     var SET_ATTRIBUTE = 'setAttribute';
     var HAS_ATTRIBUTE = 'hasAttribute';
     var REMOVE_ATTRIBUTE = 'removeAttribute';
-    var NODE_NAME     = 'nodeName';
 
     // Common used constants
     var NOOP  = Function();
     var FALSE = false;
     var defer = window.defer || NOOP;
     var dom   = defer._ || NOOP;
+    var a2h   = defer.$;
 
     // Query selector
     function query(selector, parent) {
@@ -91,6 +91,7 @@
             element      = dom(LINK, id, callback)
             element.rel  = 'stylesheet';
             element.href = src;
+            a2h(element);
         }, delay);
     }
 
@@ -105,17 +106,10 @@
     function defermedia(tagname) {
         return function (selector, delay, lazied_class, callback, options, attributes) {
             defer(function (observer, walker) {
-                // This function marks item initialized, then applies the callback
-                function filter(media) {
-                    if (media[GET_ATTRIBUTE](APPLIED_SELECTOR)) {return}
-                    media[SET_ATTRIBUTE](APPLIED_SELECTOR, tagname);
-                    walker(media);
-                }
-
                 // This method sets the real attributes
                 function display(media) {
                     if ((callback || NOOP).call(media, media) !== FALSE) {
-                        (attributes || [ATTR_SRCSET, ATTR_SRC, ATTR_STYLE])[FOR_EACH](function (attr, value) {
+                        (attributes || [ATTR_STYLE, ATTR_SRCSET, ATTR_SRC])[FOR_EACH](function (attr, value) {
                             value = media[GET_ATTRIBUTE](DATASET_PREFIX + attr);
                             if (value) {media[SET_ATTRIBUTE](attr, value)}
                         });
@@ -142,6 +136,13 @@
                     walker = display;
                 }
 
+                // This function marks item initialized, then applies the callback
+                function filter(media) {
+                    if (media[GET_ATTRIBUTE](APPLIED_SELECTOR)) {return}
+                    media[SET_ATTRIBUTE](APPLIED_SELECTOR, tagname);
+                    walker(media);
+                }
+
                 query(selector ||
                     tagname + '[' + DATASET_PREFIX + ATTR_SRC + ']:not([' + APPLIED_SELECTOR + '])')[FOR_EACH](filter);
             }, delay);
@@ -154,31 +155,26 @@
      * @returns {void}
      */
     function defersmart() {
-        function loadscript(scripts, tag, base, attr, value) {
-            base    = '[type=deferjs]';
-            attr    = '[async]';
-            scripts = query(base + ':not(' + attr + ')').concat(query(base + attr));
+        function loadscript(nodes, target, clone, async) {
+            target = '[type=deferjs]';
+            async  = '[async]';
+            nodes  = query(target + ':not(' + async + ')').concat(query(target + async));
 
             (function appendtag() {
-                if (scripts == FALSE) {return}
+                if (nodes == FALSE) {return}
 
-                base = scripts.shift();
-                base.parentNode.removeChild(base);
-                base[REMOVE_ATTRIBUTE](ATTR_TYPE);
-                tag = dom(base[NODE_NAME]);
+                target = nodes.shift();
+                target.parentNode.removeChild(target);
+                target[REMOVE_ATTRIBUTE](ATTR_TYPE);
+                clone = target.cloneNode(!FALSE);
 
-                for (attr in base) {
-                    value = base[attr];
-                    if (typeof value == 'string' && tag[attr] != value) {
-                        tag[attr] = value;
-                    }
-                }
-
-                if (tag[ATTR_SRC] && !tag[HAS_ATTRIBUTE]('async')) {
-                    tag.onload = tag.onerror = appendtag;
+                if (target[ATTR_SRC] && !target[HAS_ATTRIBUTE]('async')) {
+                    clone.onload = clone.onerror = appendtag;
                 } else {
-                    defer(appendtag, 0.1);
+                    defer(appendtag, 1);
                 }
+
+                a2h(clone);
             })();
         }
 
