@@ -45,11 +45,15 @@
     dequeue, func_queue,
 
     // Variable placeholder
-    dom_loaded
+    dom_loaded,
+
+    // Ultilities
+    append2head
 ) {
 
     // Check if load event was fired
-    dom_loaded = (/p/).test(document.readyState);
+    dom_loaded  = (/p/).test(document.readyState);
+    append2head = document.head.appendChild.bind(document.head);
 
     /**
      * This is our hero: the `defer` function.
@@ -104,8 +108,6 @@
             if (callback) {
                 dom.onload = callback;
             }
-
-            document.head.appendChild(dom);
         }
 
         return dom || {};
@@ -123,7 +125,11 @@
      * @returns {void}
      */
     function deferscript(src, id, delay, callback) {
-        defer(function () {dom('', id, callback).src = src}, delay);
+        defer(function (element) {
+            element = dom(0, id, callback);
+            element.src = src;
+            append2head(element);
+        }, delay);
     }
 
     // Add event listener into global scope
@@ -131,6 +137,7 @@
 
     // Export functions into the global scope
     defer._            = dom;
+    defer.$            = append2head;
     window.defer       = defer;
     window.deferscript = deferscript;
 
