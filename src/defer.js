@@ -65,8 +65,7 @@
      * @returns {void}
      */
     function defer(func, delay) {
-        // Let's set default timeout to 2 browser tick cycles
-        var default_delay = 32;
+        var default_delay = 1;
 
         if (dom_loaded) {
             dequeue(func, delay || default_delay);
@@ -98,19 +97,17 @@
      * @returns {object}    The DOM
      */
     function dom(tag, id, callback, dom) {
-        if(!id || !document.getElementById(id)) {
-            dom = document.createElement(tag || 'SCRIPT');
+        dom = document.createElement(tag || 'SCRIPT');
 
-            if (id) {
-                dom.id = id;
-            }
-
-            if (callback) {
-                dom.onload = callback;
-            }
+        if (id) {
+            dom.id = id;
         }
 
-        return dom || {};
+        if (callback) {
+            dom.onload = callback;
+        }
+
+        return document.getElementById(id) || dom;
     }
 
     /**

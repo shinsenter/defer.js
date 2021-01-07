@@ -163,10 +163,18 @@
             (function appendtag() {
                 if (nodes == FALSE) {return}
 
+                clone  = dom();
                 target = nodes.shift();
                 target.parentNode.removeChild(target);
                 target[REMOVE_ATTRIBUTE](ATTR_TYPE);
-                clone = target.cloneNode(!FALSE);
+
+                for (async in target) {
+                    if (target[async]) {
+                        try {
+                            clone[async] = target[async];
+                        } catch(e) {e}
+                    }
+                }
 
                 if (target[ATTR_SRC] && !target[HAS_ATTRIBUTE]('async')) {
                     clone.onload = clone.onerror = appendtag;

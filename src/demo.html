@@ -34,16 +34,16 @@ SOFTWARE.
 
 <head>
     <meta charset="utf-8">
-    <title>@shinsenter/defer.js - Easily lazy-load JS, CSS, images, iframes</title>
-
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="crossorigin">
 
-    <!-- <script src="../dist/defer_plus.min.js?v=1.1.12"></script> -->
+    <title>@shinsenter/defer.js - Easily lazy-load JS, CSS, images, iframes</title>
+
+    <!-- <script src="../dist/defer_plus.min.js?v=1.1.13"></script> -->
     <!-- <script type="deferjs">'IntersectionObserver'in window||deferscript('../dist/polyfill.min.js', 'polyfill-js', 1)</script> -->
 
-    <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.12/dist/defer_plus.min.js"></script>
-    <script type="deferjs">'IntersectionObserver'in window||deferscript('https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.12/dist/polyfill.min.js', 'polyfill-js', 1)</script>
+    <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.13/dist/defer_plus.min.js"></script>
+    <script type="deferjs">'IntersectionObserver'in window||deferscript('https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.13/dist/polyfill.min.js', 'polyfill-js', 1)</script>
 
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="mobile-web-app-capable" content="yes">
@@ -292,7 +292,7 @@ SOFTWARE.
         }
     </style>
 
-    <script type="deferjs">
+    <script>
         // For Google Analytics
         window.dataLayer = window.dataLayer || [];
 
@@ -302,17 +302,20 @@ SOFTWARE.
 
         gtag('js', new Date());
         gtag('config', 'UA-34520609-2');
+    </script>
 
+    <script type="deferjs">
         // lazy-load Google Tag Manager and social button scripts
         if (/^http/.test(window.location.protocol)) {
-            deferscript('https://www.googletagmanager.com/gtag/js?id=UA-34520609-2', 'google-tag', 500);
+            deferscript('https://www.googletagmanager.com/gtag/js?id=UA-34520609-2', 'google-tag', 50);
             deferscript('https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5c68e61cf456f1cb', 'social-buttons', 3000);
             deferscript('https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&autoLogAppEvents=1', 'facebook-sdk', 3000);
         }
 
         // lazy-load 3rd-party library's JavaScript and CSS
-        deferstyle('https://cdn.jsdelivr.net/npm/highlightjs@9.12.0/styles/tomorrow.css', 'highlightjs-css', 1000);
-        deferscript('https://cdn.jsdelivr.net/npm/highlightjs@9.12.0/highlight.pack.min.js', 'highlightjs-api', 1000, function () {
+        var base = 'https://cdn.jsdelivr.net/npm/highlightjs@9.12.0';
+        deferstyle(base + '/styles/rainbow.css', 'highlightjs-css', 100);
+        deferscript(base + '/highlight.pack.min.js', 'highlightjs-api', 100, function () {
             var code_blocks = [].slice.call(document.querySelectorAll('pre code'));
             code_blocks.forEach(function (block) {
                 hljs.highlightBlock(block);
@@ -346,10 +349,10 @@ SOFTWARE.
             <br />
             <pre class="notranslate"><code>Code:</code><code class="highlight html">&lt;head&gt;
     &lt;title&gt;My awesome page&lt;/title&gt;
-    &lt;script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.12/dist/defer_plus.min.js"&gt;&lt;/script&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.13/dist/defer_plus.min.js"&gt;&lt;/script&gt;
 
     &lt;!-- You may want to add small polyfill for IE 9~11 --&gt;
-    &lt;script&gt;deferscript('https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.12/dist/polyfill.min.js', 'polyfill-js', 1)&lt;/script&gt;
+    &lt;script&gt;deferscript('https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.13/dist/polyfill.min.js', 'polyfill-js', 1)&lt;/script&gt;
 &lt;/head&gt;</code></pre>
             <p>Because the <a href="https://github.com/shinsenter/defer.js/blob/master/defer_plus.min.js" target="_blank" title="minified version of defer.js">minified version</a> of defer.js is super
                 tiny, you can inline its content directly into the
@@ -399,8 +402,9 @@ deferscript('https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2', 'f
             <p>Thanks to highlightjs for a lightweight, extensible syntax highlighter.</p>
             <br />
             <pre class="notranslate"><code>Code:</code><code class="highlight html">&lt;script type="text/javascript"&gt;
-deferstyle('https://highlightjs.org/static/demo/styles/tomorrow.css', 'highlightjs-css', 1000);
-deferscript('https://highlightjs.org/static/highlight.site.pack.js', 'highlightjs-api', 1000, function() {
+var origin = 'https://cdn.jsdelivr.net/npm/highlightjs@9.12.0';
+deferstyle(origin + '/styles/rainbow.css', 'highlightjs-css', 100);
+deferscript(origin + '/highlight.pack.min.js', 'highlightjs-api', 100, function () {
     var code_blocks = [].slice.call(document.querySelectorAll('pre code'));
     code_blocks.forEach(function(block) {
         hljs.highlightBlock(block);
@@ -420,19 +424,19 @@ deferscript('https://highlightjs.org/static/highlight.site.pack.js', 'highlightj
                 <tr>
                     <td>
                         <div class="aspect">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="basic" width="400" height="300" data-src="https://picsum.photos/400/300/?image=311" alt="Random image" />
+                            <img src="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'></svg>" class="basic" width="400" height="300" data-src="https://picsum.photos/400/300/?image=311" alt="Random image" />
                             <span class="loading"></span>
                         </div>
                     </td>
                     <td>
                         <div class="aspect">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="basic" width="400" height="300" data-src="https://picsum.photos/400/300/?image=312" alt="Random image" />
+                            <img src="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'></svg>" class="basic" width="400" height="300" data-src="https://picsum.photos/400/300/?image=312" alt="Random image" />
                             <span class="loading"></span>
                         </div>
                     </td>
                     <td>
                         <div class="aspect">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="basic" width="400" height="300" data-src="https://picsum.photos/400/300/?image=313" alt="Random image" />
+                            <img src="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'></svg>" class="basic" width="400" height="300" data-src="https://picsum.photos/400/300/?image=313" alt="Random image" />
                             <span class="loading"></span>
                         </div>
                     </td>
@@ -440,19 +444,19 @@ deferscript('https://highlightjs.org/static/highlight.site.pack.js', 'highlightj
                 <tr>
                     <td>
                         <div class="aspect">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="basic" width="400" height="300" data-src="https://picsum.photos/400/300/?image=314" alt="Random image" />
+                            <img src="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'></svg>" class="basic" width="400" height="300" data-src="https://picsum.photos/400/300/?image=314" alt="Random image" />
                             <span class="loading"></span>
                         </div>
                     </td>
                     <td>
                         <div class="aspect">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="basic" width="400" height="300" data-src="https://picsum.photos/400/300/?image=315" alt="Random image" />
+                            <img src="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'></svg>" class="basic" width="400" height="300" data-src="https://picsum.photos/400/300/?image=315" alt="Random image" />
                             <span class="loading"></span>
                         </div>
                     </td>
                     <td>
                         <div class="aspect">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="basic" width="400" height="300" data-src="https://picsum.photos/400/300/?image=316" alt="Random image" />
+                            <img src="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'></svg>" class="basic" width="400" height="300" data-src="https://picsum.photos/400/300/?image=316" alt="Random image" />
                             <span class="loading"></span>
                         </div>
                     </td>
@@ -491,19 +495,19 @@ deferimg('img.basic', 100);
                 <tr>
                     <td>
                         <div class="aspect">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="fade" width="400" height="300" data-src="https://picsum.photos/400/300/?image=321" alt="Random image" />
+                            <img src="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'></svg>" class="fade" width="400" height="300" data-src="https://picsum.photos/400/300/?image=321" alt="Random image" />
                             <span class="loading"></span>
                         </div>
                     </td>
                     <td>
                         <div class="aspect">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="fade" width="400" height="300" data-src="https://picsum.photos/400/300/?image=322" alt="Random image" />
+                            <img src="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'></svg>" class="fade" width="400" height="300" data-src="https://picsum.photos/400/300/?image=322" alt="Random image" />
                             <span class="loading"></span>
                         </div>
                     </td>
                     <td>
                         <div class="aspect">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="fade" width="400" height="300" data-src="https://picsum.photos/400/300/?image=323" alt="Random image" />
+                            <img src="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'></svg>" class="fade" width="400" height="300" data-src="https://picsum.photos/400/300/?image=323" alt="Random image" />
                             <span class="loading"></span>
                         </div>
                     </td>
@@ -511,19 +515,19 @@ deferimg('img.basic', 100);
                 <tr>
                     <td>
                         <div class="aspect">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="fade" width="400" height="300" data-src="https://picsum.photos/400/300/?image=324" alt="Random image" />
+                            <img src="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'></svg>" class="fade" width="400" height="300" data-src="https://picsum.photos/400/300/?image=324" alt="Random image" />
                             <span class="loading"></span>
                         </div>
                     </td>
                     <td>
                         <div class="aspect">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="fade" width="400" height="300" data-src="https://picsum.photos/400/300/?image=325" alt="Random image" />
+                            <img src="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'></svg>" class="fade" width="400" height="300" data-src="https://picsum.photos/400/300/?image=325" alt="Random image" />
                             <span class="loading"></span>
                         </div>
                     </td>
                     <td>
                         <div class="aspect">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" class="fade" width="400" height="300" data-src="https://picsum.photos/400/300/?image=326" alt="Random image" />
+                            <img src="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'></svg>" class="fade" width="400" height="300" data-src="https://picsum.photos/400/300/?image=326" alt="Random image" />
                             <span class="loading"></span>
                         </div>
                     </td>
@@ -642,16 +646,16 @@ deferiframe('iframe.video', 100, 'lazied', function(frame) {
         <h2>And it's SEO friendly</h2>
 
         <div class="w640 center">
-            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" width="950" height="552" data-src="assets/demo.jpg" alt="defer.js is SEO friendly" class="fade" />
+            <img src="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'></svg>" width="950" height="552" data-src="assets/demo.jpg" alt="defer.js is SEO friendly" class="fade" />
         </div>
 
         <div class="w640 center">
-            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" width="950" height="700" data-src="assets/scores.jpg" alt="Archive perfect Google PageSpeed score" class="fade" />
+            <img src="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'></svg>" width="950" height="700" data-src="assets/scores.jpg" alt="Archive perfect Google PageSpeed score" class="fade" />
         </div>
     </section>
 
     <p class="center">
-        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" width="375" height="246" data-src="https://every-tuesday.com/wp-content/uploads/2015/11/thank-you-preview.jpg" alt="Thank you" class="fade" />
+        <img src="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'></svg>" width="375" height="246" data-src="https://every-tuesday.com/wp-content/uploads/2015/11/thank-you-preview.jpg" alt="Thank you" class="fade" />
     </p>
 
     <section id="facebook-connect">
