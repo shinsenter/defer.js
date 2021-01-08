@@ -42,18 +42,23 @@
     load_event,
 
     // Dequeue method
-    dequeue, func_queue,
+    func_dequeue,
+
+    // The function queue
+    queue,
 
     // Variable placeholder
     dom_loaded,
 
-    // Ultilities
-    append2head
+    // Utilities
+    fn_append
 ) {
 
     // Check if load event was fired
-    dom_loaded  = (/p/).test(document.readyState);
-    append2head = document.head.appendChild.bind(document.head);
+    dom_loaded = (/p/).test(document.readyState);
+
+    // Append node to the <head> tag
+    fn_append  = document.head.appendChild.bind(document.head);
 
     /**
      * This is our hero: the `defer` function.
@@ -65,49 +70,47 @@
      * @returns {void}
      */
     function defer(func, delay) {
-        var default_delay = 1;
-
         if (dom_loaded) {
-            dequeue(func, delay || default_delay);
+            func_dequeue(func, delay);
         } else {
-            func_queue.push(func, delay);
+            queue.push(func, delay);
         }
     }
 
     /**
      * This method will be triggled when `load` event was fired.
      * This will also turn `dom_loaded` into `true`...
-     * ... and run all function in queue using `dequeue` method.
+     * ... and run all function in queue using `func_dequeue` method.
      *
      * @returns {void}
      */
-    function flushqueue() {
-        for (dom_loaded = 1; func_queue[0];) {
-            defer(func_queue.shift(), func_queue.shift());
+    function flush_queue() {
+        for (dom_loaded = 1; queue[0];) {
+            func_dequeue(queue.shift(), queue.shift());
         }
     }
 
     /**
      * Create a DOM element if not exist.
      *
-     * @param   {string}    tag         Tag name
-     * @param   {string}    id          The DOM's id
+     * @param   {string}    tag_name    Tag name
+     * @param   {string}    id          The DOMNode's id
      * @param   {function}  callback    The callback function when load
-     * @param   {object}    dom         The placeholder for the DOM
-     * @returns {object}    The DOM
+     * @param   {object}    node        The placeholder for the DOMNode
+     * @returns {object}    The DOMNode
      */
-    function dom(tag, id, callback, dom) {
-        dom = document.createElement(tag || 'SCRIPT');
+    function fn_tag(tag_name, id, callback, node) {
+        node = document.createElement(tag_name || 'SCRIPT');
 
         if (id) {
-            dom.id = id;
+            node.id = id;
         }
 
         if (callback) {
-            dom.onload = callback;
+            node.onload = callback;
         }
 
-        return document.getElementById(id) || dom;
+        return document.getElementById(id) || node;
     }
 
     /**
@@ -123,18 +126,18 @@
      */
     function deferscript(src, id, delay, callback) {
         defer(function (element) {
-            element = dom(0, id, callback);
+            element = fn_tag(0, id, callback);
             element.src = src;
-            append2head(element);
+            fn_append(element);
         }, delay);
     }
 
     // Add event listener into global scope
-    window.addEventListener('on' + load_event in window ? load_event : 'load', flushqueue);
+    window.addEventListener('on' + load_event in window ? load_event : 'load', flush_queue);
 
     // Export functions into the global scope
-    defer._            = dom;
-    defer.$            = append2head;
+    defer._            = fn_tag;
+    defer.$            = fn_append;
     window.defer       = defer;
     window.deferscript = deferscript;
 

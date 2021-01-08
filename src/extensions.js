@@ -38,7 +38,7 @@
     // IntersectionObserver class
     var OBSERVER_CLASS = 'IntersectionObserver';
 
-    // Real attributes for lazy-loaded media
+    // Real attributes for lazy-loaded node
     var ATTR_SRC    = 'src';
     var ATTR_SRCSET = 'srcset';
     var ATTR_STYLE  = 'style';
@@ -51,24 +51,27 @@
     var SOURCE = 'SOURCE';
 
     // Tag attributes
-    var APPLIED_CLASS    = 'lazied';
-    var DATASET_PREFIX   = 'data-';
-    var APPLIED_SELECTOR = DATASET_PREFIX + APPLIED_CLASS;
+    var DATA_PREFIX = 'data-';
+    var DEFER_CLASS = 'lazied';
+    var DEFER_FLAG  = DATA_PREFIX + DEFER_CLASS;
 
     // Element methods
-    var LOAD          = 'load';
-    var FOR_EACH      = 'forEach';
-    var GET_ATTRIBUTE = 'getAttribute';
-    var SET_ATTRIBUTE = 'setAttribute';
-    var HAS_ATTRIBUTE = 'hasAttribute';
-    var REMOVE_ATTRIBUTE = 'removeAttribute';
+    var ATTRIBUTE        = 'Attribute';
+    var GET_ATTRIBUTE    = 'get' + ATTRIBUTE;
+    var SET_ATTRIBUTE    = 'set' + ATTRIBUTE;
+    var HAS_ATTRIBUTE    = 'has' + ATTRIBUTE;
+    var REMOVE_ATTRIBUTE = 'remove' + ATTRIBUTE;
+    var LOAD             = 'load';
+    var FOR_EACH         = 'forEach';
 
     // Common used constants
-    var NOOP  = Function();
-    var FALSE = false;
-    var defer = window.defer || NOOP;
-    var dom   = defer._ || NOOP;
-    var a2h   = defer.$;
+    var FALSE  = false;
+    var NOOP   = Function();
+
+    // Methods from defer object
+    var defer  = window.defer || NOOP;
+    var fn_tag = defer._ || NOOP;
+    var fn_a2h = defer.$;
 
     // Query selector
     function query(selector, parent) {
@@ -88,10 +91,10 @@
      */
     function deferstyle(src, id, delay, callback) {
         defer(function (element) {
-            element      = dom(LINK, id, callback)
+            element      = fn_tag(LINK, id, callback)
             element.rel  = 'stylesheet';
             element.href = src;
-            a2h(element);
+            fn_a2h(element);
         }, delay);
     }
 
@@ -104,98 +107,104 @@
      * @returns {function}              The returned function
      */
     function defermedia(tagname) {
-        return function (selector, delay, lazied_class, callback, options, attributes) {
-            defer(function (observer, walker) {
+        return function (selector, delay, lazied_class, fn_checker, options, attributes) {
+            defer(function (observer, watcher) {
                 // This method sets the real attributes
-                function display(media) {
-                    if ((callback || NOOP).call(media, media) !== FALSE) {
+                function fn_reveal(node) {
+                    if ((fn_checker || NOOP).call(node, node) !== FALSE) {
                         (attributes || [ATTR_STYLE, ATTR_SRCSET, ATTR_SRC])[FOR_EACH](function (attr, value) {
-                            value = media[GET_ATTRIBUTE](DATASET_PREFIX + attr);
-                            if (value) {media[SET_ATTRIBUTE](attr, value)}
+                            value = node[GET_ATTRIBUTE](DATA_PREFIX + attr);
+                            if (value) {node[SET_ATTRIBUTE](attr, value)}
                         });
-                        query(SOURCE, media)[FOR_EACH](display);
-                        if (LOAD in media) {media[LOAD]()}
+                        query(SOURCE, node)[FOR_EACH](fn_reveal);
+                        if (LOAD in node) {node[LOAD]()}
                     }
 
-                    media.className += ' ' + (lazied_class || APPLIED_CLASS);
+                    node.className += ' ' + (lazied_class || DEFER_CLASS);
                 }
 
                 // Force using IntersectionObserver when posible
-                // It class is the heart of media lazy-loading
                 if (OBSERVER_CLASS in window) {
                     observer = new window[OBSERVER_CLASS](function (items) {
                         items[FOR_EACH](function (item, target) {
                             if (item.isIntersecting && (target = item.target)) {
                                 observer.unobserve(target);
-                                display(target);
+                                fn_reveal(target);
                             }
                         });
                     }, options);
-                    walker = observer.observe.bind(observer);
+                    watcher = observer.observe.bind(observer);
                 } else {
-                    walker = display;
+                    watcher = fn_reveal;
                 }
 
                 // This function marks item initialized, then applies the callback
-                function filter(media) {
-                    if (media[GET_ATTRIBUTE](APPLIED_SELECTOR)) {return}
-                    media[SET_ATTRIBUTE](APPLIED_SELECTOR, tagname);
-                    walker(media);
+                function fn_filter(node) {
+                    if (node[GET_ATTRIBUTE](DEFER_FLAG)) {return}
+                    node[SET_ATTRIBUTE](DEFER_FLAG, tagname);
+                    watcher(node);
                 }
 
                 query(selector ||
-                    tagname + '[' + DATASET_PREFIX + ATTR_SRC + ']:not([' + APPLIED_SELECTOR + '])')[FOR_EACH](filter);
+                    tagname + '[' + DATA_PREFIX + ATTR_SRC + ']:not([' + DEFER_FLAG + '])')[FOR_EACH](fn_filter);
             }, delay);
         }
     }
 
     /**
-     * The easiest way to delay the execution of the existing <script> tags on website.
+     * The easiest way to delay executing all script[type=deferjs] tags
      *
      * @returns {void}
      */
-    function defersmart() {
-        function loadscript(nodes, target, clone, async) {
+    function wakeup() {
+        defer(function (target, attr, nodes) {
             target = '[type=deferjs]';
-            async  = '[async]';
-            nodes  = query(target + ':not(' + async + ')').concat(query(target + async));
+            attr   = '[async]';
+            nodes  = query(target + ':not(' + attr + ')').concat(query(target + attr));
 
-            (function appendtag() {
-                if (nodes == FALSE) {return}
-
-                clone  = dom();
+            function appendtag(clone) {
+                // Try pulling the first node from the list
                 target = nodes.shift();
-                target.parentNode.removeChild(target);
-                target[REMOVE_ATTRIBUTE](ATTR_TYPE);
 
-                for (async in target) {
-                    if (target[async]) {
-                        try {
-                            clone[async] = target[async];
-                        } catch(e) {e}
+                // If node exists, then continue
+                if (target) {
+                    // Remove the node from the document
+                    target.parentNode.removeChild(target);
+                    target[REMOVE_ATTRIBUTE](ATTR_TYPE);
+
+                    // Make a clone DOMNode
+                    clone = fn_tag();
+
+                    for (attr in target) {
+                        if (target[attr]) {
+                            try {
+                                clone[attr] = target[attr];
+                            } catch(e) {e}
+                        }
+                    }
+
+                    // Then append clone to the document
+                    if (target[ATTR_SRC] && !target[HAS_ATTRIBUTE]('async')) {
+                        clone.onload = clone.onerror = appendtag;
+                        fn_a2h(clone);
+                    } else {
+                        fn_a2h(clone);
+                        appendtag();
                     }
                 }
+            }
 
-                if (target[ATTR_SRC] && !target[HAS_ATTRIBUTE]('async')) {
-                    clone.onload = clone.onerror = appendtag;
-                } else {
-                    defer(appendtag, 1);
-                }
-
-                a2h(clone);
-            })();
-        }
-
-        defer(loadscript, 4);
+            appendtag();
+        });
     }
 
-    // Run once onload
-    defersmart();
-
     // Export functions into the global scope
+    defer.all          = wakeup;
     window.deferstyle  = deferstyle;
     window.deferimg    = defermedia(IMG);
     window.deferiframe = defermedia(IFRAME);
-    defer.all          = defersmart;
+
+    // Execute script tags
+    wakeup();
 
 })(this, document);

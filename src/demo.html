@@ -39,11 +39,11 @@ SOFTWARE.
 
     <title>@shinsenter/defer.js - Easily lazy-load JS, CSS, images, iframes</title>
 
-    <!-- <script src="../dist/defer_plus.min.js?v=1.1.13"></script> -->
+    <!-- <script src="../dist/defer_plus.min.js?v=1.1.14"></script> -->
     <!-- <script type="deferjs">'IntersectionObserver'in window||deferscript('../dist/polyfill.min.js', 'polyfill-js', 1)</script> -->
 
-    <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.13/dist/defer_plus.min.js"></script>
-    <script type="deferjs">'IntersectionObserver'in window||deferscript('https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.13/dist/polyfill.min.js', 'polyfill-js', 1)</script>
+    <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.14/dist/defer_plus.min.js"></script>
+    <script type="deferjs">'IntersectionObserver'in window||deferscript('https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.14/dist/polyfill.min.js', 'polyfill-js', 1)</script>
 
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="mobile-web-app-capable" content="yes">
@@ -304,7 +304,7 @@ SOFTWARE.
         gtag('config', 'UA-34520609-2');
     </script>
 
-    <script type="deferjs">
+    <script>
         // lazy-load Google Tag Manager and social button scripts
         if (/^http/.test(window.location.protocol)) {
             deferscript('https://www.googletagmanager.com/gtag/js?id=UA-34520609-2', 'google-tag', 1000);
@@ -349,10 +349,10 @@ SOFTWARE.
             <br />
             <pre class="notranslate"><code>Code:</code><code class="highlight html">&lt;head&gt;
     &lt;title&gt;My awesome page&lt;/title&gt;
-    &lt;script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.13/dist/defer_plus.min.js"&gt;&lt;/script&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.14/dist/defer_plus.min.js"&gt;&lt;/script&gt;
 
     &lt;!-- You may want to add small polyfill for IE 9~11 --&gt;
-    &lt;script&gt;deferscript('https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.13/dist/polyfill.min.js', 'polyfill-js', 1)&lt;/script&gt;
+    &lt;script&gt;deferscript('https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.1.14/dist/polyfill.min.js', 'polyfill-js', 1)&lt;/script&gt;
 &lt;/head&gt;</code></pre>
             <p>Because the <a href="https://github.com/shinsenter/defer.js/blob/master/defer_plus.min.js" target="_blank" title="minified version of defer.js">minified version</a> of defer.js is super
                 tiny, you can inline its content directly into the
@@ -693,41 +693,39 @@ deferiframe('iframe.video', 100, 'lazied', function(frame) {
         <p>From <span class="big" title="Vietnam">🇻🇳</span> with love.</p>
     </div>
 
-    <script type="deferjs">
+    <script>
     // Defer Test
+    window.console = window.console || {}
+    window.console.info = window.console.info || Function();
+    var tracker = [];
     defer(function () {
-        window.console = window.console || {}
-        window.console.info = window.console.info || Function();
-        var tracker = [];
-        defer(function () {
-            tracker.push(1), console.info('defer.js test #1 (throws an exception: foo is not defined)'), foo.push(bar)
-        }, 200);
-        defer(function () {
-            tracker.push(2), console.info('defer.js test #2 (even though an exception has been thrown)')
-        }, 200);
-        defer(function () {
-            tracker.push(3), console.info('defer.js test #3')
-        }, 200);
-        defer(function () {
-            tracker.push(4), console.info('defer.js test #4')
-        }, 200);
-        defer(function () {
-            tracker.push(5), console.info('defer.js test #5')
-        }, 200);
-        defer(function () {
-            tracker.push(0), console.info('defer.js test #0 (the latest call, but has lower delay time)')
-        }, 199);
-        defer(function () {
-            console.info('Completed! ' + (tracker == '0,1,2,3,4,5' ? 'Test passed!!!' : 'Test failed. ' + tracker))
-        }, 201);
-    });
+        tracker.push(1), console.info('defer.js test #1 (throws an exception: foo is not defined)'), bar()
+    }, 200);
+    defer(function () {
+        tracker.push(2), console.info('defer.js test #2 (even though an exception has been thrown)')
+    }, 200);
+    defer(function () {
+        tracker.push(3), console.info('defer.js test #3')
+    }, 200);
+    defer(function () {
+        tracker.push(4), console.info('defer.js test #4')
+    }, 200);
+    defer(function () {
+        tracker.push(5), console.info('defer.js test #5')
+    }, 200);
+    defer(function () {
+        tracker.push(0), console.info('defer.js test #0 (the latest call, but has lower delay time)')
+    }, 199);
+    defer(function () {
+        console.info('Completed! ' + (tracker == '0,1,2,3,4,5' ? 'Test passed!!!' : 'Test failed. ' + tracker))
+    }, 201);
     </script>
 
-    <script type="deferjs">console.log('deferjs script tags test 1');</script>
-    <script type="deferjs">console.log('deferjs script tags test 2');</script>
-    <script type="deferjs">console.log('deferjs script tags test 3');</script>
-    <script type="deferjs">console.log('deferjs script tags test 4');</script>
-    <script type="deferjs">console.log('deferjs script tags test 5');</script>
+    <script type="deferjs">console.log('deferjs script tags test 1')</script>
+    <script type="deferjs">console.log('deferjs script tags test 2 with exception'),foo()</script>
+    <script type="deferjs">console.log('deferjs script tags test 3 runs after the exception')</script>
+    <script type="deferjs">console.log('deferjs script tags test 4')</script>
+    <script type="deferjs">console.log('deferjs script tags test 5')</script>
 </body>
 
 </html>
