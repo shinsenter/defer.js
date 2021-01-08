@@ -307,15 +307,15 @@ SOFTWARE.
     <script type="deferjs">
         // lazy-load Google Tag Manager and social button scripts
         if (/^http/.test(window.location.protocol)) {
-            deferscript('https://www.googletagmanager.com/gtag/js?id=UA-34520609-2', 'google-tag', 50);
+            deferscript('https://www.googletagmanager.com/gtag/js?id=UA-34520609-2', 'google-tag', 1000);
             deferscript('https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5c68e61cf456f1cb', 'social-buttons', 3000);
             deferscript('https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&autoLogAppEvents=1', 'facebook-sdk', 3000);
         }
 
         // lazy-load 3rd-party library's JavaScript and CSS
         var base = 'https://cdn.jsdelivr.net/npm/highlightjs@9.12.0';
-        deferstyle(base + '/styles/rainbow.css', 'highlightjs-css', 100);
-        deferscript(base + '/highlight.pack.min.js', 'highlightjs-api', 100, function () {
+        deferstyle(base + '/styles/rainbow.css', 'highlightjs-css', 1000);
+        deferscript(base + '/highlight.pack.min.js', 'highlightjs-api', 1000, function () {
             var code_blocks = [].slice.call(document.querySelectorAll('pre code'));
             code_blocks.forEach(function (block) {
                 hljs.highlightBlock(block);
@@ -403,8 +403,8 @@ deferscript('https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2', 'f
             <br />
             <pre class="notranslate"><code>Code:</code><code class="highlight html">&lt;script type="text/javascript"&gt;
 var origin = 'https://cdn.jsdelivr.net/npm/highlightjs@9.12.0';
-deferstyle(origin + '/styles/rainbow.css', 'highlightjs-css', 100);
-deferscript(origin + '/highlight.pack.min.js', 'highlightjs-api', 100, function () {
+deferstyle(origin + '/styles/rainbow.css', 'highlightjs-css', 1000);
+deferscript(origin + '/highlight.pack.min.js', 'highlightjs-api', 1000, function () {
     var code_blocks = [].slice.call(document.querySelectorAll('pre code'));
     code_blocks.forEach(function(block) {
         hljs.highlightBlock(block);
