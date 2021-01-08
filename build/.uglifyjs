@@ -13,7 +13,7 @@
         "indent_level":       0,
         "indent_start":       0,
         "inline_script":      true,
-        "keep_quoted_props":  false,
+        "keep_quoted_props":  true,
         "max_line_len":       false,
         "preamble":           null,
         "preserve_line":      false,
