@@ -170,21 +170,22 @@
                 if (target) {
                     // Remove the node from the document
                     target.parentNode.removeChild(target);
-                    target[REMOVE_ATTRIBUTE](ATTR_TYPE);
 
                     // Make a clone DOMNode
                     clone = fn_tag();
 
                     for (attr in target) {
-                        if (target[attr]) {
+                        if (clone[attr] != target[attr]) {
                             try {
                                 clone[attr] = target[attr];
-                            } catch(e) {e}
+                            } catch (error) {error}
                         }
                     }
 
                     // Then append clone to the document
-                    if (target[ATTR_SRC] && !target[HAS_ATTRIBUTE]('async')) {
+                    clone[REMOVE_ATTRIBUTE](ATTR_TYPE);
+
+                    if (clone[ATTR_SRC] && !clone[HAS_ATTRIBUTE]('async')) {
                         clone.onload = clone.onerror = appendtag;
                         fn_a2h(clone);
                     } else {

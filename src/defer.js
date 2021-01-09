@@ -110,7 +110,7 @@
             node.onload = callback;
         }
 
-        return document.getElementById(id) || node;
+        return (id ? document.getElementById(id) : 0) || node;
     }
 
     /**
