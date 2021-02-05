@@ -59,7 +59,7 @@
     "publish": "npm run combine && npm publish --access=public"
   },
   "devDependencies": {
-    "clean-css": "^4.2.3",
+    "clean-css": "^5.0.1",
     "eslint": "^7.14.0",
     "html-minifier": "^4.0.0",
     "intersection-observer": "^0.11.0",
