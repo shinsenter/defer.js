@@ -99,3 +99,16 @@ to minimize the number of requests.
 </head>
 ```
 
+
+## Browser support
+
+Available in latest browsers, also works perfectly with Internet Explorer 9 and later.
+
+- 🖥 IE9+
+- 🖥 Firefox 4+
+- 🖥 Safari 3+
+- 🖥 Chrome *
+- 🖥 Opera *
+- 📱 Android 4+
+- 📱 iOS 3.2+
+
