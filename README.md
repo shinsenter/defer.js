@@ -1,6 +1,6 @@
 # Package @shinsenter/defer.js
 
-🥇 A super small, super efficient library that helps you lazy load everything like images, video, audio, iframes as well as stylesheets, and JavaScript.
+🥇 A super small, super efficient library that helps you lazy load almost everything like images, video, audio, iframes as well as stylesheets, and JavaScript.
 
 [![NPM](https://img.shields.io/npm/l/@shinsenter/defer.js)](https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE)
 [![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/@shinsenter/defer.js)](#)
@@ -44,6 +44,29 @@ But in various cases, using `async` or `defer` attributes
 does not deliver faster page speed than [defer.js](#Defer) does.
 Furthermore [defer.js](#Defer) also gives you very simple ways
 to flexibly optimize other resources in your website.
+
+
+## Key features
+
+- 🎯 No dependencies, no jQuery
+- ⚡️ Native API, blazing fast
+- ✅ Legacy browsers support (IE9+)
+- 🧩 Lazy load almost everything
+- 👍 Very easy to use
+- 🤝 Works well with your favorite frameworks
+
+
+## Browser support
+
+Available in latest browsers, also works perfectly with Internet Explorer 9 and later.
+
+- 🖥 IE9+
+- 🖥 Firefox 4+
+- 🖥 Safari 3+
+- 🖥 Chrome *
+- 🖥 Opera *
+- 📱 Android 4+
+- 📱 iOS 3.2+
 
 
 ## How to use?
@@ -98,19 +121,6 @@ to minimize the number of requests.
   <!-- ... -->
 </head>
 ```
-
-
-## Browser support
-
-Available in latest browsers, also works perfectly with Internet Explorer 9 and later.
-
-- 🖥 IE9+
-- 🖥 Firefox 4+
-- 🖥 Safari 3+
-- 🖥 Chrome *
-- 🖥 Opera *
-- 📱 Android 4+
-- 📱 iOS 3.2+
 
 ## Functions
 
