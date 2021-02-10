@@ -48,6 +48,7 @@ to flexibly optimize other resources in your website.
 
 ## Key features
 
+- 🧶 Under 1KB (gzipped)
 - 🎯 No dependencies, no jQuery
 - ⚡️ Native API, blazing fast
 - ✅ Legacy browsers support (IE9+)
@@ -58,9 +59,11 @@ to flexibly optimize other resources in your website.
 
 ## Browser support
 
-Available in latest browsers, also works perfectly with Internet Explorer 9 and later.
+Available in latest browsers,
+also works perfectly with Internet Explorer 9
+<sup title="With including `IntersectionObserver` polyfill library">*</sup> and later.
 
-- 🖥 IE9+
+- 🖥 IE9+ / Microsoft EDGE *
 - 🖥 Firefox 4+
 - 🖥 Safari 3+
 - 🖥 Chrome *
@@ -73,7 +76,7 @@ Available in latest browsers, also works perfectly with Internet Explorer 9 and 
 
 ### Basic
 
-Insert `defer.min.js` of this library into your HTML page,
+Add `defer.min.js` from this library into your HTML page,
 just below the opening `<head>` tag:
 
 ```html
@@ -82,7 +85,8 @@ just below the opening `<head>` tag:
   <title>My Awesome Page</title>
 
   <!-- Put defer.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.0.0/dist/defer.min.js"></script>
+  <script src="defer.js/dist/defer.min.js"></script>
+  <!-- From CDN: https://cdn.jsdelivr.net/npm/@shinsenter/defer.js/dist/defer.min.js -->
 
   <!-- ... -->
 </head>
@@ -100,7 +104,8 @@ instead of `defer.min.js`.
 
 ```html
 <!-- Put defer_plus.min.js here -->
-<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.0.0/dist/defer_plus.min.js"></script>
+<script src="defer.js/dist/defer_plus.min.js"></script>
+<!-- From CDN: https://cdn.jsdelivr.net/npm/@shinsenter/defer.js/dist/defer_plus.min.js -->
 ```
 
 ### Inlining the library
@@ -121,7 +126,6 @@ to minimize the number of requests.
   <!-- ... -->
 </head>
 ```
-
 ## Functions
 
 * [Defer(func, [delay])](#Defer) ⇒ <code>void</code>
@@ -163,8 +167,10 @@ Delay some heavy DOM manipulations in JavaScript.
 
 ```js
 Defer(function() {
+  // Some JavaScript that may block page rendering
+  // such as calling jQuery's fadeIn() feature
   jQuery('div').hide().fadeIn().show();
-});
+}); // <- script runs after the page has completely loaded
 ```
 **Example**  
 Delay the same JavaScript as above for 3000ms.
@@ -434,7 +440,7 @@ to add animation to the successfully loaded elements.
 ```
 **Example**  
 This function can be used similarly for other tags
-such as ifram, video, audio, picture tags.
+such as `<iframe>`, `<video>`, `<audio>`, `<picture>` tags.
 
 ```html
 <script>
