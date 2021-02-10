@@ -39,11 +39,11 @@ SOFTWARE.
 
     <title>@shinsenter/defer.js - Easily lazy-load JS, CSS, images, iframes</title>
 
-    <script src="../dist/defer_plus.min.js?v=1.2.0"></script>
-    <script>'IntersectionObserver'in window||document.write('<script src="../dist/polyfill.min.js"><\/script>');</script>
+    <!-- <script src="../dist/defer_plus.min.js?v=1.2.0"></script> -->
+    <!-- <script type="deferjs">'IntersectionObserver'in window||deferscript('../dist/polyfill.min.js', 'polyfill-js', 1)</script> -->
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.2.0/dist/defer_plus.min.js"></script> -->
-    <!-- <script type="deferjs" charset="utf-8" defer async test>'IntersectionObserver'in window||deferscript('https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.2.0/dist/polyfill.min.js', 'polyfill-js', 1)</script> -->
+    <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.2.0/dist/defer_plus.min.js"></script>
+    <script type="deferjs">'IntersectionObserver'in window||deferscript('https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@1.2.0/dist/polyfill.min.js', 'polyfill-js', 1)</script>
 
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="mobile-web-app-capable" content="yes">
@@ -316,7 +316,8 @@ SOFTWARE.
         var base = 'https://cdn.jsdelivr.net/npm/highlightjs@9.12.0';
         deferstyle(base + '/styles/rainbow.css', 'highlightjs-css', 1000);
         deferscript(base + '/highlight.pack.min.js', 'highlightjs-api', 1000, function () {
-            defer.dom('pre code', 0, 'ide-loaded', function (block) {
+            var code_blocks = [].slice.call(document.querySelectorAll('pre code'));
+            code_blocks.forEach(function (block) {
                 hljs.highlightBlock(block);
             });
         });
@@ -370,9 +371,9 @@ SOFTWARE.
             <pre class="notranslate"><code>Code:</code><code class="highlight html">&lt;script type="text/javascript"&gt;/* my inline script */&lt;/script&gt;
 &lt;script type="text/javascript" src="path/to/my/script.js"&gt;&lt;/script&gt;</code></pre>
 
-                <p>Just change `type="text/javascript"` to `type="deferjs" charset="utf-8" defer async test`, like this:</p>
-                <pre class="notranslate"><code>Code:</code><code class="highlight html">&lt;script type="deferjs" charset="utf-8" defer async test&gt;/* my inline script */&lt;/script&gt;
-&lt;script type="deferjs" charset="utf-8" defer async test src="path/to/my/script.js"&gt;&lt;/script&gt;</code></pre>
+                <p>Just change `type="text/javascript"` to `type="deferjs"`, like this:</p>
+                <pre class="notranslate"><code>Code:</code><code class="highlight html">&lt;script type="deferjs"&gt;/* my inline script */&lt;/script&gt;
+&lt;script type="deferjs" src="path/to/my/script.js"&gt;&lt;/script&gt;</code></pre>
 
             <p><i>Note: This method can only be used since version 1.1.5.</i></p>
         </div>
@@ -472,7 +473,7 @@ deferimg('img.basic', 100);
 &lt;/script&gt;</code></pre>
             </div>
 
-            <script type="deferjs" charset="utf-8" defer async test>
+            <script type="deferjs">
                 deferimg('img.basic', 100, 'lazied', function (img) {
                     img.onload = function () {
                         img.className += ' show';
@@ -560,7 +561,7 @@ deferimg('img.fade', 100, 'lazied', function(img) {
 &lt;/script&gt;</code></pre>
             </div>
 
-            <script type="deferjs" charset="utf-8" defer async test>
+            <script type="deferjs">
                 deferimg('img.fade', 100, 'lazied', function (img) {
                     img.onload = function () {
                         img.className += ' show';
@@ -608,7 +609,7 @@ deferiframe('iframe.video', 100, 'lazied', function(frame) {
 &lt;/script&gt;</code></pre>
         </div>
 
-        <script type="deferjs" charset="utf-8" defer async test>
+        <script type="deferjs">
             deferiframe('iframe.video, div.aspect', 100, 'lazied', function (frame) {
                 frame.onload = function () {
                     frame.className += ' show';
@@ -720,14 +721,11 @@ deferiframe('iframe.video', 100, 'lazied', function(frame) {
     }, 201);
     </script>
 
-    <script type="deferjs" charset="utf-8" defer async test>console.log('deferjs script tags test 1')</script>
-    <script type="deferjs" charset="utf-8" defer async test>console.log('deferjs script tags test 2 with exception'),foo()</script>
-    <script type="deferjs" charset="utf-8" defer async test>console.log('deferjs script tags test 3 runs after the exception')</script>
-    <script type="deferjs" charset="utf-8" defer async test>console.log('deferjs script tags test 4')</script>
-    <script type="deferjs" charset="utf-8" defer async test>console.log('deferjs script tags test 5')</script>
-    <script>
-        defer.dom('#developer', 5, 'test', function(){alert('Please follow!')});
-    </script>
+    <script type="deferjs">console.log('deferjs script tags test 1')</script>
+    <script type="deferjs">console.log('deferjs script tags test 2 with exception'),foo()</script>
+    <script type="deferjs">console.log('deferjs script tags test 3 runs after the exception')</script>
+    <script type="deferjs">console.log('deferjs script tags test 4')</script>
+    <script type="deferjs">console.log('deferjs script tags test 5')</script>
 </body>
 
 </html>
