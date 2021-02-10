@@ -111,9 +111,7 @@ Available in latest browsers. This library also works perfectly with Internet Ex
 - 📱 iOS 3.2+
 
 
-
 ## Install to your page
-
 
 You can load the library via **CDN** and include it right after the opening `<head>` tag of your page.
 
