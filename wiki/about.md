@@ -69,7 +69,7 @@ Available in latest browsers, also works perfectly with Internet Explorer 9 and 
 - 📱 iOS 3.2+
 
 
-## How to use?
+## Getting started
 
 ### Basic
 
