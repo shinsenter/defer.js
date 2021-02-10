@@ -53,13 +53,13 @@
     "lint": "eslint --config build/.eslintrc --ext .js src --fix",
     "cleanup": "rm -rf ./node_modules package-lock.json",
     "tools": "npm -g install jsdoc-to-markdown eslint html-minifier js-beautify uglify-js",
-    "readme": "jsdoc2md --separators -l html -g grouped ./src/*.js > ./docs/apis.md && cat ./docs/*.md > README.md",
+    "readme": "jsdoc2md --separators -l html -g grouped ./src/*.js > ./wiki/apis.md && cat ./wiki/*.md > README.md",
     "pull": "npm run cleanup && npm run tools && npm i",
     "polyfill": "uglifyjs --config-file build/.uglifyjs -o dist/polyfill.min.js node_modules/intersection-observer/intersection-observer.js",
-    "build": "npm run lint && npm run s1 && npm run s2 && npm run polyfill && npm run demo",
+    "build": "npm run lint && npm run s1 && npm run s2 && npm run polyfill && npm run demo & npm run readme",
     "s1": "uglifyjs --config-file build/.uglifyjs -o dist/defer.min.js      src/defer.js",
     "s2": "uglifyjs --config-file build/.uglifyjs -o dist/defer_plus.min.js src/defer.js src/fallback.js",
-    "demo": "html-minifier ./src/demo.html -o docs/demo.html --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true",
+    "demo": "html-minifier ./src/demo.html -o demo/index.html --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true",
     "versionup": "npm run lint && npm --no-git-tag-version version patch -m 'Ready to publish version %s'",
     "publish": "npm run pull && npm run build && npm prune --prod && npm publish --access=public"
   }

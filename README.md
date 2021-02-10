@@ -50,7 +50,7 @@ to flexibly optimize other resources in your website.
 
 ### Basic
 
-How to insert this library into your HTML page,
+Insert `defer.min.js` of this library into your HTML page,
 just below the opening `<head>` tag:
 
 ```html
