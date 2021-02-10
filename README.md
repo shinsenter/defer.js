@@ -1,655 +1,627 @@
-# @shinsenter/defer.js
+# Package @shinsenter/defer.js
 
-🥇 A super tiny, native performant library for lazy-loading JS, CSS, images, iframes... Defer almost anything, easily speed up your website.
+🥇 A super small, super efficient library that helps you lazy load everything like images, video, audio, iframes as well as stylesheets, and JavaScript.
 
+[![NPM](https://img.shields.io/npm/l/@shinsenter/defer.js)](https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE)
+[![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/@shinsenter/defer.js)](#)
+[![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/shinsenter/defer.js)](https://www.codefactor.io/repository/github/shinsenter/defer.js)
 
-[![GitHub](https://img.shields.io/github/license/shinsenter/defer.js.svg)](https://github.com/shinsenter/defer.js)
-[![GitHub Release Date](https://img.shields.io/github/release-date/shinsenter/defer.js.svg)](https://github.com/shinsenter/defer.js/releases)
+* * *
+[![GitHub Release Date](https://img.shields.io/github/release-date/shinsenter/defer.js)](https://github.com/shinsenter/defer.js/releases)
+[![GitHub package.json version](https://img.shields.io/github/package-json/v/shinsenter/defer.js)](https://github.com/shinsenter/defer.js/releases)
+[![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@shinsenter/defer.js)](https://www.npmjs.com/package/@shinsenter/defer.js)
+[![jsDelivr hits (npm)](https://img.shields.io/jsdelivr/npm/hm/@shinsenter/defer.js)](https://www.jsdelivr.com/package/npm/@shinsenter/defer.js)
 
-[![CodeFactor](https://www.codefactor.io/repository/github/shinsenter/defer.js/badge)](https://www.codefactor.io/repository/github/shinsenter/defer.js)
-[![GitHub issues](https://img.shields.io/github/issues-raw/shinsenter/defer.js.svg)](https://github.com/shinsenter/defer.js/issues)
-[![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/shinsenter/defer.js.svg)](https://libraries.io/npm/@shinsenter%2Fdefer.js)
-[![Post an issue](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/shinsenter/defer.js/issues/new/choose)
+[![NPM](https://nodei.co/npm/@shinsenter/defer.js.png?downloads=true)](https://www.npmjs.com/package/@shinsenter/defer.js)
 
-[![npm](https://img.shields.io/npm/v/@shinsenter/defer.js.svg)](https://www.npmjs.com/package/@shinsenter/defer.js)
-[![npm bundle size](https://img.shields.io/bundlephobia/minzip/@shinsenter/defer.js.svg)](https://www.npmjs.com/package/@shinsenter/defer.js)
-[![jsDelivr hits (GitHub)](https://data.jsdelivr.com/v1/package/npm/@shinsenter/defer.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@shinsenter/defer.js)
-
-
-
-![Scoring 100/100 in Google PageSpeed Test](docs/assets/scores.jpg)
-
-
-
-## Table of Contents
+- **Package**: [@shinsenter/defer.js](https://www.npmjs.com/package/@shinsenter/defer.js)
+- **Version**: 2.0
+- **Author**: Mai Nhut Tan <shin@shin.company>
+- **Copyright**: 2021 AppSeeds <https://code.shin.company/>
+- **License**: [MIT](https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE)
 
 
-- [Table of Contents](#table-of-contents)
-- [Defer/async script tags are not good enough](#deferasync-script-tags-are-not-good-enough)
-- [Lazy-loading contents](#lazy-loading-contents)
-- [Browser support](#browser-support)
-- [Install to your page](#install-to-your-page)
-- [Basic usage](#basic-usage)
-    - [Defer loading of JavaScript](#defer-loading-of-javascript)
-        - [The easiest way to defer JavaScript](#the-easiest-way-to-defer-javascript)
-        - [Dynamically load and run JavaScript](#dynamically-load-and-run-javascript)
-    - [Lazy-load stylesheets](#lazy-load-stylesheets)
-    - [Lazy-load media](#lazy-load-media)
-        - [Lazy an image or a video](#lazy-an-image-or-a-video)
-            - [Basic HTML markup](#basic-html-markup)
-            - [Lazy an image with a low quality placeholder](#lazy-an-image-with-a-low-quality-placeholder)
-            - [Lazy a responsive image with `srcset` and `sizes` attributes](#lazy-a-responsive-image-with-srcset-and-sizes-attributes)
-            - [Lazy a responsive image with flexible format selection](#lazy-a-responsive-image-with-flexible-format-selection)
-            - [Lazy a responsive image with retina or Hi-DPI support](#lazy-a-responsive-image-with-retina-or-hi-dpi-support)
-            - [Lazy a video](#lazy-a-video)
-        - [Lazy an iframe](#lazy-an-iframe)
-            - [Basic HTML markup](#basic-html-markup)
-            - [Lazy a Youtube video](#lazy-a-youtube-video)
-            - [Lazy a Facebook post](#lazy-a-facebook-post)
-    - [Minimal version](#minimal-version)
-- [Tips and tricks](#tips-and-tricks)
-- [Advanced usage (for PROs)](#advanced-usage)
-    - [defer](#defer)
-    - [deferscript](#deferscript)
-    - [deferstyle](#deferstyle)
-    - [deferimg](#deferimg)
-    - [deferiframe](#deferiframe)
-- [Extensions](#extensions)
-    - [defer.php](#deferphp)
-    - [defer-wordpress](#defer-wordpress)
-- [Demo](#demo)
-- [Keep in touch](#keep-in-touch)
+* * *
 
 
+## Use cases
 
-## Defer/async script tags are not good enough
+In real life, many resources and third-party scripts,
+such as jQuery, are used to enhance our website
+to add additional interactivity, animations, and other effects.
 
-In real life, many JavaScript libraries, such as JQuery, are used to enhance the page to add additional interactivity, animations, and other effects. Unfortunately, the third-party script was blocking the load of all the further resources of the page.
+Unfortunately, third-party scripts usually block page rendering
+and further downloading resources of the page.
 
-According to a [Google PageSpeed Insights article](https://developers.google.com/speed/docs/insights/BlockingJS#deferJS):
+There is a [common knowledge](https://web.dev/efficiently-load-third-party-javascript/)
+that you should use `<script src=".." async>`
+(or `<script src=".." defer>`)
+and/or put your scripts at the very bottom of the page,
+so that as much as possible of the page gets loaded
+and rendered to the user, as fast as possible.
 
-> The loading and execution of scripts that are not necessary for the initial page render may be deferred until after the initial render or other critical parts of the page have finished loading. Doing so can help reduce resource contention and improve performance.
-
-There is a common knowledge that you should use `<script src=".." async defer>` (or set `script.async = true` before assigning `src`, when you do it from JS) and/or put your scripts at the very bottom of the page, so that as much as possible of the page gets loaded and rendered to the user, as fast as possible.
-
-![Defer loading of JavaScript](docs/assets/defer-script.jpg)
-
-If your page is just an HTML page enhanced with some JavaScript, then you're good with just `<script async>`. It takes time for browser to parse and execute those scripts, and each UI change may reflow your layout, make your load speed more slow, no one likes staring at a blank white page; users are impatient and will leave quickly.
-
-In various cases, using `async` or `defer` does not deliver faster page speed than [defer](#defer) or [deferscript](#deferscript) does.
-
-
-
-## Lazy-loading contents
-
-
-Other lazy loading libraries hook up to the scroll event on elements that need to be lazy loaded. This approach forces the browser to re-layout the page and it is painfully slow.
-
-Here we are, [defer.js](https://github.com/shinsenter/defer.js) is written in plain JavaScript, making lazy-loading more efficient and performant. This library is using the recently added [Intersection Observer](https://developers.google.com/web/updates/2016/04/intersectionobserver) with tremendous native performance benefits.
-
-- ⚡️ Native API, blazing fast
-- 👍🏻 Legacy browsers support (IE9+)
-- 🥇 SEO friendly
-- ✅ Very easy to use
-- 💯 No dependencies, no jQuery
-- 🤝 Works well with your favorite frameworks
-- 🧩 Uses [IntersectionObserver API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) for optimized CPU usage
-- 🏞 Supports for responsive images, both `srcset` and `sizes` attributes
+But in various cases, using `async` or `defer` attributes
+does not deliver faster page speed than [defer.js](#Defer) does.
+Furthermore [defer.js](#Defer) also gives you very simple ways
+to flexibly optimize other resources in your website.
 
 
+## How to use?
 
-## Browser support
+### Basic
 
-Available in latest browsers. This library also works perfectly with Internet Explorer 9 and later.
-
-- 🖥 IE9+ (with [W3C's Intersection Observer polyfill](https://github.com/w3c/IntersectionObserver))
-- 🖥 Firefox 4+
-- 🖥 Safari 3+
-- 🖥 Chrome *
-- 🖥 Opera *
-- 📱 Android 4+
-- 📱 iOS 3.2+
-
-
-
-## Install to your page
-
-
-You can load the library via **CDN** and include it right after the opening `<head>` tag of your page.
+How to insert this library into your HTML page,
+just below the opening `<head>` tag:
 
 ```html
 <head>
-    <title>My awesome page</title>
-    <script src="//cdn.jsdelivr.net/npm/@shinsenter/defer.js/dist/defer_plus.min.js"></script>
-    <!-- And other HTML tags from here -->
+  <meta charset="UTF-8" />
+  <title>My Awesome Page</title>
+
+  <!-- Put defer.min.js here -->
+  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.0.0/dist/defer.min.js"></script>
+
+  <!-- ... -->
 </head>
 ```
 
-💡 Best practice: Because the minified version is super tiny (less than 1KB), you can inline its content directly into the HTML document and avoid the network request.
 
+### Compatibility with previous releases
 
+I strongly recommend that you should migrate
+to the latest version for better performance.
 
-Or you can install [defer.js package](https://npmjs.com/package/@shinsenter/defer.js) with npm:
-
-```bash
-npm install @shinsenter/defer.js
-```
-
-
-
-## Basic usage
-
-
-### Defer loading of JavaScript
-
-JavaScript executions, especially ones that trigger extensive visual changes, can stall application performance.
-
-Delaying loading and executing most of the JavaScript on your site minimizes the time it slows down the page rendering process. Your site will get a higher score in website speed tests.
-
-
-
-#### The easiest way to defer JavaScript
-
-The easiest way to delay the execution of the existing `<script>` tags on your site is to modify the `type` attribute of the tag to `deferjs` (<u>except the one which contains [defer_plus.min.js](#install-to-your-page) or [defer.min.js](#minimal-version))</u>.
-
-For example: if we have 2 script tags like this.
+If you have no time and want to ensure compatibility
+with older version, use `defer_plus.min.js`
+instead of `defer.min.js`.
 
 ```html
-<script type="text/javascript">/* my inline script */</script>
-<script type="text/javascript" src="path/to/my/script.js"></script>
+<!-- Put defer_plus.min.js here -->
+<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.0.0/dist/defer_plus.min.js"></script>
 ```
 
-Just change `type="text/javascript"` to `type="deferjs"`, like this:
-
-```html
-<script type="deferjs">/* my inline script */</script>
-<script type="deferjs" src="path/to/my/script.js"></script>
-```
-
-*Note: This method can only be used since version 1.1.5.*
-
-
-
-#### Dynamically load and run JavaScript
-
-All you need to do now is just wrap all your code in `defer()` function.
-
-```html
-<script type="text/javascript">
-    // This will defer showing an alert message after 2 seconds
-    defer(function() {
-        alert("This message is shown after 2 seconds after the 'load' event.");
-    }, 2000);
-
-    // Append a HTML content to the <body> tag using jQuery
-    defer(function () {
-        $('body').html('<p>Your awesome content</p>');
-    }, 500);
-</script>
-```
-
-
-
-Or defer loading and execution of external scripts with `deferscript()` function.
-
-```html
-<script type="text/javascript">
-    // Alternative way to lazy load Google Tag Manager script
-    deferscript('//www.googletagmanager.com/gtag/js?id=UA-34520609-2', 'google-tag', 500, function() {
-        // Run extra code right after the script has been loaded
-        (window.dataLayer = window.dataLayer || []).push('config', 'UA-34520609-2');
-    });
-</script>
-```
-
-
-
-### Lazy-load stylesheets
-
-Along with lazied JavaScript, lazy-loading big CSS files of the document makes sense, because some times - on a slow connection - a user may wait for a maximum of 5 to 6 seconds loading your CSS files.
-
-While the CSS files are loading, **the website is still blank**. When the browser takes up a lot of time to load your CSS files, the user may hit the back button! You just **lost a potential subscriber**.
-
-
-
-Luckily, you can also defer you CSS files which your users may not need yet, like this:
-
-```html
-<script type="text/javascript">
-    // This will lzay-load FontAwesome icons
-    deferstyle('//use.fontawesome.com/releases/v5.7.2/css/all.css', 'fontawesome-css', 1000);
-</script>
-```
-
-
-
-### Lazy-load media
-
-In order to lazy-load your content, you must use some `data-` attributes instead of the actual attributes. See examples below.
-
-💡 Best practice: To polyfill the native IntersectionObserver API in unsupporting browsers such as IE9, you may need to include below script right after the `defer_plus.min.js`.
-
-```html
-<script src="//cdn.jsdelivr.net/npm/@shinsenter/defer.js/dist/defer_plus.min.js"></script>
-<script>
-    deferscript('//cdn.jsdelivr.net/npm/@shinsenter/defer.js/dist/polyfill.min.js', 'polyfill-js', 1);
-</script>
-```
-
-
-
-#### Lazy an image or a video
-
-Put this script anywhere you want within the `<body>` tag:
-
-```html
-<script>deferimg('img[data-src],picture,video,audio')</script>
-```
-
-
-
-##### Basic HTML markup
-
-```html
-<img alt="A lazy image" data-src="lazy.jpg">
-```
-
-
-
-##### Lazy an image with a low-quality placeholder
-
-```html
-<img alt="A lazy image" src="low-resolution.jpg" data-src="lazy.jpg">
-```
-
-
-
-##### Lazy a responsive image with srcset and sizes attributes
-
-```html
-<img alt="A lazy image"
-     data-src="lazy.jpg" data-sizes="100w"
-     data-srcset="lazy-360.jpg 360w, lazy-640.jpg 640w">
-```
-
-
-
-##### Lazy a responsive image with flexible format selection
-
-```html
-<picture>
-    <source type="image/webp" data-sizes="100w"
-            data-srcset="lazy-360.webp 360w, lazy-640.webp 640w">
-    <img alt="A lazy image"
-         data-src="lazy.jpg" data-sizes="100w"
-         data-srcset="lazy-360.jpg 360w, lazy-640.jpg 640w">
-</picture>
-```
-
-
-
-##### Lazy a responsive image with retina or Hi-DPI support
-
-```html
-<picture>
-    <source media="(min-width: 800px)"
-            data-srcset="lazy-800.jpg 1x, lazy-1600.jpg 2x">
-    <source media="(min-width: 640px)"
-            data-srcset="lazy-640.jpg 1x, lazy-1280.jpg 2x">
-    <img alt="A lazy image" data-src="lazy.jpg">
-</picture>
-```
-
-
-
-##### Lazy a video
-
-```html
-<video class="lazy" controls width="720" data-src="lazy.mp4" poster="lazy.jpg">
-    <source type="video/mp4" data-src="lazy.mp4">
-    <source type="video/ogg" data-src="lazy.ogg">
-    <source type="video/avi" data-src="lazy.avi">
-</video>
-```
-
-
-
-#### Lazy an iframe
-
-Put this script anywhere you want within the `<body>` tag:
-
-```html
-<script>deferiframe('iframe[data-src],[data-style]')</script>
-```
-
-
-
-##### Basic HTML markup
-
-```html
-<iframe src="about:blank"
-        data-src="lazy-frame.html"
-        data-style="background: transparent url(lazy.jpg) 50% 50% / cover no-repeat;"></iframe>
-```
-
-
-
-##### Lazy a Youtube video
-
-```html
-<iframe src="about:blank"
-        data-src="https://www.youtube.com/embed/<youtube-video-id>"
-        data-style="background: transparent url(https://img.youtube.com/vi/<youtube-video-id>/hqdefault.jpg) 50% 50% / cover no-repeat;"
-        frameborder="0" width="560" height="315" allowfullscreen
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
-```
-
-
-
-##### Lazy a Facebook post
-
-```html
-<iframe src="about:blank"
-        data-src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fappseeds%2Fposts%2F1502937099839267&width=500&show_text=true&height=500"
-        width="500" height="500"
-        data-style="border:none;overflow:hidden"
-        scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
-```
-
-
-
-### Minimal version
-
-If you only need the `defer()` and `deferscript()` functions for lazy-loading JavaScript, you can use a [super-super compact version](https://github.com/shinsenter/defer.js/blob/develop/dist/defer.min.js) (under 500 bytes), as below:
+### Inlining the library
+
+Since size of [defer.js](#Defer) library is optimized
+to minimum size, you can inline entire library
+in the `<head>` of the HTML document
+to minimize the number of requests.
 
 ```html
 <head>
-    <title>My awesome page</title>
-    <script src="//cdn.jsdelivr.net/npm/@shinsenter/defer.js/dist/defer.min.js"></script>
+  <meta charset="UTF-8" />
+  <title>My Awesome Page</title>
+
+  <!-- Inlining defer.min.js -->
+  <script>/* content of defer.min.js will be here */</script>
+
+  <!-- ... -->
 </head>
 ```
 
-Yes, you can inline the whole script in your HTML document for better pagespeed performance.
+## Functions
 
+* [Defer(func, [delay])](#Defer) ⇒ <code>void</code>
+    * [.all([selector])](#Defer.all) ⇒ <code>void</code>
+    * [.js(src, [id], [delay], [callback])](#Defer.js) ⇒ <code>void</code>
+    * [.css(src, [id], [delay], [callback])](#Defer.css) ⇒ <code>void</code>
+    * [.dom([selector], [delay], [cssclass], [validate], [observeOptions])](#Defer.dom) ⇒ <code>void</code>
+* ~~[defer(func, [delay])](#defer)~~
+* ~~[deferscript(src, [id], [delay], [callback])](#deferscript)~~
+* ~~[deferstyle(src, [id], [delay], [callback])](#deferstyle)~~
+* ~~[deferimg([selector], [delay], [cssclass], [validate], [observeOptions])](#deferimg)~~
 
+## Typedefs
 
-## Tips and tricks
+* [Node](#Node)
+* [function](#function) ⇒ <code>void</code>
+* [closure](#closure) ⇒ <code>void</code> \| <code>bool</code>
 
+<a name="Defer"></a>
 
-### Maintain aspect ratio of video/image
+## Defer(func, [delay]) ⇒ <code>void</code>
+Used to delay execution of JavaScript
+which may adversely affect the loading of your web page.
 
-The core concept is padding in percentages is based on width.
+All JavaScript delayed by `Defer()` will only executed
+after the web page has completely loaded.
 
-It is weird: `padding-top` and `padding-bottom` is based on an element's width. So if you had an `padding-top` of 56.25%, it happens to be a perfect 16:9 ratio! (9 / 16 = 0.5625). And with `padding-top` of 100%, we have a perfect square.
+**Kind**: global function  
+**Access**: public  
+**Since**: 2.0  
 
-So we are going to make a set of CSS classes that supports common aspect ratios.
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| func | [<code>function</code>](#function) |  | The function that will be deferred. |
+| [delay] | <code>number</code> | <code>0</code> | The duration in miliseconds to delay the `func` function. |
 
-```css
-div.aspect {
-    margin: 0;
-    padding-top: 75%; /* default is 4:3 ratio */
-    max-width: 100%;
-    height: 0;
-    overflow: hidden;
-    position: relative;
-}
+**Example**  
+Delay some heavy DOM manipulations in JavaScript.
 
-div.aspect.wide {
-    padding-top: 56.25%;
-}
+```js
+Defer(function() {
+  jQuery('div').hide().fadeIn().show();
+});
+```
+**Example**  
+Delay the same JavaScript as above for 3000ms.
 
-div.aspect.square {
-    padding-top: 100%;
-}
+```js
+Defer(function() {
+  jQuery('div').hide().fadeIn().show();
+}, 3000); // <- Added 3000 = Delay for 3000ms
 ```
 
-How do you put content inside if `padding-top` is pushing everything down?
+* [Defer(func, [delay])](#Defer) ⇒ <code>void</code>
+    * [.all([selector])](#Defer.all) ⇒ <code>void</code>
+    * [.js(src, [id], [delay], [callback])](#Defer.js) ⇒ <code>void</code>
+    * [.css(src, [id], [delay], [callback])](#Defer.css) ⇒ <code>void</code>
+    * [.dom([selector], [delay], [cssclass], [validate], [observeOptions])](#Defer.dom) ⇒ <code>void</code>
 
-We hid the content in the box with `overflow: hidden`, and we'll need an inside wrapper for the absolute positioning. Let's get specific with below CSS:
 
-```css
-div.aspect > * {
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    vertical-align: top;
-    z-index: 2;
-}
+* * *
+
+<a name="Defer.all"></a>
+
+### Defer.all([selector]) ⇒ <code>void</code>
+By default, this function is triggered automatically.
+
+All script tags with attribute `<script type="deferjs">`
+will be delayed and automatically executed
+as soon as the page has completely loaded.
+
+This function is useful when you don't want heavy JavaScript works
+to affect your website loading speed.
+
+**Kind**: static method of [<code>Defer</code>](#Defer)  
+**Access**: public  
+**Since**: 2.0  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [selector] | <code>string</code> | <code>&quot;[type&#x3D;deferjs]&quot;</code> | A CSS selector that queries script tags will be deferred. |
+
+**Example**  
+You just need to simply change `type="text/javascript"` to `type="deferjs"`,
+or add `type="deferjs"` to your script tag for it to take effect.
+
+Before:
+```html
+<script type="text/javascript" src="heavy-library.js"></script>
+<script>// heavy script here </script>
+```
+After:
+```html
+<script type="deferjs" src="heavy-library.js"></script>
+<script type="deferjs">// heavy script here </script>
+```
+**Example**  
+If you don't want the `<script type="deferjs">` syntax,
+or you want to define another name for website,
+please call `Defer.all()` manually at the bottom of the `<body>` tag.
+
+This example uses `type="myjs"` instead of `type="deferjs"`:
+```html
+<script type="myjs" src="heavy-library.js"></script>
+<script type="myjs">// heavy script here </script>
+
+<!-- Call Defer.all() at the bottom of the `<body>` tag -->
+<script>Defer.all('script[type="myjs"]');</script>
 ```
 
-Then we apply above CSS concepts to `<img>`, `<video>` and `<iframe>` tags to make them fluid width while maintaining their unique aspect ratios.
+* * *
+
+<a name="Defer.js"></a>
+
+### Defer.js(src, [id], [delay], [callback]) ⇒ <code>void</code>
+For lazy loading external JavaScript files.
+
+This function is useful when you don't want heavy JavaScript
+(especially the widgets of social networks, ad services)
+to affect your website loading speed.
+
+**Kind**: static method of [<code>Defer</code>](#Defer)  
+**Access**: public  
+**Since**: 2.0  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| src | <code>string</code> |  | URL to the js file that should be lazy loaded. |
+| [id] | <code>string</code> |  | The ID will be assigned to the script tag to avoid downloading the same file multiple times. |
+| [delay] | <code>number</code> | <code>0</code> | The duration in miliseconds to delay loading the js file. |
+| [callback] | [<code>closure</code>](#closure) |  | The callback function will be executed if the js file is successfully loaded. |
+
+**Example**  
+Delay loading of Facebook SDK after 3000ms.
+
+```js
+Defer.js('https://connect.facebook.net/en_US/sdk.js', 'fb-sdk', 3000);
+```
+**Example**  
+Delay loading of AddThis SDK after 5000ms.
+
+```js
+var addthis_id = 'ra-5c68e61cf456f1cb';
+Defer.js('https://s7.addthis.com/js/300/addthis_widget.js#pubid=' + addthis_id, 'addthis-js', 5000);
+```
+
+* * *
+
+<a name="Defer.css"></a>
+
+### Defer.css(src, [id], [delay], [callback]) ⇒ <code>void</code>
+For lazy loading external CSS files.
+
+This function is useful when you don't want heavy CSS
+(like Web Fonts) to affect your website loading speed.
+
+**Kind**: static method of [<code>Defer</code>](#Defer)  
+**Access**: public  
+**Since**: 2.0  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| src | <code>string</code> |  | URL to the css file that should be lazy loaded. |
+| [id] | <code>string</code> |  | The ID will be assigned to the script tag to avoid downloading the same file multiple times. |
+| [delay] | <code>number</code> | <code>0</code> | The duration in miliseconds to delay loading the css file. |
+| [callback] | [<code>closure</code>](#closure) |  | The callback function will be executed if the css file is successfully loaded. |
+
+**Example**  
+Lazy load FontAwesome Webfont from its CDN.
+
+```js
+Defer.css('https://pro.fontawesome.com/releases/v5.10.0/css/all.css', 'fa5-css');
+```
+**Example**  
+Delay loading animate.css from CDN for 1000ms.
+
+```js
+Defer.css('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css', 'animate-css', 1000);
+```
+
+* * *
+
+<a name="Defer.dom"></a>
+
+### Defer.dom([selector], [delay], [cssclass], [validate], [observeOptions]) ⇒ <code>void</code>
+For lazy loading attributes of any element on the page.
+
+Basically, the `Defer.dom` function converts all `data-*` attributes
+into regular attributes (e.g. from `data-src` to `src`)
+when user scrolling to the position
+where the element appears within the browser's viewport.
+
+Most of modern browsers support
+[IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) feature.
+
+To take advantage of native performance
+for older browsers that doesn't support this feature (such as IE9),
+you should load `IntersectionObserver` polyfill library
+right after the `defer.min.js` script tag as following example:
+```html
+<!-- Put defer.min.js here -->
+<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.0.0/dist/defer.min.js"></script>
+
+<!-- Put polyfill right after defer.min.js tag -->
+<script>'IntersectionObserver'in window||document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"><\/script>');</script>
+```
+
+**Kind**: static method of [<code>Defer</code>](#Defer)  
+**Access**: public  
+**Since**: 2.0  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [selector] | <code>string</code> | <code>&quot;[data-src]&quot;</code> | A CSS selector that queries elements will be lazy loaded. |
+| [delay] | <code>number</code> | <code>0</code> | The duration in miliseconds to delay the lazy loading for the elements. |
+| [cssclass] | <code>string</code> |  | A CSS class will be added automatically after when an element has been loaded successfully. |
+| [validate] | [<code>closure</code>](#closure) |  | A function will be executed with element will be lazy loaded as its argument. If the function returns `false`, lazy loading for that element will be skipped. |
+| [observeOptions] | <code>object</code> |  | [Intersection observer options](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#Intersection_observer_options) |
+
+**Example**  
+Basic usage:
+Lazy load all `<img>` tags which have CSS class `lazy`.
 
 ```html
-<!-- Here is another image with 4:3 ratio -->
-<div class="aspect">
-    <img alt="A lazy image" data-src="lazy.jpg">
-</div>
+<script>Defer.dom('img.lazy');</script>
 
-<!-- And this will be a video with 16:9 ratio -->
-<div class="aspect wide">
-    <video class="lazy" controls data-src="lazy.mp4" poster="lazy.jpg">
-        <source type="video/mp4" data-src="lazy.mp4">
-        <source type="video/ogg" data-src="lazy.ogg">
-        <source type="video/avi" data-src="lazy.avi">
-    </video>
-</div>
+<!-- Here may be a very long content -->
 
-<!-- Or even a Youtube video in a iframe -->
-<div class="aspect wide">
-    <iframe src="about:blank"
-        data-src="https://www.youtube.com/embed/<youtube-video-id>"
-        frameborder="0" allowfullscreen
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
-</div>
+<img class="lazy" alt="Photo 1" data-src="https://picsum.photos/200/300?random=1" width="200" height="300" />
+<img class="lazy" alt="Photo 2" data-src="https://picsum.photos/200/300?random=2" width="200" height="300" />
+<img class="lazy" alt="Photo 3" data-src="https://picsum.photos/200/300?random=3" width="200" height="300" />
 ```
-
-
-
-### Fade in video/image when it's completely loaded
-
-We can add a simple effect to our images when it is completely loaded.
-
-In this example, we are going to add a fade-in effect to image and iframe tags that have `fade` class name. it can be done like this:
+**Example**  
+Basic usage:
+Lazy load background image of a `div` tag.
 
 ```html
-<style type="text/css">
-/* hide the element with opacity is set to 0 */
-.fade {
-    transition: opacity 500ms ease-in-out;
-    opacity: 0;
-}
-
-/* show it with the 'shown' class */
-.fade.shown {
-    opacity: 1;
-    background: 0 0;
-}
+<style>
+  #my_div {
+    width: 300;
+    height: 200;
+  }
 </style>
 
-
-<script type="text/javascript">
-    // We define a callback function
-    // to add a 'shown' class into the element when it is loaded
-    var media_loaded = function (media) {
-        media.className += ' shown';
-    }
-
-    // Then call the deferimg and deferiframe methods
-    deferimg('img.fade', 300, 'lazied', media_loaded);
-    deferiframe('iframe.fade', 300, 'lazied', media_loaded);
+<script>
+  // Lazy load div tag which has `id="my_div"`
+  Defer.dom('#my_div');
 </script>
 
+<!-- Here may be a very long content -->
 
-<!-- Simple <img> tag with 'fade' class -->
-<div class="fade aspect">
-    <img alt="A lazy image" data-src="lazy.jpg">
-</div>
-
-
-<!-- I added a placeholder background image in the <div> tag -->
-<div class="fade aspect wide"
-    data-style="background: transparent url(https://img.youtube.com/vi/<youtube-video-id>/hqdefault.jpg) 50% 50% / cover no-repeat;">
-    <iframe src="about:blank"
-        data-src="https://www.youtube.com/embed/<youtube-video-id>"
-        frameborder="0" allowfullscreen
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
+<div id="my_div"
+  data-style="background: url(https://img.youtube.com/vi/Uz970DggW7E/hqdefault.jpg) 50% 50% / cover no-repeat;">
+  <!-- The content -->
 </div>
 ```
+**Example**  
+Advanced usage:
+Delay lazy loading `<img>` tags 200ms after the page has completely loaded.
+Then it will add a CSS class `loaded` to the fully lazy loaded image element.
 
+```html
+<script>Defer.dom('img.lazy-extra', 200, 'loaded');</script>
 
+<!-- Here may be a very long content -->
 
-## Advanced usage
+<img class="lazy-extra" alt="Photo 1" data-src="https://picsum.photos/200/300?random=1" width="200" height="300" />
+<img class="lazy-extra" alt="Photo 2" data-src="https://picsum.photos/200/300?random=2" width="200" height="300" />
+<img class="lazy-extra" alt="Photo 3" data-src="https://picsum.photos/200/300?random=3" width="200" height="300" />
+```
+**Example**  
+Advanced usage: Lazy load with [Intersection observer options](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#Intersection_observer_options)
 
-This is the section where you can find detailed usage of each method of defer.js.
+```html
+<script>
+  // Preload images within 200% of the current viewport size.
+  Defer.dom("img.lazy-sooner", 200, "loaded", null, {
+    rootMargin: "200%"
+  });
+</script>
 
-Keep calm and defer everything you want. Let's go!
+<!-- Here may be a very long content -->
 
+<img class="lazy-sooner" alt="Photo 1" data-src="https://picsum.photos/200/300?random=1" width="200" height="300" />
+<img class="lazy-sooner" alt="Photo 2" data-src="https://picsum.photos/200/300?random=2" width="200" height="300" />
+<img class="lazy-sooner" alt="Photo 3" data-src="https://picsum.photos/200/300?random=3" width="200" height="300" />
+```
+**Example**  
+We can use CSS class that added to the lazy loaded element
+to add animation to the successfully loaded elements.
 
+```html
+<script>Defer.dom('img.fade', 200, 'loaded');</script>
+<style>
+  img.fade {
+    transition: opacity 500ms ease-in-out;
+    opacity: 0;
+  }
+  img.fade.loaded {
+    background: none;
+    opacity: 1;
+  }
+</style>
 
-### defer
+<!-- Here may be a very long content -->
 
-```javascript
-defer(func [, delay ])
+<img class="fade" alt="Photo 1" data-src="https://picsum.photos/200/300?random=1" width="200" height="300" />
+<img class="fade" alt="Photo 2" data-src="https://picsum.photos/200/300?random=2" width="200" height="300" />
+<img class="fade" alt="Photo 3" data-src="https://picsum.photos/200/300?random=3" width="200" height="300" />
+```
+**Example**  
+This function can be used similarly for other tags
+such as ifram, video, audio, picture tags.
+
+```html
+<script>
+  // Lazy load all elements which have CSS class `multi-lazy`
+  Defer.dom('.multi-lazy', 200, 'loaded');
+</script>
+
+<!-- Here may be a very long content -->
+
+<iframe class="multi-lazy" title="Youtube"
+  width="400" height="300" allowfullscreen
+  allow="accelerometer;autoplay;encrypted-media;gyroscope;picture-in-picture"
+  data-style="background: url(https://img.youtube.com/vi/Uz970DggW7E/hqdefault.jpg) 50% 50% / cover no-repeat;"
+  data-src="https://www.youtube.com/embed/Uz970DggW7E"></iframe>
+
+<picture class="multi-lazy">
+  <source media="(min-width:800px)" data-srcset="https://picsum.photos/800/1200">
+  <source media="(min-width:600px)" data-srcset="https://picsum.photos/600/900">
+  <img data-src="https://picsum.photos/200/300" alt="Photo" style="width:auto;">
+</picture>
+
+<audio class="multi-lazy" controls>
+  <source data-src="sound.ogg" type="audio/ogg">
+  <source data-src="sound.mp3" type="audio/mpeg">
+  Your browser does not support the audio tag.
+</audio>
+
+<video class="multi-lazy" width="320" height="240" controls>
+  <source data-src="movie.mp4" type="video/mp4">
+  <source data-src="movie.ogg" type="video/ogg">
+  Your browser does not support the video tag.
+</video>
+```
+**Example**  
+Or even execute a piece of JavaScript
+when the user scrolls to the element `#my_div`.
+
+```html
+<script>
+  // Show an alert when user scrolled to #my_div
+  Defer.dom('#my_div', null, null, function(element) {
+    window.alert('You scrolled to #' + element.id);
+  });
+</script>
+
+<!-- Here may be a very long content -->
+
+<div id="my_div">
+  This is my content.
+</div>
+```
+**Example**  
+Combine with other Defer functions.
+Delay loading highlightjs library for 1000ms.
+Then when you scroll to any `code` tag, enable code highlighting for it.
+
+```js
+var base = 'https://cdn.jsdelivr.net/npm/highlightjs@9.12.0';
+Defer.css(base + '/styles/rainbow.css', 'hljs-css', 1000);
+Defer.js(base + '/highlight.pack.min.js', 'hljs-js', 1000, function () {
+    Defer.dom('pre code', 0, 'ide-loaded', function (block) {
+        hljs.highlightBlock(block);
+    });
+});
 ```
 
-This is our hero: the `defer` function.
-This will push your function `func` into queue with its delay time.
-If browser's `load` event was fired, your function will be executed.
+* * *
 
-| Argument | Type     | Description                                                  |
-| -------- | -------- | ------------------------------------------------------------ |
-| func     | Function | The function to be deferred.                                 |
-| delay    | Integer  | (Optional) The delay time to start executing the function (in miliseconds). Default: 80. |
+<a name="defer"></a>
 
+## ~~defer(func, [delay])~~
+***Deprecated***
 
+**Kind**: global function  
+**Access**: public  
+**See**: [Defer](#Defer)  
+**Since**: 1.0  
 
-### deferscript
-
-```javascript
-deferscript(src [, id [, delay [, callback ]]])
-```
-
-This function will lazy-load a script from given URL in `src` argument.
-The tag id and delay time can be set in `id` and `delay` arguments.
-Sometimes you may call a `callback` function when the file is loaded.
-
-| Argument | Type              | Description                                                  |
-| -------- | ----------------- | ------------------------------------------------------------ |
-| src      | String            | The URL of .js file.                                         |
-| id       | String or `false` | (Optional) The `id` attribute of the &lt;script&gt; tag.  |
-| delay    | Integer           | (Optional) The delay time to start download and executing the .js file (in miliseconds). Default: 80. |
-| callback | Function          | (Optional) The callback function after the .js file is loaded and executed. |
+| Param | Type |
+| --- | --- |
+| func | [<code>function</code>](#function) | 
+| [delay] | <code>number</code> | 
 
 
+* * *
 
-### deferstyle
+<a name="deferscript"></a>
 
-```javascript
-deferstyle(src, id [, delay [, callback ]])
-```
+## ~~deferscript(src, [id], [delay], [callback])~~
+***Deprecated***
 
-This function will lazy-load stylesheet from given URL in `src` argument.
-The tag id and delay time can be set in `id` and `delay` arguments.
-Sometimes you may call a `callback` function when the file is loaded.
+**Kind**: global function  
+**Access**: public  
+**See**: [js](#Defer.js)  
+**Since**: 1.0  
 
-| Argument | Type              | Description                                                  |
-| -------- | ----------------- | ------------------------------------------------------------ |
-| src      | String            | The URL of .css file.                                        |
-| id       | String or `false` | (Optional) The `id` attribute of the &lt;link&gt; tag.    |
-| delay    | Integer           | (Optional) The delay time to start download and parsing the .css file (in miliseconds). Default: 80. |
-| callback | Function          | (Optional) The callback function after the .css file is loaded and executed. |
-
-
-
-### deferimg
-
-```javascript
-deferimg(query_selector [, delay [, load_class [, callback ]]])
-```
-
-| Argument       | Type     | Description                                                  |
-| -------------- | -------- | ------------------------------------------------------------ |
-| query_selector | String   | The query selctor. Default: 'img.lazy'.                      |
-| delay          | Integer  | (Optional) The delay time to trigger lazy-load on the image (in miliseconds). Default: 80. |
-| load_class     | String   | (Optional) The class name when the image is swapped its real `src`. Default: 'lazied'. |
-| callback       | Function | (Optional) The callback function when the image is loaded.   |
-| options        | Object   | (Optional) [Intersection observer options](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#Intersection_observer_options). |
-
-✅ The `this` in `callback` is a reference to the target `<img>` DOM element.
+| Param | Type |
+| --- | --- |
+| src | <code>string</code> | 
+| [id] | <code>string</code> | 
+| [delay] | <code>number</code> | 
+| [callback] | <code>callback</code> | 
 
 
+* * *
 
-### deferiframe
+<a name="deferstyle"></a>
 
-```javascript
-deferiframe(query_selector [, delay [, load_class [, callback ]]])
-```
+## ~~deferstyle(src, [id], [delay], [callback])~~
+***Deprecated***
 
-| Argument       | Type     | Description                                                  |
-| -------------- | -------- | ------------------------------------------------------------ |
-| query_selector | String   | The query selctor. Default: 'iframe.lazy'.                   |
-| delay          | Integer  | (Optional) The delay time to trigger lazy-load on the iframe (in miliseconds). Default: 80. |
-| load_class     | String   | (Optional) The class name when the iframe is swapped its real `src`. Default: 'lazied'. |
-| callback       | Function | (Optional) The callback function when the iframe is loaded.  |
-| options        | Object   | (Optional) [Intersection observer options](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#Intersection_observer_options). |
+**Kind**: global function  
+**Access**: public  
+**See**: [css](#Defer.css)  
+**Since**: 1.0  
 
-✅ The `this` in `callback` is a reference to the target `<iframe>` DOM element.
-
-
-
-## Extensions
+| Param | Type |
+| --- | --- |
+| src | <code>string</code> | 
+| [id] | <code>string</code> | 
+| [delay] | <code>number</code> | 
+| [callback] | <code>callback</code> | 
 
 
-I am build other awesome extensions to integrate defer.js to your websites.
+* * *
 
-### [defer.php](https://github.com/shinsenter/defer.php/releases)
+<a name="deferimg"></a>
 
-defer.php is a PHP helper class for your PHP website (compatible with Laravel, CodeIgniter...).
+## ~~deferimg([selector], [delay], [cssclass], [validate], [observeOptions])~~
+***Deprecated***
 
+**Kind**: global function  
+**Access**: public  
+**See**: [dom](#Defer.dom)  
+**Since**: 1.0  
 
-### [defer-wordpress](https://wordpress.org/plugins/shins-pageload-magic)
-
-WordPress remains one of the most popular CMS platform until now. This is a WordPress plugin. Hope you guys like it.
-
-
-
-## Demo
-
-
-You can view full demo of using defer.js at below link.
-
-https://appseeds.net/defer.js/demo.html
-
-✅ See Google Pagespeed Insights test result [here](https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Fappseeds.net%2Fdefer.js%2Fdemo.html).
+| Param | Type |
+| --- | --- |
+| [selector] | <code>string</code> | 
+| [delay] | <code>number</code> | 
+| [cssclass] | <code>string</code> | 
+| [validate] | <code>callback</code> | 
+| [observeOptions] | <code>object</code> | 
 
 
+* * *
 
-## Keep in touch
+<a name="Node"></a>
 
-[![Donate via Paypal](https://pics.paypal.com/00/s/NTQ4M2ZiN2YtZDg1My00ZmRiLWJiMDQtMTFlMjg2ODY2N2Uy/file.PNG)](https://www.paypal.me/shinsenter)
+## Node
+The DOM Node interface
 
-[![Become a sponsor](https://c5.patreon.com/external/logo/become_a_patron_button@2x.png)](https://www.patreon.com/appseeds)
+**Kind**: global typedef  
+**See**: [https://developer.mozilla.org/en-US/docs/Web/API/Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)  
+
+* * *
+
+<a name="function"></a>
+
+## function ⇒ <code>void</code>
+A definition for an ordinary function,
+used as a parameter to another function.
+
+**Kind**: global typedef  
+
+* * *
+
+<a name="closure"></a>
+
+## closure ⇒ <code>void</code> \| <code>bool</code>
+The definition for a function that takes one parameter is a DOM [Node](#Node) element
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| element | [<code>Node</code>](#Node) | The DOM [Node](#Node) element |
 
 
+* * *
 
-- Become a stargazer:
-  https://github.com/shinsenter/defer.js/stargazers
-- Report an issue:
-  https://github.com/shinsenter/defer.js/issues
-- Keep up-to-date with new releases:
-  https://github.com/shinsenter/defer.js/releases
+## Defer.js for another platforms
+
+### PHP library
+
+https://github.com/shinsenter/defer.php/
+
+🚀 A PHP library that focuses on minimizing payload size of HTML document and optimizing processing on the browser when rendering the web page.
 
 
+### Wordpress plugin
 
----
+https://github.com/shinsenter/defer-wordpress/
 
-Released under the MIT license.
-https://appseeds.net/defer.js/LICENSE
+⚡️ A native, blazing fast lazy loader. ✅ Legacy browsers support (IE9+). 💯 SEO friendly. 🧩 Lazy load almost anything.
 
-Copyright (c) 2019 Mai Nhut Tan &lt;[shin@shin.company](mailto:shin@shin.company)&gt;.
+
+### Laravel package
+
+Under development.
+
+
+## Support my activities
+
+[![Donate via Paypal](https://img.shields.io/badge/Donate-Paypal-blue)](https://www.paypal.me/shinsenter)
+[![Become a sponsor](https://img.shields.io/badge/Donate-Patreon-orange)](https://www.patreon.com/appseeds)
+[![Become a stargazer](https://img.shields.io/badge/Support-Stargazer-yellow)](https://github.com/shinsenter/defer.js/stargazers)
+[![Report an issue](https://img.shields.io/badge/Support-Issues-red)](https://github.com/shinsenter/defer.js/issues/new)
+
+
+* * *
 
 From Vietnam 🇻🇳 with love.

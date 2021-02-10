@@ -30,49 +30,56 @@
  *
  */
 
-/* Fallback for older version of @shinsenter/defer.js */
+/**
+ * Fallback for older version of @shinsenter/defer.js
+ * @deprecated
+ */
 (function (window, defer) {
 
     /**
      * @deprecated Deprecated since version 2.0
      * @function
+     * @public
      * @name defer
      * @since 1.0
      * @param {function} func
      * @param {number}   [delay]
-     * @see {@link Defer}
+     * @see {@link Defer|Defer}
      */
     window.defer = defer = window.Defer;
 
     /**
      * @deprecated Deprecated since version 2.0
      * @function
+     * @public
      * @name deferscript
      * @since 1.0
      * @param {string}   src
      * @param {string}   [id]
      * @param {number}   [delay]
      * @param {callback} [callback]
-     * @see {@link Defer.js}
+     * @see {@link Defer.js|Defer.js}
      */
     window.deferscript = defer.js;
 
     /**
      * @deprecated Deprecated since version 2.0
      * @function
+     * @public
      * @name deferstyle
      * @since 1.0
      * @param {string}   src
      * @param {string}   [id]
      * @param {number}   [delay]
      * @param {callback} [callback]
-     * @see {@link Defer.css}
+     * @see {@link Defer.css|Defer.css}
      */
     window.deferstyle = defer.css;
 
     /**
      * @deprecated Deprecated since version 2.0
      * @function
+     * @public
      * @name deferimg
      * @alias  deferiframe
      * @since 1.0
@@ -81,7 +88,7 @@
      * @param {string}   [cssclass]
      * @param {callback} [validate]
      * @param {object}   [observeOptions]
-     * @see {@link Defer.dom}
+     * @see {@link Defer.dom|Defer.dom}
      */
     window.deferimg = window.deferiframe = defer.dom;
 

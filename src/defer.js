@@ -34,63 +34,10 @@
  * that helps you lazy load everything like images, video, audio, iframes
  * as well as stylesheets, and JavaScript.
  *
- * @namespace "@shinsenter/defer.js"
- * @public
  * @author Mai Nhut Tan <shin@shin.company>
  * @copyright 2021 AppSeeds <https://code.shin.company/>
  * @version 2.0
- * @license MIT
- *
- * ---
- *
- * In real life, many JavaScript libraries, such as JQuery,
- * are used to enhance our website
- * to add additional interactivity, animations, and other effects.
- * Unfortunately, third-party scripts usually block page rendering
- * and further downloading resources of the page.
- *
- * There is a common knowledge that
- * you should use `<script src=".." async defer>`
- * (or set `script.async = true` before assigning `src`, when you do it from JS)
- * and/or put your scripts at the very bottom of the page,
- * so that as much as possible of the page gets loaded
- * and rendered to the user, as fast as possible.
- *
- * But in various cases, using `async` or `defer` attributes
- * does not deliver faster page speed than [defer.js](#Defer) does.
- *
- * Furthermore [defer.js](#Defer) also gives you very simple ways
- * to flexibly optimize other components of your website.
- *
- * ---
- *
- * @example
- * How to insert this library into your HTML page:
- * ```html
- * <!DOCTYPE html>
- * <html lang="en">
- *   <head>
- *     <meta charset="UTF-8" />
- *     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
- *     <title>My Awesome Page</title>
- *
- *     <!-- Put defer.min.js here -->
- *     <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.0.0/dist/defer.min.js"></script>
- *
- *     <!-- Other tags -->
- *   </head>
- *   <body>
- *     <!-- The content -->
- *   </body>
- * </html>
- * ```
- *
- * @example
- * To ensure compatibility with methods of older version, use `defer_plus.min.js` instead.
- * ```html
- * <!-- Put defer_plus.min.js here -->
- * <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.0.0/dist/defer_plus.min.js"></script>
- * ```
+ * @license {@link https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE|MIT}
  */
 
 /*@shinsenter/defer.js*/
@@ -246,19 +193,25 @@
      * @public
      * @since 2.0
      * @param {function} func - The function that will be deferred.
-     * @param {number}   [delay=0] - The duration in seconds to delay the `func` function.
+     * @param {number}   [delay=0] - The duration in miliseconds to delay the `func` function.
      * @returns {void}
      *
      * @example
+     * Delay some heavy DOM manipulations in JavaScript.
      *
      * ```js
-     *
+     * Defer(function() {
+     *   jQuery('div').hide().fadeIn().show();
+     * });
      * ```
      *
      * @example
+     * Delay the same JavaScript as above for 3000ms.
      *
      * ```js
-     *
+     * Defer(function() {
+     *   jQuery('div').hide().fadeIn().show();
+     * }, 3000); // <- Added 3000 = Delay for 3000ms
      * ```
      */
     defer = function (func, delay) {
@@ -270,15 +223,14 @@
     };
 
     /**
-     * For lazy loading inline JavaScript tags
-     * which has `type="deferjs"` attribute instead of `type="text/javascript"`.
+     * By default, this function is triggered automatically.
+     *
+     * All script tags with attribute `<script type="deferjs">`
+     * will be delayed and automatically executed
+     * as soon as the page has completely loaded.
      *
      * This function is useful when you don't want heavy JavaScript works
      * to affect your website loading speed.
-     *
-     * This function is triggered automatically
-     * for every `<script type="deferjs">` tags
-     * as soon as the page has completely loaded.
      *
      * @function Defer.all
      * @public
@@ -287,7 +239,7 @@
      * @returns {void}
      *
      * @example
-     * By default, all script tags with attribute `type="deferjs"` will be automatically lazy loaded.
+     *
      * You just need to simply change `type="text/javascript"` to `type="deferjs"`,
      * or add `type="deferjs"` to your script tag for it to take effect.
      *
@@ -303,16 +255,17 @@
      * ```
      *
      * @example
-     * If you need to define another name for yourself,
-     * please call this function manually at the bottom of the `<body>` tag.
+     * If you don't want the `<script type="deferjs">` syntax,
+     * or you want to define another name for website,
+     * please call `Defer.all()` manually at the bottom of the `<body>` tag.
      *
-     * To use `type="appseeds/defer"` instead of `type="deferjs"`:
+     * This example uses `type="myjs"` instead of `type="deferjs"`:
      * ```html
-     * <script type="appseeds/defer" src="heavy-library.js"></script>
-     * <script type="appseeds/defer">// heavy script here </script>
+     * <script type="myjs" src="heavy-library.js"></script>
+     * <script type="myjs">// heavy script here </script>
      *
-     * <!-- Call Defer.all() at bottom of the `<body>` tag -->
-     * <script>Defer.all('script[type="appseeds/defer"]');</script>
+     * <!-- Call Defer.all() at the bottom of the `<body>` tag -->
+     * <script>Defer.all('script[type="myjs"]');</script>
      * ```
      */
     defer.all = _proceedJs;
@@ -329,7 +282,7 @@
      * @since 2.0
      * @param {string}  src - URL to the js file that should be lazy loaded.
      * @param {string}  [id] - The ID will be assigned to the script tag to avoid downloading the same file multiple times.
-     * @param {number}  [delay=0] - The duration in seconds to delay loading the js file.
+     * @param {number}  [delay=0] - The duration in miliseconds to delay loading the js file.
      * @param {closure} [callback] - The callback function will be executed if the js file is successfully loaded.
      * @returns {void}
      *
@@ -367,7 +320,7 @@
      * @since 2.0
      * @param {string}  src - URL to the css file that should be lazy loaded.
      * @param {string}  [id] - The ID will be assigned to the script tag to avoid downloading the same file multiple times.
-     * @param {number}  [delay=0] - The duration in seconds to delay loading the css file.
+     * @param {number}  [delay=0] - The duration in miliseconds to delay loading the css file.
      * @param {closure} [callback] - The callback function will be executed if the css file is successfully loaded.
      * @returns {void}
      *
@@ -413,6 +366,7 @@
      * ```html
      * <!-- Put defer.min.js here -->
      * <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.0.0/dist/defer.min.js"></script>
+     *
      * <!-- Put polyfill right after defer.min.js tag -->
      * <script>'IntersectionObserver'in window||document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"><\/script>');</script>
      * ```
@@ -421,7 +375,7 @@
      * @public
      * @since 2.0
      * @param {string}  [selector=[data-src]] - A CSS selector that queries elements will be lazy loaded.
-     * @param {number}  [delay=0] - The duration in seconds to delay the lazy loading for the elements.
+     * @param {number}  [delay=0] - The duration in miliseconds to delay the lazy loading for the elements.
      * @param {string}  [cssclass] - A CSS class will be added automatically after when an element has been loaded successfully.
      * @param {closure} [validate] - A function will be executed with element will be lazy loaded as its argument. If the function returns `false`, lazy loading for that element will be skipped.
      * @param {object}  [observeOptions] - [Intersection observer options](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#Intersection_observer_options)
