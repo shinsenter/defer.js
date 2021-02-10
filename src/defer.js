@@ -201,8 +201,10 @@
      *
      * ```js
      * Defer(function() {
+     *   // Some JavaScript that may block page rendering
+     *   // such as calling jQuery's fadeIn() feature
      *   jQuery('div').hide().fadeIn().show();
-     * });
+     * }); // <- script runs after the page has completely loaded
      * ```
      *
      * @example
@@ -479,7 +481,7 @@
      *
      * @example
      * This function can be used similarly for other tags
-     * such as ifram, video, audio, picture tags.
+     * such as `<iframe>`, `<video>`, `<audio>`, `<picture>` tags.
      *
      * ```html
      * <script>
