@@ -38,10 +38,9 @@
 
     /**
      * @deprecated Deprecated since version 2.0
-     * @function
      * @public
-     * @name defer
      * @since 1.0
+     * @function defer
      * @param {function} func
      * @param {number}   [delay]
      * @see {@link Defer|Defer}
@@ -50,10 +49,9 @@
 
     /**
      * @deprecated Deprecated since version 2.0
-     * @function
      * @public
-     * @name deferscript
      * @since 1.0
+     * @function deferscript
      * @param {string}   src
      * @param {string}   [id]
      * @param {number}   [delay]
@@ -64,10 +62,9 @@
 
     /**
      * @deprecated Deprecated since version 2.0
-     * @function
      * @public
-     * @name deferstyle
      * @since 1.0
+     * @function deferstyle
      * @param {string}   src
      * @param {string}   [id]
      * @param {number}   [delay]
@@ -78,10 +75,9 @@
 
     /**
      * @deprecated Deprecated since version 2.0
-     * @function
      * @public
-     * @name deferimg
      * @alias  deferiframe
+     * @function deferimg
      * @since 1.0
      * @param {string}   [selector]
      * @param {number}   [delay]

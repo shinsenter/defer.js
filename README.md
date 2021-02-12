@@ -7,6 +7,7 @@
 [![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/shinsenter/defer.js)](https://www.codefactor.io/repository/github/shinsenter/defer.js)
 
 * * *
+
 [![GitHub Release Date](https://img.shields.io/github/release-date/shinsenter/defer.js)](https://github.com/shinsenter/defer.js/releases)
 [![GitHub package.json version](https://img.shields.io/github/package-json/v/shinsenter/defer.js)](https://github.com/shinsenter/defer.js/releases)
 [![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@shinsenter/defer.js)](https://www.npmjs.com/package/@shinsenter/defer.js)
@@ -19,7 +20,6 @@
 - **Author**: Mai Nhut Tan <shin@shin.company>
 - **Copyright**: 2021 AppSeeds <https://code.shin.company/>
 - **License**: [MIT](https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE)
-
 
 * * *
 
@@ -46,13 +46,13 @@ Furthermore [defer.js](#Defer) also gives you very simple ways
 to flexibly optimize other resources in your website.
 
 
-## Key features
+## Good points
 
 - 🧶 Under 1KB (gzipped)
 - 🎯 No dependencies, no jQuery
 - ⚡️ Native API, blazing fast
-- ✅ Legacy browsers support (IE9+)
-- 🧩 Lazy load almost everything
+- ✅ Supports legacy browsers (IE9+)
+- 🧩 Lazy loading for almost everything
 - 👍 Very easy to use
 - 🤝 Works well with your favorite frameworks
 
@@ -61,7 +61,7 @@ to flexibly optimize other resources in your website.
 
 Available in latest browsers,
 also works perfectly with Internet Explorer 9
-<sup title="With including `IntersectionObserver` polyfill library">*</sup> and later.
+<sup>* (with `IntersectionObserver` polyfill library)</sup<> and later.
 
 - 🖥 IE9+ / Microsoft EDGE *
 - 🖥 Firefox 4+
@@ -85,13 +85,12 @@ just below the opening `<head>` tag:
   <title>My Awesome Page</title>
 
   <!-- Put defer.min.js here -->
-  <script src="defer.js/dist/defer.min.js"></script>
-  <!-- From CDN: https://cdn.jsdelivr.net/npm/@shinsenter/defer.js/dist/defer.min.js -->
+  <script src="defer.js@2.0.0/dist/defer.min.js"></script>
+  <!-- From CDN: https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.0.0/dist/defer.min.js -->
 
   <!-- ... -->
 </head>
 ```
-
 
 ### Compatibility with previous releases
 
@@ -104,8 +103,8 @@ instead of `defer.min.js`.
 
 ```html
 <!-- Put defer_plus.min.js here -->
-<script src="defer.js/dist/defer_plus.min.js"></script>
-<!-- From CDN: https://cdn.jsdelivr.net/npm/@shinsenter/defer.js/dist/defer_plus.min.js -->
+<script src="defer.js@2.0.0/dist/defer_plus.min.js"></script>
+<!-- From CDN: https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.0.0/dist/defer_plus.min.js -->
 ```
 
 ### Inlining the library
@@ -140,9 +139,9 @@ to minimize the number of requests.
 
 ## Typedefs
 
-* [Node](#Node)
 * [function](#function) ⇒ <code>void</code>
 * [closure](#closure) ⇒ <code>void</code> \| <code>bool</code>
+* [Node](#Node)
 
 <a name="Defer"></a>
 
@@ -394,9 +393,9 @@ Then it will add a CSS class `loaded` to the fully lazy loaded image element.
 
 <!-- Here may be a very long content -->
 
-<img class="lazy-extra" alt="Photo 1" data-src="https://picsum.photos/200/300?random=1" width="200" height="300" />
-<img class="lazy-extra" alt="Photo 2" data-src="https://picsum.photos/200/300?random=2" width="200" height="300" />
-<img class="lazy-extra" alt="Photo 3" data-src="https://picsum.photos/200/300?random=3" width="200" height="300" />
+<img class="lazy-extra" alt="Photo 1" data-src="https://picsum.photos/200/300?random=4" width="200" height="300" />
+<img class="lazy-extra" alt="Photo 2" data-src="https://picsum.photos/200/300?random=5" width="200" height="300" />
+<img class="lazy-extra" alt="Photo 3" data-src="https://picsum.photos/200/300?random=6" width="200" height="300" />
 ```
 **Example**  
 Advanced usage: Lazy load with [Intersection observer options](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#Intersection_observer_options)
@@ -411,9 +410,9 @@ Advanced usage: Lazy load with [Intersection observer options](https://developer
 
 <!-- Here may be a very long content -->
 
-<img class="lazy-sooner" alt="Photo 1" data-src="https://picsum.photos/200/300?random=1" width="200" height="300" />
-<img class="lazy-sooner" alt="Photo 2" data-src="https://picsum.photos/200/300?random=2" width="200" height="300" />
-<img class="lazy-sooner" alt="Photo 3" data-src="https://picsum.photos/200/300?random=3" width="200" height="300" />
+<img class="lazy-sooner" alt="Photo 1" data-src="https://picsum.photos/200/300?random=7" width="200" height="300" />
+<img class="lazy-sooner" alt="Photo 2" data-src="https://picsum.photos/200/300?random=8" width="200" height="300" />
+<img class="lazy-sooner" alt="Photo 3" data-src="https://picsum.photos/200/300?random=9" width="200" height="300" />
 ```
 **Example**  
 We can use CSS class that added to the lazy loaded element
@@ -434,9 +433,9 @@ to add animation to the successfully loaded elements.
 
 <!-- Here may be a very long content -->
 
-<img class="fade" alt="Photo 1" data-src="https://picsum.photos/200/300?random=1" width="200" height="300" />
-<img class="fade" alt="Photo 2" data-src="https://picsum.photos/200/300?random=2" width="200" height="300" />
-<img class="fade" alt="Photo 3" data-src="https://picsum.photos/200/300?random=3" width="200" height="300" />
+<img class="fade" alt="Photo 1" data-src="https://picsum.photos/200/300?random=10" width="200" height="300" />
+<img class="fade" alt="Photo 2" data-src="https://picsum.photos/200/300?random=11" width="200" height="300" />
+<img class="fade" alt="Photo 3" data-src="https://picsum.photos/200/300?random=12" width="200" height="300" />
 ```
 **Example**  
 This function can be used similarly for other tags
@@ -476,19 +475,19 @@ such as `<iframe>`, `<video>`, `<audio>`, `<picture>` tags.
 ```
 **Example**  
 Or even execute a piece of JavaScript
-when the user scrolls to the element `#my_div`.
+when the user scrolls to the element `#scroll_reveal`.
 
 ```html
 <script>
-  // Show an alert when user scrolled to #my_div
-  Defer.dom('#my_div', null, null, function(element) {
+  // Show an alert when user scrolled to #scroll_reveal
+  Defer.dom('#scroll_reveal', null, null, function(element) {
     window.alert('You scrolled to #' + element.id);
   });
 </script>
 
 <!-- Here may be a very long content -->
 
-<div id="my_div">
+<div id="scroll_reveal">
   This is my content.
 </div>
 ```
@@ -588,16 +587,6 @@ Defer.js(base + '/highlight.pack.min.js', 'hljs-js', 1000, function () {
 
 * * *
 
-<a name="Node"></a>
-
-## Node
-The DOM Node interface
-
-**Kind**: global typedef  
-**See**: [https://developer.mozilla.org/en-US/docs/Web/API/Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)  
-
-* * *
-
 <a name="function"></a>
 
 ## function ⇒ <code>void</code>
@@ -619,6 +608,16 @@ The definition for a function that takes one parameter is a DOM [Node](#Node) el
 | --- | --- | --- |
 | element | [<code>Node</code>](#Node) | The DOM [Node](#Node) element |
 
+
+* * *
+
+<a name="Node"></a>
+
+## Node
+The DOM Node interface
+
+**Kind**: global typedef  
+**See**: [https://developer.mozilla.org/en-US/docs/Web/API/Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)  
 
 * * *
 
