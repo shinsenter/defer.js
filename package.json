@@ -1,7 +1,7 @@
 {
   "name": "@shinsenter/defer.js",
   "title": "defer.js",
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0",
   "description": "🥇 A super small, super efficient library that helps you lazy load everything like images, video, audio, iframes as well as stylesheets, and JavaScript.",
   "homepage": "https://code.shin.company/defer.js#readme",
   "author": {
@@ -57,15 +57,14 @@
     "format": "js-beautify --config build/.beautify -r -f src/*.js",
     "lint": "eslint --config build/.eslintrc --ext .js src --fix",
     "cleanup": "rm -rf ./node_modules package-lock.json",
-    "tools": "npm -g install jsdoc-to-markdown eslint html-minifier js-beautify uglify-js",
+    "tools": "npm -g install jsdoc-to-markdown eslint js-beautify uglify-js",
     "readme": "jsdoc2md --separators -l html -g grouped ./src/*.js > ./docs/apis.md && cat ./docs/*.md > README.md",
     "pull": "npm run cleanup && npm run tools && npm i",
     "polyfill": "uglifyjs --config-file build/.uglifyjs -o dist/polyfill.min.js node_modules/intersection-observer/intersection-observer.js",
-    "build": "npm run lint && npm run s1 && npm run s2 && npm run polyfill && npm run demo & npm run readme",
+    "build": "npm run lint && npm run s1 && npm run s2 && npm run polyfill && npm run readme",
     "s1": "uglifyjs --config-file build/.uglifyjs -o dist/defer.min.js      src/defer.js",
     "s2": "uglifyjs --config-file build/.uglifyjs -o dist/defer_plus.min.js src/defer.js src/fallback.js",
-    "demo": "html-minifier ./src/demo.html -o demo/index.html --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true",
     "versionup": "npm run lint && npm --no-git-tag-version version patch -m 'Ready to publish version %s'",
-    "publish": "npm run pull && npm run build && npm prune --prod && npm publish --access=public"
+    "upload": "npm run pull && npm run build && npm prune --prod && npm publish --access=public"
   }
 }
