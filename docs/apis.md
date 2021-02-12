@@ -12,9 +12,9 @@
 
 ## Typedefs
 
-* [Node](#Node)
 * [function](#function) ⇒ <code>void</code>
 * [closure](#closure) ⇒ <code>void</code> \| <code>bool</code>
+* [Node](#Node)
 
 <a name="Defer"></a>
 
@@ -266,9 +266,9 @@ Then it will add a CSS class `loaded` to the fully lazy loaded image element.
 
 <!-- Here may be a very long content -->
 
-<img class="lazy-extra" alt="Photo 1" data-src="https://picsum.photos/200/300?random=1" width="200" height="300" />
-<img class="lazy-extra" alt="Photo 2" data-src="https://picsum.photos/200/300?random=2" width="200" height="300" />
-<img class="lazy-extra" alt="Photo 3" data-src="https://picsum.photos/200/300?random=3" width="200" height="300" />
+<img class="lazy-extra" alt="Photo 1" data-src="https://picsum.photos/200/300?random=4" width="200" height="300" />
+<img class="lazy-extra" alt="Photo 2" data-src="https://picsum.photos/200/300?random=5" width="200" height="300" />
+<img class="lazy-extra" alt="Photo 3" data-src="https://picsum.photos/200/300?random=6" width="200" height="300" />
 ```
 **Example**  
 Advanced usage: Lazy load with [Intersection observer options](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#Intersection_observer_options)
@@ -283,9 +283,9 @@ Advanced usage: Lazy load with [Intersection observer options](https://developer
 
 <!-- Here may be a very long content -->
 
-<img class="lazy-sooner" alt="Photo 1" data-src="https://picsum.photos/200/300?random=1" width="200" height="300" />
-<img class="lazy-sooner" alt="Photo 2" data-src="https://picsum.photos/200/300?random=2" width="200" height="300" />
-<img class="lazy-sooner" alt="Photo 3" data-src="https://picsum.photos/200/300?random=3" width="200" height="300" />
+<img class="lazy-sooner" alt="Photo 1" data-src="https://picsum.photos/200/300?random=7" width="200" height="300" />
+<img class="lazy-sooner" alt="Photo 2" data-src="https://picsum.photos/200/300?random=8" width="200" height="300" />
+<img class="lazy-sooner" alt="Photo 3" data-src="https://picsum.photos/200/300?random=9" width="200" height="300" />
 ```
 **Example**  
 We can use CSS class that added to the lazy loaded element
@@ -306,9 +306,9 @@ to add animation to the successfully loaded elements.
 
 <!-- Here may be a very long content -->
 
-<img class="fade" alt="Photo 1" data-src="https://picsum.photos/200/300?random=1" width="200" height="300" />
-<img class="fade" alt="Photo 2" data-src="https://picsum.photos/200/300?random=2" width="200" height="300" />
-<img class="fade" alt="Photo 3" data-src="https://picsum.photos/200/300?random=3" width="200" height="300" />
+<img class="fade" alt="Photo 1" data-src="https://picsum.photos/200/300?random=10" width="200" height="300" />
+<img class="fade" alt="Photo 2" data-src="https://picsum.photos/200/300?random=11" width="200" height="300" />
+<img class="fade" alt="Photo 3" data-src="https://picsum.photos/200/300?random=12" width="200" height="300" />
 ```
 **Example**  
 This function can be used similarly for other tags
@@ -348,19 +348,19 @@ such as `<iframe>`, `<video>`, `<audio>`, `<picture>` tags.
 ```
 **Example**  
 Or even execute a piece of JavaScript
-when the user scrolls to the element `#my_div`.
+when the user scrolls to the element `#scroll_reveal`.
 
 ```html
 <script>
-  // Show an alert when user scrolled to #my_div
-  Defer.dom('#my_div', null, null, function(element) {
+  // Show an alert when user scrolled to #scroll_reveal
+  Defer.dom('#scroll_reveal', null, null, function(element) {
     window.alert('You scrolled to #' + element.id);
   });
 </script>
 
 <!-- Here may be a very long content -->
 
-<div id="my_div">
+<div id="scroll_reveal">
   This is my content.
 </div>
 ```
@@ -460,16 +460,6 @@ Defer.js(base + '/highlight.pack.min.js', 'hljs-js', 1000, function () {
 
 * * *
 
-<a name="Node"></a>
-
-## Node
-The DOM Node interface
-
-**Kind**: global typedef  
-**See**: [https://developer.mozilla.org/en-US/docs/Web/API/Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)  
-
-* * *
-
 <a name="function"></a>
 
 ## function ⇒ <code>void</code>
@@ -491,6 +481,16 @@ The definition for a function that takes one parameter is a DOM [Node](#Node) el
 | --- | --- | --- |
 | element | [<code>Node</code>](#Node) | The DOM [Node](#Node) element |
 
+
+* * *
+
+<a name="Node"></a>
+
+## Node
+The DOM Node interface
+
+**Kind**: global typedef  
+**See**: [https://developer.mozilla.org/en-US/docs/Web/API/Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)  
 
 * * *
 

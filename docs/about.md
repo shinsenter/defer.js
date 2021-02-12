@@ -7,6 +7,7 @@
 [![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/shinsenter/defer.js)](https://www.codefactor.io/repository/github/shinsenter/defer.js)
 
 * * *
+
 [![GitHub Release Date](https://img.shields.io/github/release-date/shinsenter/defer.js)](https://github.com/shinsenter/defer.js/releases)
 [![GitHub package.json version](https://img.shields.io/github/package-json/v/shinsenter/defer.js)](https://github.com/shinsenter/defer.js/releases)
 [![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@shinsenter/defer.js)](https://www.npmjs.com/package/@shinsenter/defer.js)
@@ -19,7 +20,6 @@
 - **Author**: Mai Nhut Tan <shin@shin.company>
 - **Copyright**: 2021 AppSeeds <https://code.shin.company/>
 - **License**: [MIT](https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE)
-
 
 * * *
 
@@ -46,13 +46,13 @@ Furthermore [defer.js](#Defer) also gives you very simple ways
 to flexibly optimize other resources in your website.
 
 
-## Key features
+## Good points
 
 - 🧶 Under 1KB (gzipped)
 - 🎯 No dependencies, no jQuery
 - ⚡️ Native API, blazing fast
-- ✅ Legacy browsers support (IE9+)
-- 🧩 Lazy load almost everything
+- ✅ Supports legacy browsers (IE9+)
+- 🧩 Lazy loading for almost everything
 - 👍 Very easy to use
 - 🤝 Works well with your favorite frameworks
 
@@ -61,7 +61,7 @@ to flexibly optimize other resources in your website.
 
 Available in latest browsers,
 also works perfectly with Internet Explorer 9
-<sup title="With including `IntersectionObserver` polyfill library">*</sup> and later.
+<sup>* (with `IntersectionObserver` polyfill library)</sup<> and later.
 
 - 🖥 IE9+ / Microsoft EDGE *
 - 🖥 Firefox 4+
@@ -85,13 +85,12 @@ just below the opening `<head>` tag:
   <title>My Awesome Page</title>
 
   <!-- Put defer.min.js here -->
-  <script src="defer.js/dist/defer.min.js"></script>
-  <!-- From CDN: https://cdn.jsdelivr.net/npm/@shinsenter/defer.js/dist/defer.min.js -->
+  <script src="defer.js@2.0.0/dist/defer.min.js"></script>
+  <!-- From CDN: https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.0.0/dist/defer.min.js -->
 
   <!-- ... -->
 </head>
 ```
-
 
 ### Compatibility with previous releases
 
@@ -104,8 +103,8 @@ instead of `defer.min.js`.
 
 ```html
 <!-- Put defer_plus.min.js here -->
-<script src="defer.js/dist/defer_plus.min.js"></script>
-<!-- From CDN: https://cdn.jsdelivr.net/npm/@shinsenter/defer.js/dist/defer_plus.min.js -->
+<script src="defer.js@2.0.0/dist/defer_plus.min.js"></script>
+<!-- From CDN: https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.0.0/dist/defer_plus.min.js -->
 ```
 
 ### Inlining the library

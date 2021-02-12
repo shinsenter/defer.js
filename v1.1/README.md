@@ -118,7 +118,7 @@ You can load the library via **CDN** and include it right after the opening `<he
 ```html
 <head>
     <title>My awesome page</title>
-    <script src="//cdn.jsdelivr.net/npm/@shinsenter/defer.js/dist/defer_plus.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.0.0/dist/defer_plus.min.js"></script>
     <!-- And other HTML tags from here -->
 </head>
 ```
@@ -228,9 +228,9 @@ In order to lazy-load your content, you must use some `data-` attributes instead
 💡 Best practice: To polyfill the native IntersectionObserver API in unsupporting browsers such as IE9, you may need to include below script right after the `defer_plus.min.js`.
 
 ```html
-<script src="//cdn.jsdelivr.net/npm/@shinsenter/defer.js/dist/defer_plus.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.0.0/dist/defer_plus.min.js"></script>
 <script>
-    deferscript('//cdn.jsdelivr.net/npm/@shinsenter/defer.js/dist/polyfill.min.js', 'polyfill-js', 1);
+    deferscript('//cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.0.0/dist/polyfill.min.js', 'polyfill-js', 1);
 </script>
 ```
 
@@ -363,7 +363,7 @@ If you only need the `defer()` and `deferscript()` functions for lazy-loading Ja
 ```html
 <head>
     <title>My awesome page</title>
-    <script src="//cdn.jsdelivr.net/npm/@shinsenter/defer.js/dist/defer.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.0.0/dist/defer.min.js"></script>
 </head>
 ```
 

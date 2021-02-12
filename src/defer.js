@@ -124,22 +124,22 @@
     }
 
     function _proceedJs(selector) {
-        defer(function (nodes) {
-            function _next(node, clone) {
-                node = nodes.shift();
-                if (node) {
-                    node.parentNode.removeChild(node);
-                    clone = _cloneScript(node);
-                    if (clone.src && !clone[_hasAttribute]('async')) {
-                        clone.onload = clone.onerror = _next;
-                        _appendToHead(clone);
+        defer(function (_nodes) {
+            function _next(_node, _clone) {
+                _node = _nodes.shift();
+                if (_node) {
+                    _node.parentNode.removeChild(_node);
+                    _clone = _cloneScript(_node);
+                    if (_clone.src && !_clone[_hasAttribute]('async')) {
+                        _clone.onload = _clone.onerror = _next;
+                        _appendToHead(_clone);
                     } else {
-                        _appendToHead(clone);
+                        _appendToHead(_clone);
                         _next();
                     }
                 }
             }
-            nodes = _find(selector || '[type=deferjs]');
+            _nodes = _find(selector || '[type=deferjs]');
             _next();
         });
     }
@@ -157,14 +157,6 @@
     */
 
     /**
-     * The DOM Node interface
-     *
-     * @typedef
-     * @name Node
-     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Node}
-     */
-
-    /**
      * A definition for an ordinary function,
      * used as a parameter to another function.
      *
@@ -180,6 +172,14 @@
      * @name closure
      * @param {Node} element - The DOM {@link Node} element
      * @returns {void | bool}
+     */
+
+    /**
+     * The DOM Node interface
+     *
+     * @typedef
+     * @name Node
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Node}
      */
 
     /**
@@ -304,10 +304,10 @@
      * ```
      */
     defer.js = function (src, id, delay, callback) {
-        defer(function (node) {
-            node = _newNode(_undef, id, callback);
-            node.src = src;
-            _appendToHead(node);
+        defer(function (_node) {
+            _node = _newNode(_undef, id, callback);
+            _node.src = src;
+            _appendToHead(_node);
         }, delay);
     };
 
@@ -341,11 +341,11 @@
      * ```
      */
     defer.css = function (src, id, delay, callback) {
-        defer(function (node) {
-            node = _newNode(_txtLink, id, callback);
-            node.rel = 'stylesheet';
-            node.href = src;
-            _appendToHead(node);
+        defer(function (_node) {
+            _node = _newNode(_txtLink, id, callback);
+            _node.rel = 'stylesheet';
+            _node.href = src;
+            _appendToHead(_node);
         }, delay);
     };
 
@@ -432,9 +432,9 @@
      *
      * <!-- Here may be a very long content -->
      *
-     * <img class="lazy-extra" alt="Photo 1" data-src="https://picsum.photos/200/300?random=1" width="200" height="300" />
-     * <img class="lazy-extra" alt="Photo 2" data-src="https://picsum.photos/200/300?random=2" width="200" height="300" />
-     * <img class="lazy-extra" alt="Photo 3" data-src="https://picsum.photos/200/300?random=3" width="200" height="300" />
+     * <img class="lazy-extra" alt="Photo 1" data-src="https://picsum.photos/200/300?random=4" width="200" height="300" />
+     * <img class="lazy-extra" alt="Photo 2" data-src="https://picsum.photos/200/300?random=5" width="200" height="300" />
+     * <img class="lazy-extra" alt="Photo 3" data-src="https://picsum.photos/200/300?random=6" width="200" height="300" />
      * ```
      *
      * @example
@@ -450,9 +450,9 @@
      *
      * <!-- Here may be a very long content -->
      *
-     * <img class="lazy-sooner" alt="Photo 1" data-src="https://picsum.photos/200/300?random=1" width="200" height="300" />
-     * <img class="lazy-sooner" alt="Photo 2" data-src="https://picsum.photos/200/300?random=2" width="200" height="300" />
-     * <img class="lazy-sooner" alt="Photo 3" data-src="https://picsum.photos/200/300?random=3" width="200" height="300" />
+     * <img class="lazy-sooner" alt="Photo 1" data-src="https://picsum.photos/200/300?random=7" width="200" height="300" />
+     * <img class="lazy-sooner" alt="Photo 2" data-src="https://picsum.photos/200/300?random=8" width="200" height="300" />
+     * <img class="lazy-sooner" alt="Photo 3" data-src="https://picsum.photos/200/300?random=9" width="200" height="300" />
      * ```
      *
      * @example
@@ -474,9 +474,9 @@
      *
      * <!-- Here may be a very long content -->
      *
-     * <img class="fade" alt="Photo 1" data-src="https://picsum.photos/200/300?random=1" width="200" height="300" />
-     * <img class="fade" alt="Photo 2" data-src="https://picsum.photos/200/300?random=2" width="200" height="300" />
-     * <img class="fade" alt="Photo 3" data-src="https://picsum.photos/200/300?random=3" width="200" height="300" />
+     * <img class="fade" alt="Photo 1" data-src="https://picsum.photos/200/300?random=10" width="200" height="300" />
+     * <img class="fade" alt="Photo 2" data-src="https://picsum.photos/200/300?random=11" width="200" height="300" />
+     * <img class="fade" alt="Photo 3" data-src="https://picsum.photos/200/300?random=12" width="200" height="300" />
      * ```
      *
      * @example
@@ -518,19 +518,19 @@
      *
      * @example
      * Or even execute a piece of JavaScript
-     * when the user scrolls to the element `#my_div`.
+     * when the user scrolls to the element `#scroll_reveal`.
      *
      * ```html
      * <script>
-     *   // Show an alert when user scrolled to #my_div
-     *   Defer.dom('#my_div', null, null, function(element) {
+     *   // Show an alert when user scrolled to #scroll_reveal
+     *   Defer.dom('#scroll_reveal', null, null, function(element) {
      *     window.alert('You scrolled to #' + element.id);
      *   });
      * </script>
      *
      * <!-- Here may be a very long content -->
      *
-     * <div id="my_div">
+     * <div id="scroll_reveal">
      *   This is my content.
      * </div>
      * ```
@@ -553,7 +553,7 @@
     defer.dom = function (selector, delay, cssclass, validate, observeOptions) {
         defer(function (_attr, _count, _found, _observer, _follow) {
             function _reveal(node) {
-                if (validate(node) !== false) {
+                if (!validate || validate(node) !== false) {
                     for (
                         _count = 0, _attr = node[_attrAttributes];
                         _count < _attr[_attrLength];
@@ -576,10 +576,10 @@
             }
             if (_IntersectionObserver in window) {
                 _observer = new window[_IntersectionObserver](function (nodes) {
-                    nodes[_forEach](function (item, target) {
-                        if (item.isIntersecting && (target = item.target)) {
-                            _observer.unobserve(target);
-                            _reveal(target);
+                    nodes[_forEach](function (item, _target) {
+                        if (item.isIntersecting && (_target = item.target)) {
+                            _observer.unobserve(_target);
+                            _reveal(_target);
                         }
                     });
                 }, observeOptions);
