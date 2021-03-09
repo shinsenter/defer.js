@@ -88,7 +88,7 @@ or load it from a CND like below example.
   <title>My Awesome Page</title>
 
   <!-- Put defer.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.0.0/dist/defer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.1.0/dist/defer.min.js"></script>
 
   <!-- To support older browsers such as Internet Explorer 9 -->
   <!-- You may want to put IntersectionObserver polyfill right after defer.min.js tag -->
@@ -109,7 +109,7 @@ instead of `defer.min.js`.
 
 ```html
 <!-- Put defer_plus.min.js here -->
-<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.0.0/dist/defer_plus.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.1.0/dist/defer_plus.min.js"></script>
 
 <!-- To support older browsers such as Internet Explorer 9 -->
 <!-- You may want to put IntersectionObserver polyfill right after defer.min.js tag -->
