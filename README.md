@@ -141,6 +141,7 @@ to minimize the number of requests.
     * [.js(src, [id], [delay], [callback])](#Defer.js) ⇒ <code>void</code>
     * [.css(src, [id], [delay], [callback])](#Defer.css) ⇒ <code>void</code>
     * [.dom([selector], [delay], [cssclass], [validate], [observeOptions])](#Defer.dom) ⇒ <code>void</code>
+    * [.reveal(element)](#Defer.reveal) ⇒ <code>void</code>
 * ~~[defer(func, [delay])](#defer)~~
 * ~~[deferscript(src, [id], [delay], [callback])](#deferscript)~~
 * ~~[deferstyle(src, [id], [delay], [callback])](#deferstyle)~~
@@ -194,6 +195,7 @@ Defer(function() {
     * [.js(src, [id], [delay], [callback])](#Defer.js) ⇒ <code>void</code>
     * [.css(src, [id], [delay], [callback])](#Defer.css) ⇒ <code>void</code>
     * [.dom([selector], [delay], [cssclass], [validate], [observeOptions])](#Defer.dom) ⇒ <code>void</code>
+    * [.reveal(element)](#Defer.reveal) ⇒ <code>void</code>
 
 
 * * *
@@ -512,6 +514,33 @@ Defer.js(base + '/highlight.pack.min.js', 'hljs-js', 1000, function () {
     Defer.dom('pre code', 0, 'ide-loaded', function (block) {
         hljs.highlightBlock(block);
     });
+});
+```
+
+* * *
+
+<a name="Defer.reveal"></a>
+
+### Defer.reveal(element) ⇒ <code>void</code>
+Reveal an element which is lazyloaded by the library
+
+**Kind**: static method of [<code>Defer</code>](#Defer)  
+**Access**: public  
+**Since**: 2.1  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| element | [<code>Node</code>](#Node) | The DOM [Node](#Node) element |
+
+**Example**  
+```js
+// Show single element
+var node = document.getElementById('my-video');
+Defer.reveal(node);
+
+// Show multiple elements
+document.querySelectorAll('.multi-lazy').forEach(function(node) {
+  Defer.reveal(node);
 });
 ```
 
