@@ -61,27 +61,34 @@
     var _eventShow = 'pageshow';
 
     // Common attributes
-    var _attrDefered    = 'lazied';
+    var _attrLazied     = 'lazied';
     var _attrLength     = 'length';
+    var _attrLoadEvent  = 'load';
 
     // Common texts
-    var _txtAttribute   = 'Attribute';
     var _txtLink        = 'LINK';
     var _txtScript      = 'SCRIPT';
-    var _txtLoadEvent   = 'load';
 
     // Method aliases
     var _listen       = 'addEventListener';
     var _forEach      = 'forEach';
-    var _hasAttribute = 'has' + _txtAttribute;
+    var _hasAttribute = 'hasAttribute';
     var _nodeName     = 'nodeName';
-    var _setAttribute = 'set' + _txtAttribute;
+    var _setAttribute = 'setAttribute';
 
     /*
     |--------------------------------------------------------------------------
     | Utility functions are shared within internal scope
     |--------------------------------------------------------------------------
     */
+
+    function _find(selector, parent) {
+        return [].slice.call((parent || document).querySelectorAll(selector));
+    }
+
+    function _appendToHead(node) {
+        document.head.appendChild(node);
+    }
 
     function _newNode(nodeName, id, callback, _node) {
         _node =
@@ -118,14 +125,6 @@
         return _clone;
     }
 
-    function _appendToHead(node) {
-        document.head.appendChild(node);
-    }
-
-    function _find(selector, parent) {
-        return [].slice.call((parent || document).querySelectorAll(selector));
-    }
-
     function _proceedJs(selector) {
         defer(function (_nodes) {
             function _next(_node, _clone) {
@@ -153,7 +152,7 @@
         }
     }
 
-    function _reveal(node, cssclass, _attr, _count, _found) {
+    function _reveal(node, _attr, _count, _found) {
         for (
             _count = 0, _attr = _attributeArray(node);
             _count < _attr[_attrLength];
@@ -168,11 +167,8 @@
             }
         }
         _find('source', node)[_forEach](_reveal);
-        if(_txtLoadEvent in node) {
-            node[_txtLoadEvent]();
-        }
-        if (cssclass) {
-            node.className += ' ' + cssclass;
+        if(_attrLoadEvent in node) {
+            node[_attrLoadEvent]();
         }
     }
 
@@ -580,7 +576,10 @@
         defer(function (_observer, _follow) {
             function _active(node) {
                 if (!validate || validate(node) !== false) {
-                    _reveal(node, cssclass);
+                    _reveal(node);
+                    if (cssclass) {
+                        node.className += ' ' + cssclass;
+                    }
                 }
             }
             if (_IntersectionObserver in window) {
@@ -597,8 +596,8 @@
                 _follow = _active;
             }
             function _loop(node) {
-                if (!node[_hasAttribute](_attrDefered)) {
-                    node[_setAttribute](_attrDefered, node[_nodeName]);
+                if (!node[_hasAttribute](_attrLazied)) {
+                    node[_setAttribute](_attrLazied, node[_nodeName]);
                     _follow(node);
                 }
             }
@@ -613,8 +612,7 @@
      * @function Defer.reveal
      * @public
      * @since 2.1
-     * @param {Node}   element    - The DOM {@link Node} element
-     * @param {string} [cssclass] - A CSS class will be added automatically after when the element has been revealed.
+     * @param {Node}   element - The DOM {@link Node} element
      * @returns {void}
      *
      * @example
@@ -641,7 +639,7 @@
     // Listens for the load event of the global context
     // then starts execution of deferred scripts
     window[_listen](
-        'on' + _eventShow in window ? _eventShow : _txtLoadEvent,
+        'on' + _eventShow in window ? _eventShow : _attrLoadEvent,
         _proceedQueue
     );
 
