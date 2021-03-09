@@ -57,32 +57,38 @@
 
     // Common objects
     var _IntersectionObserver = 'IntersectionObserver';
-    var _fnNothing = Function();
     var _regexData = /^data-(.+)/;
     var _eventShow = 'pageshow';
 
     // Common attributes
-    var _attrAttributes = 'attributes';
-    var _attrDefered    = 'lazied';
+    var _attrLazied     = 'lazied';
     var _attrLength     = 'length';
+    var _attrLoadEvent  = 'load';
 
     // Common texts
-    var _txtAttribute   = 'Attribute';
     var _txtLink        = 'LINK';
     var _txtScript      = 'SCRIPT';
 
     // Method aliases
     var _listen       = 'addEventListener';
     var _forEach      = 'forEach';
-    var _hasAttribute = 'has' + _txtAttribute;
+    var _hasAttribute = 'hasAttribute';
     var _nodeName     = 'nodeName';
-    var _setAttribute = 'set' + _txtAttribute;
+    var _setAttribute = 'setAttribute';
 
     /*
     |--------------------------------------------------------------------------
     | Utility functions are shared within internal scope
     |--------------------------------------------------------------------------
     */
+
+    function _find(selector, parent) {
+        return [].slice.call((parent || document).querySelectorAll(selector));
+    }
+
+    function _appendToHead(node) {
+        document.head.appendChild(node);
+    }
 
     function _newNode(nodeName, id, callback, _node) {
         _node =
@@ -98,10 +104,14 @@
         return _node;
     }
 
+    function _attributeArray(node) {
+        return [].slice.call(node.attributes);
+    }
+
     function _cloneScript(node, _clone, _attr, _prop, _count) {
         _clone = _newNode(node[_nodeName]);
         for (
-            _count = 0, _attr = node[_attrAttributes];
+            _count = 0, _attr = _attributeArray(node);
             _count < _attr[_attrLength];
             _count++
         ) {
@@ -113,14 +123,6 @@
         _clone.text = node.text;
 
         return _clone;
-    }
-
-    function _appendToHead(node) {
-        document.head.appendChild(node);
-    }
-
-    function _find(selector, parent) {
-        return [].slice.call((parent || document).querySelectorAll(selector));
     }
 
     function _proceedJs(selector) {
@@ -147,6 +149,26 @@
     function _proceedQueue() {
         for (_domReady = !_proceedJs(); _queue[0];) {
             defer(_queue.shift(), _queue.shift());
+        }
+    }
+
+    function _reveal(node, _attr, _count, _found) {
+        for (
+            _count = 0, _attr = _attributeArray(node);
+            _count < _attr[_attrLength];
+            _count++
+        ) {
+            _found = _regexData.exec(_attr[_count].name);
+            if (_found) {
+                node[_setAttribute](
+                    _found[1],
+                    _attr[_count].value
+                );
+            }
+        }
+        _find('source', node)[_forEach](_reveal);
+        if(_attrLoadEvent in node) {
+            node[_attrLoadEvent]();
         }
     }
 
@@ -551,24 +573,10 @@
      * ```
      */
     defer.dom = function (selector, delay, cssclass, validate, observeOptions) {
-        defer(function (_attr, _count, _found, _observer, _follow) {
-            function _reveal(node) {
+        defer(function (_observer, _follow) {
+            function _active(node) {
                 if (!validate || validate(node) !== false) {
-                    for (
-                        _count = 0, _attr = node[_attrAttributes];
-                        _count < _attr[_attrLength];
-                        _count++
-                    ) {
-                        _found = _regexData.exec(_attr[_count].name);
-                        if (_found) {
-                            node[_setAttribute](
-                                _found[1],
-                                _attr[_count].value
-                            );
-                        }
-                    }
-                    _find('source', node)[_forEach](_reveal);
-                    (node.load || _fnNothing)();
+                    _reveal(node);
                     if (cssclass) {
                         node.className += ' ' + cssclass;
                     }
@@ -579,21 +587,48 @@
                     nodes[_forEach](function (item, _target) {
                         if (item.isIntersecting && (_target = item.target)) {
                             _observer.unobserve(_target);
-                            _reveal(_target);
+                            _active(_target);
                         }
                     });
                 }, observeOptions);
                 _follow = _observer.observe.bind(_observer);
+            } else {
+                _follow = _active;
             }
             function _loop(node) {
-                if (!node[_hasAttribute](_attrDefered)) {
-                    node[_setAttribute](_attrDefered, node[_nodeName]);
-                    (_follow || _reveal)(node);
+                if (!node[_hasAttribute](_attrLazied)) {
+                    node[_setAttribute](_attrLazied, node[_nodeName]);
+                    _follow(node);
                 }
             }
             _find(selector || '[data-src]')[_forEach](_loop);
         }, delay);
     };
+
+
+    /**
+     * Reveal an element which is lazyloaded by the library
+     *
+     * @function Defer.reveal
+     * @public
+     * @since 2.1
+     * @param {Node}   element - The DOM {@link Node} element
+     * @returns {void}
+     *
+     * @example
+     *
+     * ```js
+     * // Show single element
+     * var node = document.getElementById('my-video');
+     * Defer.reveal(node);
+     *
+     * // Show multiple elements
+     * document.querySelectorAll('.multi-lazy').forEach(function(node) {
+     *   Defer.reveal(node);
+     * });
+     * ```
+     */
+    defer.reveal = _reveal;
 
     /*
     |--------------------------------------------------------------------------
@@ -604,7 +639,7 @@
     // Listens for the load event of the global context
     // then starts execution of deferred scripts
     window[_listen](
-        'on' + _eventShow in window ? _eventShow : 'load',
+        'on' + _eventShow in window ? _eventShow : _attrLoadEvent,
         _proceedQueue
     );
 
