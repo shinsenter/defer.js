@@ -16,7 +16,7 @@
 [![NPM](https://nodei.co/npm/@shinsenter/defer.js.png?downloads=true)](https://www.npmjs.com/package/@shinsenter/defer.js)
 
 - **Package**: [@shinsenter/defer.js](https://www.npmjs.com/package/@shinsenter/defer.js)
-- **Version**: 2.1.0
+- **Version**: 2.2.0
 - **Author**: Mai Nhut Tan <shin@shin.company>
 - **Copyright**: 2021 AppSeeds <https://code.shin.company/>
 - **License**: [MIT](https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE)
@@ -88,7 +88,7 @@ or load it from a CND like below example.
   <title>My Awesome Page</title>
 
   <!-- Put defer.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.1.0/dist/defer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.2.0/dist/defer.min.js"></script>
 
   <!-- To support older browsers such as Internet Explorer 9 -->
   <!-- You may want to put IntersectionObserver polyfill right after defer.min.js tag -->
@@ -109,7 +109,7 @@ instead of `defer.min.js`.
 
 ```html
 <!-- Put defer_plus.min.js here -->
-<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.1.0/dist/defer_plus.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.2.0/dist/defer_plus.min.js"></script>
 
 <!-- To support older browsers such as Internet Explorer 9 -->
 <!-- You may want to put IntersectionObserver polyfill right after defer.min.js tag -->
