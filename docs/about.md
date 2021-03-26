@@ -34,8 +34,8 @@ Unfortunately, third-party scripts usually block page rendering
 and further downloading resources of the page.
 
 There is a [common knowledge](https://web.dev/efficiently-load-third-party-javascript/)
-that you should use `<script src=".." async>`
-(or `<script src=".." defer>`)
+that you should use `<script src="..." async>`
+(or `<script src="..." defer>`)
 and/or put your scripts at the very bottom of the page,
 so that as much as possible of the page gets loaded
 and rendered to the user, as fast as possible.
@@ -46,14 +46,16 @@ Furthermore [defer.js](#Defer) also gives you very simple ways
 to flexibly optimize other resources in your website.
 
 
-## Good points
+## Why you should consider defer.js
 
-- 🧶 Under 1KB (mingzipped size)
-- 🎯 No dependencies, no jQuery
-- ⚡️ Native API, blazing fast
+- ⚡️ Under 1KB (mingzipped size)
+- 🚀 Native API, blazing fast
+- 👍 No dependencies, no jQuery
+- 🧩 Lazy load almost everything
+- 🎯 [Core Web Vitals](https://web.dev/vitals/) friendly
+- 🔰 Very easy to use
+- 📱 Smartphone browser friendly
 - ✅ Supports legacy browsers (IE9+)
-- 🧩 Lazy loading for almost everything
-- 👍 Very easy to use
 - 🤝 Works well with your favorite frameworks
 
 

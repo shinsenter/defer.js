@@ -59,6 +59,7 @@
     // State holders
     var _domReady = (/p/).test(document.readyState);
     var _queue    = [];
+    var _toArray  = _queue.slice;
 
     // Common attributes
     var _lazied   = 'lazied';
@@ -90,13 +91,16 @@
         document.head.appendChild(node);
     }
 
-    function _attributeArray(node) {
-        return [].slice.call(node.attributes);
+    function _propArray(node) {
+        return _toArray.call(node.attributes);
     }
 
     function _newNode(nodeName, id, callback, _node) {
-        _node = (id ? document.getElementById(id) : _node) ||
-                document.createElement(nodeName || _SCRIPT);
+        _node = id ? document.getElementById(id) : _node;
+
+        if (!_node) {
+            _node = document.createElement(nodeName);
+        }
 
         if (id) {
             _node.id = id;
@@ -110,11 +114,11 @@
     }
 
     function _query(selector, parent) {
-        return [].slice.call((parent || document).querySelectorAll(selector));
+        return _toArray.call((parent || document).querySelectorAll(selector));
     }
 
     function _reveal(node, _attributes, _property, _found) {
-        for (_attributes = _attributeArray(node); _attributes[0];) {
+        for (_attributes = _propArray(node); _attributes[0];) {
             _property = _attributes[_shift]();
             _found    = _dataRegExp.exec(_property.name);
 
@@ -144,7 +148,7 @@
                     // Clone the node
                     _clone = _newNode(_SCRIPT);
                     _clone.text = _node.text;
-                    for (_attributes = _attributeArray(_node); _attributes[0];) {
+                    for (_attributes = _propArray(_node); _attributes[0];) {
                         _property = _attributes[_shift]();
 
                         if (_property.name != 'type') {
@@ -568,7 +572,7 @@
         validator,
         observeOptions
     ) {
-        function _active(node) {
+        function _show(node) {
             if (!validator || validator(node) !== false) {
                 _reveal(node);
 
@@ -584,7 +588,7 @@
                     nodes[_forEach](function (object, _node) {
                         if (object.isIntersecting && (_node = object.target)) {
                             _observer.unobserve(_node);
-                            _active(_node);
+                            _show(_node);
                         }
                     });
                 }, observeOptions);
@@ -599,7 +603,7 @@
                     if (_observer) {
                         _observer.observe(node);
                     } else {
-                        _active(node);
+                        _show(node);
                     }
                 }
             }

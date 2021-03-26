@@ -9,8 +9,8 @@
 * ~~[defer(func, [delay])](#defer)~~
 * ~~[deferscript(src, [id], [delay], [callback])](#deferscript)~~
 * ~~[deferstyle(src, [id], [delay], [callback])](#deferstyle)~~
-* ~~[deferimg([selector], [delay], [cssclass], [validate], [observeOptions])](#deferimg)~~
-* ~~[deferiframe([selector], [delay], [cssclass], [validate], [observeOptions])](#deferiframe)~~
+* ~~[deferimg([selector], [delay], [revealedClass], [validator], [observeOptions])](#deferimg)~~
+* ~~[deferiframe([selector], [delay], [revealedClass], [validator], [observeOptions])](#deferiframe)~~
 
 ## Typedefs
 
@@ -461,7 +461,7 @@ document.querySelectorAll('.multi-lazy').forEach(function(node) {
 
 <a name="deferimg"></a>
 
-## ~~deferimg([selector], [delay], [cssclass], [validate], [observeOptions])~~
+## ~~deferimg([selector], [delay], [revealedClass], [validator], [observeOptions])~~
 ***Deprecated***
 
 **Kind**: global function  
@@ -472,8 +472,8 @@ document.querySelectorAll('.multi-lazy').forEach(function(node) {
 | --- | --- |
 | [selector] | <code>string</code> | 
 | [delay] | <code>number</code> | 
-| [cssclass] | <code>string</code> | 
-| [validate] | <code>callback</code> | 
+| [revealedClass] | <code>string</code> | 
+| [validator] | <code>callback</code> | 
 | [observeOptions] | <code>object</code> | 
 
 
@@ -481,7 +481,7 @@ document.querySelectorAll('.multi-lazy').forEach(function(node) {
 
 <a name="deferiframe"></a>
 
-## ~~deferiframe([selector], [delay], [cssclass], [validate], [observeOptions])~~
+## ~~deferiframe([selector], [delay], [revealedClass], [validator], [observeOptions])~~
 ***Deprecated***
 
 **Kind**: global function  
@@ -492,8 +492,8 @@ document.querySelectorAll('.multi-lazy').forEach(function(node) {
 | --- | --- |
 | [selector] | <code>string</code> | 
 | [delay] | <code>number</code> | 
-| [cssclass] | <code>string</code> | 
-| [validate] | <code>callback</code> | 
+| [revealedClass] | <code>string</code> | 
+| [validator] | <code>callback</code> | 
 | [observeOptions] | <code>object</code> | 
 
 

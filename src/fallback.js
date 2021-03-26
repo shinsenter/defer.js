@@ -76,8 +76,8 @@
      * @since 1.0
      * @param {string}   [selector]
      * @param {number}   [delay]
-     * @param {string}   [cssclass]
-     * @param {callback} [validate]
+     * @param {string}   [revealedClass]
+     * @param {callback} [validator]
      * @param {object}   [observeOptions]
      * @see {@link Defer.dom|Defer.dom}
      */
@@ -88,8 +88,8 @@
      * @since 1.0
      * @param {string}   [selector]
      * @param {number}   [delay]
-     * @param {string}   [cssclass]
-     * @param {callback} [validate]
+     * @param {string}   [revealedClass]
+     * @param {callback} [validator]
      * @param {object}   [observeOptions]
      * @see {@link Defer.dom|Defer.dom}
      */
