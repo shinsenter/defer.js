@@ -1,7 +1,7 @@
 {
   "name": "@shinsenter/defer.js",
   "title": "defer.js",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "🥇 A super small, super efficient library that helps you lazy load everything like images, video, audio, iframes as well as stylesheets, and JavaScript.",
   "homepage": "https://code.shin.company/defer.js#readme",
   "author": {
@@ -58,12 +58,12 @@
     "lint": "eslint --config build/.eslintrc --ext .js src --fix",
     "cleanup": "rm -rf ./node_modules package-lock.json",
     "tools": "npm -g install jsdoc-to-markdown eslint js-beautify uglify-js",
-    "readme": "jsdoc2md --separators -l html -g grouped ./src/*.js > ./docs/apis.md && cat ./docs/*.md > README.md",
-    "pull": "npm run cleanup && npm run tools && npm i",
-    "polyfill": "uglifyjs --config-file build/.uglifyjs -o dist/polyfill.min.js node_modules/intersection-observer/intersection-observer.js",
-    "build": "npm run lint && npm run s1 && npm run s2 && npm run polyfill && npm run readme",
+    "readme": "rm -f ./docs/index.md && jsdoc2md --separators -l html -g grouped ./src/*.js > ./docs/apis.md && cat ./docs/*.md > README.md && cp -p README.md ./docs/index.md",
+    "pull": "npm run cleanup && npm run tools && npm i && npm up && npm audit fix",
+    "build": "npm run lint && npm run s1 && npm run s2 && npm run s3 && npm run readme",
     "s1": "uglifyjs --config-file build/.uglifyjs -o dist/defer.min.js      src/defer.js",
     "s2": "uglifyjs --config-file build/.uglifyjs -o dist/defer_plus.min.js src/defer.js src/fallback.js",
+    "s3": "uglifyjs --config-file build/.uglifyjs -o dist/polyfill.min.js node_modules/intersection-observer/intersection-observer.js",
     "versionup": "npm run lint && npm --no-git-tag-version version patch -m 'Ready to publish version %s'",
     "upload": "npm run pull && npm run build && npm prune --prod && npm publish --access=public"
   }

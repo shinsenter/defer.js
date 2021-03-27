@@ -34,14 +34,14 @@
  * that helps you lazy load everything like images, video, audio, iframes
  * as well as stylesheets, and JavaScript.
  *
- * @author Mai Nhut Tan <shin@shin.company>
+ * @author    Mai Nhut Tan <shin@shin.company>
  * @copyright 2021 AppSeeds <https://code.shin.company/>
- * @version 2.0
- * @license {@link https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE|MIT}
+ * @version   2.0
+ * @license   {@link https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE|MIT}
  */
 
 /*@shinsenter/defer.js*/
-(function (window, document, _exec) {
+(function (window, document, caller) {
 
     /*
     |--------------------------------------------------------------------------
@@ -49,32 +49,37 @@
     |--------------------------------------------------------------------------
     */
 
-    // Important variables
-    var defer
-    var _undef;
-    var _queue    = [];
-    var _domReady = (/p/).test(document.readyState);
+    // The defer instance
+    var defer;
 
-    // Common objects
-    var _IntersectionObserver = 'IntersectionObserver';
-    var _regexData = /^data-(.+)/;
-    var _eventShow = 'pageshow';
+    // Constant values
+    var _dataRegExp = /^data-(.+)/;
+    var _IO         = 'IntersectionObserver';
+
+    // State holders
+    var _domReady = (/p/).test(document.readyState);
+    var _queue    = [];
+    var _toArray  = _queue.slice;
 
     // Common attributes
-    var _attrLazied     = 'lazied';
-    var _attrLength     = 'length';
-    var _attrLoadEvent  = 'load';
+    var _lazied   = 'lazied';
+    var _load     = 'load';
+    var _pageshow = 'pageshow';
 
     // Common texts
-    var _txtLink        = 'LINK';
-    var _txtScript      = 'SCRIPT';
+    var _LINK   = 'LINK';
+    var _SCRIPT = 'SCRIPT';
 
     // Method aliases
-    var _listen       = 'addEventListener';
     var _forEach      = 'forEach';
     var _hasAttribute = 'hasAttribute';
-    var _nodeName     = 'nodeName';
+    var _listen       = 'addEventListener';
     var _setAttribute = 'setAttribute';
+    var _shift        = 'shift';
+
+    // CSS Selectors
+    var _selectorDeferJs = '[type=deferjs]';
+    var _selectorMedia   = '[data-src]';
 
     /*
     |--------------------------------------------------------------------------
@@ -82,21 +87,25 @@
     |--------------------------------------------------------------------------
     */
 
-    function _find(selector, parent) {
-        return [].slice.call((parent || document).querySelectorAll(selector));
-    }
-
     function _appendToHead(node) {
         document.head.appendChild(node);
     }
 
+    function _propArray(node) {
+        return _toArray.call(node.attributes);
+    }
+
     function _newNode(nodeName, id, callback, _node) {
-        _node =
-            (id ? document.getElementById(id) : _undef) ||
-            document.createElement(nodeName || _txtScript);
+        _node = id ? document.getElementById(id) : _node;
+
+        if (!_node) {
+            _node = document.createElement(nodeName);
+        }
+
         if (id) {
             _node.id = id;
         }
+
         if (callback) {
             _node.onload = callback;
         }
@@ -104,34 +113,50 @@
         return _node;
     }
 
-    function _attributeArray(node) {
-        return [].slice.call(node.attributes);
+    function _query(selector, parent) {
+        return _toArray.call((parent || document).querySelectorAll(selector));
     }
 
-    function _cloneScript(node, _clone, _attr, _prop, _count) {
-        _clone = _newNode(node[_nodeName]);
-        for (
-            _count = 0, _attr = _attributeArray(node);
-            _count < _attr[_attrLength];
-            _count++
-        ) {
-            _prop = _attr[_count];
-            if (_prop.name != 'type') {
-                _clone[_setAttribute](_prop.name, _prop.value);
+    function _reveal(node, _attributes, _property, _found) {
+        for (_attributes = _propArray(node); _attributes[0];) {
+            _property = _attributes[_shift]();
+            _found    = _dataRegExp.exec(_property.name);
+
+            if (_found) {
+                node[_setAttribute](_found[1], _property.value);
             }
         }
-        _clone.text = node.text;
 
-        return _clone;
+        _query('source', node)[_forEach](_reveal);
+
+        if (_load in node) {
+            node[_load]();
+        }
     }
 
-    function _proceedJs(selector) {
-        defer(function (_nodes) {
-            function _next(_node, _clone) {
-                _node = _nodes.shift();
+    function _deferAllScript(selector) {
+        defer(function (_found) {
+            _found = _query(selector || _selectorDeferJs);
+
+            function _next(_node, _clone, _attributes, _property) {
+                _node = _found[_shift]();
+
                 if (_node) {
+                    // Remove the node from DOM tree
                     _node.parentNode.removeChild(_node);
-                    _clone = _cloneScript(_node);
+
+                    // Clone the node
+                    _clone = _newNode(_node.nodeName);
+                    _clone.text = _node.text;
+                    for (_attributes = _propArray(_node); _attributes[0];) {
+                        _property = _attributes[_shift]();
+
+                        if (_property.name != 'type') {
+                            _clone[_setAttribute](_property.name, _property.value);
+                        }
+                    }
+
+                    // Execute the node
                     if (_clone.src && !_clone[_hasAttribute]('async')) {
                         _clone.onload = _clone.onerror = _next;
                         _appendToHead(_clone);
@@ -141,35 +166,9 @@
                     }
                 }
             }
-            _nodes = _find(selector || '[type=deferjs]');
+
             _next();
         });
-    }
-
-    function _proceedQueue() {
-        for (_domReady = !_proceedJs(); _queue[0];) {
-            defer(_queue.shift(), _queue.shift());
-        }
-    }
-
-    function _reveal(node, _attr, _count, _found) {
-        for (
-            _count = 0, _attr = _attributeArray(node);
-            _count < _attr[_attrLength];
-            _count++
-        ) {
-            _found = _regexData.exec(_attr[_count].name);
-            if (_found) {
-                node[_setAttribute](
-                    _found[1],
-                    _attr[_count].value
-                );
-            }
-        }
-        _find('source', node)[_forEach](_reveal);
-        if(_attrLoadEvent in node) {
-            node[_attrLoadEvent]();
-        }
     }
 
     /*
@@ -183,7 +182,7 @@
      * used as a parameter to another function.
      *
      * @typedef
-     * @name function
+     * @name    function
      * @returns {void}
      */
 
@@ -191,8 +190,8 @@
      * The definition for a function that takes one parameter is a DOM {@link Node} element
      *
      * @typedef
-     * @name closure
-     * @param {Node} element - The DOM {@link Node} element
+     * @name    closure
+     * @param   {Node} element - The DOM {@link Node} element
      * @returns {void | bool}
      */
 
@@ -200,8 +199,8 @@
      * The DOM Node interface
      *
      * @typedef
-     * @name Node
-     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Node}
+     * @name    Node
+     * @see     {@link https://developer.mozilla.org/en-US/docs/Web/API/Node}
      */
 
     /**
@@ -212,10 +211,9 @@
      * after the web page has completely loaded.
      *
      * @function Defer
-     * @public
-     * @since 2.0
-     * @param {function} func - The function that will be deferred.
-     * @param {number}   [delay=0] - The duration in miliseconds to delay the `func` function.
+     * @since   2.0
+     * @param   {function} func - The function that will be deferred.
+     * @param   {number}   [delay=0] - The duration in miliseconds to delay the `func` function.
      * @returns {void}
      *
      * @example
@@ -240,7 +238,7 @@
      */
     defer = function (func, delay) {
         if (_domReady) {
-            _exec(func, delay);
+            caller(func, delay);
         } else {
             _queue.push(func, delay);
         }
@@ -253,17 +251,14 @@
      * will be delayed and automatically executed
      * as soon as the page has completely loaded.
      *
-     * This function is useful when you don't want heavy JavaScript works
-     * to affect your website loading speed.
+     * This function is useful for lazy-loading script tags.
      *
      * @function Defer.all
-     * @public
-     * @since 2.0
-     * @param {string} [selector=[type=deferjs]] - A CSS selector that queries script tags will be deferred.
+     * @since   2.0
+     * @param   {string} [selector=[type=deferjs]] - A CSS selector that queries script tags will be deferred.
      * @returns {void}
      *
      * @example
-     *
      * You just need to simply change `type="text/javascript"` to `type="deferjs"`,
      * or add `type="deferjs"` to your script tag for it to take effect.
      *
@@ -280,8 +275,7 @@
      *
      * @example
      * If you don't want the `<script type="deferjs">` syntax,
-     * or you want to define another name for website,
-     * please call `Defer.all()` manually at the bottom of the `<body>` tag.
+     * you can easily choose your own type.
      *
      * This example uses `type="myjs"` instead of `type="deferjs"`:
      * ```html
@@ -291,8 +285,10 @@
      * <!-- Call Defer.all() at the bottom of the `<body>` tag -->
      * <script>Defer.all('script[type="myjs"]');</script>
      * ```
+     *
+     * Note: Please call `Defer.all()` at the bottom of the `<body>` tag.
      */
-    defer.all = _proceedJs;
+    defer.all = _deferAllScript;
 
     /**
      * For lazy loading external JavaScript files.
@@ -302,12 +298,11 @@
      * to affect your website loading speed.
      *
      * @function Defer.js
-     * @public
-     * @since 2.0
-     * @param {string}  src - URL to the js file that should be lazy loaded.
-     * @param {string}  [id] - The ID will be assigned to the script tag to avoid downloading the same file multiple times.
-     * @param {number}  [delay=0] - The duration in miliseconds to delay loading the js file.
-     * @param {closure} [callback] - The callback function will be executed if the js file is successfully loaded.
+     * @since   2.0
+     * @param   {string}  src - URL to the js file that should be lazy loaded.
+     * @param   {string}  [id] - The ID will be assigned to the script tag to avoid downloading the same file multiple times.
+     * @param   {number}  [delay=0] - The duration in miliseconds to delay loading the js file.
+     * @param   {closure} [callback] - The callback function will be executed if the js file is successfully loaded.
      * @returns {void}
      *
      * @example
@@ -327,7 +322,7 @@
      */
     defer.js = function (src, id, delay, callback) {
         defer(function (_node) {
-            _node = _newNode(_undef, id, callback);
+            _node = _newNode(_SCRIPT, id, callback);
             _node.src = src;
             _appendToHead(_node);
         }, delay);
@@ -340,12 +335,11 @@
      * (like Web Fonts) to affect your website loading speed.
      *
      * @function Defer.css
-     * @public
-     * @since 2.0
-     * @param {string}  src - URL to the css file that should be lazy loaded.
-     * @param {string}  [id] - The ID will be assigned to the script tag to avoid downloading the same file multiple times.
-     * @param {number}  [delay=0] - The duration in miliseconds to delay loading the css file.
-     * @param {closure} [callback] - The callback function will be executed if the css file is successfully loaded.
+     * @since   2.0
+     * @param   {string}  src - URL to the css file that should be lazy loaded.
+     * @param   {string}  [id] - The ID will be assigned to the script tag to avoid downloading the same file multiple times.
+     * @param   {number}  [delay=0] - The duration in miliseconds to delay loading the css file.
+     * @param   {closure} [callback] - The callback function will be executed if the css file is successfully loaded.
      * @returns {void}
      *
      * @example
@@ -364,8 +358,8 @@
      */
     defer.css = function (src, id, delay, callback) {
         defer(function (_node) {
-            _node = _newNode(_txtLink, id, callback);
-            _node.rel = 'stylesheet';
+            _node = _newNode(_LINK, id, callback);
+            _node.rel  = 'stylesheet';
             _node.href = src;
             _appendToHead(_node);
         }, delay);
@@ -389,20 +383,20 @@
 
      * ```html
      * <!-- Put defer.min.js here -->
-     * <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.1.0/dist/defer.min.js"></script>
+     * <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.2.0/dist/defer.min.js"></script>
      *
      * <!-- Put polyfill right after defer.min.js tag -->
      * <script>'IntersectionObserver'in window||document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"><\/script>');</script>
      * ```
      *
      * @function Defer.dom
-     * @public
-     * @since 2.0
-     * @param {string}  [selector=[data-src]] - A CSS selector that queries elements will be lazy loaded.
-     * @param {number}  [delay=0] - The duration in miliseconds to delay the lazy loading for the elements.
-     * @param {string}  [cssclass] - A CSS class will be added automatically after when an element has been loaded successfully.
-     * @param {closure} [validate] - A function will be executed with element will be lazy loaded as its argument. If the function returns `false`, lazy loading for that element will be skipped.
-     * @param {object}  [observeOptions] - [Intersection observer options](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#Intersection_observer_options)
+     * @since   2.0
+     * @param   {string}  [selector=[data-src]] - A CSS selector that queries elements will be lazy loaded.
+     * @param   {number}  [delay=0] - The duration in miliseconds to delay the lazy loading for the elements.
+     * @param   {string}  [revealedClass] - A CSS class will be added automatically after when an element has been successfully revealed.
+     * @param   {closure} [validator] - A function will be executed with element will be lazy loaded as its argument.
+     * If the function returns `false`, lazy loading for that element will be skipped.
+     * @param   {object}  [observeOptions] - [Intersection observer options](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#Intersection_observer_options)
      * @returns {void}
      *
      * @example
@@ -572,51 +566,64 @@
      * });
      * ```
      */
-    defer.dom = function (selector, delay, cssclass, validate, observeOptions) {
-        defer(function (_observer, _follow) {
-            function _active(node) {
-                if (!validate || validate(node) !== false) {
-                    _reveal(node);
-                    if (cssclass) {
-                        node.className += ' ' + cssclass;
-                    }
+    defer.dom = function (
+        selector,
+        delay,
+        revealedClass,
+        validator,
+        observeOptions
+    ) {
+        function _present(node) {
+            if (!validator || validator(node) !== false) {
+                _reveal(node);
+
+                if (revealedClass) {
+                    node.className += ' ' + revealedClass;
                 }
             }
-            if (_IntersectionObserver in window) {
-                _observer = new window[_IntersectionObserver](function (nodes) {
-                    nodes[_forEach](function (item, _target) {
-                        if (item.isIntersecting && (_target = item.target)) {
-                            _observer.unobserve(_target);
-                            _active(_target);
+        }
+
+        function _lazyload(_observer) {
+            if (_IO in window) {
+                _observer = new window[_IO](function (nodes) {
+                    nodes[_forEach](function (object, _node) {
+                        if (object.isIntersecting && (_node = object.target)) {
+                            _observer.unobserve(_node);
+                            _present(_node);
                         }
                     });
                 }, observeOptions);
-                _follow = _observer.observe.bind(_observer);
             } else {
-                _follow = _active;
+                _observer = false;
             }
+
             function _loop(node) {
-                if (!node[_hasAttribute](_attrLazied)) {
-                    node[_setAttribute](_attrLazied, node[_nodeName]);
-                    _follow(node);
+                if (!node[_hasAttribute](_lazied)) {
+                    node[_setAttribute](_lazied, '');
+
+                    if (_observer) {
+                        _observer.observe(node);
+                    } else {
+                        _present(node);
+                    }
                 }
             }
-            _find(selector || '[data-src]')[_forEach](_loop);
-        }, delay);
-    };
 
+            _query(selector || _selectorMedia)[_forEach](_loop);
+        }
+
+        defer(_lazyload, delay);
+    };
 
     /**
      * Reveal an element which is lazyloaded by the library
      *
      * @function Defer.reveal
-     * @public
-     * @since 2.1
-     * @param {Node}   element - The DOM {@link Node} element
+     * @since   2.1
+     * @param   {Node}   element - The DOM {@link Node} element
      * @returns {void}
      *
      * @example
-     *
      * ```js
      * // Show single element
      * var node = document.getElementById('my-video');
@@ -636,14 +643,18 @@
     |--------------------------------------------------------------------------
     */
 
-    // Listens for the load event of the global context
-    // then starts execution of deferred scripts
-    window[_listen](
-        'on' + _eventShow in window ? _eventShow : _attrLoadEvent,
-        _proceedQueue
-    );
-
     // Expose Defer instance
     window.Defer = defer;
+
+    // Listens for the load event of the global context
+    // then starts execution of all deferred scripts
+    window[_listen](
+        'on' + _pageshow in window ? _pageshow : _load,
+        function () {
+            for (_deferAllScript(); _queue[0]; _domReady = 1) {
+                caller(_queue[_shift](), _queue[_shift]());
+            }
+        }
+    );
 
 })(this, document, setTimeout);

@@ -4,12 +4,13 @@
     * [.all([selector])](#Defer.all) ⇒ <code>void</code>
     * [.js(src, [id], [delay], [callback])](#Defer.js) ⇒ <code>void</code>
     * [.css(src, [id], [delay], [callback])](#Defer.css) ⇒ <code>void</code>
-    * [.dom([selector], [delay], [cssclass], [validate], [observeOptions])](#Defer.dom) ⇒ <code>void</code>
+    * [.dom([selector], [delay], [revealedClass], [validator], [observeOptions])](#Defer.dom) ⇒ <code>void</code>
     * [.reveal(element)](#Defer.reveal) ⇒ <code>void</code>
 * ~~[defer(func, [delay])](#defer)~~
 * ~~[deferscript(src, [id], [delay], [callback])](#deferscript)~~
 * ~~[deferstyle(src, [id], [delay], [callback])](#deferstyle)~~
-* ~~[deferimg([selector], [delay], [cssclass], [validate], [observeOptions])](#deferimg)~~
+* ~~[deferimg([selector], [delay], [revealedClass], [validator], [observeOptions])](#deferimg)~~
+* ~~[deferiframe([selector], [delay], [revealedClass], [validator], [observeOptions])](#deferiframe)~~
 
 ## Typedefs
 
@@ -26,16 +27,15 @@ which may adversely affect the loading of your web page.
 All JavaScript delayed by `Defer()` will only executed
 after the web page has completely loaded.
 
-**Kind**: global function
-**Access**: public
-**Since**: 2.0
+**Kind**: global function  
+**Since**: 2.0  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | func | [<code>function</code>](#function) |  | The function that will be deferred. |
 | [delay] | <code>number</code> | <code>0</code> | The duration in miliseconds to delay the `func` function. |
 
-**Example**
+**Example**  
 Delay some heavy DOM manipulations in JavaScript.
 
 ```js
@@ -45,7 +45,7 @@ Defer(function() {
   jQuery('div').hide().fadeIn().show();
 }); // <- script runs after the page has completely loaded
 ```
-**Example**
+**Example**  
 Delay the same JavaScript as above for 3000ms.
 
 ```js
@@ -58,7 +58,7 @@ Defer(function() {
     * [.all([selector])](#Defer.all) ⇒ <code>void</code>
     * [.js(src, [id], [delay], [callback])](#Defer.js) ⇒ <code>void</code>
     * [.css(src, [id], [delay], [callback])](#Defer.css) ⇒ <code>void</code>
-    * [.dom([selector], [delay], [cssclass], [validate], [observeOptions])](#Defer.dom) ⇒ <code>void</code>
+    * [.dom([selector], [delay], [revealedClass], [validator], [observeOptions])](#Defer.dom) ⇒ <code>void</code>
     * [.reveal(element)](#Defer.reveal) ⇒ <code>void</code>
 
 
@@ -73,18 +73,16 @@ All script tags with attribute `<script type="deferjs">`
 will be delayed and automatically executed
 as soon as the page has completely loaded.
 
-This function is useful when you don't want heavy JavaScript works
-to affect your website loading speed.
+This function is useful for lazy-loading script tags.
 
-**Kind**: static method of [<code>Defer</code>](#Defer)
-**Access**: public
-**Since**: 2.0
+**Kind**: static method of [<code>Defer</code>](#Defer)  
+**Since**: 2.0  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [selector] | <code>string</code> | <code>&quot;[type&#x3D;deferjs]&quot;</code> | A CSS selector that queries script tags will be deferred. |
 
-**Example**
+**Example**  
 You just need to simply change `type="text/javascript"` to `type="deferjs"`,
 or add `type="deferjs"` to your script tag for it to take effect.
 
@@ -98,10 +96,9 @@ After:
 <script type="deferjs" src="heavy-library.js"></script>
 <script type="deferjs">// heavy script here </script>
 ```
-**Example**
+**Example**  
 If you don't want the `<script type="deferjs">` syntax,
-or you want to define another name for website,
-please call `Defer.all()` manually at the bottom of the `<body>` tag.
+you can easily choose your own type.
 
 This example uses `type="myjs"` instead of `type="deferjs"`:
 ```html
@@ -111,6 +108,8 @@ This example uses `type="myjs"` instead of `type="deferjs"`:
 <!-- Call Defer.all() at the bottom of the `<body>` tag -->
 <script>Defer.all('script[type="myjs"]');</script>
 ```
+
+Note: Please call `Defer.all()` at the bottom of the `<body>` tag.
 
 * * *
 
@@ -123,9 +122,8 @@ This function is useful when you don't want heavy JavaScript
 (especially the widgets of social networks, ad services)
 to affect your website loading speed.
 
-**Kind**: static method of [<code>Defer</code>](#Defer)
-**Access**: public
-**Since**: 2.0
+**Kind**: static method of [<code>Defer</code>](#Defer)  
+**Since**: 2.0  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -134,13 +132,13 @@ to affect your website loading speed.
 | [delay] | <code>number</code> | <code>0</code> | The duration in miliseconds to delay loading the js file. |
 | [callback] | [<code>closure</code>](#closure) |  | The callback function will be executed if the js file is successfully loaded. |
 
-**Example**
+**Example**  
 Delay loading of Facebook SDK after 3000ms.
 
 ```js
 Defer.js('https://connect.facebook.net/en_US/sdk.js', 'fb-sdk', 3000);
 ```
-**Example**
+**Example**  
 Delay loading of AddThis SDK after 5000ms.
 
 ```js
@@ -158,9 +156,8 @@ For lazy loading external CSS files.
 This function is useful when you don't want heavy CSS
 (like Web Fonts) to affect your website loading speed.
 
-**Kind**: static method of [<code>Defer</code>](#Defer)
-**Access**: public
-**Since**: 2.0
+**Kind**: static method of [<code>Defer</code>](#Defer)  
+**Since**: 2.0  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -169,13 +166,13 @@ This function is useful when you don't want heavy CSS
 | [delay] | <code>number</code> | <code>0</code> | The duration in miliseconds to delay loading the css file. |
 | [callback] | [<code>closure</code>](#closure) |  | The callback function will be executed if the css file is successfully loaded. |
 
-**Example**
+**Example**  
 Lazy load FontAwesome Webfont from its CDN.
 
 ```js
 Defer.css('https://pro.fontawesome.com/releases/v5.10.0/css/all.css', 'fa5-css');
 ```
-**Example**
+**Example**  
 Delay loading animate.css from CDN for 1000ms.
 
 ```js
@@ -186,7 +183,7 @@ Defer.css('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.
 
 <a name="Defer.dom"></a>
 
-### Defer.dom([selector], [delay], [cssclass], [validate], [observeOptions]) ⇒ <code>void</code>
+### Defer.dom([selector], [delay], [revealedClass], [validator], [observeOptions]) ⇒ <code>void</code>
 For lazy loading attributes of any element on the page.
 
 Basically, the `Defer.dom` function converts all `data-*` attributes
@@ -203,25 +200,24 @@ you should load `IntersectionObserver` polyfill library
 right after the `defer.min.js` script tag as following example:
 ```html
 <!-- Put defer.min.js here -->
-<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.1.0/dist/defer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.2.0/dist/defer.min.js"></script>
 
 <!-- Put polyfill right after defer.min.js tag -->
 <script>'IntersectionObserver'in window||document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"><\/script>');</script>
 ```
 
-**Kind**: static method of [<code>Defer</code>](#Defer)
-**Access**: public
-**Since**: 2.0
+**Kind**: static method of [<code>Defer</code>](#Defer)  
+**Since**: 2.0  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [selector] | <code>string</code> | <code>&quot;[data-src]&quot;</code> | A CSS selector that queries elements will be lazy loaded. |
 | [delay] | <code>number</code> | <code>0</code> | The duration in miliseconds to delay the lazy loading for the elements. |
-| [cssclass] | <code>string</code> |  | A CSS class will be added automatically after when an element has been loaded successfully. |
-| [validate] | [<code>closure</code>](#closure) |  | A function will be executed with element will be lazy loaded as its argument. If the function returns `false`, lazy loading for that element will be skipped. |
+| [revealedClass] | <code>string</code> |  | A CSS class will be added automatically after when an element has been successfully revealed. |
+| [validator] | [<code>closure</code>](#closure) |  | A function will be executed with element will be lazy loaded as its argument. If the function returns `false`, lazy loading for that element will be skipped. |
 | [observeOptions] | <code>object</code> |  | [Intersection observer options](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#Intersection_observer_options) |
 
-**Example**
+**Example**  
 Basic usage:
 Lazy load all `<img>` tags which have CSS class `lazy`.
 
@@ -234,7 +230,7 @@ Lazy load all `<img>` tags which have CSS class `lazy`.
 <img class="lazy" alt="Photo 2" data-src="https://picsum.photos/200/300?random=2" width="200" height="300" />
 <img class="lazy" alt="Photo 3" data-src="https://picsum.photos/200/300?random=3" width="200" height="300" />
 ```
-**Example**
+**Example**  
 Basic usage:
 Lazy load background image of a `div` tag.
 
@@ -258,7 +254,7 @@ Lazy load background image of a `div` tag.
   <!-- The content -->
 </div>
 ```
-**Example**
+**Example**  
 Advanced usage:
 Delay lazy loading `<img>` tags 200ms after the page has completely loaded.
 Then it will add a CSS class `loaded` to the fully lazy loaded image element.
@@ -272,7 +268,7 @@ Then it will add a CSS class `loaded` to the fully lazy loaded image element.
 <img class="lazy-extra" alt="Photo 2" data-src="https://picsum.photos/200/300?random=5" width="200" height="300" />
 <img class="lazy-extra" alt="Photo 3" data-src="https://picsum.photos/200/300?random=6" width="200" height="300" />
 ```
-**Example**
+**Example**  
 Advanced usage: Lazy load with [Intersection observer options](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#Intersection_observer_options)
 
 ```html
@@ -289,7 +285,7 @@ Advanced usage: Lazy load with [Intersection observer options](https://developer
 <img class="lazy-sooner" alt="Photo 2" data-src="https://picsum.photos/200/300?random=8" width="200" height="300" />
 <img class="lazy-sooner" alt="Photo 3" data-src="https://picsum.photos/200/300?random=9" width="200" height="300" />
 ```
-**Example**
+**Example**  
 We can use CSS class that added to the lazy loaded element
 to add animation to the successfully loaded elements.
 
@@ -312,7 +308,7 @@ to add animation to the successfully loaded elements.
 <img class="fade" alt="Photo 2" data-src="https://picsum.photos/200/300?random=11" width="200" height="300" />
 <img class="fade" alt="Photo 3" data-src="https://picsum.photos/200/300?random=12" width="200" height="300" />
 ```
-**Example**
+**Example**  
 This function can be used similarly for other tags
 such as `<iframe>`, `<video>`, `<audio>`, `<picture>` tags.
 
@@ -348,7 +344,7 @@ such as `<iframe>`, `<video>`, `<audio>`, `<picture>` tags.
   Your browser does not support the video tag.
 </video>
 ```
-**Example**
+**Example**  
 Or even execute a piece of JavaScript
 when the user scrolls to the element `#scroll_reveal`.
 
@@ -366,7 +362,7 @@ when the user scrolls to the element `#scroll_reveal`.
   This is my content.
 </div>
 ```
-**Example**
+**Example**  
 Combine with other Defer functions.
 Delay loading highlightjs library for 1000ms.
 Then when you scroll to any `code` tag, enable code highlighting for it.
@@ -388,15 +384,14 @@ Defer.js(base + '/highlight.pack.min.js', 'hljs-js', 1000, function () {
 ### Defer.reveal(element) ⇒ <code>void</code>
 Reveal an element which is lazyloaded by the library
 
-**Kind**: static method of [<code>Defer</code>](#Defer)
-**Access**: public
-**Since**: 2.1
+**Kind**: static method of [<code>Defer</code>](#Defer)  
+**Since**: 2.1  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | element | [<code>Node</code>](#Node) | The DOM [Node](#Node) element |
 
-**Example**
+**Example**  
 ```js
 // Show single element
 var node = document.getElementById('my-video');
@@ -415,15 +410,14 @@ document.querySelectorAll('.multi-lazy').forEach(function(node) {
 ## ~~defer(func, [delay])~~
 ***Deprecated***
 
-**Kind**: global function
-**Access**: public
-**See**: [Defer](#Defer)
-**Since**: 1.0
+**Kind**: global function  
+**See**: [Defer](#Defer)  
+**Since**: 1.0  
 
 | Param | Type |
 | --- | --- |
-| func | [<code>function</code>](#function) |
-| [delay] | <code>number</code> |
+| func | [<code>function</code>](#function) | 
+| [delay] | <code>number</code> | 
 
 
 * * *
@@ -433,17 +427,16 @@ document.querySelectorAll('.multi-lazy').forEach(function(node) {
 ## ~~deferscript(src, [id], [delay], [callback])~~
 ***Deprecated***
 
-**Kind**: global function
-**Access**: public
-**See**: [js](#Defer.js)
-**Since**: 1.0
+**Kind**: global function  
+**See**: [js](#Defer.js)  
+**Since**: 1.0  
 
 | Param | Type |
 | --- | --- |
-| src | <code>string</code> |
-| [id] | <code>string</code> |
-| [delay] | <code>number</code> |
-| [callback] | <code>callback</code> |
+| src | <code>string</code> | 
+| [id] | <code>string</code> | 
+| [delay] | <code>number</code> | 
+| [callback] | <code>callback</code> | 
 
 
 * * *
@@ -453,38 +446,56 @@ document.querySelectorAll('.multi-lazy').forEach(function(node) {
 ## ~~deferstyle(src, [id], [delay], [callback])~~
 ***Deprecated***
 
-**Kind**: global function
-**Access**: public
-**See**: [css](#Defer.css)
-**Since**: 1.0
+**Kind**: global function  
+**See**: [css](#Defer.css)  
+**Since**: 1.0  
 
 | Param | Type |
 | --- | --- |
-| src | <code>string</code> |
-| [id] | <code>string</code> |
-| [delay] | <code>number</code> |
-| [callback] | <code>callback</code> |
+| src | <code>string</code> | 
+| [id] | <code>string</code> | 
+| [delay] | <code>number</code> | 
+| [callback] | <code>callback</code> | 
 
 
 * * *
 
 <a name="deferimg"></a>
 
-## ~~deferimg([selector], [delay], [cssclass], [validate], [observeOptions])~~
+## ~~deferimg([selector], [delay], [revealedClass], [validator], [observeOptions])~~
 ***Deprecated***
 
-**Kind**: global function
-**Access**: public
-**See**: [dom](#Defer.dom)
-**Since**: 1.0
+**Kind**: global function  
+**See**: [dom](#Defer.dom)  
+**Since**: 1.0  
 
 | Param | Type |
 | --- | --- |
-| [selector] | <code>string</code> |
-| [delay] | <code>number</code> |
-| [cssclass] | <code>string</code> |
-| [validate] | <code>callback</code> |
-| [observeOptions] | <code>object</code> |
+| [selector] | <code>string</code> | 
+| [delay] | <code>number</code> | 
+| [revealedClass] | <code>string</code> | 
+| [validator] | <code>callback</code> | 
+| [observeOptions] | <code>object</code> | 
+
+
+* * *
+
+<a name="deferiframe"></a>
+
+## ~~deferiframe([selector], [delay], [revealedClass], [validator], [observeOptions])~~
+***Deprecated***
+
+**Kind**: global function  
+**See**: [dom](#Defer.dom)  
+**Since**: 1.0  
+
+| Param | Type |
+| --- | --- |
+| [selector] | <code>string</code> | 
+| [delay] | <code>number</code> | 
+| [revealedClass] | <code>string</code> | 
+| [validator] | <code>callback</code> | 
+| [observeOptions] | <code>object</code> | 
 
 
 * * *
@@ -495,7 +506,7 @@ document.querySelectorAll('.multi-lazy').forEach(function(node) {
 A definition for an ordinary function,
 used as a parameter to another function.
 
-**Kind**: global typedef
+**Kind**: global typedef  
 
 * * *
 
@@ -504,7 +515,7 @@ used as a parameter to another function.
 ## closure ⇒ <code>void</code> \| <code>bool</code>
 The definition for a function that takes one parameter is a DOM [Node](#Node) element
 
-**Kind**: global typedef
+**Kind**: global typedef  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -518,7 +529,8 @@ The definition for a function that takes one parameter is a DOM [Node](#Node) el
 ## Node
 The DOM Node interface
 
-**Kind**: global typedef
-**See**: [https://developer.mozilla.org/en-US/docs/Web/API/Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+**Kind**: global typedef  
+**See**: [https://developer.mozilla.org/en-US/docs/Web/API/Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)  
 
 * * *
+
