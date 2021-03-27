@@ -16,6 +16,8 @@ https://github.com/shinsenter/defer-wordpress/
 
 ### Laravel package
 
+https://github.com/shinsenter/defer-laravel/
+
 Under development.
 
 
