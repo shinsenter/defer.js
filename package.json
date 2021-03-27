@@ -60,10 +60,10 @@
     "tools": "npm -g install jsdoc-to-markdown eslint js-beautify uglify-js",
     "readme": "rm -f ./docs/index.md && jsdoc2md --separators -l html -g grouped ./src/*.js > ./docs/apis.md && cat ./docs/*.md > README.md && cp -p README.md ./docs/index.md",
     "pull": "npm run cleanup && npm run tools && npm i && npm up && npm audit fix",
-    "polyfill": "uglifyjs --config-file build/.uglifyjs -o dist/polyfill.min.js node_modules/intersection-observer/intersection-observer.js",
-    "build": "npm run lint && npm run s1 && npm run s2 && npm run polyfill && npm run readme",
+    "build": "npm run lint && npm run s1 && npm run s2 && npm run s3 && npm run readme",
     "s1": "uglifyjs --config-file build/.uglifyjs -o dist/defer.min.js      src/defer.js",
     "s2": "uglifyjs --config-file build/.uglifyjs -o dist/defer_plus.min.js src/defer.js src/fallback.js",
+    "s3": "uglifyjs --config-file build/.uglifyjs -o dist/polyfill.min.js node_modules/intersection-observer/intersection-observer.js",
     "versionup": "npm run lint && npm --no-git-tag-version version patch -m 'Ready to publish version %s'",
     "upload": "npm run pull && npm run build && npm prune --prod && npm publish --access=public"
   }

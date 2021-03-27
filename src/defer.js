@@ -134,7 +134,7 @@
         }
     }
 
-    function _runScriptTags(selector) {
+    function _deferAllScript(selector) {
         defer(function (_found) {
             _found = _query(selector || _selectorDeferJs);
 
@@ -146,7 +146,7 @@
                     _node.parentNode.removeChild(_node);
 
                     // Clone the node
-                    _clone = _newNode(_SCRIPT);
+                    _clone = _newNode(_node.nodeName);
                     _clone.text = _node.text;
                     for (_attributes = _propArray(_node); _attributes[0];) {
                         _property = _attributes[_shift]();
@@ -275,8 +275,7 @@
      *
      * @example
      * If you don't want the `<script type="deferjs">` syntax,
-     * or you want to define another name for website,
-     * please call `Defer.all()` manually at the bottom of the `<body>` tag.
+     * you can easily choose your own type.
      *
      * This example uses `type="myjs"` instead of `type="deferjs"`:
      * ```html
@@ -286,8 +285,10 @@
      * <!-- Call Defer.all() at the bottom of the `<body>` tag -->
      * <script>Defer.all('script[type="myjs"]');</script>
      * ```
+     *
+     * Note: Please call `Defer.all()` at the bottom of the `<body>` tag.
      */
-    defer.all = _runScriptTags;
+    defer.all = _deferAllScript;
 
     /**
      * For lazy loading external JavaScript files.
@@ -572,7 +573,7 @@
         validator,
         observeOptions
     ) {
-        function _show(node) {
+        function _present(node) {
             if (!validator || validator(node) !== false) {
                 _reveal(node);
 
@@ -588,7 +589,7 @@
                     nodes[_forEach](function (object, _node) {
                         if (object.isIntersecting && (_node = object.target)) {
                             _observer.unobserve(_node);
-                            _show(_node);
+                            _present(_node);
                         }
                     });
                 }, observeOptions);
@@ -603,7 +604,7 @@
                     if (_observer) {
                         _observer.observe(node);
                     } else {
-                        _show(node);
+                        _present(node);
                     }
                 }
             }
@@ -650,7 +651,7 @@
     window[_listen](
         'on' + _pageshow in window ? _pageshow : _load,
         function () {
-            for (_runScriptTags(), _domReady = 1; _queue[0];) {
+            for (_deferAllScript(); _queue[0]; _domReady = 1) {
                 caller(_queue[_shift](), _queue[_shift]());
             }
         }

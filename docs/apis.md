@@ -98,8 +98,7 @@ After:
 ```
 **Example**  
 If you don't want the `<script type="deferjs">` syntax,
-or you want to define another name for website,
-please call `Defer.all()` manually at the bottom of the `<body>` tag.
+you can easily choose your own type.
 
 This example uses `type="myjs"` instead of `type="deferjs"`:
 ```html
@@ -109,6 +108,8 @@ This example uses `type="myjs"` instead of `type="deferjs"`:
 <!-- Call Defer.all() at the bottom of the `<body>` tag -->
 <script>Defer.all('script[type="myjs"]');</script>
 ```
+
+Note: Please call `Defer.all()` at the bottom of the `<body>` tag.
 
 * * *
 
