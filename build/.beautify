@@ -1,8 +1,8 @@
 {
-    "indent_size": "4",
+    "indent_size": "2",
     "indent_char": " ",
     "indent_with_tabs": false,
-    "editorconfig": false,
+    "editorconfig": true,
     "eol": "\n",
     "end_with_newline": true,
     "indent_level": 0,

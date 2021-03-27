@@ -1,4 +1,3 @@
-* text=lf
 /dist/defer.min.js -diff -merge
 /dist/defer.min.js.map -diff -merge
 /dist/defer_plus.min.js -diff -merge
