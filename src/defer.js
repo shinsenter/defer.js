@@ -31,8 +31,8 @@
 
 /**
  * 🥇 A super small, super efficient library
- * that helps you lazy load everything like images, video, audio, iframes
- * as well as stylesheets, and JavaScript.
+ * that helps you lazy load almost everything
+ * like images, video, audio, iframes as well as stylesheets, and JavaScript.
  *
  * @author    Mai Nhut Tan <shin@shin.company>
  * @copyright 2021 AppSeeds <https://code.shin.company/>
@@ -383,7 +383,7 @@
 
      * ```html
      * <!-- Put defer.min.js here -->
-     * <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.2.0/dist/defer.min.js"></script>
+     * <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.3.0/dist/defer.min.js"></script>
      *
      * <!-- Put polyfill right after defer.min.js tag -->
      * <script>'IntersectionObserver'in window||document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"><\/script>');</script>
@@ -587,9 +587,13 @@
             if (_IO in window) {
                 _observer = new window[_IO](function (nodes) {
                     nodes[_forEach](function (object, _node) {
-                        if (object.isIntersecting && (_node = object.target)) {
-                            _observer.unobserve(_node);
-                            _present(_node);
+                        if (object.isIntersecting) {
+                            _node = object.target;
+
+                            if (_node) {
+                                _observer.unobserve(_node);
+                                _present(_node);
+                            }
                         }
                     });
                 }, observeOptions);
@@ -597,7 +601,7 @@
                 _observer = false;
             }
 
-            function _loop(node) {
+            _query(selector || _selectorMedia)[_forEach](function (node) {
                 if (!node[_hasAttribute](_lazied)) {
                     node[_setAttribute](_lazied, '');
 
@@ -607,9 +611,7 @@
                         _present(node);
                     }
                 }
-            }
-
-            _query(selector || _selectorMedia)[_forEach](_loop);
+            });
         }
 
         defer(_lazyload, delay);
