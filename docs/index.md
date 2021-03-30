@@ -3,7 +3,7 @@
 🥇 A super small, super efficient library that helps you lazy load almost everything like images, video, audio, iframes as well as stylesheets, and JavaScript.
 
 [![NPM](https://img.shields.io/npm/l/@shinsenter/defer.js)](https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE)
-[![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/@shinsenter/defer.js)](#)
+[![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/@shinsenter/defer.js)](https://snyk.io/advisor/npm-package/@shinsenter/defer.js)
 [![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/shinsenter/defer.js)](https://www.codefactor.io/repository/github/shinsenter/defer.js)
 
 * * *
@@ -676,21 +676,21 @@ The DOM Node interface
 
 ### PHP library
 
-https://github.com/shinsenter/defer.php/
+[https://github.com/shinsenter/defer.php/](https://github.com/shinsenter/defer.php/)
 
 🚀 A PHP library that focuses on minimizing payload size of HTML document and optimizing processing on the browser when rendering the web page.
 
 
 ### Wordpress plugin
 
-https://github.com/shinsenter/defer-wordpress/
+[https://github.com/shinsenter/defer-wordpress/](https://github.com/shinsenter/defer-wordpress/)
 
 ⚡️ A native, blazing fast lazy loader. ✅ Legacy browsers support (IE9+). 💯 SEO friendly. 🧩 Lazy load almost anything.
 
 
 ### Laravel package
 
-https://github.com/shinsenter/defer-laravel/
+[https://github.com/shinsenter/defer-laravel/](https://github.com/shinsenter/defer-laravel/)
 
 Under development.
 
