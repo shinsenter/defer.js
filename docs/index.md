@@ -3,7 +3,7 @@
 🥇 A super small, super efficient library that helps you lazy load almost everything like images, video, audio, iframes as well as stylesheets, and JavaScript.
 
 [![NPM](https://img.shields.io/npm/l/@shinsenter/defer.js)](https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE)
-[![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/@shinsenter/defer.js)](#)
+[![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/@shinsenter/defer.js)](https://snyk.io/advisor/npm-package/@shinsenter/defer.js)
 [![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/shinsenter/defer.js)](https://www.codefactor.io/repository/github/shinsenter/defer.js)
 
 * * *
@@ -16,7 +16,7 @@
 [![NPM](https://nodei.co/npm/@shinsenter/defer.js.png?downloads=true)](https://www.npmjs.com/package/@shinsenter/defer.js)
 
 - **Package**: [@shinsenter/defer.js](https://www.npmjs.com/package/@shinsenter/defer.js)
-- **Version**: 2.2.0
+- **Version**: 2.3.0
 - **Author**: Mai Nhut Tan <shin@shin.company>
 - **Copyright**: 2021 AppSeeds <https://code.shin.company/>
 - **License**: [MIT](https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE)
@@ -82,7 +82,7 @@ Add `defer.min.js` from this library into your HTML page,
 just below the opening `<head>` tag.
 
 You may download a ZIP of this library,
-or load it from a CND like below example.
+or load it from a CDN like below example.
 
 ```html
 <head>
@@ -90,7 +90,7 @@ or load it from a CND like below example.
   <title>My Awesome Page</title>
 
   <!-- Put defer.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.2.0/dist/defer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.3.0/dist/defer.min.js"></script>
 
   <!-- To support older browsers such as Internet Explorer 9 -->
   <!-- You may want to put IntersectionObserver polyfill right after defer.min.js tag -->
@@ -111,7 +111,7 @@ instead of `defer.min.js`.
 
 ```html
 <!-- Put defer_plus.min.js here -->
-<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.2.0/dist/defer_plus.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.3.0/dist/defer_plus.min.js"></script>
 
 <!-- To support older browsers such as Internet Explorer 9 -->
 <!-- You may want to put IntersectionObserver polyfill right after defer.min.js tag -->
@@ -205,13 +205,16 @@ Defer(function() {
 <a name="Defer.all"></a>
 
 ### Defer.all([selector]) ⇒ <code>void</code>
-By default, this function is triggered automatically.
+This function is useful for lazy-loading script tags.
 
 All script tags with attribute `<script type="deferjs">`
 will be delayed and automatically executed
 as soon as the page has completely loaded.
 
-This function is useful for lazy-loading script tags.
+By default, this function is triggered automatically.
+
+Note: For customized deferjs type,
+please call `Defer.all()` at the bottom of the `<body>` tag.
 
 **Kind**: static method of [<code>Defer</code>](#Defer)  
 **Since**: 2.0  
@@ -226,28 +229,32 @@ or add `type="deferjs"` to your script tag for it to take effect.
 
 Before:
 ```html
-<script type="text/javascript" src="heavy-library.js"></script>
-<script>// heavy script here </script>
+<script type="text/javascript" src="/path/to/heavy-javascript.js"></script>
+<script>
+    // Some heavy DOM manipulations here
+</script>
 ```
 After:
 ```html
-<script type="deferjs" src="heavy-library.js"></script>
-<script type="deferjs">// heavy script here </script>
+<script type="deferjs" src="/path/to/heavy-javascript.js"></script>
+<script type="deferjs">
+    // Some heavy DOM manipulations here
+</script>
 ```
 **Example**  
 If you don't want the `<script type="deferjs">` syntax,
-you can easily choose your own type.
+you can easily choose your own name.
 
 This example uses `type="myjs"` instead of `type="deferjs"`:
 ```html
-<script type="myjs" src="heavy-library.js"></script>
-<script type="myjs">// heavy script here </script>
+<script type="myjs" src="/path/to/heavy-javascript.js"></script>
+<script type="myjs">
+    // Some heavy DOM manipulations here
+</script>
 
 <!-- Call Defer.all() at the bottom of the `<body>` tag -->
 <script>Defer.all('script[type="myjs"]');</script>
 ```
-
-Note: Please call `Defer.all()` at the bottom of the `<body>` tag.
 
 * * *
 
@@ -338,7 +345,7 @@ you should load `IntersectionObserver` polyfill library
 right after the `defer.min.js` script tag as following example:
 ```html
 <!-- Put defer.min.js here -->
-<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.2.0/dist/defer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.3.0/dist/defer.min.js"></script>
 
 <!-- Put polyfill right after defer.min.js tag -->
 <script>'IntersectionObserver'in window||document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"><\/script>');</script>
@@ -375,13 +382,13 @@ Lazy load background image of a `div` tag.
 ```html
 <style>
   #my_div {
-    width: 300;
-    height: 200;
+    width: 300px;
+    height: 200px;
   }
 </style>
 
 <script>
-  // Lazy load div tag which has `id="my_div"`
+  // Lazy load div tag which has id="my_div"
   Defer.dom('#my_div');
 </script>
 
@@ -398,13 +405,13 @@ Delay lazy loading `<img>` tags 200ms after the page has completely loaded.
 Then it will add a CSS class `loaded` to the fully lazy loaded image element.
 
 ```html
-<script>Defer.dom('img.lazy-extra', 200, 'loaded');</script>
+<script>Defer.dom('img.lazy', 200, 'loaded');</script>
 
 <!-- Here may be a very long content -->
 
-<img class="lazy-extra" alt="Photo 1" data-src="https://picsum.photos/200/300?random=4" width="200" height="300" />
-<img class="lazy-extra" alt="Photo 2" data-src="https://picsum.photos/200/300?random=5" width="200" height="300" />
-<img class="lazy-extra" alt="Photo 3" data-src="https://picsum.photos/200/300?random=6" width="200" height="300" />
+<img class="lazy" alt="Photo 1" data-src="https://picsum.photos/200/300?random=4" width="200" height="300" />
+<img class="lazy" alt="Photo 2" data-src="https://picsum.photos/200/300?random=5" width="200" height="300" />
+<img class="lazy" alt="Photo 3" data-src="https://picsum.photos/200/300?random=6" width="200" height="300" />
 ```
 **Example**  
 Advanced usage: Lazy load with [Intersection observer options](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#Intersection_observer_options)
@@ -412,16 +419,16 @@ Advanced usage: Lazy load with [Intersection observer options](https://developer
 ```html
 <script>
   // Preload images within 200% of the current viewport size.
-  Defer.dom("img.lazy-sooner", 200, "loaded", null, {
+  Defer.dom("img.early-lazy", 200, "loaded", null, {
     rootMargin: "200%"
   });
 </script>
 
 <!-- Here may be a very long content -->
 
-<img class="lazy-sooner" alt="Photo 1" data-src="https://picsum.photos/200/300?random=7" width="200" height="300" />
-<img class="lazy-sooner" alt="Photo 2" data-src="https://picsum.photos/200/300?random=8" width="200" height="300" />
-<img class="lazy-sooner" alt="Photo 3" data-src="https://picsum.photos/200/300?random=9" width="200" height="300" />
+<img class="early-lazy" alt="Photo 1" data-src="https://picsum.photos/200/300?random=7" width="200" height="300" />
+<img class="early-lazy" alt="Photo 2" data-src="https://picsum.photos/200/300?random=8" width="200" height="300" />
+<img class="early-lazy" alt="Photo 3" data-src="https://picsum.photos/200/300?random=9" width="200" height="300" />
 ```
 **Example**  
 We can use CSS class that added to the lazy loaded element
@@ -539,6 +546,9 @@ Defer.reveal(node);
 document.querySelectorAll('.multi-lazy').forEach(function(node) {
   Defer.reveal(node);
 });
+
+// Or even shorter way
+document.querySelectorAll('.multi-lazy').forEach(Defer.reveal);
 ```
 
 * * *
@@ -676,21 +686,21 @@ The DOM Node interface
 
 ### PHP library
 
-https://github.com/shinsenter/defer.php/
+[https://github.com/shinsenter/defer.php/](https://github.com/shinsenter/defer.php/)
 
 🚀 A PHP library that focuses on minimizing payload size of HTML document and optimizing processing on the browser when rendering the web page.
 
 
 ### Wordpress plugin
 
-https://github.com/shinsenter/defer-wordpress/
+[https://github.com/shinsenter/defer-wordpress/](https://github.com/shinsenter/defer-wordpress/)
 
 ⚡️ A native, blazing fast lazy loader. ✅ Legacy browsers support (IE9+). 💯 SEO friendly. 🧩 Lazy load almost anything.
 
 
 ### Laravel package
 
-https://github.com/shinsenter/defer-laravel/
+[https://github.com/shinsenter/defer-laravel/](https://github.com/shinsenter/defer-laravel/)
 
 Under development.
 

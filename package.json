@@ -1,9 +1,10 @@
 {
   "name": "@shinsenter/defer.js",
   "title": "defer.js",
-  "version": "2.2.0",
-  "description": "🥇 A super small, super efficient library that helps you lazy load everything like images, video, audio, iframes as well as stylesheets, and JavaScript.",
-  "homepage": "https://code.shin.company/defer.js#readme",
+  "version": "2.3.0",
+  "description": "🥇 A super small, super efficient library that helps you lazy load almost everything like images, video, audio, iframes as well as stylesheets, and JavaScript.",
+  "homepage": "https://shinsenter.github.io/defer.js/",
+  "license": "MIT",
   "author": {
     "name": "Mai Nhut Tan",
     "email": "shin@shin.company",
@@ -16,55 +17,73 @@
   "bugs": {
     "url": "https://github.com/shinsenter/defer.js/issues"
   },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/shinsenter/defer.js/stargazers"
+    },
+    {
+      "type": "paypal",
+      "url": "https://www.patreon.com/appseeds"
+    },
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/shinsenter"
+    }
+  ],
   "keywords": [
     "deferjs",
-    "defer.js",
-    "defer loading",
-    "lazy loading js",
-    "lazyloader",
+    "intersection-observer",
+    "lazy-audio",
+    "lazy-css",
+    "lazy-iframe",
+    "lazy-image",
+    "lazy-javascript",
+    "lazy-js",
+    "lazy-picture",
+    "lazy-stylesheet",
+    "lazy-video",
     "lazyload",
-    "image",
-    "picture",
-    "audio",
-    "video",
-    "iframe",
-    "srcset",
-    "script",
-    "stylesheet",
-    "img",
-    "css",
-    "native",
+    "lazyloader",
     "lazysizes",
-    "scroll reveal",
-    "scroll monitor",
-    "unveil js",
-    "vanillajs",
-    "micro library",
-    "nano library",
-    "intersection observer"
+    "micro-library",
+    "microjs",
+    "scroll-reveal",
+    "srcset-loader",
+    "srcset",
+    "unveil",
+    "vanilla-lazyload",
+    "vanilla-lazyloader",
+    "vanillajs"
   ],
-  "license": "MIT",
   "browser": "dist/defer.min.js",
   "main": "dist/defer.min.js",
   "files": [
+    "dist/"
+  ],
+  "workspaces": [
     "dist/"
   ],
   "devDependencies": {
     "intersection-observer": "latest"
   },
   "scripts": {
-    "test": "npm run lint",
-    "format": "js-beautify --config build/.beautify -r -f src/*.js",
-    "lint": "eslint --config build/.eslintrc --ext .js src --fix",
-    "cleanup": "rm -rf ./node_modules package-lock.json",
-    "tools": "npm -g install jsdoc-to-markdown eslint js-beautify uglify-js",
-    "readme": "rm -f ./docs/index.md && jsdoc2md --separators -l html -g grouped ./src/*.js > ./docs/apis.md && cat ./docs/*.md > README.md && cp -p README.md ./docs/index.md",
-    "pull": "npm run cleanup && npm run tools && npm i && npm up && npm audit fix",
-    "build": "npm run lint && npm run s1 && npm run s2 && npm run s3 && npm run readme",
-    "s1": "uglifyjs --config-file build/.uglifyjs -o dist/defer.min.js      src/defer.js",
-    "s2": "uglifyjs --config-file build/.uglifyjs -o dist/defer_plus.min.js src/defer.js src/fallback.js",
-    "s3": "uglifyjs --config-file build/.uglifyjs -o dist/polyfill.min.js node_modules/intersection-observer/intersection-observer.js",
-    "versionup": "npm run lint && npm --no-git-tag-version version patch -m 'Ready to publish version %s'",
-    "upload": "npm run pull && npm run build && npm prune --prod && npm publish --access=public"
+    "format": "js-beautify --config .build/.beautify -r -f src/*.js",
+    "uglify": "uglifyjs --config-file .build/.uglifyjs -o",
+    "s1": "npm run uglify dist/defer.min.js      src/defer.js",
+    "s2": "npm run uglify dist/defer_plus.min.js src/defer.js src/fallback.js",
+    "s3": "npm run uglify dist/polyfill.min.js   node_modules/intersection-observer/intersection-observer.js",
+    "test": "eslint --config .build/.eslintrc --ext .js src --fix",
+    "prebuild": "npm run test",
+    "build": "npm run s1 && npm run s2 && npm run s3",
+    "postbuild": "npm run docs",
+    "prepull": "rm -rf ./node_modules package-lock.json",
+    "pull": "npm -g install jsdoc-to-markdown eslint js-beautify uglify-js && npm i && npm up",
+    "postpull": "npm audit fix",
+    "predocs": "rm -f README.md ./docs/index.md ./docs/apis.md",
+    "docs": "jsdoc2md --separators -l html -g grouped ./src/*.js > ./docs/apis.md",
+    "postdocs": "cat ./docs/*.md > README.md && cp -p README.md ./docs/index.md",
+    "preupload": "npm run pull && npm run build",
+    "upload": "npm publish --access=public"
   }
 }

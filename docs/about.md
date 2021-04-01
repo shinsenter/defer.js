@@ -3,7 +3,7 @@
 🥇 A super small, super efficient library that helps you lazy load almost everything like images, video, audio, iframes as well as stylesheets, and JavaScript.
 
 [![NPM](https://img.shields.io/npm/l/@shinsenter/defer.js)](https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE)
-[![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/@shinsenter/defer.js)](#)
+[![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/@shinsenter/defer.js)](https://snyk.io/advisor/npm-package/@shinsenter/defer.js)
 [![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/shinsenter/defer.js)](https://www.codefactor.io/repository/github/shinsenter/defer.js)
 
 * * *
@@ -16,7 +16,7 @@
 [![NPM](https://nodei.co/npm/@shinsenter/defer.js.png?downloads=true)](https://www.npmjs.com/package/@shinsenter/defer.js)
 
 - **Package**: [@shinsenter/defer.js](https://www.npmjs.com/package/@shinsenter/defer.js)
-- **Version**: 2.2.0
+- **Version**: 2.3.0
 - **Author**: Mai Nhut Tan <shin@shin.company>
 - **Copyright**: 2021 AppSeeds <https://code.shin.company/>
 - **License**: [MIT](https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE)
@@ -82,7 +82,7 @@ Add `defer.min.js` from this library into your HTML page,
 just below the opening `<head>` tag.
 
 You may download a ZIP of this library,
-or load it from a CND like below example.
+or load it from a CDN like below example.
 
 ```html
 <head>
@@ -90,7 +90,7 @@ or load it from a CND like below example.
   <title>My Awesome Page</title>
 
   <!-- Put defer.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.2.0/dist/defer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.3.0/dist/defer.min.js"></script>
 
   <!-- To support older browsers such as Internet Explorer 9 -->
   <!-- You may want to put IntersectionObserver polyfill right after defer.min.js tag -->
@@ -111,7 +111,7 @@ instead of `defer.min.js`.
 
 ```html
 <!-- Put defer_plus.min.js here -->
-<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.2.0/dist/defer_plus.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.3.0/dist/defer_plus.min.js"></script>
 
 <!-- To support older browsers such as Internet Explorer 9 -->
 <!-- You may want to put IntersectionObserver polyfill right after defer.min.js tag -->

@@ -31,8 +31,8 @@
 
 /**
  * 🥇 A super small, super efficient library
- * that helps you lazy load everything like images, video, audio, iframes
- * as well as stylesheets, and JavaScript.
+ * that helps you lazy load almost everything
+ * like images, video, audio, iframes as well as stylesheets, and JavaScript.
  *
  * @author    Mai Nhut Tan <shin@shin.company>
  * @copyright 2021 AppSeeds <https://code.shin.company/>
@@ -134,7 +134,7 @@
         }
     }
 
-    function _deferAllScript(selector) {
+    function _deferScriptNodes(selector) {
         defer(function (_found) {
             _found = _query(selector || _selectorDeferJs);
 
@@ -245,13 +245,16 @@
     };
 
     /**
-     * By default, this function is triggered automatically.
+     * This function is useful for lazy-loading script tags.
      *
      * All script tags with attribute `<script type="deferjs">`
      * will be delayed and automatically executed
      * as soon as the page has completely loaded.
      *
-     * This function is useful for lazy-loading script tags.
+     * By default, this function is triggered automatically.
+     *
+     * Note: For customized deferjs type,
+     * please call `Defer.all()` at the bottom of the `<body>` tag.
      *
      * @function Defer.all
      * @since   2.0
@@ -264,31 +267,35 @@
      *
      * Before:
      * ```html
-     * <script type="text/javascript" src="heavy-library.js"></script>
-     * <script>// heavy script here </script>
+     * <script type="text/javascript" src="/path/to/heavy-javascript.js"></script>
+     * <script>
+     *     // Some heavy DOM manipulations here
+     * </script>
      * ```
      * After:
      * ```html
-     * <script type="deferjs" src="heavy-library.js"></script>
-     * <script type="deferjs">// heavy script here </script>
+     * <script type="deferjs" src="/path/to/heavy-javascript.js"></script>
+     * <script type="deferjs">
+     *     // Some heavy DOM manipulations here
+     * </script>
      * ```
      *
      * @example
      * If you don't want the `<script type="deferjs">` syntax,
-     * you can easily choose your own type.
+     * you can easily choose your own name.
      *
      * This example uses `type="myjs"` instead of `type="deferjs"`:
      * ```html
-     * <script type="myjs" src="heavy-library.js"></script>
-     * <script type="myjs">// heavy script here </script>
+     * <script type="myjs" src="/path/to/heavy-javascript.js"></script>
+     * <script type="myjs">
+     *     // Some heavy DOM manipulations here
+     * </script>
      *
      * <!-- Call Defer.all() at the bottom of the `<body>` tag -->
      * <script>Defer.all('script[type="myjs"]');</script>
      * ```
-     *
-     * Note: Please call `Defer.all()` at the bottom of the `<body>` tag.
      */
-    defer.all = _deferAllScript;
+    defer.all = _deferScriptNodes;
 
     /**
      * For lazy loading external JavaScript files.
@@ -383,7 +390,7 @@
 
      * ```html
      * <!-- Put defer.min.js here -->
-     * <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.2.0/dist/defer.min.js"></script>
+     * <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.3.0/dist/defer.min.js"></script>
      *
      * <!-- Put polyfill right after defer.min.js tag -->
      * <script>'IntersectionObserver'in window||document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"><\/script>');</script>
@@ -420,13 +427,13 @@
      * ```html
      * <style>
      *   #my_div {
-     *     width: 300;
-     *     height: 200;
+     *     width: 300px;
+     *     height: 200px;
      *   }
      * </style>
      *
      * <script>
-     *   // Lazy load div tag which has `id="my_div"`
+     *   // Lazy load div tag which has id="my_div"
      *   Defer.dom('#my_div');
      * </script>
      *
@@ -444,13 +451,13 @@
      * Then it will add a CSS class `loaded` to the fully lazy loaded image element.
      *
      * ```html
-     * <script>Defer.dom('img.lazy-extra', 200, 'loaded');</script>
+     * <script>Defer.dom('img.lazy', 200, 'loaded');</script>
      *
      * <!-- Here may be a very long content -->
      *
-     * <img class="lazy-extra" alt="Photo 1" data-src="https://picsum.photos/200/300?random=4" width="200" height="300" />
-     * <img class="lazy-extra" alt="Photo 2" data-src="https://picsum.photos/200/300?random=5" width="200" height="300" />
-     * <img class="lazy-extra" alt="Photo 3" data-src="https://picsum.photos/200/300?random=6" width="200" height="300" />
+     * <img class="lazy" alt="Photo 1" data-src="https://picsum.photos/200/300?random=4" width="200" height="300" />
+     * <img class="lazy" alt="Photo 2" data-src="https://picsum.photos/200/300?random=5" width="200" height="300" />
+     * <img class="lazy" alt="Photo 3" data-src="https://picsum.photos/200/300?random=6" width="200" height="300" />
      * ```
      *
      * @example
@@ -459,16 +466,16 @@
      * ```html
      * <script>
      *   // Preload images within 200% of the current viewport size.
-     *   Defer.dom("img.lazy-sooner", 200, "loaded", null, {
+     *   Defer.dom("img.early-lazy", 200, "loaded", null, {
      *     rootMargin: "200%"
      *   });
      * </script>
      *
      * <!-- Here may be a very long content -->
      *
-     * <img class="lazy-sooner" alt="Photo 1" data-src="https://picsum.photos/200/300?random=7" width="200" height="300" />
-     * <img class="lazy-sooner" alt="Photo 2" data-src="https://picsum.photos/200/300?random=8" width="200" height="300" />
-     * <img class="lazy-sooner" alt="Photo 3" data-src="https://picsum.photos/200/300?random=9" width="200" height="300" />
+     * <img class="early-lazy" alt="Photo 1" data-src="https://picsum.photos/200/300?random=7" width="200" height="300" />
+     * <img class="early-lazy" alt="Photo 2" data-src="https://picsum.photos/200/300?random=8" width="200" height="300" />
+     * <img class="early-lazy" alt="Photo 3" data-src="https://picsum.photos/200/300?random=9" width="200" height="300" />
      * ```
      *
      * @example
@@ -587,9 +594,13 @@
             if (_IO in window) {
                 _observer = new window[_IO](function (nodes) {
                     nodes[_forEach](function (object, _node) {
-                        if (object.isIntersecting && (_node = object.target)) {
-                            _observer.unobserve(_node);
-                            _present(_node);
+                        if (object.isIntersecting) {
+                            _node = object.target;
+
+                            if (_node) {
+                                _observer.unobserve(_node);
+                                _present(_node);
+                            }
                         }
                     });
                 }, observeOptions);
@@ -597,7 +608,7 @@
                 _observer = false;
             }
 
-            function _loop(node) {
+            _query(selector || _selectorMedia)[_forEach](function (node) {
                 if (!node[_hasAttribute](_lazied)) {
                     node[_setAttribute](_lazied, '');
 
@@ -607,9 +618,7 @@
                         _present(node);
                     }
                 }
-            }
-
-            _query(selector || _selectorMedia)[_forEach](_loop);
+            });
         }
 
         defer(_lazyload, delay);
@@ -633,6 +642,9 @@
      * document.querySelectorAll('.multi-lazy').forEach(function(node) {
      *   Defer.reveal(node);
      * });
+     *
+     * // Or even shorter way
+     * document.querySelectorAll('.multi-lazy').forEach(Defer.reveal);
      * ```
      */
     defer.reveal = _reveal;
@@ -651,7 +663,7 @@
     window[_listen](
         'on' + _pageshow in window ? _pageshow : _load,
         function () {
-            for (_deferAllScript(); _queue[0]; _domReady = 1) {
+            for (_deferScriptNodes(); _queue[0]; _domReady = 1) {
                 caller(_queue[_shift](), _queue[_shift]());
             }
         }

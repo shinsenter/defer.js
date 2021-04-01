@@ -2,21 +2,21 @@
 
 ### PHP library
 
-https://github.com/shinsenter/defer.php/
+[https://github.com/shinsenter/defer.php/](https://github.com/shinsenter/defer.php/)
 
 🚀 A PHP library that focuses on minimizing payload size of HTML document and optimizing processing on the browser when rendering the web page.
 
 
 ### Wordpress plugin
 
-https://github.com/shinsenter/defer-wordpress/
+[https://github.com/shinsenter/defer-wordpress/](https://github.com/shinsenter/defer-wordpress/)
 
 ⚡️ A native, blazing fast lazy loader. ✅ Legacy browsers support (IE9+). 💯 SEO friendly. 🧩 Lazy load almost anything.
 
 
 ### Laravel package
 
-https://github.com/shinsenter/defer-laravel/
+[https://github.com/shinsenter/defer-laravel/](https://github.com/shinsenter/defer-laravel/)
 
 Under development.
 
