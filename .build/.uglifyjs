@@ -1,0 +1,33 @@
+{
+  "compress": {},
+  "mangle": {
+    "eval":         false,
+    "keep_fnames":  false,
+    "reserved":     [],
+    "toplevel":     false
+  },
+  "nameCache": {},
+  "output": {
+    "ascii_only":         true,
+    "beautify":           false,
+    "braces":             false,
+    "indent_level":       0,
+    "indent_start":       0,
+    "inline_script":      true,
+    "keep_quoted_props":  true,
+    "max_line_len":       false,
+    "preamble":           null,
+    "preserve_line":      false,
+    "quote_keys":         false,
+    "quote_style":        1,
+    "semicolons":         true,
+    "shebang":            true,
+    "source_map":         null,
+    "width":              80,
+    "wrap_iife":          false,
+    "comments":           "/^@/",
+    "ie8":                true,
+    "webkit":             true
+  },
+  "wrap": null
+}
