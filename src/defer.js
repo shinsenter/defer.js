@@ -117,17 +117,15 @@
         return _toArray.call((parent || document).querySelectorAll(selector));
     }
 
-    function _reveal(node, _attributes, _property, _found) {
-        for (_attributes = _propArray(node); _attributes[0];) {
-            _property = _attributes[_shift]();
-            _found    = _dataRegExp.exec(_property.name);
+    function _reveal(node) {
+        _query('source', node)[_forEach](_reveal);
+        _propArray(node)[_forEach](function (_property, _found) {
+            _found = _dataRegExp.exec(_property.name);
 
             if (_found) {
-                node[_setAttribute](_found[1], _property.value);
+                node[_found[1]] = _property.value;
             }
-        }
-
-        _query('source', node)[_forEach](_reveal);
+        });
 
         if (_load in node) {
             node[_load]();
@@ -138,7 +136,7 @@
         defer(function (_found) {
             _found = _query(selector || _selectorDeferJs);
 
-            function _next(_node, _clone, _attributes, _property) {
+            function _next(_node, _clone) {
                 _node = _found[_shift]();
 
                 if (_node) {
@@ -148,13 +146,11 @@
                     // Clone the node
                     _clone = _newNode(_node.nodeName);
                     _clone.text = _node.text;
-                    for (_attributes = _propArray(_node); _attributes[0];) {
-                        _property = _attributes[_shift]();
-
+                    _propArray(_node)[_forEach](function (_property) {
                         if (_property.name != 'type') {
-                            _clone[_setAttribute](_property.name, _property.value);
+                            _clone[_property.name] = _property.value;
                         }
-                    }
+                    });
 
                     // Execute the node
                     if (_clone.src && !_clone[_hasAttribute]('async')) {
@@ -390,7 +386,7 @@
 
      * ```html
      * <!-- Put defer.min.js here -->
-     * <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.3.0/dist/defer.min.js"></script>
+     * <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.4.0/dist/defer.min.js"></script>
      *
      * <!-- Put polyfill right after defer.min.js tag -->
      * <script>'IntersectionObserver'in window||document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"><\/script>');</script>

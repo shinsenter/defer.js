@@ -6,7 +6,6 @@
     "reserved":     [],
     "toplevel":     false
   },
-  "nameCache": {},
   "output": {
     "ascii_only":         true,
     "beautify":           false,
