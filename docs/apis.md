@@ -93,14 +93,14 @@ Before:
 ```html
 <script type="text/javascript" src="/path/to/heavy-javascript.js"></script>
 <script>
-    // Some heavy DOM manipulations here
+  // Some heavy DOM manipulations here
 </script>
 ```
 After:
 ```html
 <script type="deferjs" src="/path/to/heavy-javascript.js"></script>
 <script type="deferjs">
-    // Some heavy DOM manipulations here
+  // Some heavy DOM manipulations here
 </script>
 ```
 **Example**  
@@ -111,7 +111,7 @@ This example uses `type="myjs"` instead of `type="deferjs"`:
 ```html
 <script type="myjs" src="/path/to/heavy-javascript.js"></script>
 <script type="myjs">
-    // Some heavy DOM manipulations here
+  // Some heavy DOM manipulations here
 </script>
 
 <!-- Call Defer.all() at the bottom of the `<body>` tag -->
@@ -207,7 +207,7 @@ you should load `IntersectionObserver` polyfill library
 right after the `defer.min.js` script tag as following example:
 ```html
 <!-- Put defer.min.js here -->
-<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.4.0/dist/defer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.4.1/dist/defer.min.js"></script>
 
 <!-- Put polyfill right after defer.min.js tag -->
 <script>'IntersectionObserver'in window||document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"><\/script>');</script>
@@ -244,8 +244,8 @@ Lazy load background image of a `div` tag.
 ```html
 <style>
   #my_div {
-    width: 300px;
-    height: 200px;
+  width: 300px;
+  height: 200px;
   }
 </style>
 
@@ -282,7 +282,7 @@ Advanced usage: Lazy load with [Intersection observer options](https://developer
 <script>
   // Preload images within 200% of the current viewport size.
   Defer.dom("img.early-lazy", 200, "loaded", null, {
-    rootMargin: "200%"
+  rootMargin: "200%"
   });
 </script>
 
@@ -378,9 +378,9 @@ Then when you scroll to any `code` tag, enable code highlighting for it.
 var base = 'https://cdn.jsdelivr.net/npm/highlightjs@9.12.0';
 Defer.css(base + '/styles/rainbow.css', 'hljs-css', 1000);
 Defer.js(base + '/highlight.pack.min.js', 'hljs-js', 1000, function () {
-    Defer.dom('pre code', 0, 'ide-loaded', function (block) {
-        hljs.highlightBlock(block);
-    });
+  Defer.dom('pre code', 0, 'ide-loaded', function (block) {
+    hljs.highlightBlock(block);
+  });
 });
 ```
 

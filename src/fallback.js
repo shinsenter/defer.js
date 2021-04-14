@@ -36,63 +36,63 @@
  */
 (function (window, defer) {
 
-    /**
-     * @deprecated Deprecated since version 2.0
-     * @since 1.0
-     * @function defer
-     * @param {function} func
-     * @param {number}   [delay]
-     * @see {@link Defer|Defer}
-     */
-    window.defer = defer = window.Defer;
+  /**
+   * @deprecated Deprecated since version 2.0
+   * @since    1.0
+   * @function defer
+   * @param    {function} func
+   * @param    {number}   [delay]
+   * @see      {@link Defer|Defer}
+   */
+  window.defer = defer = window.Defer;
 
-    /**
-     * @deprecated Deprecated since version 2.0
-     * @since 1.0
-     * @function deferscript
-     * @param {string}   src
-     * @param {string}   [id]
-     * @param {number}   [delay]
-     * @param {callback} [callback]
-     * @see {@link Defer.js|Defer.js}
-     */
-    window.deferscript = defer.js;
+  /**
+   * @deprecated Deprecated since version 2.0
+   * @since    1.0
+   * @function deferscript
+   * @param    {string}   src
+   * @param    {string}   [id]
+   * @param    {number}   [delay]
+   * @param    {callback} [callback]
+   * @see      {@link Defer.js|Defer.js}
+   */
+  window.deferscript = defer.js;
 
-    /**
-     * @deprecated Deprecated since version 2.0
-     * @since 1.0
-     * @function deferstyle
-     * @param {string}   src
-     * @param {string}   [id]
-     * @param {number}   [delay]
-     * @param {callback} [callback]
-     * @see {@link Defer.css|Defer.css}
-     */
-    window.deferstyle = defer.css;
+  /**
+   * @deprecated Deprecated since version 2.0
+   * @since    1.0
+   * @function deferstyle
+   * @param    {string}   src
+   * @param    {string}   [id]
+   * @param    {number}   [delay]
+   * @param    {callback} [callback]
+   * @see      {@link Defer.css|Defer.css}
+   */
+  window.deferstyle = defer.css;
 
-    /**
-     * @deprecated Deprecated since version 2.0
-     * @function deferimg
-     * @since 1.0
-     * @param {string}   [selector]
-     * @param {number}   [delay]
-     * @param {string}   [revealedClass]
-     * @param {callback} [validator]
-     * @param {object}   [observeOptions]
-     * @see {@link Defer.dom|Defer.dom}
-     */
+  /**
+   * @deprecated Deprecated since version 2.0
+   * @function deferimg
+   * @since    1.0
+   * @param    {string}   [selector]
+   * @param    {number}   [delay]
+   * @param    {string}   [revealedClass]
+   * @param    {callback} [validator]
+   * @param    {object}   [observeOptions]
+   * @see      {@link Defer.dom|Defer.dom}
+   */
 
-    /**
-     * @deprecated Deprecated since version 2.0
-     * @function deferiframe
-     * @since 1.0
-     * @param {string}   [selector]
-     * @param {number}   [delay]
-     * @param {string}   [revealedClass]
-     * @param {callback} [validator]
-     * @param {object}   [observeOptions]
-     * @see {@link Defer.dom|Defer.dom}
-     */
-    window.deferimg = window.deferiframe = defer.dom;
+  /**
+   * @deprecated Deprecated since version 2.0
+   * @function deferiframe
+   * @since    1.0
+   * @param    {string}   [selector]
+   * @param    {number}   [delay]
+   * @param    {string}   [revealedClass]
+   * @param    {callback} [validator]
+   * @param    {object}   [observeOptions]
+   * @see      {@link Defer.dom|Defer.dom}
+   */
+  window.deferimg = window.deferiframe = defer.dom;
 
 })(this);

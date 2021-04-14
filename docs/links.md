@@ -18,7 +18,7 @@
 
 [https://github.com/shinsenter/defer-laravel/](https://github.com/shinsenter/defer-laravel/)
 
-Under development.
+🚀 A Laravel package that focuses on minimizing payload size of HTML document and optimizing processing on the browser when rendering the web page.
 
 
 ## Support my activities
@@ -26,7 +26,7 @@ Under development.
 [![Donate via Paypal](https://img.shields.io/badge/Donate-Paypal-blue)](https://www.paypal.me/shinsenter)
 [![Become a sponsor](https://img.shields.io/badge/Donate-Patreon-orange)](https://www.patreon.com/appseeds)
 [![Become a stargazer](https://img.shields.io/badge/Support-Stargazer-yellow)](https://github.com/shinsenter/defer.js/stargazers)
-[![Report an issue](https://img.shields.io/badge/Support-Issues-red)](https://github.com/shinsenter/defer.js/issues/new)
+[![Report an issue](https://img.shields.io/badge/Support-Issues-green)](https://github.com/shinsenter/defer.js/issues/new)
 
 
 * * *
