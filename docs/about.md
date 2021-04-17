@@ -61,15 +61,15 @@ to flexibly optimize other resources in your website.
 
 ## Browser support
 
-Available in latest browsers,
-also works perfectly with Internet Explorer 9
+Works perfectly on modern browsers.
+Lazy-loading is also available for Internet Explorer 9
 <sup>* (with `IntersectionObserver` polyfill library)</sup> and later.
 
-- 🖥 IE9+ / Microsoft EDGE *
+- 🖥 IE9+ / Microsoft EDGE
 - 🖥 Firefox 4+
 - 🖥 Safari 3+
-- 🖥 Chrome *
-- 🖥 Opera *
+- 🖥 Chrome
+- 🖥 Opera
 - 📱 Android 4+
 - 📱 iOS 3.2+
 
