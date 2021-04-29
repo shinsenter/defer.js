@@ -1,0 +1,25 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "20:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: uglify-js
+    versions:
+    - 3.12.6
+    - 3.12.7
+  - dependency-name: clean-css
+    versions:
+    - 5.0.1
+  - dependency-name: eslint
+    versions:
+    - 7.19.0
+  - dependency-name: intersection-observer
+    versions:
+    - 0.12.0
+  - dependency-name: js-beautify
+    versions:
+    - 1.13.5
