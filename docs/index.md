@@ -16,7 +16,7 @@
 [![NPM](https://nodei.co/npm/@shinsenter/defer.js.png?downloads=true)](https://www.npmjs.com/package/@shinsenter/defer.js)
 
 - **Package**: [@shinsenter/defer.js](https://www.npmjs.com/package/@shinsenter/defer.js)
-- **Version**: 2.4.1
+- **Version**: 2.4.2
 - **Author**: Mai Nhut Tan <shin@shin.company>
 - **Copyright**: 2021 AppSeeds <https://code.shin.company/>
 - **License**: [MIT](https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE)
@@ -61,15 +61,15 @@ to flexibly optimize other resources in your website.
 
 ## Browser support
 
-Available in latest browsers,
-also works perfectly with Internet Explorer 9
+Works perfectly on modern browsers.
+Lazy-loading is also available for Internet Explorer 9
 <sup>* (with `IntersectionObserver` polyfill library)</sup> and later.
 
-- 🖥 IE9+ / Microsoft EDGE *
+- 🖥 IE9+ / Microsoft EDGE
 - 🖥 Firefox 4+
 - 🖥 Safari 3+
-- 🖥 Chrome *
-- 🖥 Opera *
+- 🖥 Chrome
+- 🖥 Opera
 - 📱 Android 4+
 - 📱 iOS 3.2+
 
@@ -90,7 +90,7 @@ or load it from a CDN like below example.
   <title>My Awesome Page</title>
 
   <!-- Put defer.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.4.1/dist/defer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.4.2/dist/defer.min.js"></script>
 
   <!-- To support older browsers such as Internet Explorer 9 -->
   <!-- You may want to put IntersectionObserver polyfill right after defer.min.js tag -->
@@ -111,7 +111,7 @@ instead of `defer.min.js`.
 
 ```html
 <!-- Put defer_plus.min.js here -->
-<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.4.1/dist/defer_plus.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.4.2/dist/defer_plus.min.js"></script>
 
 <!-- To support older browsers such as Internet Explorer 9 -->
 <!-- You may want to put IntersectionObserver polyfill right after defer.min.js tag -->
@@ -143,7 +143,7 @@ to minimize the number of requests.
     * [.js(src, [id], [delay], [callback])](#Defer.js) ⇒ <code>void</code>
     * [.css(src, [id], [delay], [callback])](#Defer.css) ⇒ <code>void</code>
     * [.dom([selector], [delay], [revealedClass], [validator], [observeOptions])](#Defer.dom) ⇒ <code>void</code>
-    * [.reveal(element)](#Defer.reveal) ⇒ <code>void</code>
+    * [.reveal(element, [revealedClass])](#Defer.reveal) ⇒ <code>void</code>
 * ~~[defer(func, [delay])](#defer)~~
 * ~~[deferscript(src, [id], [delay], [callback])](#deferscript)~~
 * ~~[deferstyle(src, [id], [delay], [callback])](#deferstyle)~~
@@ -197,7 +197,7 @@ Defer(function() {
     * [.js(src, [id], [delay], [callback])](#Defer.js) ⇒ <code>void</code>
     * [.css(src, [id], [delay], [callback])](#Defer.css) ⇒ <code>void</code>
     * [.dom([selector], [delay], [revealedClass], [validator], [observeOptions])](#Defer.dom) ⇒ <code>void</code>
-    * [.reveal(element)](#Defer.reveal) ⇒ <code>void</code>
+    * [.reveal(element, [revealedClass])](#Defer.reveal) ⇒ <code>void</code>
 
 
 * * *
@@ -345,7 +345,7 @@ you should load `IntersectionObserver` polyfill library
 right after the `defer.min.js` script tag as following example:
 ```html
 <!-- Put defer.min.js here -->
-<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.4.1/dist/defer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.4.2/dist/defer.min.js"></script>
 
 <!-- Put polyfill right after defer.min.js tag -->
 <script>'IntersectionObserver'in window||document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"><\/script>');</script>
@@ -526,7 +526,7 @@ Defer.js(base + '/highlight.pack.min.js', 'hljs-js', 1000, function () {
 
 <a name="Defer.reveal"></a>
 
-### Defer.reveal(element) ⇒ <code>void</code>
+### Defer.reveal(element, [revealedClass]) ⇒ <code>void</code>
 Reveal an element which is lazyloaded by the library
 
 **Kind**: static method of [<code>Defer</code>](#Defer)  
@@ -535,6 +535,7 @@ Reveal an element which is lazyloaded by the library
 | Param | Type | Description |
 | --- | --- | --- |
 | element | [<code>Node</code>](#Node) | The DOM [Node](#Node) element |
+| [revealedClass] | <code>string</code> | A CSS class will be added automatically after when an element has been successfully revealed. |
 
 **Example**  
 ```js
@@ -543,12 +544,19 @@ var node = document.getElementById('my-video');
 Defer.reveal(node);
 
 // Show multiple elements
-document.querySelectorAll('.multi-lazy').forEach(function(node) {
-  Defer.reveal(node);
-});
+document.querySelectorAll('.multi-lazy')
+  .forEach(function(node) {
+    Defer.reveal(node);
+  });
 
 // Or even shorter way
 document.querySelectorAll('.multi-lazy').forEach(Defer.reveal);
+
+// Add 'loaded' class name after revealed elements
+document.querySelectorAll('.multi-lazy')
+  .forEach(function(node) {
+    Defer.reveal(node, 'loaded');
+  });
 ```
 
 * * *
@@ -557,6 +565,8 @@ document.querySelectorAll('.multi-lazy').forEach(Defer.reveal);
 
 ## ~~defer(func, [delay])~~
 ***Deprecated***
+
+Deprecated since version 2.0
 
 **Kind**: global function  
 **See**: [Defer](#Defer)  
@@ -574,6 +584,8 @@ document.querySelectorAll('.multi-lazy').forEach(Defer.reveal);
 
 ## ~~deferscript(src, [id], [delay], [callback])~~
 ***Deprecated***
+
+Deprecated since version 2.0
 
 **Kind**: global function  
 **See**: [js](#Defer.js)  
@@ -594,6 +606,8 @@ document.querySelectorAll('.multi-lazy').forEach(Defer.reveal);
 ## ~~deferstyle(src, [id], [delay], [callback])~~
 ***Deprecated***
 
+Deprecated since version 2.0
+
 **Kind**: global function  
 **See**: [css](#Defer.css)  
 **Since**: 1.0  
@@ -612,6 +626,8 @@ document.querySelectorAll('.multi-lazy').forEach(Defer.reveal);
 
 ## ~~deferimg([selector], [delay], [revealedClass], [validator], [observeOptions])~~
 ***Deprecated***
+
+Deprecated since version 2.0
 
 **Kind**: global function  
 **See**: [dom](#Defer.dom)  
@@ -632,6 +648,8 @@ document.querySelectorAll('.multi-lazy').forEach(Defer.reveal);
 
 ## ~~deferiframe([selector], [delay], [revealedClass], [validator], [observeOptions])~~
 ***Deprecated***
+
+Deprecated since version 2.0
 
 **Kind**: global function  
 **See**: [dom](#Defer.dom)  
