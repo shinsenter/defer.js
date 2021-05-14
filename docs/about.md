@@ -16,7 +16,7 @@
 [![NPM](https://nodei.co/npm/@shinsenter/defer.js.png?downloads=true)](https://www.npmjs.com/package/@shinsenter/defer.js)
 
 - **Package**: [@shinsenter/defer.js](https://www.npmjs.com/package/@shinsenter/defer.js)
-- **Version**: 2.4.1
+- **Version**: 2.4.2
 - **Author**: Mai Nhut Tan <shin@shin.company>
 - **Copyright**: 2021 AppSeeds <https://code.shin.company/>
 - **License**: [MIT](https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE)
@@ -61,15 +61,15 @@ to flexibly optimize other resources in your website.
 
 ## Browser support
 
-Available in latest browsers,
-also works perfectly with Internet Explorer 9
+Works perfectly on modern browsers.
+Lazy-loading is also available for Internet Explorer 9
 <sup>* (with `IntersectionObserver` polyfill library)</sup> and later.
 
-- 🖥 IE9+ / Microsoft EDGE *
+- 🖥 IE9+ / Microsoft EDGE
 - 🖥 Firefox 4+
 - 🖥 Safari 3+
-- 🖥 Chrome *
-- 🖥 Opera *
+- 🖥 Chrome
+- 🖥 Opera
 - 📱 Android 4+
 - 📱 iOS 3.2+
 
@@ -90,7 +90,7 @@ or load it from a CDN like below example.
   <title>My Awesome Page</title>
 
   <!-- Put defer.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.4.1/dist/defer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.4.2/dist/defer.min.js"></script>
 
   <!-- To support older browsers such as Internet Explorer 9 -->
   <!-- You may want to put IntersectionObserver polyfill right after defer.min.js tag -->
@@ -111,7 +111,7 @@ instead of `defer.min.js`.
 
 ```html
 <!-- Put defer_plus.min.js here -->
-<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.4.1/dist/defer_plus.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.4.2/dist/defer_plus.min.js"></script>
 
 <!-- To support older browsers such as Internet Explorer 9 -->
 <!-- You may want to put IntersectionObserver polyfill right after defer.min.js tag -->
