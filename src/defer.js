@@ -41,7 +41,7 @@
  */
 
 /*@shinsenter/defer.js*/
-(function (window, document, caller) {
+(function (window, document, handler) {
 
   /*
   |--------------------------------------------------------------------------
@@ -113,7 +113,7 @@
     return _toArray.call((parent || document).querySelectorAll(selector));
   }
 
-  function _reveal(node) {
+  function _reveal(node, revealedClass) {
     // Reveal children source nodes
     _query('source', node)[_forEach](_reveal);
 
@@ -126,6 +126,10 @@
       }
     });
 
+    if (revealedClass) {
+      node.className += ' ' + revealedClass;
+    }
+
     // Call element's load() method if exists
     if (_load in node) {
       node[_load]();
@@ -133,7 +137,7 @@
   }
 
   function _scripts(selector) {
-  // Defer action until page loaded
+    // Defer action until page loaded
     defer(function (_found) {
       _found = _query(selector || _defaultScripts);
 
@@ -236,7 +240,7 @@
    */
   defer = function (func, delay) {
     if (_domReady) {
-      caller(func, delay);
+      handler(func, delay);
     } else {
       _queue.push(func, delay);
     }
@@ -388,7 +392,7 @@
 
    * ```html
    * <!-- Put defer.min.js here -->
-   * <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.4.1/dist/defer.min.js"></script>
+   * <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.4.2/dist/defer.min.js"></script>
    *
    * <!-- Put polyfill right after defer.min.js tag -->
    * <script>'IntersectionObserver'in window||document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"><\/script>');</script>
@@ -580,11 +584,7 @@
   ) {
     function _present(node) {
       if (!validator || validator(node) !== false) {
-        _reveal(node);
-
-        if (revealedClass) {
-          node.className += ' ' + revealedClass;
-        }
+        _reveal(node, revealedClass);
       }
     }
 
@@ -627,7 +627,8 @@
    *
    * @function Defer.reveal
    * @since    2.1
-   * @param    {Node} element - The DOM {@link Node} element
+   * @param    {Node}   element - The DOM {@link Node} element
+   * @param    {string} [revealedClass] - A CSS class will be added automatically after when an element has been successfully revealed.
    * @returns  {void}
    *
    * @example
@@ -637,12 +638,19 @@
    * Defer.reveal(node);
    *
    * // Show multiple elements
-   * document.querySelectorAll('.multi-lazy').forEach(function(node) {
-   *   Defer.reveal(node);
-   * });
+   * document.querySelectorAll('.multi-lazy')
+   *   .forEach(function(node) {
+   *     Defer.reveal(node);
+   *   });
    *
    * // Or even shorter way
    * document.querySelectorAll('.multi-lazy').forEach(Defer.reveal);
+   *
+   * // Add 'loaded' class name after revealed elements
+   * document.querySelectorAll('.multi-lazy')
+   *   .forEach(function(node) {
+   *     Defer.reveal(node, 'loaded');
+   *   });
    * ```
    */
   defer.reveal = _reveal;
@@ -664,7 +672,7 @@
       for (
         _scripts();
         _queue[0];
-        caller(_queue[_shift](), _queue[_shift]())
+        handler(_queue[_shift](), _queue[_shift]())
       ) {
         _domReady = 1;
       }
