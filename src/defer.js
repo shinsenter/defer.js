@@ -40,7 +40,7 @@
  * @license   {@link https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE|MIT}
  */
 
-/*@shinsenter/defer.js*/
+/*@shinsenter/defer.js@2.5.0*/
 (function (window, document, handler) {
 
   /*
@@ -62,7 +62,7 @@
   var _toArray  = _queue.slice;
 
   // Common attributes
-  var _lazied   = 'lazied';
+  var _lazied   = 'deferjs';
   var _load     = 'load';
   var _pageshow = 'pageshow';
 
@@ -154,7 +154,7 @@
 
           _attrLoop(_node, function (_attr) {
             if (_attr.name != 'type') {
-              _clone[_attr.name] = _attr.value;
+              _clone[_setAttribute](_attr.name, _attr.value);
             }
           });
 
@@ -180,62 +180,75 @@
   */
 
   /**
-   * A definition for an ordinary function,
-   * used as a parameter to another function.
-   *
-   * @typedef
-   * @name    function
-   * @returns {void}
-   */
-
-  /**
-   * The definition for a function that takes one parameter is a DOM {@link Node} element
-   *
-   * @typedef
-   * @name    closure
-   * @param   {Node} element - The DOM {@link Node} element
-   * @returns {void | bool}
-   */
-
-  /**
    * The DOM Node interface
    *
    * @typedef
    * @name Node
-   * @see  {@link https://developer.mozilla.org/en-US/docs/Web/API/Node}
+   * @see  {@link https://developer.mozilla.org/docs/Web/API/Node}
    */
 
   /**
-   * Used to delay execution of JavaScript
-   * which may adversely affect the loading of your web page.
+   * A function is a code snippet that can be called by other code or by itself.
    *
-   * All JavaScript delayed by `Defer()` will only executed
-   * after the web page has completely loaded.
+   * @typedef
+   * @name Function
+   * @see  {@link https://developer.mozilla.org/docs/Glossary/Function}
+   */
+
+  /**
+   * In this library, a closure is a {@link Function} that gives you access to a DOM {@link Node} element.
+   *
+   * @typedef
+   * @extends {Function}
+   * @name    Closure
+   * @param   {Node} element - The DOM {@link Node} element
+   * @see     {@link https://developer.mozilla.org/docs/Web/JavaScript/Closures}
+   */
+
+  /**
+   * This function is used when you want to defer a JavaScript code block
+   * and reduce the impact of its execution on page load performance.
+   *
+   * A JavaScript block called by the `Defer()` function
+   * is always guaranteed to be executed after your web page
+   * has completely loaded other essential resources.
    *
    * @function Defer
    * @since    2.0
-   * @param    {function} func - The function that will be deferred.
+   * @param    {Function} func - The function that will be deferred.
    * @param    {number}   [delay=0] - The duration in miliseconds to delay the `func` function.
    * @returns  {void}
    *
    * @example
-   * Delay some heavy DOM manipulations in JavaScript.
+   * Basic example.
    *
    * ```js
    * Defer(function() {
-   *   // Some JavaScript that may block page rendering
-   *   // such as calling jQuery's fadeIn() feature
-   *   jQuery('div').hide().fadeIn().show();
-   * }); // <- script runs after the page has completely loaded
+   *   // Put JavaScript code block here
+   *   // and it will be executed after your page has finished loading.
+   *   runMyHeavyFunction();
+   *   runLongTasks();
+   *   // or
+   *   runMyAjaxRequests();
+   *   connectTo3rdPartyServices();
+   * });
    * ```
    *
    * @example
-   * Delay the same JavaScript as above for 3000ms.
+   * The jQuery's `get` and `fadeIn()` functions
+   * often affect DOM structure of web page and slows down page performance.
+   * Calling `fadeIn()` with `Defer()` will reduce the impact significantly.
    *
    * ```js
    * Defer(function() {
-   *   jQuery('div').hide().fadeIn().show();
-   * }, 3000); // <- Added 3000 = Delay for 3000ms
+   *   // A common example of using jQuery functions.
+   *   // These functions may affect DOM structure if not deferred.
+   *   jQuery.get('https://appseeds.net/api', function(result) {
+   *     jQuery('#mydiv').hide().append(result);
+   *     jQuery('#mydiv').fadeIn().show();
+   *   });
+   * }, 2000);
+   * // The number 2000 means Defer() will delay execution of above jQuery functions after 2000ms when the page has finished loading.
    * ```
    */
   defer = function (func, delay) {
@@ -247,16 +260,14 @@
   };
 
   /**
-   * This function is useful for lazy-loading script tags.
+   * Applying above `Defer()` function to all script tags on your website
+   * may take time. The `Defer.all()` function below can be a great help.
    *
-   * All script tags with attribute `<script type="deferjs">`
-   * will be delayed and automatically executed
-   * as soon as the page has completely loaded.
+   * Simply replace the `type` attribute of script tags to `type="deferjs"`
+   * and this library will automatically lazyload
+   * all script tags with this attribute attached.
    *
-   * By default, this function is triggered automatically.
-   *
-   * Note: For customized deferjs type,
-   * please call `Defer.all()` at the bottom of the `<body>` tag.
+   * By default, the `Defer.all()` function is triggered automatically.
    *
    * @function Defer.all
    * @since    2.0
@@ -264,26 +275,26 @@
    * @returns  {void}
    *
    * @example
-   * You just need to simply change `type="text/javascript"` to `type="deferjs"`,
-   * or add `type="deferjs"` to your script tag for it to take effect.
+   * Basic usage.
    *
    * Before:
    * ```html
-   * <script type="text/javascript" src="/path/to/heavy-javascript.js"></script>
+   * <script type="text/javascript" src="/path/to/external-javascript.js"></script>
    * <script>
-   *   // Some heavy DOM manipulations here
+   *   // Example of JavaScript code block
    * </script>
    * ```
-   * After:
+   *
+   * After replacing `type` attributes to `type="deferjs"`:
    * ```html
-   * <script type="deferjs" src="/path/to/heavy-javascript.js"></script>
+   * <script type="deferjs" src="/path/to/external-javascript.js"></script>
    * <script type="deferjs">
-   *   // Some heavy DOM manipulations here
+   *   // Example of JavaScript code block
    * </script>
    * ```
    *
    * @example
-   * If you don't want the `<script type="deferjs">` syntax,
+   * If you don't want to use `type="deferjs"` syntax,
    * you can easily choose your own name.
    *
    * This example uses `type="myjs"` instead of `type="deferjs"`:
@@ -293,9 +304,14 @@
    *   // Some heavy DOM manipulations here
    * </script>
    *
-   * <!-- Call Defer.all() at the bottom of the `<body>` tag -->
+   * <!-- HTML content trimmed -->
+   *
+   * <!-- Call Defer.all() after all other script tags -->
    * <script>Defer.all('script[type="myjs"]');</script>
    * ```
+   *
+   * *Important note:* make sure `Defer.all('script[type="myjs"]');` is placed
+   * after all other script tags, such as very bottom of the `body` tag.
    */
   defer.all = _scripts;
 
@@ -311,22 +327,30 @@
    * @param    {string}  src - URL to the js file that should be lazy loaded.
    * @param    {string}  [id] - The ID will be assigned to the script tag to avoid downloading the same file multiple times.
    * @param    {number}  [delay=0] - The duration in miliseconds to delay loading the js file.
-   * @param    {closure} [callback] - The callback function will be executed if the js file is successfully loaded.
+   * @param    {Closure} [callback] - The callback function will be executed if the js file is successfully loaded.
    * @returns  {void}
    *
    * @example
    * Delay loading of Facebook SDK after 3000ms.
+   * Then use a `callback` function trigger a Share dialog.
    *
    * ```js
-   * Defer.js('https://connect.facebook.net/en_US/sdk.js', 'fb-sdk', 3000);
-   * ```
+   * window.fbAsyncInit = function() {
+   *   FB.init({
+   *     appId            : 'your-app-id',
+   *     autoLogAppEvents : true,
+   *     xfbml            : true,
+   *     version          : 'v11.0'
+   *   });
+   * };
    *
-   * @example
-   * Delay loading of AddThis SDK after 5000ms.
-   *
-   * ```js
-   * var addthis_id = 'ra-5c68e61cf456f1cb';
-   * Defer.js('https://s7.addthis.com/js/300/addthis_widget.js#pubid=' + addthis_id, 'addthis-js', 5000);
+   * Defer.js('https://connect.facebook.net/en_US/sdk.js', 'fb-sdk', 3000, function () {
+   *   // trigger a Share dialog when the SDK loaded
+   *   FB.ui({
+   *     method: 'share',
+   *     href: 'https://developers.facebook.com/docs/'
+   *   }, function(response){});
+   * });
    * ```
    */
   defer.js = function (src, id, delay, callback) {
@@ -348,7 +372,7 @@
    * @param    {string}  src - URL to the css file that should be lazy loaded.
    * @param    {string}  [id] - The ID will be assigned to the script tag to avoid downloading the same file multiple times.
    * @param    {number}  [delay=0] - The duration in miliseconds to delay loading the css file.
-   * @param    {closure} [callback] - The callback function will be executed if the css file is successfully loaded.
+   * @param    {Closure} [callback] - The callback function will be executed if the css file is successfully loaded.
    * @returns  {void}
    *
    * @example
@@ -359,10 +383,13 @@
    * ```
    *
    * @example
-   * Delay loading animate.css from CDN for 1000ms.
+   * Delay loading animate.css from CDN,
+   * then use a `callback` function to add some animations to `h1` tag.
    *
    * ```js
-   * Defer.css('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css', 'animate-css', 1000);
+   * Defer.css('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css', 'animate-css', 1000, function () {
+   *   jQuery('h1').addClass('animate__animated animate__bounce');
+   * });
    * ```
    */
   defer.css = function (src, id, delay, callback) {
@@ -375,37 +402,24 @@
   };
 
   /**
-   * For lazy loading attributes of any element on the page.
+   * For lazy loading attributes of any element on web page.
    *
-   * Basically, the `Defer.dom` function converts all `data-*` attributes
-   * into regular attributes (e.g. from `data-src` to `src`)
-   * when user scrolling to the position
-   * where the element appears within the browser's viewport.
+   * Basically, this library use a feature called [IntersectionObserver](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API) to reveal an element
+   * when user is scrolling to the position
+   * where it appears within the browser's viewport.
    *
-   * Most of modern browsers support
-   * [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) feature.
-   *
-   * To take advantage of native performance
-   * for older browsers that doesn't support this feature (such as IE9),
-   * you should load `IntersectionObserver` polyfill library
-   * right after the `defer.min.js` script tag as following example:
-
-   * ```html
-   * <!-- Put defer.min.js here -->
-   * <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.4.2/dist/defer.min.js"></script>
-   *
-   * <!-- Put polyfill right after defer.min.js tag -->
-   * <script>'IntersectionObserver'in window||document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"><\/script>');</script>
-   * ```
+   * The `Defer.dom` function also converts its `data-*` attributes
+   * into regular attributes (e.g. from `data-src` to `src`),
+   * so you can use this to lazyload your images and iframes as well.
    *
    * @function Defer.dom
    * @since    2.0
    * @param    {string}  [selector=[data-src]] - A CSS selector that queries elements will be lazy loaded.
    * @param    {number}  [delay=0] - The duration in miliseconds to delay the lazy loading for the elements.
    * @param    {string}  [revealedClass] - A CSS class will be added automatically after when an element has been successfully revealed.
-   * @param    {closure} [validator] - A function will be executed with element will be lazy loaded as its argument.
+   * @param    {Closure} [validator] - A function will be executed with element will be lazy loaded as its argument.
    * If the function returns `false`, lazy loading for that element will be skipped.
-   * @param    {object}  [observeOptions] - [Intersection observer options](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#Intersection_observer_options)
+   * @param    {object}  [observeOptions] - [Intersection observer options](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API#Intersection_observer_options)
    * @returns  {void}
    *
    * @example
@@ -463,7 +477,7 @@
    * ```
    *
    * @example
-   * Advanced usage: Lazy load with [Intersection observer options](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#Intersection_observer_options)
+   * Advanced usage: Lazy load with [Intersection observer options](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API#Intersection_observer_options)
    *
    * ```html
    * <script>
@@ -607,8 +621,8 @@
       }
 
       _query(selector || _defaultTargets)[_forEach](function (node) {
-        if (!node[_hasAttribute](_lazied)) {
-          node[_setAttribute](_lazied, '');
+        if (!(_lazied in node)) {
+          node[_lazied] = 1;
 
           if (_observer) {
             _observer.observe(node);
