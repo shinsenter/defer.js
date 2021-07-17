@@ -248,7 +248,8 @@
    *     jQuery('#mydiv').fadeIn().show();
    *   });
    * }, 2000);
-   * // The number 2000 means Defer() will delay execution of above jQuery functions after 2000ms when the page has finished loading.
+   * // The number 2000 means Defer() will delay execution
+   * // of above jQuery functions after 2000ms when the page has finished loading.
    * ```
    */
   defer = function (func, delay) {

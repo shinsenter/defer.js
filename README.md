@@ -90,7 +90,7 @@ or load it from a CDN like below example.
   <title>My Awesome Page</title>
 
   <!-- Put defer.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.5.0/dist/defer.min.js"></script>
+  <script id="defer-js" src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.5.0/dist/defer.min.js"></script>
 
   <!-- ... -->
 </head>
@@ -111,7 +111,7 @@ instead of `defer.min.js`.
   <title>My Awesome Page</title>
 
   <!-- Put defer_plus.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.5.0/dist/defer_plus.min.js"></script>
+  <script id="defer-js" src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.5.0/dist/defer_plus.min.js"></script>
 
   <!-- ... -->
 </head>
@@ -130,7 +130,7 @@ to minimize the number of requests.
   <title>My Awesome Page</title>
 
   <!-- Inlining defer.min.js -->
-  <script>/* content of defer.min.js will be here */</script>
+  <script id="defer-js">/* content of defer.min.js will be here */</script>
 
   <!-- ... -->
 </head>
@@ -145,9 +145,7 @@ right after the `defer.min.js` script tag as following example:
 ```html
 <!-- To support older browsers such as Internet Explorer 9 -->
 <!-- Please put IntersectionObserver polyfill right after defer.js script tag -->
-<script>'IntersectionObserver'in window||document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"><\/script>');</script>
-
-<!-- ... -->
+<script id="polyfill-js">'IntersectionObserver'in window||document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"><\/script>');</script>
 ```
 
 *Note*: most of modern browsers support IntersectionObserver feature,
@@ -218,7 +216,8 @@ Defer(function() {
     jQuery('#mydiv').fadeIn().show();
   });
 }, 2000);
-// The number 2000 means Defer() will delay execution of above jQuery functions after 2000ms when the page has finished loading.
+// The number 2000 means Defer() will delay execution
+// of above jQuery functions after 2000ms when the page has finished loading.
 ```
 
 * [Defer(func, [delay])](#Defer) ⇒ <code>void</code>
