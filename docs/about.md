@@ -16,7 +16,7 @@
 [![NPM](https://nodei.co/npm/@shinsenter/defer.js.png?downloads=true)](https://www.npmjs.com/package/@shinsenter/defer.js)
 
 - **Package**: [@shinsenter/defer.js](https://www.npmjs.com/package/@shinsenter/defer.js)
-- **Version**: 2.4.2
+- **Version**: 2.5.0
 - **Author**: Mai Nhut Tan <shin@shin.company>
 - **Copyright**: 2021 AppSeeds <https://code.shin.company/>
 - **License**: [MIT](https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE)
@@ -90,11 +90,7 @@ or load it from a CDN like below example.
   <title>My Awesome Page</title>
 
   <!-- Put defer.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.4.2/dist/defer.min.js"></script>
-
-  <!-- To support older browsers such as Internet Explorer 9 -->
-  <!-- You may want to put IntersectionObserver polyfill right after defer.min.js tag -->
-  <script>'IntersectionObserver'in window||document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"><\/script>');</script>
+  <script id="defer-js" src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.5.0/dist/defer.min.js"></script>
 
   <!-- ... -->
 </head>
@@ -110,12 +106,15 @@ with older version, use `defer_plus.min.js`
 instead of `defer.min.js`.
 
 ```html
-<!-- Put defer_plus.min.js here -->
-<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.4.2/dist/defer_plus.min.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <title>My Awesome Page</title>
 
-<!-- To support older browsers such as Internet Explorer 9 -->
-<!-- You may want to put IntersectionObserver polyfill right after defer.min.js tag -->
-<script>'IntersectionObserver'in window||document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"><\/script>');</script>
+  <!-- Put defer_plus.min.js here -->
+  <script id="defer-js" src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.5.0/dist/defer_plus.min.js"></script>
+
+  <!-- ... -->
+</head>
 ```
 
 ### Inlining the library
@@ -131,8 +130,23 @@ to minimize the number of requests.
   <title>My Awesome Page</title>
 
   <!-- Inlining defer.min.js -->
-  <script>/* content of defer.min.js will be here */</script>
+  <script id="defer-js">/* content of defer.min.js will be here */</script>
 
   <!-- ... -->
 </head>
 ```
+
+### For OLD browsers (such as IE9)
+
+To take advantage of native performance
+for older browsers that doesn't support this feature (such as IE9),
+you should load `IntersectionObserver` polyfill library
+right after the `defer.min.js` script tag as following example:
+```html
+<!-- To support older browsers such as Internet Explorer 9 -->
+<!-- Please put IntersectionObserver polyfill right after defer.js script tag -->
+<script id="polyfill-js">'IntersectionObserver'in window||document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"><\/script>');</script>
+```
+
+*Note*: most of modern browsers support IntersectionObserver feature,
+so you don't have to concern about it.
