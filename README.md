@@ -405,6 +405,9 @@ Lazy load all `<img>` tags which have CSS class `lazy`.
 <img class="lazy" alt="Photo 1" data-src="https://picsum.photos/200/300?random=1" width="200" height="300" />
 <img class="lazy" alt="Photo 2" data-src="https://picsum.photos/200/300?random=2" width="200" height="300" />
 <img class="lazy" alt="Photo 3" data-src="https://picsum.photos/200/300?random=3" width="200" height="300" />
+
+<!-- Usage with responsive images -->
+<img class="lazy" alt="Responsive photo" data-src="https://picsum.photos/200/300" width="200" height="300" data-srcset="https://picsum.photos/200/300 480w, https://picsum.photos/800/1200 800w" sizes="(max-width: 600px) 480px, 800px" />
 ```
 **Example**
 Basic usage:
