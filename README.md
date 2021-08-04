@@ -411,7 +411,7 @@ Lazy load all `<img>` tags which have CSS class `lazy`.
 ```
 **Example**  
 Basic usage:
-Lazy load background image of a `div` tag.
+Lazy load background image of a `div` tag when it's added as inline CSS
 
 ```html
 <style>
@@ -430,6 +430,28 @@ Lazy load background image of a `div` tag.
 
 <div id="my_div"
   data-style="background: url(https://img.youtube.com/vi/Uz970DggW7E/hqdefault.jpg) 50% 50% / cover no-repeat;">
+  <!-- The content -->
+</div>
+```
+Lazy load background image of a `div` tag when it's assigned to ID in CSS 
+
+```html
+<style>
+  #my_div {
+  width: 300px;
+  height: 200px;
+  background: url(https://img.youtube.com/vi/Uz970DggW7E/hqdefault.jpg) 50% 50% / cover no-repeat;;
+  }
+</style>
+
+<script>
+  // Lazy load all div tags which have class="lazy"
+  Defer.dom('div.lazy');
+</script>
+
+<!-- Here may be a very long content -->
+
+<div data-id="my_div" class="lazy">
   <!-- The content -->
 </div>
 ```
