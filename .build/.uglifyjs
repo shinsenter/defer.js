@@ -25,7 +25,6 @@
     "width":              80,
     "wrap_iife":          false,
     "comments":           "/^@/",
-    "ie8":                true,
     "webkit":             true
   },
   "wrap": null
