@@ -428,71 +428,111 @@
    * Lazy load all `<img>` tags which have CSS class `lazy`.
    *
    * ```html
-   * <script>Defer.dom('img.lazy');</script>
-   *
    * <!-- Here may be a very long content -->
    *
    * <img class="lazy" alt="Photo 1" data-src="https://picsum.photos/200/300?random=1" width="200" height="300" />
    * <img class="lazy" alt="Photo 2" data-src="https://picsum.photos/200/300?random=2" width="200" height="300" />
    * <img class="lazy" alt="Photo 3" data-src="https://picsum.photos/200/300?random=3" width="200" height="300" />
+   *
+   * <script>
+   *   // Lazy load img tags which have class="lazy"
+   *   Defer.dom('img.lazy');
+   * </script>
    * ```
    *
    * @example
    * Basic usage:
-   * Lazy load background image of a `div` tag.
+   * Usage with responsive images.
+   *
+   * ```html
+   * <!-- Here may be a very long content -->
+   *
+   * <!-- Usage with responsive images -->
+   * <img class="lazy" alt="Responsive photo"
+   *   width="200" height="300"
+   *   data-src="https://picsum.photos/200/300"
+   *   sizes="(max-width: 600px) 480px, 800px"
+   *   data-srcset="https://picsum.photos/480/640 480w, https://picsum.photos/800/1200 800w" />
+   *
+   * <script>
+   *   // Lazy load img tags which have class="lazy"
+   *   Defer.dom('img.lazy');
+   * </script>
+   * ```
+   *
+   * @example
+   * Basic usage:
+   * Lazy load background images of `div` tags.
    *
    * ```html
    * <style>
-   *   #my_div {
-   *   width: 300px;
-   *   height: 200px;
+   *   div.card {
+   *     display: inline-block;
+   *     background-repeat:no-repeat;
+   *     background-size:contain;
+   *     margin: 5px;
+   *     width: 200px;
+   *     height: 300px;
+   *   }
+   *   div.card.revealed {
+   *     box-shadow: 0 0 5px rgb(0 0 0 / 20%);
+   *     border-radius: 5px;
    *   }
    * </style>
    *
-   * <script>
-   *   // Lazy load div tag which has id="my_div"
-   *   Defer.dom('#my_div');
-   * </script>
-   *
    * <!-- Here may be a very long content -->
    *
-   * <div id="my_div"
-   *   data-style="background: url(https://img.youtube.com/vi/Uz970DggW7E/hqdefault.jpg) 50% 50% / cover no-repeat;">
-   *   <!-- The content -->
-   * </div>
+   * <div class="card" bgurl="https://picsum.photos/200/300?random=1">&nbsp;</div>
+   * <div class="card" bgurl="https://picsum.photos/200/300?random=2">&nbsp;</div>
+   * <div class="card" bgurl="https://picsum.photos/200/300?random=3">&nbsp;</div>
+   * <div class="card" bgurl="https://picsum.photos/200/300?random=4">&nbsp;</div>
+   *
+   * <script>
+   *   // Lazy load div tags which have class="card" and bgurl attribute
+   *   Defer.dom('div.card[bgurl]', 0, 'revealed', function (div) {
+   *     var url = div.getAttribute('bgurl');
+   *     if (url) {
+   *       div.style.backgroundImage = 'url(' + url + ')';
+   *     }
+   *   });
+   * </script>
    * ```
    *
    * @example
    * Advanced usage:
    * Delay lazy loading `<img>` tags 200ms after the page has completely loaded.
-   * Then it will add a CSS class `loaded` to the fully lazy loaded image element.
+   * Then it will add a CSS class `loaded` to the fully lazy loaded image elements.
    *
    * ```html
-   * <script>Defer.dom('img.lazy', 200, 'loaded');</script>
-   *
    * <!-- Here may be a very long content -->
    *
    * <img class="lazy" alt="Photo 1" data-src="https://picsum.photos/200/300?random=4" width="200" height="300" />
    * <img class="lazy" alt="Photo 2" data-src="https://picsum.photos/200/300?random=5" width="200" height="300" />
    * <img class="lazy" alt="Photo 3" data-src="https://picsum.photos/200/300?random=6" width="200" height="300" />
+   *
+   * <script>
+   *   // Lazy load img tags which have class="lazy"
+   *   // then add `loaded` to elements' class attribute.
+   *   Defer.dom('img.lazy', 200, 'loaded');
+   * </script>
    * ```
    *
    * @example
    * Advanced usage: Lazy load with [Intersection observer options](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API#Intersection_observer_options)
    *
    * ```html
-   * <script>
-   *   // Preload images within 200% of the current viewport size.
-   *   Defer.dom("img.early-lazy", 200, "loaded", null, {
-   *   rootMargin: "200%"
-   *   });
-   * </script>
-   *
    * <!-- Here may be a very long content -->
    *
    * <img class="early-lazy" alt="Photo 1" data-src="https://picsum.photos/200/300?random=7" width="200" height="300" />
    * <img class="early-lazy" alt="Photo 2" data-src="https://picsum.photos/200/300?random=8" width="200" height="300" />
    * <img class="early-lazy" alt="Photo 3" data-src="https://picsum.photos/200/300?random=9" width="200" height="300" />
+   *
+   * <script>
+   *   // Preload images within 200% of the current viewport size.
+   *   Defer.dom("img.early-lazy", 200, "loaded", null, {
+   *     rootMargin: "200%"
+   *   });
+   * </script>
    * ```
    *
    * @example
@@ -500,13 +540,12 @@
    * to add animation to the successfully loaded elements.
    *
    * ```html
-   * <script>Defer.dom('img.fade', 200, 'loaded');</script>
    * <style>
    *   img.fade {
    *     transition: opacity 500ms ease-in-out;
    *     opacity: 0;
    *   }
-   *   img.fade.loaded {
+   *   img.fade.revealed {
    *     background: none;
    *     opacity: 1;
    *   }
@@ -517,6 +556,12 @@
    * <img class="fade" alt="Photo 1" data-src="https://picsum.photos/200/300?random=10" width="200" height="300" />
    * <img class="fade" alt="Photo 2" data-src="https://picsum.photos/200/300?random=11" width="200" height="300" />
    * <img class="fade" alt="Photo 3" data-src="https://picsum.photos/200/300?random=12" width="200" height="300" />
+   *
+   * <script>
+   *   // Lazy load img tags which have class="fade"
+   *   // then add `revealed` to elements' class attribute.
+   *   Defer.dom('img.fade', 200, 'revealed');
+   * </script>
    * ```
    *
    * @example
@@ -524,11 +569,6 @@
    * such as `<iframe>`, `<video>`, `<audio>`, `<picture>` tags.
    *
    * ```html
-   * <script>
-   *   // Lazy load all elements which have CSS class `multi-lazy`
-   *   Defer.dom('.multi-lazy', 200, 'loaded');
-   * </script>
-   *
    * <!-- Here may be a very long content -->
    *
    * <iframe class="multi-lazy" title="Youtube"
@@ -554,6 +594,11 @@
    *   <source data-src="movie.ogg" type="video/ogg">
    *   Your browser does not support the video tag.
    * </video>
+   *
+   * <script>
+   *   // Lazy load all elements which have CSS class `multi-lazy`
+   *   Defer.dom('.multi-lazy', 200, 'loaded');
+   * </script>
    * ```
    *
    * @example
@@ -561,18 +606,18 @@
    * when the user scrolls to the element `#scroll_reveal`.
    *
    * ```html
+   * <!-- Here may be a very long content -->
+   *
+   * <div id="scroll_reveal">
+   *   This is my content.
+   * </div>
+   *
    * <script>
    *   // Show an alert when user scrolled to #scroll_reveal
    *   Defer.dom('#scroll_reveal', null, null, function(element) {
    *     window.alert('You scrolled to #' + element.id);
    *   });
    * </script>
-   *
-   * <!-- Here may be a very long content -->
-   *
-   * <div id="scroll_reveal">
-   *   This is my content.
-   * </div>
    * ```
    *
    * @example
