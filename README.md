@@ -805,7 +805,7 @@ In this library, a closure is a [Function](#Function) that gives you access to a
 [![Donate via Paypal](https://img.shields.io/badge/Donate-Paypal-blue)](https://www.paypal.me/shinsenter)
 [![Become a sponsor](https://img.shields.io/badge/Donate-Patreon-orange)](https://www.patreon.com/appseeds)
 [![Become a stargazer](https://img.shields.io/badge/Support-Stargazer-yellow)](https://github.com/shinsenter/defer.js/stargazers)
-[![Report an issue](https://img.shields.io/badge/Support-Issues-green)](https://github.com/shinsenter/defer.js/issues/new)
+[![Report an issue](https://img.shields.io/badge/Support-Issues-green)](https://github.com/shinsenter/defer.js/issues/new) [![Join the chat at https://gitter.im/shinsenter/defer.js](https://badges.gitter.im/shinsenter/defer.js.svg)](https://gitter.im/shinsenter/defer.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 
 * * *
