@@ -3,7 +3,7 @@
  * https://www.npmjs.com/package/@shinsenter/defer.js
  *
  * Released under the MIT license
- * https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE
+ * https://code.shin.company/defer.js/blob/master/LICENSE
  *
  * MIT License
  *
@@ -36,12 +36,12 @@
  *
  * @author    Mai Nhut Tan <shin@shin.company>
  * @copyright 2021 AppSeeds <https://code.shin.company/>
- * @version   2.0
- * @license   {@link https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE|MIT}
+ * @version   2.6.0
+ * @license   {@link https://code.shin.company/defer.js/blob/master/LICENSE|MIT}
  */
 
-/*@shinsenter/defer.js@2.5.0*/
-(function (window, document, handler) {
+/*@shinsenter/defer.js@2.6.0*/
+(function (window, document, worker) {
 
   /*
   |--------------------------------------------------------------------------
@@ -53,18 +53,13 @@
   var defer;
 
   // Constant values
-  var _dataRegExp = /^data-(.+)/;
-  var _IO         = 'IntersectionObserver';
-
-  // State holders
-  var _domReady = (/p/).test(document.readyState);
-  var _queue    = [];
-  var _toArray  = _queue.slice;
+  var _dataRegExp   = /^data-(.+)/;
+  var _IO           = 'IntersectionObserver';
 
   // Common attributes
-  var _lazied   = 'deferjs';
-  var _load     = 'load';
-  var _pageshow = 'pageshow';
+  var _lazied       = 'deferjs';
+  var _load         = 'load';
+  var _pageshow     = 'pageshow';
 
   // Method aliases
   var _forEach      = 'forEach';
@@ -74,8 +69,13 @@
   var _shift        = 'shift';
 
   // CSS Selectors
-  var _defaultScripts = '[type=deferjs]';
-  var _defaultTargets = '[data-src]';
+  var _selectorJS   = '[type=deferjs]';
+  var _selectorDOM  = '[data-src]';
+
+  // State holders
+  var _booted       = (/p/).test(document.readyState);
+  var _queue        = [];
+  var _slice        = _queue.slice;
 
   /*
   |--------------------------------------------------------------------------
@@ -88,15 +88,12 @@
   }
 
   function _attrLoop(node, callback) {
-    _toArray.call(node.attributes)[_forEach](callback);
+    _slice.call(node.attributes)[_forEach](callback);
   }
 
   function _newNode(nodeName, id, callback, _node) {
-    _node = id ? document.getElementById(id) : _node;
-
-    if (!_node) {
-      _node = document.createElement(nodeName);
-    }
+    _node = (id ? document.getElementById(id) : _node) ||
+            document.createElement(nodeName);
 
     if (id) {
       _node.id = id;
@@ -110,7 +107,7 @@
   }
 
   function _query(selector, parent) {
-    return _toArray.call((parent || document).querySelectorAll(selector));
+    return _slice.call((parent || document).querySelectorAll(selector));
   }
 
   function _reveal(node, revealedClass) {
@@ -139,7 +136,7 @@
   function _scripts(selector) {
     // Defer action until page loaded
     defer(function (_found) {
-      _found = _query(selector || _defaultScripts);
+      _found = _query(selector || _selectorJS);
 
       function _next(_node, _clone) {
         _node = _found[_shift]();
@@ -253,8 +250,8 @@
    * ```
    */
   defer = function (func, delay) {
-    if (_domReady) {
-      handler(func, delay);
+    if (_booted) {
+      worker(func, delay);
     } else {
       _queue.push(func, delay);
     }
@@ -666,7 +663,7 @@
         _observer = false;
       }
 
-      _query(selector || _defaultTargets)[_forEach](function (node) {
+      _query(selector || _selectorDOM)[_forEach](function (node) {
         if (!(_lazied in node)) {
           node[_lazied] = 1;
 
@@ -683,7 +680,7 @@
   };
 
   /**
-   * Reveal an element which is lazyloaded by the library
+   * Reveals an element which is lazyloaded by the library
    *
    * @function Defer.reveal
    * @since    2.1
@@ -721,7 +718,7 @@
   |--------------------------------------------------------------------------
   */
 
-  // Expose Defer instance
+  // Exposes a Defer instance
   window.Defer = defer;
 
   // Listens for the load event of the global context
@@ -732,9 +729,9 @@
       for (
         _scripts();
         _queue[0];
-        handler(_queue[_shift](), _queue[_shift]())
+        worker(_queue[_shift](), _queue[_shift]())
       ) {
-        _domReady = 1;
+        _booted = 1;
       }
     }
   );

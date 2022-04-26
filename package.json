@@ -1,7 +1,7 @@
 {
   "name": "@shinsenter/defer.js",
   "title": "defer.js",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "🥇 A super small, super efficient library that helps you lazy load almost everything like images, video, audio, iframes as well as stylesheets, and JavaScript.",
   "homepage": "https://shinsenter.github.io/defer.js/",
   "license": "MIT",
@@ -15,12 +15,12 @@
     "url": "git+https://github.com/shinsenter/defer.js.git"
   },
   "bugs": {
-    "url": "https://github.com/shinsenter/defer.js/issues"
+    "url": "https://code.shin.company/defer.js/issues"
   },
   "funding": [
     {
       "type": "github",
-      "url": "https://github.com/shinsenter/defer.js/stargazers"
+      "url": "https://code.shin.company/defer.js/stargazers"
     },
     {
       "type": "paypal",
