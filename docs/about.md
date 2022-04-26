@@ -2,24 +2,24 @@
 
 🥇 A super small, super efficient library that helps you lazy load almost everything like images, video, audio, iframes as well as stylesheets, and JavaScript.
 
-[![NPM](https://img.shields.io/npm/l/@shinsenter/defer.js)](https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE)
+[![NPM](https://img.shields.io/npm/l/@shinsenter/defer.js)](https://code.shin.company/defer.js/blob/master/LICENSE)
 [![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/@shinsenter/defer.js)](https://snyk.io/advisor/npm-package/@shinsenter/defer.js)
 [![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/shinsenter/defer.js)](https://www.codefactor.io/repository/github/shinsenter/defer.js)
 
 * * *
 
-[![GitHub Release Date](https://img.shields.io/github/release-date/shinsenter/defer.js)](https://github.com/shinsenter/defer.js/releases)
-[![GitHub package.json version](https://img.shields.io/github/package-json/v/shinsenter/defer.js)](https://github.com/shinsenter/defer.js/releases)
+[![GitHub Release Date](https://img.shields.io/github/release-date/shinsenter/defer.js)](https://code.shin.company/defer.js/releases)
+[![GitHub package.json version](https://img.shields.io/github/package-json/v/shinsenter/defer.js)](https://code.shin.company/defer.js/releases)
 [![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@shinsenter/defer.js)](https://www.npmjs.com/package/@shinsenter/defer.js)
 [![jsDelivr hits (npm)](https://img.shields.io/jsdelivr/npm/hm/@shinsenter/defer.js)](https://www.jsdelivr.com/package/npm/@shinsenter/defer.js)
 
 [![NPM](https://nodei.co/npm/@shinsenter/defer.js.png?downloads=true)](https://www.npmjs.com/package/@shinsenter/defer.js)
 
 - **Package**: [@shinsenter/defer.js](https://www.npmjs.com/package/@shinsenter/defer.js)
-- **Version**: 2.5.0
+- **Version**: 2.6.0
 - **Author**: Mai Nhut Tan <shin@shin.company>
 - **Copyright**: 2021 AppSeeds <https://code.shin.company/>
-- **License**: [MIT](https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE)
+- **License**: [MIT](https://code.shin.company/defer.js/blob/master/LICENSE)
 
 * * *
 
@@ -90,7 +90,7 @@ or load it from a CDN like below example.
   <title>My Awesome Page</title>
 
   <!-- Put defer.min.js here -->
-  <script id="defer-js" src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.5.0/dist/defer.min.js"></script>
+  <script id="defer-js" src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.6.0/dist/defer.min.js"></script>
 
   <!-- ... -->
 </head>
@@ -111,7 +111,7 @@ instead of `defer.min.js`.
   <title>My Awesome Page</title>
 
   <!-- Put defer_plus.min.js here -->
-  <script id="defer-js" src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.5.0/dist/defer_plus.min.js"></script>
+  <script id="defer-js" src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.6.0/dist/defer_plus.min.js"></script>
 
   <!-- ... -->
 </head>

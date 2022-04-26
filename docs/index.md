@@ -2,24 +2,24 @@
 
 🥇 A super small, super efficient library that helps you lazy load almost everything like images, video, audio, iframes as well as stylesheets, and JavaScript.
 
-[![NPM](https://img.shields.io/npm/l/@shinsenter/defer.js)](https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE)
+[![NPM](https://img.shields.io/npm/l/@shinsenter/defer.js)](https://code.shin.company/defer.js/blob/master/LICENSE)
 [![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/@shinsenter/defer.js)](https://snyk.io/advisor/npm-package/@shinsenter/defer.js)
 [![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/shinsenter/defer.js)](https://www.codefactor.io/repository/github/shinsenter/defer.js)
 
 * * *
 
-[![GitHub Release Date](https://img.shields.io/github/release-date/shinsenter/defer.js)](https://github.com/shinsenter/defer.js/releases)
-[![GitHub package.json version](https://img.shields.io/github/package-json/v/shinsenter/defer.js)](https://github.com/shinsenter/defer.js/releases)
+[![GitHub Release Date](https://img.shields.io/github/release-date/shinsenter/defer.js)](https://code.shin.company/defer.js/releases)
+[![GitHub package.json version](https://img.shields.io/github/package-json/v/shinsenter/defer.js)](https://code.shin.company/defer.js/releases)
 [![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@shinsenter/defer.js)](https://www.npmjs.com/package/@shinsenter/defer.js)
 [![jsDelivr hits (npm)](https://img.shields.io/jsdelivr/npm/hm/@shinsenter/defer.js)](https://www.jsdelivr.com/package/npm/@shinsenter/defer.js)
 
 [![NPM](https://nodei.co/npm/@shinsenter/defer.js.png?downloads=true)](https://www.npmjs.com/package/@shinsenter/defer.js)
 
 - **Package**: [@shinsenter/defer.js](https://www.npmjs.com/package/@shinsenter/defer.js)
-- **Version**: 2.5.0
+- **Version**: 2.6.0
 - **Author**: Mai Nhut Tan <shin@shin.company>
 - **Copyright**: 2021 AppSeeds <https://code.shin.company/>
-- **License**: [MIT](https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE)
+- **License**: [MIT](https://code.shin.company/defer.js/blob/master/LICENSE)
 
 * * *
 
@@ -90,7 +90,7 @@ or load it from a CDN like below example.
   <title>My Awesome Page</title>
 
   <!-- Put defer.min.js here -->
-  <script id="defer-js" src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.5.0/dist/defer.min.js"></script>
+  <script id="defer-js" src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.6.0/dist/defer.min.js"></script>
 
   <!-- ... -->
 </head>
@@ -111,7 +111,7 @@ instead of `defer.min.js`.
   <title>My Awesome Page</title>
 
   <!-- Put defer_plus.min.js here -->
-  <script id="defer-js" src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.5.0/dist/defer_plus.min.js"></script>
+  <script id="defer-js" src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@2.6.0/dist/defer_plus.min.js"></script>
 
   <!-- ... -->
 </head>
@@ -602,7 +602,7 @@ Defer.js(base + '/highlight.pack.min.js', 'hljs-js', 1000, function () {
 <a name="Defer.reveal"></a>
 
 ### Defer.reveal(element, [revealedClass]) ⇒ <code>void</code>
-Reveal an element which is lazyloaded by the library
+Reveals an element which is lazyloaded by the library
 
 **Kind**: static method of [<code>Defer</code>](#Defer)  
 **Since**: 2.1  
@@ -781,21 +781,21 @@ In this library, a closure is a [Function](#Function) that gives you access to a
 
 ### PHP library
 
-[https://github.com/shinsenter/defer.php/](https://github.com/shinsenter/defer.php/)
+[https://code.shin.company/defer.php/](https://code.shin.company/defer.php/)
 
 🚀 A PHP library that focuses on minimizing payload size of HTML document and optimizing processing on the browser when rendering the web page.
 
 
 ### Wordpress plugin
 
-[https://github.com/shinsenter/defer-wordpress/](https://github.com/shinsenter/defer-wordpress/)
+[https://code.shin.company/defer-wordpress/](https://code.shin.company/defer-wordpress/)
 
 ⚡️ A native, blazing fast lazy loader. ✅ Legacy browsers support (IE9+). 💯 SEO friendly. 🧩 Lazy load almost anything.
 
 
 ### Laravel package
 
-[https://github.com/shinsenter/defer-laravel/](https://github.com/shinsenter/defer-laravel/)
+[https://code.shin.company/defer-laravel/](https://code.shin.company/defer-laravel/)
 
 🚀 A Laravel package that focuses on minimizing payload size of HTML document and optimizing processing on the browser when rendering the web page.
 
@@ -804,9 +804,9 @@ In this library, a closure is a [Function](#Function) that gives you access to a
 
 [![Donate via Paypal](https://img.shields.io/badge/Donate-Paypal-blue)](https://www.paypal.me/shinsenter)
 [![Become a sponsor](https://img.shields.io/badge/Donate-Patreon-orange)](https://www.patreon.com/appseeds)
-[![Become a stargazer](https://img.shields.io/badge/Support-Stargazer-yellow)](https://github.com/shinsenter/defer.js/stargazers)
-[![Report an issue](https://img.shields.io/badge/Support-Issues-green)](https://github.com/shinsenter/defer.js/issues/new)
-
+[![Become a stargazer](https://img.shields.io/badge/Support-Stargazer-yellow)](https://code.shin.company/defer.js/stargazers)
+[![Report an issue](https://img.shields.io/badge/Support-Issues-green)](https://code.shin.company/defer.js/issues/new)
+[![Join the chat at https://gitter.im/shinsenter/defer.js](https://badges.gitter.im/shinsenter/defer.js.svg)](https://gitter.im/shinsenter/defer.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 * * *
 
