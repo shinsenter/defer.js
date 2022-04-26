@@ -4,7 +4,7 @@
  * https://www.npmjs.com/package/@shinsenter/defer.js
  *
  * Released under the MIT license
- * https://raw.githubusercontent.com/shinsenter/defer.js/master/LICENSE
+ * https://code.shin.company/defer.js/blob/master/LICENSE
  *
  * MIT License
  *

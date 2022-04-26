@@ -450,7 +450,7 @@ Defer.js(base + '/highlight.pack.min.js', 'hljs-js', 1000, function () {
 <a name="Defer.reveal"></a>
 
 ### Defer.reveal(element, [revealedClass]) ⇒ <code>void</code>
-Reveal an element which is lazyloaded by the library
+Reveals an element which is lazyloaded by the library
 
 **Kind**: static method of [<code>Defer</code>](#Defer)  
 **Since**: 2.1  
