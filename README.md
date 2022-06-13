@@ -26,6 +26,8 @@
 
 ## Use cases
 
+> 日本人の方は[こちらの記事](https://www.limosuki.com/2022/06/twitter-lazyload-deferjs.html)をご参考にして頂ければと思います。
+
 In real life, many resources and third-party scripts,
 such as jQuery, are used to enhance our website
 to add additional interactivity, animations, and other effects.
