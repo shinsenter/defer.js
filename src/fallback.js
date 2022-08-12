@@ -34,55 +34,31 @@
  * Fallback for older version of @shinsenter/defer.js
  * @deprecated
  */
-(function (window, defer) {
+(function (window, Defer) {
 
   /**
    * Deprecated since version 2.0
    * @deprecated
-   * @since    1.0
    * @function defer
+   * @alias    Defer
+   * @since    1.0
    * @param    {function} func
-   * @param    {number}   [delay]
+   * @param    {number}   [delay=0]
    * @see      {@link Defer|Defer}
    */
-  window.defer = defer = window.Defer;
-
-  /**
-   * Deprecated since version 2.0
-   * @deprecated
-   * @since    1.0
-   * @function deferscript
-   * @param    {string}   src
-   * @param    {string}   [id]
-   * @param    {number}   [delay]
-   * @param    {callback} [callback]
-   * @see      {@link Defer.js|Defer.js}
-   */
-  window.deferscript = defer.js;
-
-  /**
-   * Deprecated since version 2.0
-   * @deprecated
-   * @since    1.0
-   * @function deferstyle
-   * @param    {string}   src
-   * @param    {string}   [id]
-   * @param    {number}   [delay]
-   * @param    {callback} [callback]
-   * @see      {@link Defer.css|Defer.css}
-   */
-  window.deferstyle = defer.css;
+  Defer = window.defer = window.Defer;
 
   /**
    * Deprecated since version 2.0
    * @deprecated
    * @function deferimg
+   * @alias    Defer.dom
    * @since    1.0
-   * @param    {string}   [selector]
-   * @param    {number}   [delay]
-   * @param    {string}   [revealedClass]
-   * @param    {callback} [validator]
-   * @param    {object}   [observeOptions]
+   * @param    {string}       [selector=[data-src]]
+   * @param    {number}       [delay=0]
+   * @param    {string}       [unveiledClass]
+   * @param    {NodeHandler}  [resolver]
+   * @param    {object}       [observeOptions]
    * @see      {@link Defer.dom|Defer.dom}
    */
 
@@ -90,14 +66,43 @@
    * Deprecated since version 2.0
    * @deprecated
    * @function deferiframe
+   * @alias    Defer.dom
    * @since    1.0
-   * @param    {string}   [selector]
-   * @param    {number}   [delay]
-   * @param    {string}   [revealedClass]
-   * @param    {callback} [validator]
-   * @param    {object}   [observeOptions]
+   * @param    {string}       [selector=[data-src]]
+   * @param    {number}       [delay=0]
+   * @param    {string}       [unveiledClass]
+   * @param    {NodeHandler}  [resolver]
+   * @param    {object}       [observeOptions]
    * @see      {@link Defer.dom|Defer.dom}
    */
-  window.deferimg = window.deferiframe = defer.dom;
+  window.deferimg = window.deferiframe = Defer.dom;
+
+  /**
+   * Deprecated since version 2.0
+   * @deprecated
+   * @function deferstyle
+   * @alias    Defer.css
+   * @since    1.0
+   * @param    {string}   src
+   * @param    {string}   [id]
+   * @param    {number}   [delay=0]
+   * @param    {Function} [onload]
+   * @see      {@link Defer.css|Defer.css}
+   */
+  window.deferstyle = Defer.css;
+
+  /**
+   * Deprecated since version 2.0
+   * @deprecated
+   * @function deferscript
+   * @alias    Defer.js
+   * @since    1.0
+   * @param    {string}   src
+   * @param    {string}   [id]
+   * @param    {number}   [delay=0]
+   * @param    {Function} [onload]
+   * @see      {@link Defer.js|Defer.js}
+   */
+  window.deferscript = Defer.js;
 
 })(this);
