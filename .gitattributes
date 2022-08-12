@@ -1,7 +1,3 @@
-/dist/defer.min.js -diff -merge
-/dist/defer.min.js.map -diff -merge
-/dist/defer_plus.min.js -diff -merge
-/dist/defer_plus.min.js.map -diff -merge
-/dist/polyfill.min.js -diff -merge
-/dist/polyfill.min.js.map -diff -merge
+/demo/* -diff -merge
+/dist/* -diff -merge
 /docs/* -diff -merge
