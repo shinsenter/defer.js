@@ -1,0 +1,27 @@
+{
+    "parse": {},
+    "mangle": {
+        "reserved":     ["log", "debug"]
+    },
+    "compress": {
+        "drop_console": true,
+        "passes":       5,
+        "pure_getters": true,
+        "pure_funcs":   ["log", "debug"]
+    },
+    "output": {
+        "comments":     "/^!/",
+        "wrap_iife":    true
+    },
+    "annotations":      false,
+    "ie":               false,
+    "keep_fargs":       false,
+    "keep_fnames":      false,
+    "module":           false,
+    "nameCache":        null,
+    "sourceMap":        false,
+    "toplevel":         false,
+    "v8":               false,
+    "warnings":         false,
+    "webkit":           false
+}
