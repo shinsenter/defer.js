@@ -1,7 +1,7 @@
 {
   "name": "@shinsenter/defer.js",
   "title": "defer.js",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "🥇 A super small, super-efficient library that helps you lazy load (almost) anything. Core Web Vitals friendly.",
   "homepage": "https://shinsenter.github.io/defer.js/",
   "license": "MIT",
@@ -85,6 +85,7 @@
     "postdocs": "cat ./docs/*.md > README.md && cp -p README.md ./docs/index.md",
     "preupload": "npm run pull && npm run build",
     "upload": "npm publish --access=public",
-    "summary": "echo Minzipped size: $(cat dist/defer.min.js | gzip -f6 | wc -c) bytes"
+    "summary": "echo Minified size: $(cat dist/defer.min.js | wc -c) bytes",
+    "postsummary": "echo Compressed size: $(cat dist/defer.min.js | gzip -f6 | wc -c) bytes"
   }
 }

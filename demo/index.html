@@ -42,18 +42,18 @@
                 <div class="helper">
                     Just put a <code>&lt;script&gt;</code> tag pointing to
                     <a target="_blank" title="defer.min.js"
-                        href="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.0.0/dist/defer.min.js">the library URL</a>
+                        href="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.1.0/dist/defer.min.js">the library URL</a>
                     just below the opening <code>&lt;head&gt;</code> tag of your page.
                     Because <code>defer.min.js</code> is optimized to very tiny file size,
                     you can even inline entire the library to save one HTTP request.
                 </div>
                 <div class="demo">
 <!-- Copy the script from below URL -->
-<!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.0.0/dist/defer.min.js -->
+<!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.1.0/dist/defer.min.js -->
 <script>/* then replace this comment block with the content of defer.min.js here */</script>
 
 <!-- If legacy browsers like Internet Explorer 9 still need to be supported -->
-<script>'IntersectionObserver'in window||document.write('<script defer src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.0.0/dist/polyfill.min.js"><\/script>');</script>
+<script>'IntersectionObserver'in window||document.write('<script defer src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.1.0/dist/polyfill.min.js"><\/script>');</script>
                 </div>
             </div>
         </section>
@@ -96,8 +96,11 @@
                     If you hate using the <mark><code>type="deferjs"</code></mark> attribute,
                     you can even choose your own one.
                     <br>
+                    <code>Defer.all(cssSelector, [delay], [waitForInteraction])</code>
+                    <br>
                     <strong>Note: </strong>
-                    Lazy loading behavior changed since v3.0 when you set <code>Defer.lazy=true</code>. <br>
+                    Lazy loading behavior changed since v3.0
+                    when you set <code>Defer.lazy=true</code> or <code>waitForInteraction=true</code>. <br>
                     <code>&lt;script&gt;</code> tags deferred with this technique
                     will not execute unless the user starts interacting with your page.
                 </div>
@@ -115,6 +118,29 @@
 <!-- The 2nd argument means those script tag will be delayed 5000ms -->
 <script>
     Defer.all('script[type="my-magic"]', 5000);
+</script>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>Using <code>Defer.all</code> with script tags with <code>src</code> attribute:</h3>
+                <div class="helper">
+                    Your scripts will work perfectly when mixing inline scripts
+                    and script tags with a <code>src</code> attribute,
+                    like the below example.
+                    <br>
+                    The library will defer the load of tippy.js until user starts interacting,
+                    when user moves his/her mouse on the button, a tooltip will show.
+                </div>
+                <div class="demo">
+<button id="tooltip-button">My button</button>
+<script type="myscript" src="https://unpkg.com/@popperjs/core@2"></script>
+<script type="myscript" src="https://unpkg.com/tippy.js@6"></script>
+<script type="myscript">
+    tippy('#tooltip-button', { content: 'Hello from Defer.js!' });
+</script>
+<script>
+    Defer.all('script[type="myscript"]', 0, true);
 </script>
                 </div>
             </div>
@@ -191,7 +217,7 @@
             <div class="example">
                 <h3>The variable <code>Defer.lazy</code></h3>
                 <div class="helper">
-                    Setting <code>Defer.lazy = true</code> tells the library
+                    Setting <code>Defer.lazy=true</code> tells the library
                     to delay the execution of deferred scripts when the user
                     starts interacting with the page regardless of the page load event.
                     <br>
@@ -542,7 +568,8 @@
                 We use <code>Defer.css</code> to defer the load of external CSS files without blocking the page rendering.
                 <br>
                 <strong>Note: </strong>
-                Lazy loading behavior changed since v3.0 when you set <code>Defer.lazy=true</code> or <code>waitForInteraction=true</code>. <br>
+                Lazy loading behavior changed since v3.0
+                when you set <code>Defer.lazy=true</code> or <code>waitForInteraction=true</code>. <br>
                 The <code>fileUrl</code> will not be fetched unless the user starts interacting with your page.
             </div>
 
@@ -607,8 +634,15 @@
             <div class="helper">
                 We use <code>Defer.js</code> to defer the load of 3rd-party javascript libraries, add-ons etc. without blocking the page rendering.
                 <br>
-                <strong>Note: </strong>
-                Lazy loading behavior changed since v3.0 when you set <code>Defer.lazy=true</code> or <code>waitForInteraction=true</code>. <br>
+                <strong>Note 1: </strong>
+                Because the download of file using <code>Defer.js</code> function is asynchronous,
+                to avoid dependency error when lazy loading a library using <code>Defer.js</code>,
+                it is highly recommended that the <code>onload</code> callback function be used to make sure that
+                the third-party library you needed is completely defined.
+                <br>
+                <strong>Note 2: </strong>
+                Lazy loading behavior changed since v3.0
+                when you set <code>Defer.lazy=true</code> or <code>waitForInteraction=true</code>. <br>
                 The <code>fileUrl</code> will not be fetched unless the user starts interacting with your page.
             </div>
 

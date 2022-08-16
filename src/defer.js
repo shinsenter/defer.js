@@ -36,15 +36,15 @@
  *
  * @author    Mai Nhut Tan <shin@shin.company>
  * @copyright 2022 AppSeeds <https://code.shin.company/>
- * @version   3.0.0
+ * @version   3.1.0
  * @license   {@link https://code.shin.company/defer.js/blob/master/LICENSE|MIT}
  */
 
-/*!@shinsenter/defer.js@3.0.0*/
+/*!@shinsenter/defer.js@3.1.0*/
 (function (window) {
 
   var namespace     = 'Defer';
-  var version       = '3.0.0';
+  var version       = '3.1.0';
   var _debugName    = namespace + ' v' + version;
 
   /*
@@ -79,6 +79,7 @@
   // aliases for object methods
   var _fnBootDefer;
   var _fnForEach    = 'forEach';
+  var _fnGetAttr    = 'getAttribute';
   var _fnSetAttr    = 'setAttribute';
   var _fnShift      = 'shift';
 
@@ -271,7 +272,8 @@
 
           // attaches clone node to the document
           // NOTE: script tag with src and non-async will wait for its execution
-          if (_freshNode.src && !_freshNode.async) {
+          // NOTE: async attribute MUST be checked via getAttribute()
+          if (_freshNode.src && !_freshNode[_fnGetAttr]('async')) {
             _freshNode.onload = _freshNode.onerror = _nextTag;
             fnAttach(_freshNode);
           } else {

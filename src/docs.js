@@ -37,7 +37,7 @@
  *
  * @author    Mai Nhut Tan <shin@shin.company>
  * @copyright 2022 AppSeeds <https://code.shin.company/>
- * @version   3.0.0
+ * @version   3.1.0
  * @license   {@link https://code.shin.company/defer.js/blob/master/LICENSE|MIT}
  */
 
@@ -112,7 +112,7 @@
  * ```
  *
  * @example
- * Sometimes, you would like your code not to run unless there is user activity.
+ * Sometimes, you would like your code not to run unless there is a user activity.
  *
  * The third argument tells the `Defer()` to delay the execution of the function
  * and wait until the user starts interacting with your page.
@@ -142,7 +142,7 @@
 /**
  * The `Defer.lazy` variable was added since v3.0.
  *
- * Setting `Defer.lazy = true` tells the library to delay the execution
+ * Setting `Defer.lazy=true` tells the library to delay the execution
  * of deferred scripts until the user starts interacting with the page
  * regardless of the page load event.
  *
@@ -179,7 +179,8 @@
  * You can fully defer any script tag by setting its `type` attribute to `deferjs`.
  * This trick also works perfectly with `<script>` tags with a `src` attribute.
  *
- * @note Lazy loading behavior changed since v3.0 when you set `Defer.lazy=true`.
+ * @note Lazy loading behavior changed since v3.0
+ * when you set `Defer.lazy=true` or `waitForInteraction=true`.
  * A `<script>` tags with `type="deferjs"` will not execute
  * unless the user starts interacting with your page.
  *
@@ -229,6 +230,32 @@
  * <!-- The 2nd argument means those script tag will be delayed 5000ms -->
  * <script>
  *   Defer.all('script[type="my-magic"]', 5000);
+ * </script>
+ * ```
+ *
+ * @example
+ * Using `Defer.all()` with script tags with `src` attribute:
+ *
+ * Your scripts will work perfectly when you mix inline scripts
+ * and script tags with a src attribute, like the below example.
+ *
+ * The `waitForInteraction` argument (the fifth argument) is set to `true`,
+ * the library will defer the load of the tippy.js library until user starts
+ * interacting, when user moves his/her mouse on the button, a tooltip wil show.
+ *
+ *
+ * ```html
+ * <button id="tooltip-button">My button</button>
+ *
+ * <script type="myscript" src="https://unpkg.com/@popperjs/core@2"></script>
+ * <script type="myscript" src="https://unpkg.com/tippy.js@6"></script>
+ *
+ * <script type="myscript">
+ *   tippy('#tooltip-button', { content: 'Hello from Defer.js!' });
+ * </script>
+ *
+ * <script>
+ *   Defer.all('script[type="myscript"]', 0, true);
  * </script>
  * ```
  */
@@ -563,7 +590,8 @@
  * We use the `Defer.css()` method to defer the load
  * of external CSS files without blocking the page rendering.
  *
- * @note Lazy loading behavior changed since v3.0 when you set `Defer.lazy=true` or `waitForInteraction=true`.
+ * @note Lazy loading behavior changed since v3.0
+ * when you set `Defer.lazy=true` or `waitForInteraction=true`.
  * The `fileUrl` will not be fetched unless the user starts interacting with your page.
  *
  * @function Defer.css
@@ -635,7 +663,13 @@
  * We use `Defer.js()` to defer the load of 3rd-party
  * javascript libraries, widgets, add-ons, etc. without blocking the page rendering.
  *
- * @note Lazy loading behavior changed since v3.0 when you set `Defer.lazy=true` or `waitForInteraction=true`.
+ * @note Because the download of file using `Defer.js()` function is asynchronous,
+ * to avoid dependency error when lazy loading a third-party library using `Defer.js()`,
+ * it is highly recommended that the `onload` callback function be used
+ * to make sure that the library you needed is completely defined.
+ *
+ * @note Lazy loading behavior changed since v3.0
+ * when you set `Defer.lazy=true` or `waitForInteraction=true`.
  * The `fileUrl` will not be fetched unless the user starts interacting with your page.
  *
  * @function Defer.js
@@ -694,7 +728,8 @@
  * Lazy load Prism.js library.
  *
  * Using Defer.js to lazy load Prism.js library and its assets.
- * The `<code>` blocks on the page will be rendered only when you scroll to their positions.
+ * The `<code>` blocks on the page will be rendered
+ * only when the user scrolls to any `code` block position.
  *
  * ```html
  * <style>
