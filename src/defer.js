@@ -36,16 +36,16 @@
  *
  * @author    Mai Nhut Tan <shin@shin.company>
  * @copyright 2022 AppSeeds <https://code.shin.company/>
- * @version   3.1.0
+ * @version   3.2.0
  * @license   {@link https://code.shin.company/defer.js/blob/master/LICENSE|MIT}
  */
 
-/*!@shinsenter/defer.js@3.1.0*/
+/*!@shinsenter/defer.js@3.2.0*/
 (function (window) {
 
-  var namespace     = 'Defer';
-  var version       = '3.1.0';
-  var _debugName    = namespace + ' v' + version;
+  var namespace  = 'Defer';
+  var version    = '3.2.0';
+  var _debugName = namespace + ' v' + version;
 
   /*
   |--------------------------------------------------------------------------
@@ -72,9 +72,9 @@
   var _browserEvent = 'on' + _pageshow in window ? _pageshow : _load;
   var _userEvents   = ['mousemove', 'keydown', 'touchstart', 'wheel'];
 
-  // default CSS selectors
-  var _selectorDOM  = '[data-src]';
-  var _selectorJS   = '[type=deferjs]';
+  // aliases for object attributes
+  var _attrCrossorigin = 'crossorigin';
+  var _attrIntegrity   = 'integrity';
 
   // aliases for object methods
   var _fnBootDefer;
@@ -83,8 +83,14 @@
   var _fnSetAttr    = 'setAttribute';
   var _fnShift      = 'shift';
 
+  // default CSS selectors
+  var _selectorDOM  = '[data-src]';
+  var _selectorJS   = '[type=deferjs]';
+
   // other constants
-  var FALSE = false;
+  var FALSE  = false;
+  var LINK   = 'link';
+  var SCRIPT = 'script';
 
   /*
   |--------------------------------------------------------------------------
@@ -146,15 +152,55 @@
     _node = (id ? document.getElementById(id) : _node) ||
       document.createElement(nodeName);
 
-    if (onload) {
-      _node.onload = onload;
-    }
-
     if (id) {
       _node.id = id;
     }
 
+    if (onload) {
+      _node.onload = onload;
+    }
+
     return _node;
+  }
+
+  // creates a preload hint node
+  function fnCreatePreloadNode(node, _temp, _node) {
+    _temp = node.src;
+
+    if (_temp) {
+      // creates a fresh node
+      _node = fnCreateNode(LINK);
+
+      // sets attributes
+      _node.rel  = 'preload';
+      _node.as   = SCRIPT;
+      _node.href = _temp;
+
+      // copies crossorigin from the original node if exists
+      _temp = node[_fnGetAttr](_attrCrossorigin);
+
+      if (_temp) {
+        _node[_fnSetAttr](_attrCrossorigin, _temp);
+      }
+
+      // copies integrity from the original node if exists
+      _temp = node[_fnGetAttr](_attrIntegrity);
+
+      if (_temp) {
+        _node[_fnSetAttr](_attrIntegrity, _temp);
+      }
+
+      // attaches the new node into the document
+      fnAttach(_node);
+    }
+  }
+
+  // replaces a DOM node with a new node
+  function fnReplaceNode(currentNode, newNode) {
+    currentNode.parentNode.replaceChild(newNode, currentNode);
+
+    // debug
+    debug('A DOM node has been replaced.', newNode);
   }
 
   // a simple DOM query selector
@@ -164,7 +210,7 @@
 
   /*
   |--------------------------------------------------------------------------
-  | Defines utility functions
+  | Utility functions
   |--------------------------------------------------------------------------
   */
 
@@ -182,13 +228,13 @@
       }
     });
 
-    // debug
-    debug('A DOM node has been unveiled.', node);
-
-    // appends new classnames
-    if (typeof unveiledClass == 'string') {
+    // appends new class names
+    if (typeof unveiledClass == 'string' && unveiledClass) {
       node.className += ' ' + unveiledClass;
     }
+
+    // debug
+    debug('A DOM node has been unveiled.', node);
 
     // calls load() method to reset the media
     if (_load in node) {
@@ -254,9 +300,6 @@
         _node = _queueDefer[_fnShift]();
 
         if (_node) {
-          // detaches the node from the DOM tree
-          _node.parentNode.removeChild(_node);
-
           // clones the node
           _freshNode = fnCreateNode(_node.nodeName);
 
@@ -275,9 +318,9 @@
           // NOTE: async attribute MUST be checked via getAttribute()
           if (_freshNode.src && !_freshNode[_fnGetAttr]('async')) {
             _freshNode.onload = _freshNode.onerror = _nextTag;
-            fnAttach(_freshNode);
+            fnReplaceNode(_node, _freshNode);
           } else {
-            fnAttach(_freshNode);
+            fnReplaceNode(_node, _freshNode);
             _nextTag();
           }
         }
@@ -285,6 +328,9 @@
 
       // collects target script tags for lazy loading
       _queueDefer = fnSelect(selector || _selectorJS);
+
+      // add preload nodes
+      _queueDefer[_fnForEach](fnCreatePreloadNode);
 
       // starts the lazy loading script tags
       _nextTag();
@@ -296,9 +342,9 @@
   // the core of the Defer.css
   function fnDeferCss(fileUrl, id, delay, onload, lazy) {
     function _init(_node) {
-      _node       = fnCreateNode('LINK', id, onload);
-      _node.rel   = 'stylesheet';
-      _node.href  = fileUrl;
+      _node      = fnCreateNode(LINK, id, onload);
+      _node.rel  = 'stylesheet';
+      _node.href = fileUrl;
       fnAttach(_node);
     }
 
@@ -308,8 +354,8 @@
   // the core of the Defer.js
   function fnDeferJs(fileUrl, id, delay, onload, lazy) {
     function _init(_node) {
-      _node       = fnCreateNode('SCRIPT', id, onload);
-      _node.src   = fileUrl;
+      _node     = fnCreateNode(SCRIPT, id, onload);
+      _node.src = fileUrl;
       fnAttach(_node);
     }
 

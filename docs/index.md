@@ -1,6 +1,6 @@
 # Package @shinsenter/defer.js
 
-🥇 A super small, super-efficient library that helps you lazy load (almost) anything. Core Web Vitals friendly.
+🥇 A JavaScript library that helps you lazy load (almost) anything. It's zero-dependency, super-efficient, and Web Vitals friendly.
 
 [![NPM](https://img.shields.io/npm/l/@shinsenter/defer.js)](https://code.shin.company/defer.js/blob/master/LICENSE)
 [![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/@shinsenter/defer.js)](https://snyk.io/advisor/npm-package/@shinsenter/defer.js)
@@ -16,7 +16,7 @@
 [![NPM](https://nodei.co/npm/@shinsenter/defer.js.png?downloads=true)](https://www.npmjs.com/package/@shinsenter/defer.js)
 
 - **Package**: [@shinsenter/defer.js](https://www.npmjs.com/package/@shinsenter/defer.js)
-- **Version**: 3.1.0
+- **Version**: 3.2.0
 - **Author**: Mai Nhut Tan <shin@shin.company>
 - **Copyright**: 2022 AppSeeds <https://code.shin.company/>
 - **License**: [MIT](https://code.shin.company/defer.js/blob/master/LICENSE)
@@ -28,7 +28,7 @@
 
 ## Introduction
 
-Big CSS files, slow javascript (third-party add-ons, etc.)
+Big CSS files, slow javascript (third-party add-ons, etc.),
 or media resources (photos, videos, iframes) on your website may cause
 [Web Vitals](https://web.dev/vitals/) issues in real scenarios.
 
@@ -42,11 +42,11 @@ You would be happy, and your customers would be happy, too.
 
 ## Why you should consider using Defer.js?
 
-- 🧩 Lazy load (almost) anything
-- 🎯 [Core Web Vitals](https://web.dev/vitals/) friendly
+- 🧩 Lazy load almost anything
 - 🚀 Dependency-free, no jQuery, amazing fast
-- ⚡️ Super tiny (minzipped size is under 1KB)
+- ⚡️ Super tiny (minzipped size is around 1KB)
 - 🦾 Hardened (over 3 years old and used in many apps)
+- 🎯 [Core Web Vitals](https://web.dev/vitals/) friendly
 - 🤝 Works well with your favorite frameworks
 - 🔰 Very easy to use
 - 📱 Smartphone browser friendly
@@ -80,7 +80,7 @@ Just put a `<script>` tag pointing to the library URL just below the opening `<h
   <title>My Awesome Page</title>
 
   <!-- Put defer.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.1.0/dist/defer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.2.0/dist/defer.min.js"></script>
 
   <!-- ... -->
 </head>
@@ -88,15 +88,15 @@ Just put a `<script>` tag pointing to the library URL just below the opening `<h
 
 ### Inlining the library
 
-Because `defer.min.js` is optimized to very tiny file size, you can even inline entire the library to save one HTTP request.
+Because `defer.min.js` is optimized to a very tiny file size, you can even inline entire the library to save one HTTP request.
 
 ```html
 <head>
   <meta charset="UTF-8" />
   <title>My Awesome Page</title>
 
-  <!-- Copy the script from below URL -->
-  <!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.1.0/dist/defer.min.js -->
+  <!-- Copy the script from the below URL -->
+  <!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.2.0/dist/defer.min.js -->
   <script>/* then replace this comment block with the content of defer.min.js */</script>
 
   <!-- ... -->
@@ -114,7 +114,7 @@ just use `defer_plus.min.js` instead of `defer.min.js`.
   <title>My Awesome Page</title>
 
   <!-- Put defer_plus.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.1.0/dist/defer_plus.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.2.0/dist/defer_plus.min.js"></script>
 
   <!-- ... -->
 </head>
@@ -123,16 +123,16 @@ just use `defer_plus.min.js` instead of `defer.min.js`.
 ### For OLD browsers (such as IE9)
 
 To take advantage of native performance for legacy browsers (such as IE9)
-that doesn't support `IntersectionObserver` feature,
+that don't support `IntersectionObserver` feature,
 you should load `IntersectionObserver` polyfill library
-right after the `defer.min.js` script tag as following example:
+right after the `defer.min.js` script tag as the following example:
 
 ```html
 <script>/* the content of defer.min.js */</script>
 
 <!-- If legacy browsers like Internet Explorer 9 still need to be supported -->
 <!-- Please put IntersectionObserver polyfill right after defer.js script tag -->
-<script>'IntersectionObserver'in window||document.write('<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.1.0/dist/polyfill.min.js"><\/script>');</script>
+<script>'IntersectionObserver'in window||document.write('<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.2.0/dist/polyfill.min.js"><\/script>');</script>
 ```
 
 *HINT*: Modern browsers support `IntersectionObserver` feature,
@@ -195,9 +195,9 @@ as soon as the page finished loading.
 </script>
 ```
 **Example**  
-Sometimes, you would like your code not to run unless there is a user activity.
+Sometimes, you would like your code not to run unless there is user activity.
 
-The third argument tells the `Defer()` to delay the execution of the function
+The third argument tells `Defer()` to delay the execution of the function
 and wait until the user starts interacting with your page.
 
 ```html
@@ -265,24 +265,27 @@ To override the default behavior of the `Defer()` method.
 <a name="Defer.all"></a>
 
 ### Defer.all([selector], [delay], [waitForInteraction]) ⇒ <code>void</code>
-Slow scripts (third-party libraries, add-ons, widgets etc.)
+Slow scripts (third-party libraries, add-ons, widgets, etc.)
 may cause [Web Vitals](https://web.dev/vitals/) issues in real scenarios.
 
 Fully deferring `<script>` tags may help your page prevent Web Vitals issues.
 
 You can fully defer any script tag by setting its `type` attribute to `deferjs`.
-This trick also works perfectly with `<script>` tags with a `src` attribute.
+This trick also works perfectly with `<script>` tags with an `src` attribute.
 
 **Kind**: static method of [<code>Defer</code>](#Defer)  
 **Note**: Lazy loading behavior changed since v3.0
 when you set `Defer.lazy=true` or `waitForInteraction=true`.
 A `<script>` tags with `type="deferjs"` will not execute
 unless the user starts interacting with your page.  
+**Note**: [Preload hints](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload) feature was added since v3.2
+as it is recommended to prevent issues called "[Taming the Waterfall](https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall)".
+This feature is discussed at [#112](https://code.shin.company/defer.js/issues/112).  
 **Since**: 2.0  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [selector] | <code>string</code> | <code>&quot;[type&#x3D;deferjs]&quot;</code> | A CSS selector selects target script tags which will be Lazy loaded. |
+| [selector] | <code>string</code> | <code>&quot;[type&#x3D;deferjs]&quot;</code> | A CSS selector selects target script tags that will be Lazy loaded. |
 | [delay] | <code>number</code> | <code>0</code> | The time, in milliseconds that it should wait before a script tag is executed. |
 | [waitForInteraction] | <code>boolean</code> | <code>false</code> | This argument tells `Defer.all()` to delay the execution of scripts until there is a user interaction. |
 
@@ -306,9 +309,9 @@ After:
 </script>
 ```
 **Example**  
-Using your own type, such as `type="my-magic"`:
+Using your value for the type attribute, such as `type="my-magic"`:
 
-If you hate using the `type="deferjs"` attribute, you can even choose your own one.
+If you hate using the `type="deferjs"` attribute, you can even choose yours.
 
 ```html
 <script type="my-magic">
@@ -321,7 +324,7 @@ If you hate using the `type="deferjs"` attribute, you can even choose your own o
 </script>
 
 <!-- Place the below line after all other script tags -->
-<!-- The 2nd argument means those script tag will be delayed 5000ms -->
+<!-- The 2nd argument means those script tags will be delayed 5000ms -->
 <script>
   Defer.all('script[type="my-magic"]', 5000);
 </script>
@@ -330,11 +333,11 @@ If you hate using the `type="deferjs"` attribute, you can even choose your own o
 Using `Defer.all()` with script tags with `src` attribute:
 
 Your scripts will work perfectly when you mix inline scripts
-and script tags with a src attribute, like the below example.
+and script tags with an src attribute, like the below example.
 
 The `waitForInteraction` argument (the fifth argument) is set to `true`,
-the library will defer the load of the tippy.js library until user starts
-interacting, when user moves his/her mouse on the button, a tooltip wil show.
+the library will defer the load of the tippy.js library until the user starts
+interacting, when the user moves his/her mouse on the button, a tooltip will show.
 
 
 ```html
@@ -359,25 +362,25 @@ interacting, when user moves his/her mouse on the button, a tooltip wil show.
 ### Defer.dom([selector], [delay], [unveiledClass], [resolver], [observeOptions]) ⇒ <code>void</code>
 The `Defer.dom()` method is useful in the below use cases:
 
-- Lazy loading image, media, iframe tags, etc. on your website.
+- Lazy loading images, media, iframe tags, etc. on your website.
 - Prevent downloading third-party libraries or add-ons unless they are needed.
 - Scroll-reveal features, such as handling AJAX updating when a block is entering the viewport.
 - An element that was deferred by Defer.dom() will be unveiled as soon as the page finished loading.
 
 An element that was deferred by `Defer.dom()` will be unveiled
-when it is going to enter the browser viewport.
+when it going to enters the browser viewport.
 
 The `Defer.dom()` method also converts `data-*` attributes of the elements
 into non-data attributes (e.g. from `data-src` to `src`).
 
-Please check out below examples for more details.
+Please check out the below examples for more details.
 
 **Kind**: static method of [<code>Defer</code>](#Defer)  
 **Since**: 2.0  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [selector] | <code>string</code> | <code>&quot;[data-src]&quot;</code> | A CSS selector selects target HTML elements which will be unveiled later. |
+| [selector] | <code>string</code> | <code>&quot;[data-src]&quot;</code> | A CSS selector selects target HTML elements that will be unveiled later. |
 | [delay] | <code>number</code> | <code>0</code> | The time, in milliseconds that it should wait before lazy loading is applied for target elements. |
 | [unveiledClass] | <code>string</code> |  | Class names that will be added to target elements when they are unveiled. |
 | [resolver] | [<code>NodeHandler</code>](#NodeHandler) |  | A [NodeHandler](#NodeHandler) will check a [Node](#Node) to determine if it will be unveiled or not. If the resolver returns `false`, the node will not be unveiled. |
@@ -406,7 +409,7 @@ a very small placeholder image before the real image gets downloaded.
        src=""
        data-src="https://picsum.photos/id/1003/200/300">
 
-  <img alt="A lazy image with a low resolution placeholder"
+  <img alt="A lazy image with a low-resolution placeholder"
        width="200" height="300" loading="lazy"
        src="https://picsum.photos/id/1002/20/30?blur"
        data-src="https://picsum.photos/id/1002/200/300">
@@ -452,9 +455,9 @@ We might want to send a fancy new image format such as
 [WebP](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types#webp_image)
 to browsers that can render it, and fall back to trusty old JPEGs in browsers that don’t.
 
-We can also use the same trick as above examples for
+We can also use the same trick as the above examples for
 [picture tags](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture),
-and its children HTML nodes.
+and their children's HTML nodes.
 
 ```html
 <div id="demo-picture">
@@ -480,8 +483,8 @@ and its children HTML nodes.
 **Example**  
 Basic usage with adding CSS class.
 
-`Defer.dom()` also allows you to add CSS classnames when an element is unveiled.
-In this example, we will add some CSS classnames to make an `<img>` tag animate.
+`Defer.dom()` also allows you to add CSS class names when an element is unveiled.
+In this example, we will add some CSS class names to make an `<img>` tag animate.
 
 ```html
 <div id="demo-basic2">
@@ -526,8 +529,8 @@ We can also defer background images for any HTML tag other than `<img>` or `<pic
 **Example**  
 Lazy load CSS background images.
 
-Just another example for lazy loading background images for HTML tags,
-but we can also use CSS classnames instead of inline `style` attributes.
+Just another example of lazy loading background images for HTML tags,
+but we can also use CSS class names instead of inline `style` attributes.
 
 ```html
 <style>
@@ -600,7 +603,7 @@ With `Defer.dom()`, we can effortlessly defer the load of iframe tags.
 **Example**  
 Lazy load a Youtube video.
 
-This example uses `Defer.dom()` to defer the load of a Youtube iframe.
+This example uses `Defer.dom()` to defer a load of a Youtube iframe.
 
 ```html
 <div id="demo-youtube">
@@ -620,7 +623,7 @@ This example uses `Defer.dom()` to defer the load of a Youtube iframe.
 **Example**  
 Lazy load a Facebook post.
 
-This example uses `Defer.dom()` to defer the load of a Facebook post.
+This example uses `Defer.dom()` to defer a load of a Facebook post.
 
 ```html
 <div id="demo-facebook">
@@ -639,7 +642,7 @@ This example uses `Defer.dom()` to defer the load of a Facebook post.
 **Example**  
 Lazy load a Discord chat box.
 
-This example uses `Defer.dom()` to defer the load of a Discord chat box.
+This example uses `Defer.dom()` to defer a load of a Discord chat box.
 
 ```html
 <iframe id="discord-widget" title="Discord"
@@ -674,7 +677,7 @@ he/she will see a message as soon as an element with `id="surprise-me"` appears.
 <a name="Defer.css"></a>
 
 ### Defer.css(fileUrl, [id], [delay], [onload], [waitForInteraction]) ⇒ <code>void</code>
-We use the `Defer.css()` method to defer the load
+We use the `Defer.css()` method to defer a load
 of external CSS files without blocking the page rendering.
 
 **Kind**: static method of [<code>Defer</code>](#Defer)  
@@ -685,15 +688,15 @@ The `fileUrl` will not be fetched unless the user starts interacting with your p
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| fileUrl | <code>string</code> |  | URL to the css file that should be lazy loaded. |
+| fileUrl | <code>string</code> |  | URL to the CSS file that should be lazy loaded. |
 | [id] | <code>string</code> |  | The ID will be assigned to the script tag to avoid downloading the same file multiple times. |
 | [delay] | <code>number</code> | <code>0</code> | The time, in milliseconds that the page should wait before the CSS file is fetched. |
-| [onload] | <code>function</code> |  | The callback function will be executed if the css file is successfully loaded. |
+| [onload] | <code>function</code> |  | The callback function will be executed if the CSS file is successfully loaded. |
 | [waitForInteraction] | <code>boolean</code> | <code>false</code> | This argument tells `Defer.css()` to delay downloading the CSS file until there is a user interaction. |
 
 **Example**  
 Using `Defer.css()` to lazy load
-[FontAwesome](https://fontawesome.com/docs/web/setup/get-started) (CSS and some font files)..
+[FontAwesome](https://fontawesome.com/docs/web/setup/get-started) (CSS and some font files).
 
 ```html
 <style>
@@ -749,11 +752,11 @@ No tag will be animated unless the user scrolls to its position.
 <a name="Defer.js"></a>
 
 ### Defer.js(fileUrl, [id], [delay], [onload], [waitForInteraction]) ⇒ <code>void</code>
-We use `Defer.js()` to defer the load of 3rd-party
+We use `Defer.js()` to defer a load of 3rd-party
 javascript libraries, widgets, add-ons, etc. without blocking the page rendering.
 
 **Kind**: static method of [<code>Defer</code>](#Defer)  
-**Note**: Because the download of file using `Defer.js()` function is asynchronous,
+**Note**: Because the download of a file using `Defer.js()` function is asynchronous,
 to avoid dependency error when lazy loading a third-party library using `Defer.js()`,
 it is highly recommended that the `onload` callback function be used
 to make sure that the library you needed is completely defined.  
@@ -771,11 +774,11 @@ The `fileUrl` will not be fetched unless the user starts interacting with your p
 | [waitForInteraction] | <code>boolean</code> | <code>false</code> | This argument tells `Defer.js()` to delay downloading the JS file until there is a user interaction. |
 
 **Example**  
-Alternative way to lazy load Google Tag Manager script.
+An alternative way to lazy load Google Tag Manager script.
 
 Using `Defer.js()` to lazy load Google Tag Manager library and its external scripts.
 
-In this example, we want the GTM to execute as soon as the page loaded
+In this example, we want the GTM to execute as soon as the page is loaded
 so the `waitForInteraction` argument (the fifth argument) is set to `false`.
 
 ```html
@@ -848,14 +851,14 @@ only when the user scrolls to any `code` block position.
 <a name="Defer.reveal"></a>
 
 ### Defer.reveal(node, [unveiledClass]) ⇒ <code>void</code>
-Programmatically reveal a [Node](#Node) which was lazy loaded by the library.
+Programmatically reveal a [Node](#Node) that was lazy loaded by the library.
 
 **Kind**: static method of [<code>Defer</code>](#Defer)  
 **Since**: 2.1  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| node | [<code>Node</code>](#Node) | An HTML node which will be unveiled |
+| node | [<code>Node</code>](#Node) | An HTML node that will be unveiled |
 | [unveiledClass] | <code>string</code> | Class names that will be added to the node when it is unveiled. |
 
 **Example**  
@@ -1030,7 +1033,7 @@ As an open-source project, we'd appreciate any help and contributions!
 
 [![Become a stargazer](https://img.shields.io/badge/Become-Stargazer-yellow)](https://code.shin.company/defer.js/stargazers) [![Report an issue](https://img.shields.io/badge/New-Discussions-green)](https://code.shin.company/defer.js/discussions/new) [![Join us on Gitter](https://badges.gitter.im/shinsenter/defer.js.svg)](https://gitter.im/shinsenter/defer.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Join us on Discord](https://img.shields.io/discord/962919929307357234?color=blueviolet)](https://discord.com/channels/962919929307357234/1000635855712559165)
 
-We should follow the standard [Github pull request process](https://help.github.com/articles/about-pull-requests). I'll try to review your contributions as soon as possible.
+We should follow the standard [GitHub pull request process](https://help.github.com/articles/about-pull-requests). I'll try to review your contributions as soon as possible.
 
 
 It is also appreciated when you [report an issue](https://code.shin.company/defer.js/issues/new/choose) or [open a discussion](https://code.shin.company/defer.js/discussions/new).
@@ -1043,7 +1046,7 @@ Not ready to contribute code, but see something that needs work? From contributi
 
 ## Support my activities
 
-If you like this repository, please [become a stargazer](https://code.shin.company/defer.js/stargazers) on my Github or join Gitter to follow further updates.
+If you like this repository, please [become a stargazer](https://code.shin.company/defer.js/stargazers) on my GitHub or join Gitter to follow further updates.
 
 I also love to have your help, please consider [buying me a coffee](https://www.paypal.me/shinsenter), or sponsoring my work so I can create more helpful pieces of stuff 😉.
 
