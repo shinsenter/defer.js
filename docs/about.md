@@ -1,6 +1,6 @@
 # Package @shinsenter/defer.js
 
-🥇 A super small, super-efficient library that helps you lazy load (almost) anything. Core Web Vitals friendly.
+🥇 A JavaScript library that helps you lazy load (almost) anything. It's zero-dependency, super-efficient, and Web Vitals friendly.
 
 [![NPM](https://img.shields.io/npm/l/@shinsenter/defer.js)](https://code.shin.company/defer.js/blob/master/LICENSE)
 [![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/@shinsenter/defer.js)](https://snyk.io/advisor/npm-package/@shinsenter/defer.js)
@@ -16,7 +16,7 @@
 [![NPM](https://nodei.co/npm/@shinsenter/defer.js.png?downloads=true)](https://www.npmjs.com/package/@shinsenter/defer.js)
 
 - **Package**: [@shinsenter/defer.js](https://www.npmjs.com/package/@shinsenter/defer.js)
-- **Version**: 3.1.0
+- **Version**: 3.2.0
 - **Author**: Mai Nhut Tan <shin@shin.company>
 - **Copyright**: 2022 AppSeeds <https://code.shin.company/>
 - **License**: [MIT](https://code.shin.company/defer.js/blob/master/LICENSE)
@@ -28,7 +28,7 @@
 
 ## Introduction
 
-Big CSS files, slow javascript (third-party add-ons, etc.)
+Big CSS files, slow javascript (third-party add-ons, etc.),
 or media resources (photos, videos, iframes) on your website may cause
 [Web Vitals](https://web.dev/vitals/) issues in real scenarios.
 
@@ -42,11 +42,11 @@ You would be happy, and your customers would be happy, too.
 
 ## Why you should consider using Defer.js?
 
-- 🧩 Lazy load (almost) anything
-- 🎯 [Core Web Vitals](https://web.dev/vitals/) friendly
+- 🧩 Lazy load almost anything
 - 🚀 Dependency-free, no jQuery, amazing fast
-- ⚡️ Super tiny (minzipped size is under 1KB)
+- ⚡️ Super tiny (minzipped size is around 1KB)
 - 🦾 Hardened (over 3 years old and used in many apps)
+- 🎯 [Core Web Vitals](https://web.dev/vitals/) friendly
 - 🤝 Works well with your favorite frameworks
 - 🔰 Very easy to use
 - 📱 Smartphone browser friendly
@@ -80,7 +80,7 @@ Just put a `<script>` tag pointing to the library URL just below the opening `<h
   <title>My Awesome Page</title>
 
   <!-- Put defer.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.1.0/dist/defer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.2.0/dist/defer.min.js"></script>
 
   <!-- ... -->
 </head>
@@ -88,15 +88,15 @@ Just put a `<script>` tag pointing to the library URL just below the opening `<h
 
 ### Inlining the library
 
-Because `defer.min.js` is optimized to very tiny file size, you can even inline entire the library to save one HTTP request.
+Because `defer.min.js` is optimized to a very tiny file size, you can even inline entire the library to save one HTTP request.
 
 ```html
 <head>
   <meta charset="UTF-8" />
   <title>My Awesome Page</title>
 
-  <!-- Copy the script from below URL -->
-  <!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.1.0/dist/defer.min.js -->
+  <!-- Copy the script from the below URL -->
+  <!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.2.0/dist/defer.min.js -->
   <script>/* then replace this comment block with the content of defer.min.js */</script>
 
   <!-- ... -->
@@ -114,7 +114,7 @@ just use `defer_plus.min.js` instead of `defer.min.js`.
   <title>My Awesome Page</title>
 
   <!-- Put defer_plus.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.1.0/dist/defer_plus.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.2.0/dist/defer_plus.min.js"></script>
 
   <!-- ... -->
 </head>
@@ -123,16 +123,16 @@ just use `defer_plus.min.js` instead of `defer.min.js`.
 ### For OLD browsers (such as IE9)
 
 To take advantage of native performance for legacy browsers (such as IE9)
-that doesn't support `IntersectionObserver` feature,
+that don't support `IntersectionObserver` feature,
 you should load `IntersectionObserver` polyfill library
-right after the `defer.min.js` script tag as following example:
+right after the `defer.min.js` script tag as the following example:
 
 ```html
 <script>/* the content of defer.min.js */</script>
 
 <!-- If legacy browsers like Internet Explorer 9 still need to be supported -->
 <!-- Please put IntersectionObserver polyfill right after defer.js script tag -->
-<script>'IntersectionObserver'in window||document.write('<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.1.0/dist/polyfill.min.js"><\/script>');</script>
+<script>'IntersectionObserver'in window||document.write('<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.2.0/dist/polyfill.min.js"><\/script>');</script>
 ```
 
 *HINT*: Modern browsers support `IntersectionObserver` feature,
