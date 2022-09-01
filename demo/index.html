@@ -24,7 +24,7 @@
     <main>
         <header>
             <h1><code>@shinsenter/defer.js</code></h1>
-            <p>🥇 A super small, super-efficient library that helps you lazy load (almost) anything. Core Web Vitals friendly.</p>
+            <p>🥇 A JavaScript library that helps you lazy load (almost) anything. It's zero-dependency, super-efficient, and Web Vitals friendly.</p>
             <div class="demo-addthis addthis_inline_share_toolbox"></div>
         </header>
 
@@ -42,18 +42,18 @@
                 <div class="helper">
                     Just put a <code>&lt;script&gt;</code> tag pointing to
                     <a target="_blank" title="defer.min.js"
-                        href="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.1.0/dist/defer.min.js">the library URL</a>
+                        href="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.2.0/dist/defer.min.js">the library URL</a>
                     just below the opening <code>&lt;head&gt;</code> tag of your page.
-                    Because <code>defer.min.js</code> is optimized to very tiny file size,
+                    Because <code>defer.min.js</code> is optimized to a very tiny file size,
                     you can even inline entire the library to save one HTTP request.
                 </div>
                 <div class="demo">
-<!-- Copy the script from below URL -->
-<!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.1.0/dist/defer.min.js -->
+<!-- Copy the script from the below URL -->
+<!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.2.0/dist/defer.min.js -->
 <script>/* then replace this comment block with the content of defer.min.js here */</script>
 
 <!-- If legacy browsers like Internet Explorer 9 still need to be supported -->
-<script>'IntersectionObserver'in window||document.write('<script defer src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.1.0/dist/polyfill.min.js"><\/script>');</script>
+<script>'IntersectionObserver'in window||document.write('<script defer src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.2.0/dist/polyfill.min.js"><\/script>');</script>
                 </div>
             </div>
         </section>
@@ -80,6 +80,11 @@
                     Lazy loading behavior changed since v3.0 when you set <code>Defer.lazy=true</code>. <br>
                     <code>&lt;script&gt;</code> tags with <code>type="deferjs"</code>
                     will not execute unless the user starts interacting with your page.
+                    <br>
+                    <strong>Note: </strong>
+                    <a href="" target="_blank">Preload hints</a> feature was added since v3.2
+                    as it is recommended to prevent issues called <a href="https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall" target="_blank">Taming the Waterfall</a>.
+                    This feature is discussed at <a href="https://code.shin.company/defer.js/issues/112" target="_blank">#112</a>.
                 </div>
                 <div class="demo">
 <script type="deferjs">
@@ -91,10 +96,10 @@
             </div>
 
             <div class="example">
-                <h3>Using your own type, such as <mark><code>type="my-magic"</code></mark>:</h3>
+                <h3>Using your value for the type attribute, such as <mark><code>type="my-magic"</code></mark>:</h3>
                 <div class="helper">
                     If you hate using the <mark><code>type="deferjs"</code></mark> attribute,
-                    you can even choose your own one.
+                    you can even choose yours.
                     <br>
                     <code>Defer.all(cssSelector, [delay], [waitForInteraction])</code>
                     <br>
@@ -103,6 +108,11 @@
                     when you set <code>Defer.lazy=true</code> or <code>waitForInteraction=true</code>. <br>
                     <code>&lt;script&gt;</code> tags deferred with this technique
                     will not execute unless the user starts interacting with your page.
+                    <br>
+                    <strong>Note: </strong>
+                    <a href="" target="_blank">Preload hints</a> feature was added since v3.2
+                    as it is recommended to prevent issues called <a href="https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall" target="_blank">Taming the Waterfall</a>.
+                    This feature is discussed at <a href="https://code.shin.company/defer.js/issues/112" target="_blank">#112</a>.
                 </div>
                 <div class="demo">
 <script type="my-magic">
@@ -115,7 +125,7 @@
 </script>
 
 <!-- Place the below line after all other script tags -->
-<!-- The 2nd argument means those script tag will be delayed 5000ms -->
+<!-- The 2nd argument means those script tags will be delayed 5000ms -->
 <script>
     Defer.all('script[type="my-magic"]', 5000);
 </script>
@@ -126,11 +136,11 @@
                 <h3>Using <code>Defer.all</code> with script tags with <code>src</code> attribute:</h3>
                 <div class="helper">
                     Your scripts will work perfectly when mixing inline scripts
-                    and script tags with a <code>src</code> attribute,
+                    and script tags with an <code>src</code> attribute,
                     like the below example.
                     <br>
-                    The library will defer the load of tippy.js until user starts interacting,
-                    when user moves his/her mouse on the button, a tooltip will show.
+                    The library will defer the load of tippy.js until the user starts interacting,
+                    when the user moves his/her mouse on the button, a tooltip will show.
                 </div>
                 <div class="demo">
 <button id="tooltip-button">My button</button>
@@ -184,7 +194,7 @@
                 <div class="helper">
                     Sometimes, you would like your code not to run unless there is user activity.
                     <br>
-                    The third argument tells the <code>Defer()</code> to delay the function
+                    The third argument tells <code>Defer()</code> to delay the function
                     and wait until the user starts interacting with your page.
                 </div>
                 <div class="demo">
@@ -239,7 +249,7 @@
             <div class="helper">
                 The <code>Defer.dom()</code> method is useful in the below use cases:
                 <ul>
-                    <li>Lazy loading image, media, iframe tags, etc. on your website.</li>
+                    <li>Lazy loading images, media, iframe tags, etc. on your website.</li>
                     <li>Prevent downloading third-party libraries or add-ons unless they are needed.</li>
                     <li>Scroll-reveal features, such as handling AJAX updating when a block is entering the viewport.</li>
                 </ul>
@@ -295,7 +305,7 @@
         width="200" height="300" loading="lazy"
         src=""
         data-src="https://picsum.photos/id/1003/200/300">
-    <img alt="A lazy image with a low resolution placeholder"
+    <img alt="A lazy image with a low-resolution placeholder"
         width="200" height="300" loading="lazy"
         src="https://picsum.photos/id/1002/20/30?blur"
         data-src="https://picsum.photos/id/1002/200/300">
@@ -339,8 +349,8 @@
                     to browsers that can render it,
                     and fall back to trusty old JPEGs in browsers that don’t.
                     <br>
-                    We can also use the same trick as above examples for <code>picture</code> tags,
-                    and its children HTML nodes.
+                    We can also use the same trick as the above examples for <code>picture</code> tags,
+                    and their children's HTML nodes.
                 </div>
                 <div class="demo">
 <div id="demo-picture">
@@ -364,9 +374,9 @@
             <div class="example">
                 <h3>Basic usage with adding CSS class:</h3>
                 <div class="helper">
-                    <code>Defer.dom</code> also allows you to add CSS classnames when a node is unveiled.
+                    <code>Defer.dom</code> also allows you to add CSS class names when a node is unveiled.
                     <br>
-                    In this example, we will add some CSS classnames to make the <code>img</code> tag animate.
+                    In this example, we will add some CSS class names to make the <code>img</code> tag animate.
                 </div>
                 <div class="demo">
 <div id="demo-basic2">
@@ -412,7 +422,7 @@
             <div class="example">
                 <h3>Lazy load CSS background images:</h3>
                 <div class="helper">
-                    Still deferring background images for HTML tags, but we can also use CSS classnames instead of inline <code>style</code> attributes.
+                    Still deferring background images for HTML tags, but we can also use CSS class names instead of inline <code>style</code> attributes.
                 </div>
                 <div class="demo">
 <style>
@@ -486,7 +496,7 @@
             <div class="example">
                 <h3>Lazy load a Youtube video:</h3>
                 <div class="helper">
-                    This example uses <code>Defer.dom</code> to defer the load of a Youtube iframe.
+                    This example uses <code>Defer.dom</code> to defer a load of a Youtube iframe.
                 </div>
                 <div class="demo">
 <div id="demo-youtube">
@@ -507,7 +517,7 @@
             <div class="example">
                 <h3>Lazy load a Facebook post:</h3>
                 <div class="helper">
-                    This example uses <code>Defer.dom</code> to defer the load of a Facebook post.
+                    This example uses <code>Defer.dom</code> to defer a load of a Facebook post.
                 </div>
                 <div class="demo">
 <div id="demo-facebook">
@@ -527,7 +537,7 @@
             <div class="example">
                 <h3>Lazy load a Discord chat box:</h3>
                 <div class="helper">
-                    This example uses <code>Defer.dom</code> to defer the load of a Discord chat box.
+                    This example uses <code>Defer.dom</code> to defer a load of a Discord chat box.
                 </div>
                 <div class="demo">
 <iframe id="discord-widget" title="Discord"
@@ -565,7 +575,7 @@
             <h2><code>Defer.css(fileUrl, [id], [delay], [onload], [waitForInteraction])</code></h2>
 
             <div class="helper">
-                We use <code>Defer.css</code> to defer the load of external CSS files without blocking the page rendering.
+                We use <code>Defer.css</code> to defer a load of external CSS files without blocking the page rendering.
                 <br>
                 <strong>Note: </strong>
                 Lazy loading behavior changed since v3.0
@@ -595,7 +605,7 @@
     var fileUrl = 'https://pro.fontawesome.com/releases/v5.14.0/css/all.css';
 
     Defer.css(fileUrl, 'fa5-css', 0, function() {
-        console.info('Debug', 'FontAwesome is loaded.'); // debug
+        console.info('FontAwesome is loaded.'); // debug
     });
 </script>
                 </div>
@@ -618,7 +628,7 @@
 
     // This script will lazy load animate.css library.
     Defer.css(origin + '/animate.min.css', 'animate-css', 0, function () {
-        console.info('Debug', 'Animate.css is loaded.'); // debug
+        console.info('Animate.css is loaded.'); // debug
 
         // adds animation classes to demo blocks.
         Defer.dom('.demo', 100, 'animate__animated animate__fadeIn');
@@ -632,10 +642,10 @@
             <h2><code>Defer.js(fileUrl, [id], [delay], [onload], [waitForInteraction])</code></h2>
 
             <div class="helper">
-                We use <code>Defer.js</code> to defer the load of 3rd-party javascript libraries, add-ons etc. without blocking the page rendering.
+                We use <code>Defer.js</code> to defer a load of 3rd-party javascript libraries, add-ons etc. without blocking the page rendering.
                 <br>
                 <strong>Note 1: </strong>
-                Because the download of file using <code>Defer.js</code> function is asynchronous,
+                Because the download of a file using <code>Defer.js</code> function is asynchronous,
                 to avoid dependency error when lazy loading a library using <code>Defer.js</code>,
                 it is highly recommended that the <code>onload</code> callback function be used to make sure that
                 the third-party library you needed is completely defined.
@@ -647,7 +657,7 @@
             </div>
 
             <div class="example">
-                <h3>Alternative way to lazy load Google Tag Manager script:</h3>
+                <h3>An alternative way to lazy load Google Tag Manager script:</h3>
                 <div class="helper">
                     Using <code>Defer.js</code> to lazy load Google Tag Manager library and its external scripts.
                 </div>
@@ -659,10 +669,10 @@
     dataLayer.push(['config', GTM_ID]);
 
     // Lazy loads the GTM library
-    // in this example, we want the GTM to execute as soon as the page loaded
+    // in this example, we want the GTM to execute as soon as the page is loaded
     // so the waitForInteraction argument (the last argument) is set to false.
     Defer.js('https://www.googletagmanager.com/gtag/js?id=' + GTM_ID, 'google-tag', 0, function() {
-        console.info('Debug', 'Google Tag Manager is loaded.'); // debug
+        console.info('Google Tag Manager is loaded.'); // debug
     }, false);
 </script>
                 </div>
@@ -682,7 +692,7 @@
     var fileUrl = 'https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5c68e61cf456f1cb';
 
     Defer.js(fileUrl, 'addthis-js', 0, function() {
-        console.info('Debug', 'AddThis add-on is loaded.'); // debug
+        console.info('AddThis add-on is loaded.'); // debug
     }, true);
 </script>
                 </div>
@@ -712,7 +722,7 @@
     var origin = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0';
     Defer.css(origin + '/themes/prism-tomorrow.min.css', 'prism-css');
     Defer.js(origin + '/prism.min.js', 'prism-js', 0, function () {
-        console.info('Debug', 'Prism.js is loaded.'); // debug
+        console.info('Prism.js is loaded.'); // debug
 
         // enables code highlighting for code tags using Defer.dom()
         Defer.dom('pre code', 100, 'ide-loaded', Prism.highlightElement, {rootMargin: "120%"});
@@ -728,6 +738,49 @@
             <p>Have fun coding with <a href="https://code.shin.company/defer.js" title="@shinsenter/defer.js">@shinsenter/defer.js</a>!</p>
         </footer>
     </main>
+
+    <!-- Dummy -->
+    <script>Defer.all('[type="waterfall-test-defer"]', 0, false);</script>
+    <script>Defer.all('[type="waterfall-test-lazy"]',  0, true);</script>
+    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.38/vue.cjs.js"></script>
+    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/js/bootstrap.min.js"></script>
+    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/create-react-class/15.7.0/create-react-class.min.js"></script>
+    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/typescript/4.8.2/typescript.min.js"></script>
+    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/antd/4.22.8/antd.min.js"></script>
+    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/react-is/18.2.0/umd/react-is.production.min.js"></script>
+    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/js/bootstrap.min.js"></script>
+    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.6.1/d3.min.js"></script>
+    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.144.0/three.min.js"></script>
+    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/angular/12.2.16/core.umd.min.js"></script>
+    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/material-ui/4.12.4/index.js"></script>
+    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/angular-aria/1.8.3/angular-aria.min.js"></script>
+    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/angular-animate/1.8.3/angular-animate.min.js"></script>
+    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/firacode/6.2.0/fira_code.css"></script>
+    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/angular-loader/1.8.3/angular-loader.min.js"></script>
+    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/angular-cookies/1.8.3/angular-cookies.min.js"></script>
+    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/angular-message-format/1.8.3/angular-message-format.min.js"></script>
+    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/angular-parse-ext/1.8.3/angular-parse-ext.min.js"></script>
+    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/angular-resource/1.8.3/angular-resource.min.js"></script>
+    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/angular-route/1.8.3/angular-route.min.js"></script>
+    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.8.3/angular-sanitize.min.js"></script>
+    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/angular-touch/1.8.3/angular-touch.min.js"></script>
+    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.8.3/angular-locale_en-us.min.js"></script>
+    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.2.0/redux.min.js"></script>
+    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
+    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-compat/3.0.0-alpha1/jquery.min.js"></script>
+    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.15.9/index.js"></script>
+    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.3.3/echarts.min.js"></script>
+    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.1.6/mermaid.min.js"></script>
+    <script type="waterfall-test-lazy" defer crossorigin="anonymous" referrerpolicy="no-referrer"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.slim.min.js"
+        integrity="sha512-6ORWJX/LrnSjBzwefdNUyLCMTIsGoNP6NftMy2UAm1JBm6PRZCO1d7OHBStWpVFZLO+RerTvqX/Z9mBFfCJZ4A=="></script>
 </body>
 
 </html>
