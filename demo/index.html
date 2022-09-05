@@ -24,7 +24,7 @@
     <main>
         <header>
             <h1><code>@shinsenter/defer.js</code></h1>
-            <p>🥇 A JavaScript library that helps you lazy load (almost) anything. It's zero-dependency, super-efficient, and Web Vitals friendly.</p>
+            <p>🥇 A JavaScript micro-library that helps you lazy load (almost) anything. It's zero-dependency, super-efficient, and Web Vitals friendly.</p>
             <div class="demo-addthis addthis_inline_share_toolbox"></div>
         </header>
 
@@ -42,18 +42,18 @@
                 <div class="helper">
                     Just put a <code>&lt;script&gt;</code> tag pointing to
                     <a target="_blank" title="defer.min.js"
-                        href="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.2.0/dist/defer.min.js">the library URL</a>
+                        href="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.3.0/dist/defer.min.js">the library URL</a>
                     just below the opening <code>&lt;head&gt;</code> tag of your page.
                     Because <code>defer.min.js</code> is optimized to a very tiny file size,
                     you can even inline entire the library to save one HTTP request.
                 </div>
                 <div class="demo">
 <!-- Copy the script from the below URL -->
-<!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.2.0/dist/defer.min.js -->
+<!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.3.0/dist/defer.min.js -->
 <script>/* then replace this comment block with the content of defer.min.js here */</script>
 
 <!-- If legacy browsers like Internet Explorer 9 still need to be supported -->
-<script>'IntersectionObserver'in window||document.write('<script defer src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.2.0/dist/polyfill.min.js"><\/script>');</script>
+<script>'IntersectionObserver'in window||document.write('<script defer src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.3.0/dist/polyfill.min.js"><\/script>');</script>
                 </div>
             </div>
         </section>
@@ -82,13 +82,13 @@
                     will not execute unless the user starts interacting with your page.
                     <br>
                     <strong>Note: </strong>
-                    <a href="" target="_blank">Preload hints</a> feature was added since v3.2
+                    <a href="" target="_blank">Resource hints</a> feature was added since v3.2
                     as it is recommended to prevent issues called <a href="https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall" target="_blank">Taming the Waterfall</a>.
                     This feature is discussed at <a href="https://code.shin.company/defer.js/issues/112" target="_blank">#112</a>.
                 </div>
                 <div class="demo">
 <script type="deferjs">
-    // your javascript will still be here,
+    // your JavaScript will still be here,
     // but it will not run unless the user starts interacting with your page.
     console.log('This script is lazy loaded with type="deferjs" attribute.');
 </script>
@@ -110,13 +110,13 @@
                     will not execute unless the user starts interacting with your page.
                     <br>
                     <strong>Note: </strong>
-                    <a href="" target="_blank">Preload hints</a> feature was added since v3.2
+                    <a href="" target="_blank">Resource hints</a> feature was added since v3.2
                     as it is recommended to prevent issues called <a href="https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall" target="_blank">Taming the Waterfall</a>.
                     This feature is discussed at <a href="https://code.shin.company/defer.js/issues/112" target="_blank">#112</a>.
                 </div>
                 <div class="demo">
 <script type="my-magic">
-    // your javascript will still be here,
+    // your JavaScript will still be here,
     // but it will not run unless the user starts interacting with your page.
     console.log(
         'This script is lazy loaded with type="my-magic" attribute ' +
@@ -642,7 +642,7 @@
             <h2><code>Defer.js(fileUrl, [id], [delay], [onload], [waitForInteraction])</code></h2>
 
             <div class="helper">
-                We use <code>Defer.js</code> to defer a load of 3rd-party javascript libraries, add-ons etc. without blocking the page rendering.
+                We use <code>Defer.js</code> to defer a load of 3rd-party JavaScript libraries, add-ons etc. without blocking the page rendering.
                 <br>
                 <strong>Note 1: </strong>
                 Because the download of a file using <code>Defer.js</code> function is asynchronous,
