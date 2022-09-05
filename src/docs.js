@@ -37,7 +37,7 @@
  *
  * @author    Mai Nhut Tan <shin@shin.company>
  * @copyright 2022 AppSeeds <https://code.shin.company/>
- * @version   3.2.0
+ * @version   3.3.0
  * @license   {@link https://code.shin.company/defer.js/blob/master/LICENSE|MIT}
  */
 
@@ -179,12 +179,16 @@
  * You can fully defer any script tag by setting its `type` attribute to `deferjs`.
  * This trick also works perfectly with `<script>` tags with an `src` attribute.
  *
- * @note Lazy loading behavior changed since v3.0
+ * @note (1) To avoid unexpected behavior when using
+ * the `Defer.all()` function to delay the execution of script tags,
+ * you should call run `Defer.all()` with a regular script tag.
+ *
+ * @note (2) Lazy loading behavior changed since v3.0
  * when you set `Defer.lazy=true` or `waitForInteraction=true`.
  * A `<script>` tags with `type="deferjs"` will not execute
  * unless the user starts interacting with your page.
  *
- * @note [Preload hints](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload) feature was added since v3.2
+ * @note (3) [Resource hints](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload) feature was added since v3.2
  * as it is recommended to prevent issues called "[Taming the Waterfall](https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall)".
  * This feature is discussed at [#112](https://code.shin.company/defer.js/issues/112).
  *
@@ -201,7 +205,7 @@
  * Before:
  * ```html
  * <script type="text/javascript">
- *   // your javascript is here
+ *   // your JavaScript is here
  *   console.log('This script is a normal script tag.');
  * </script>
  * ```
@@ -209,7 +213,7 @@
  * After:
  * ```html
  * <script type="deferjs">
- *   // your javascript will still be here,
+ *   // your JavaScript will still be here,
  *   // but it will not run unless the user starts interacting with your page.
  *   console.log('This script is lazy loaded with type="deferjs" attribute.');
  * </script>
@@ -218,11 +222,16 @@
  * @example
  * Using your value for the type attribute, such as `type="my-magic"`:
  *
- * If you hate using the `type="deferjs"` attribute, you can even choose yours.
+ * If you hate using the `type="deferjs"` attribute,
+ * you can even choose yours by using the `Defer.all()` function.
+ *
+ * Notice: To avoid unexpected behavior when using
+ * the `Defer.all()` function to delay the execution of script tags,
+ * you should call run `Defer.all()` with a regular script tag.
  *
  * ```html
  * <script type="my-magic">
- *   // your javascript will still be here,
+ *   // your JavaScript will still be here,
  *   // but it will not run unless the user starts interacting with your page.
  *   console.log(
  *     'This script is lazy loaded with type="my-magic" attribute ' +
@@ -246,6 +255,10 @@
  * The `waitForInteraction` argument (the fifth argument) is set to `true`,
  * the library will defer the load of the tippy.js library until the user starts
  * interacting, when the user moves his/her mouse on the button, a tooltip will show.
+ *
+ * Notice: To avoid unexpected behavior when using
+ * the `Defer.all()` function to delay the execution of script tags,
+ * you should call run `Defer.all()` with a regular script tag.
  *
  *
  * ```html
@@ -665,14 +678,14 @@
 
 /**
  * We use `Defer.js()` to defer a load of 3rd-party
- * javascript libraries, widgets, add-ons, etc. without blocking the page rendering.
+ * JavaScript libraries, widgets, add-ons, etc. without blocking the page rendering.
  *
- * @note Because the download of a file using `Defer.js()` function is asynchronous,
+ * @note (1) Because the download of a file using `Defer.js()` function is asynchronous,
  * to avoid dependency error when lazy loading a third-party library using `Defer.js()`,
  * it is highly recommended that the `onload` callback function be used
  * to make sure that the library you needed is completely defined.
  *
- * @note Lazy loading behavior changed since v3.0
+ * @note (2) Lazy loading behavior changed since v3.0
  * when you set `Defer.lazy=true` or `waitForInteraction=true`.
  * The `fileUrl` will not be fetched unless the user starts interacting with your page.
  *
