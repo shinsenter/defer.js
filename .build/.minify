@@ -14,7 +14,7 @@
         "wrap_iife":    true
     },
     "annotations":      false,
-    "ie":               false,
+    "ie":               true,
     "keep_fargs":       false,
     "keep_fnames":      false,
     "module":           false,
