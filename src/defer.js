@@ -30,22 +30,20 @@
  */
 
 /**
- * 🥇 A super small, super efficient library
- * that helps you lazy load (almost) anything.
- * Core Web Vitals friendly.
+ * 🥇 A JavaScript micro-library that helps you lazy load (almost) anything.
+ * Defer.js is zero-dependency, super-efficient, and Web Vitals friendly.
  *
  * @author    Mai Nhut Tan <shin@shin.company>
  * @copyright 2022 AppSeeds <https://code.shin.company/>
- * @version   3.3.0
+ * @version   3.4.0
  * @license   {@link https://code.shin.company/defer.js/blob/master/LICENSE|MIT}
  */
 
-/*!@shinsenter/defer.js@3.3.0*/
+/*!@shinsenter/defer.js@3.4.0*/
 (function (window) {
 
-  var namespace  = 'Defer';
-  var version    = '3.3.0';
-  var _debugName = namespace + ' v' + version;
+  var namespace = 'Defer';
+  var version   = '3.4.0';
 
   /*
   |--------------------------------------------------------------------------
@@ -53,46 +51,55 @@
   |--------------------------------------------------------------------------
   */
 
+  // aliases for reusable variables
+  var _boolFalse    = false;
+  var _txtLink      = 'link';
+  var _txtScript    = 'script';
+
+  // aliases for events
+  var _txtLoad      = 'load';
+  var _txtPageshow  = 'pageshow';
+
+  // aliases for object methods
+  var _txtForEach   = 'forEach';
+  var _txtGetAttr   = 'getAttribute';
+  var _txtSetAttr   = 'setAttribute';
+  var _txtShift     = 'shift';
+
+  // aliases for object attributes
+  var _txtXorigin   = 'crossorigin';
+  var _txtIntegrity = 'integrity';
+
+  // page events
+  var _userEvents   = ['mousemove', 'keydown', 'touchstart', 'wheel'];
+  var _windowEvent  = 'on' + _txtPageshow in window ? _txtPageshow : _txtLoad;
+
+  // default CSS selectors
+  var _txtDOM = '[data-src]';
+  var _txtJS  = _txtScript + '[type=deferjs]';
+
+  /*
+  |--------------------------------------------------------------------------
+  | Defines internal variables for holding state of the library
+  |--------------------------------------------------------------------------
+  */
+
   // window event handler
   var _eventHandler;
-
-  // browser features
-  var document = window.document || window;
-  var engine   = window.setTimeout;
 
   // the IntersectionObserver feature
   var IntersectionObserver = window.IntersectionObserver;
 
+  // browser features
+  var console  = window.console;
+  var document = window.document || window;
+  var engine   = window.setTimeout;
+
   // variables that hold the state of Defer
-  var _booted       = (/p/).test(document.readyState);
-  var _queueDefer   = [];
-  var _queueDelay   = [];
-  var _slice        = _queueDefer.slice;
-
-  // page events
-  var _load         = 'load';
-  var _pageshow     = 'pageshow';
-  var _userEvents   = ['mousemove', 'keydown', 'touchstart', 'wheel'];
-  var _windowEvent  = 'on' + _pageshow in window ? _pageshow : _load;
-
-  // aliases for object attributes
-  var _attrCrossorigin = 'crossorigin';
-  var _attrIntegrity   = 'integrity';
-
-  // aliases for object methods
-  var _fnForEach    = 'forEach';
-  var _fnGetAttr    = 'getAttribute';
-  var _fnSetAttr    = 'setAttribute';
-  var _fnShift      = 'shift';
-
-  // default CSS selectors
-  var _selectorDOM  = '[data-src]';
-  var _selectorJS   = '[type=deferjs]';
-
-  // other reusable variables
-  var _boolFalse    = false;
-  var _txtLink      = 'link';
-  var _txtScript    = 'script';
+  var _booted      = (/p/).test(document.readyState);
+  var _queueDefer  = [];
+  var _queueDelay  = [];
+  var _fnSlice     = _queueDefer.slice;
 
   /*
   |--------------------------------------------------------------------------
@@ -100,13 +107,38 @@
   |--------------------------------------------------------------------------
   */
 
+  // performance labels
+  var _debugName  = namespace + ' v' + version;
+  var _perfLabel  = _debugName + ' boot';
+  var _loadLabel  = _debugName + ' waits from booted to the page load event';
+  var _userLabel  = _debugName + ' waits from page loaded to a user event';
+
   function debug() {
-    console.debug.bind(console, _debugName).apply(console, _slice.call(arguments));
+    if (console && 'debug' in console) {
+      console.debug.bind(console, _debugName).apply(console, _fnSlice.call(arguments));
+    }
   }
 
   function log(text, color) {
-    console.log('%c ' + text, 'color:' + color);
+    if (console && 'log' in console) {
+      console.log('%c 🥇 ' + text, 'color:' + color);
+    }
   }
+
+  function perf_begin(label) {
+    if (console && 'time' in console) {
+      console.debug('Perf: ⏩ ' + label);
+      console.time('Perf: ⏱️ ' + label);
+    }
+  }
+
+  function perf_end(label) {
+    if (console && 'timeEnd' in console) {
+      console.timeEnd('Perf: ⏱️ ' + label);
+    }
+  }
+
+  perf_begin(_perfLabel);
 
   /*
   |--------------------------------------------------------------------------
@@ -134,12 +166,12 @@
   log(_debugName + ' is initializing...', '#888');
 
   // the heart of the library
-  function self(func, delay, lazy) {
+  function $(func, delay, lazy) {
     if (_booted) {
       engine(func, delay);
     } else {
       (
-        typeof lazy === 'undefined' && self.lazy || lazy
+        lazy || $.lazy && typeof lazy === 'undefined'
           ? _queueDelay
           : _queueDefer
       ).push(func, delay);
@@ -152,7 +184,7 @@
   |--------------------------------------------------------------------------
   */
 
-  // attachs a DOM node into the <head> tag
+  // attaches a DOM node into the <head> tag
   function fnAttach(node) {
     document.head.appendChild(node);
 
@@ -162,7 +194,7 @@
 
   // loops through all attributes of a DOM node
   function fnAttrIterator(node, callback) {
-    _slice.call(node.attributes)[_fnForEach](callback);
+    _fnSlice.call(node.attributes)[_txtForEach](callback);
   }
 
   // creates a new fresh DOM node
@@ -182,35 +214,38 @@
   }
 
   // creates a preload hint node
-  function fnCreatePreloadNode(node, _temp, _node) {
+  function fnCreatePreloadNode(node, _new, _temp) {
     _temp = node.src;
 
     if (_temp) {
-      // creates a fresh node
-      _node = fnCreateNode(_txtLink);
+      // creates a fresh node and its preload attributes
+      _new      = fnCreateNode(_txtLink);
+      _new.rel  = 'preload';
+      _new.as   = _txtScript;
+      _new.href = _temp;
 
-      // sets attributes
-      _node.rel  = 'preload';
-      _node.as   = _txtScript;
-      _node.href = _temp;
-
-      // copies crossorigin from the original node if exists
-      _temp = node[_fnGetAttr](_attrCrossorigin);
+      // copies the `crossorigin` attribute from the original node
+      _temp = node[_txtGetAttr](_txtXorigin);
 
       if (_temp) {
-        _node[_fnSetAttr](_attrCrossorigin, _temp);
+        _new[_txtSetAttr](_txtXorigin, _temp);
       }
 
-      // copies integrity from the original node if exists
-      _temp = node[_fnGetAttr](_attrIntegrity);
+      // copies the `integrity` attribute from the original node
+      _temp = node[_txtGetAttr](_txtIntegrity);
 
       if (_temp) {
-        _node[_fnSetAttr](_attrIntegrity, _temp);
+        _new[_txtSetAttr](_txtIntegrity, _temp);
       }
 
-      // attaches the new node into the document
-      fnAttach(_node);
+      // attaches the new node to the document
+      fnAttach(_new);
     }
+  }
+
+  // a simple DOM query selector
+  function fnQueryAll(selector, parent) {
+    return _fnSlice.call((parent || document).querySelectorAll(selector));
   }
 
   // replaces a DOM node with a new node
@@ -219,11 +254,6 @@
 
     // debug
     debug('A DOM node has been replaced.', newNode);
-  }
-
-  // a simple DOM query selector
-  function fnSelect(selector, parent) {
-    return _slice.call((parent || document).querySelectorAll(selector));
   }
 
   /*
@@ -235,28 +265,28 @@
   // reveals a DOM node deferred by the library
   function fnDeferReveal(node, unveiledClass) {
     // reveals descendant children nodes
-    fnSelect('source,img', node)[_fnForEach](fnDeferReveal);
+    fnQueryAll('source,img', node)[_txtForEach](fnDeferReveal);
 
     // transforms data-xxx attributes to normal attributes
     fnAttrIterator(node, function (attribute, _matches) {
       _matches = (/^data-(.+)/).exec(attribute.name);
 
       if (_matches) {
-        node[_fnSetAttr](_matches[1], attribute.value);
+        node[_txtSetAttr](_matches[1], attribute.value);
       }
     });
+
+    // debug
+    debug('A DOM node has been unveiled.', node);
 
     // appends new class names
     if (typeof unveiledClass == 'string' && unveiledClass) {
       node.className += ' ' + unveiledClass;
     }
 
-    // debug
-    debug('A DOM node has been unveiled.', node);
-
     // calls load() method to reset the media
-    if (_load in node) {
-      node[_load]();
+    if (_txtLoad in node) {
+      node[_txtLoad]();
     }
   }
 
@@ -268,7 +298,7 @@
     resolver,
     observeOptions
   ) {
-    function _init(_observer) {
+    function __(_observer) {
       // unveils an observed node
       function _unveil(node) {
         if (!resolver || resolver(node) !== _boolFalse) {
@@ -278,11 +308,11 @@
 
       // watches a node for its appeal
       function _observe(node) {
-        if (node[namespace] != self) {
+        if (node[namespace] != $) {
           // marks this element is initialized
-          node[namespace] = self;
+          node[namespace] = $;
 
-          // registers to the observer
+          // observes or unveils a node
           _observer ? _observer.observe(node) : _unveil(node);
         }
       }
@@ -290,7 +320,7 @@
       // creates intersection observer
       if (IntersectionObserver) {
         _observer = new IntersectionObserver(function (nodes) {
-          nodes[_fnForEach](function (entry, _node) {
+          nodes[_txtForEach](function (entry, _node) {
             if (entry.isIntersecting) {
               _node = entry.target;
               _observer.unobserve(_node);
@@ -303,81 +333,89 @@
       }
 
       // collects target nodes and registers them to the observer
-      fnSelect(selector || _selectorDOM)[_fnForEach](_observe);
+      fnQueryAll(selector || _txtDOM)[_txtForEach](_observe);
     }
 
-    // defers the init function without the lazy mode
-    self(_init, delay, _boolFalse);
+    // adds the internal script to the queue
+    // NOTE: the lazy mode should be disable for DOM manipulations
+    $(__, delay, _boolFalse);
   }
 
   // the core of the Defer.all
   function fnDeferScripts(selector, delay, lazy) {
-    function _init(_queueDefer) {
-      function _nextTag(_node, _clone) {
-        // pops the next script tag in front of the queue
-        _node = _queueDefer[_fnShift]();
+    function __(_queueDefer) {
+      var _perfLabel = 'Defer.all(' + (selector || _txtJS) + ', ' + (delay || 0) + ', ' + (lazy ? 'true' : 'false') + ')';
+      perf_begin(_perfLabel);
+
+      function _next(_node, _clone) {
+        // shifts the next script tag in the front of the queue
+        _node = _queueDefer[_txtShift]();
 
         if (_node) {
-          // clones the node
+          // clones the node and its content
           _clone = fnCreateNode(_node.nodeName);
-
-          // copies the text content
           _clone.text = _node.text;
 
           // copies all attributes from the node
           fnAttrIterator(_node, function (attribute) {
             if (attribute.name != 'type') {
-              _clone[_fnSetAttr](attribute.name, attribute.value);
+              _clone[_txtSetAttr](attribute.name, attribute.value);
             }
           });
 
-          // attaches clone node to the document
-          // NOTE: script tag with src and non-async will wait for its execution
-          // NOTE: async attribute MUST be checked via getAttribute()
-          if (_clone.src && !_clone[_fnGetAttr]('async')) {
-            _clone.onload = _clone.onerror = _nextTag;
+          // attaches the cloned script tag to the document
+          // NOTE 1: the async attribute MUST be checked via getAttribute()
+          // NOTE 2: a script tag without src should be loaded async
+          // NOTE 3: a script tag with src and async should be loaded async
+          if (_clone.src && !_clone[_txtGetAttr]('async')) {
+            _clone.onload = _clone.onerror = _next;
             fnReplaceNode(_node, _clone);
           } else {
             fnReplaceNode(_node, _clone);
-            _nextTag();
+            _next();
           }
+        } else {
+          perf_end(_perfLabel);
         }
       }
 
       // collects target script tags for lazy loading
-      _queueDefer = fnSelect(selector || _selectorJS);
+      _queueDefer = fnQueryAll(selector || _txtJS);
 
       // add preload nodes
-      _queueDefer[_fnForEach](fnCreatePreloadNode);
+      _queueDefer[_txtForEach](fnCreatePreloadNode);
 
       // starts the lazy loading script tags
-      _nextTag();
+      _next();
     }
 
-    self(_init, delay, lazy);
+    // adds the internal script to the queue
+    $(__, delay, lazy);
   }
 
   // the core of the Defer.css
   function fnDeferCss(fileUrl, id, delay, onload, lazy) {
-    function _init(_node) {
+    function __(_node) {
       _node      = fnCreateNode(_txtLink, id, onload);
       _node.rel  = 'stylesheet';
       _node.href = fileUrl;
       fnAttach(_node);
     }
 
-    self(_init, delay, lazy);
+    // adds the internal script to the queue
+    $(__, delay, lazy);
   }
 
   // the core of the Defer.js
   function fnDeferJs(fileUrl, id, delay, onload, lazy) {
-    function _init(_node) {
+    function __(_node) {
       _node     = fnCreateNode(_txtScript, id, onload);
       _node.src = fileUrl;
       fnAttach(_node);
     }
 
-    self(_init, delay, lazy);
+    // adds the internal script to the queue
+    $(__, delay, lazy);
   }
 
   /*
@@ -392,31 +430,39 @@
     log(_debugName + ': "' + event.type + '" event was triggered.', '#90f');
 
     if (_windowEvent == event.type) {
+      // debug
+      log(_debugName + ': page has fully loaded!', '#09f');
+      perf_end(_loadLabel);
+
       // removes browser event listening
       fnDetachWindowEvent(_windowEvent);
 
-      // tells the core that the page has fully loaded
-      _booted = self;
-
       // debug
-      log(_debugName + ': page has fully loaded!', '#09f');
       log(_debugName + ': ' + _queueDefer.length / 2 + ' queued task(s) will execute from now!', '#f09');
       log(_debugName + ': ' + _queueDelay.length / 2 + ' other task(s) will be delayed until there is user interaction.', '#f90');
 
-      // debug
-      log(_debugName + ' is now ready!', '#9a3');
+      // tells the core that the page has fully loaded
+      _booted = $;
 
       // adds user events for delayed tasks
-      _userEvents[_fnForEach](fnAttachWindowEvent);
+      _userEvents[_txtForEach](fnAttachWindowEvent);
+      perf_begin(_userLabel);
+
+      // debug
+      log(_debugName + ' is now ready!', '#9a3');
 
       // selects the queue to be served
       _queue = _queueDefer;
     } else {
       // debug
-      log(_debugName + ': ' + _queueDelay.length / 2 + ' delayed task(s) will execute from now!', '#f90');
+      log(_debugName + ': a user interaction detected!', '#09f');
+      perf_end(_userLabel);
 
       // removes user events for delayed tasks
-      _userEvents[_fnForEach](fnDetachWindowEvent);
+      _userEvents[_txtForEach](fnDetachWindowEvent);
+
+      // debug
+      log(_debugName + ': ' + _queueDelay.length / 2 + ' delayed task(s) will execute from now!', '#f90');
 
       // selects the queue to be served
       _queue = _queueDelay;
@@ -424,13 +470,8 @@
 
     // serves all queued tasks
     while (_queue[0]) {
-      engine(_queue[_fnShift](), _queue[_fnShift]());
+      engine(_queue[_txtShift](), _queue[_txtShift]());
     }
-  }
-
-  if (!_booted) {
-    // adds an event listener for the page load event
-    fnAttachWindowEvent(_windowEvent);
   }
 
   /*
@@ -443,16 +484,23 @@
   fnDeferScripts();
 
   // exposes public methods
-  self.all    = fnDeferScripts;
-  self.dom    = fnDeferDom;
-  self.css    = fnDeferCss;
-  self.js     = fnDeferJs;
-  self.reveal = fnDeferReveal;
+  $.all     = fnDeferScripts;
+  $.dom     = fnDeferDom;
+  $.css     = fnDeferCss;
+  $.js      = fnDeferJs;
+  $.reveal  = fnDeferReveal;
 
   // exposes the Defer instance
-  window[namespace] = self;
+  window[namespace] = $;
 
   // debug
   log(_debugName + ' was injected!', '#888');
+  perf_end(_perfLabel);
+
+  if (!_booted) {
+    // adds an event listener for the page load event
+    fnAttachWindowEvent(_windowEvent);
+    perf_begin(_loadLabel);
+  }
 
 })(this);

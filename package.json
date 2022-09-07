@@ -1,8 +1,8 @@
 {
   "name": "@shinsenter/defer.js",
-  "title": "defer.js",
-  "version": "3.3.0",
-  "description": "🥇 A JavaScript micro-library that helps you lazy load (almost) anything. It's zero-dependency, super-efficient, and Web Vitals friendly.",
+  "title": "Defer.js",
+  "version": "3.4.0",
+  "description": "🥇 A JavaScript micro-library that helps you lazy load (almost) anything. Defer.js is zero-dependency, super-efficient, and Web Vitals friendly.",
   "homepage": "https://shinsenter.github.io/defer.js/",
   "license": "MIT",
   "author": {

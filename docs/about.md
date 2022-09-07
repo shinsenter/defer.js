@@ -1,6 +1,6 @@
 # Package @shinsenter/defer.js
 
-🥇 A JavaScript micro-library that helps you lazy load (almost) anything. It's zero-dependency, super-efficient, and Web Vitals friendly.
+🥇 A JavaScript micro-library that helps you lazy load (almost) anything. Defer.js is zero-dependency, super-efficient, and Web Vitals friendly.
 
 [![NPM](https://img.shields.io/npm/l/@shinsenter/defer.js)](https://code.shin.company/defer.js/blob/master/LICENSE)
 [![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/@shinsenter/defer.js)](https://snyk.io/advisor/npm-package/@shinsenter/defer.js)
@@ -16,7 +16,7 @@
 [![NPM](https://nodei.co/npm/@shinsenter/defer.js.png?downloads=true)](https://www.npmjs.com/package/@shinsenter/defer.js)
 
 - **Package**: [@shinsenter/defer.js](https://www.npmjs.com/package/@shinsenter/defer.js)
-- **Version**: 3.3.0
+- **Version**: 3.4.0
 - **Author**: Mai Nhut Tan <shin@shin.company>
 - **Copyright**: 2022 AppSeeds <https://code.shin.company/>
 - **License**: [MIT](https://code.shin.company/defer.js/blob/master/LICENSE)
@@ -80,7 +80,7 @@ Just put a `<script>` tag pointing to the library URL just below the opening `<h
   <title>My Awesome Page</title>
 
   <!-- Put defer.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.3.0/dist/defer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.4.0/dist/defer.min.js"></script>
 
   <!-- ... -->
 </head>
@@ -96,7 +96,7 @@ Because `defer.min.js` is optimized to a very tiny file size, you can even inlin
   <title>My Awesome Page</title>
 
   <!-- Copy the script from the below URL -->
-  <!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.3.0/dist/defer.min.js -->
+  <!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.4.0/dist/defer.min.js -->
   <script>/* then replace this comment block with the content of defer.min.js */</script>
 
   <!-- ... -->
@@ -114,7 +114,7 @@ just use `defer_plus.min.js` instead of `defer.min.js`.
   <title>My Awesome Page</title>
 
   <!-- Put defer_plus.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.3.0/dist/defer_plus.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.4.0/dist/defer_plus.min.js"></script>
 
   <!-- ... -->
 </head>
@@ -131,8 +131,8 @@ right after the `defer.min.js` script tag as the following example:
 <script>/* the content of defer.min.js */</script>
 
 <!-- If legacy browsers like Internet Explorer 9 still need to be supported -->
-<!-- Please put IntersectionObserver polyfill right after defer.js script tag -->
-<script>'IntersectionObserver'in window||document.write('<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.3.0/dist/polyfill.min.js"><\/script>');</script>
+<!-- Please put IntersectionObserver polyfill right after the Defer.js script tag -->
+<script>'IntersectionObserver'in window||document.write('<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.4.0/dist/polyfill.min.js"><\/script>');</script>
 ```
 
 *HINT*: Modern browsers support `IntersectionObserver` feature,
