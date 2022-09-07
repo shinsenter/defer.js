@@ -37,7 +37,8 @@
 (function (window, Defer) {
 
   /**
-   * Deprecated since version 2.0
+   * Deprecated from version 2.0
+   *
    * @deprecated
    * @function defer
    * @alias    Defer
@@ -49,7 +50,8 @@
   Defer = window.defer = window.Defer;
 
   /**
-   * Deprecated since version 2.0
+   * Deprecated from version 2.0
+   *
    * @deprecated
    * @function deferimg
    * @alias    Defer.dom
@@ -63,7 +65,8 @@
    */
 
   /**
-   * Deprecated since version 2.0
+   * Deprecated from version 2.0
+   *
    * @deprecated
    * @function deferiframe
    * @alias    Defer.dom
@@ -78,7 +81,8 @@
   window.deferimg = window.deferiframe = Defer.dom;
 
   /**
-   * Deprecated since version 2.0
+   * Deprecated from version 2.0
+   *
    * @deprecated
    * @function deferstyle
    * @alias    Defer.css
@@ -92,7 +96,8 @@
   window.deferstyle = Defer.css;
 
   /**
-   * Deprecated since version 2.0
+   * Deprecated from version 2.0
+   *
    * @deprecated
    * @function deferscript
    * @alias    Defer.js

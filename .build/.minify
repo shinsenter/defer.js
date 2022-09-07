@@ -1,13 +1,15 @@
 {
     "parse": {},
     "mangle": {
-        "reserved":     ["log", "debug"]
+        "reserved":     ["log", "debug", "perf_begin", "perf_end"]
     },
     "compress": {
         "drop_console": true,
-        "passes":       5,
+        "hoist_funs":   true,
+        "passes":       10,
         "pure_getters": true,
-        "pure_funcs":   ["log", "debug"]
+        "pure_funcs":   ["log", "debug", "perf_begin", "perf_end"],
+        "reduce_funcs": true
     },
     "output": {
         "comments":     "/^!/",
@@ -21,7 +23,7 @@
     "nameCache":        null,
     "sourceMap":        false,
     "toplevel":         false,
-    "v8":               false,
+    "v8":               true,
     "warnings":         false,
-    "webkit":           false
+    "webkit":           true
 }
