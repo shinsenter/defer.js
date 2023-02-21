@@ -5,61 +5,66 @@
 [![NPM](https://img.shields.io/npm/l/@shinsenter/defer.js)](https://code.shin.company/defer.js/blob/master/LICENSE)
 [![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/@shinsenter/defer.js)](https://snyk.io/advisor/npm-package/@shinsenter/defer.js)
 [![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/shinsenter/defer.js)](https://www.codefactor.io/repository/github/shinsenter/defer.js)
-
-* * *
-
 [![GitHub Release Date](https://img.shields.io/github/release-date/shinsenter/defer.js)](https://code.shin.company/defer.js/releases)
 [![GitHub package.json version](https://img.shields.io/github/package-json/v/shinsenter/defer.js)](https://code.shin.company/defer.js/releases)
 [![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@shinsenter/defer.js)](https://www.npmjs.com/package/@shinsenter/defer.js)
 [![jsDelivr hits (npm)](https://img.shields.io/jsdelivr/npm/hm/@shinsenter/defer.js)](https://www.jsdelivr.com/package/npm/@shinsenter/defer.js)
 
-[![NPM](https://nodei.co/npm/@shinsenter/defer.js.png?downloads=true)](https://www.npmjs.com/package/@shinsenter/defer.js)
-
-- **Package**: [@shinsenter/defer.js](https://www.npmjs.com/package/@shinsenter/defer.js)
-- **Version**: 3.4.0
-- **Author**: Mai Nhut Tan <shin@shin.company>
-- **Copyright**: 2022 AppSeeds <https://code.shin.company/>
-- **License**: [MIT](https://code.shin.company/defer.js/blob/master/LICENSE)
-
-> [NEED HELP] Please help me improve the documentation and examples. I appreciate your love and support.
 
 * * *
 
 
 ## Introduction
 
-Big CSS files, slow JavaScript (third-party add-ons, etc.),
-or media resources (photos, videos, iframes) on your website may cause
-[Web Vitals](https://web.dev/vitals/) issues in real scenarios.
+Lagging Big CSS files, slow JavaScript, or bulky media resources can cause issues with your website's Web Vitals, leading to a slow and frustrating user experience. But what if you could fully defer these resources and improve your website's load speed?
 
-Fully deferring (lazy loading) those resources may help your website
-reduce those Web Vitals issues, or even deliver faster page load speed.
+By using Defer.js, you can say goodbye to these issues! With its lazy loading capabilities, dependency-free design, lightning-fast performance, and hard-won experience, Defer.js is the perfect solution for optimizing your website's Web Vitals. Whether you're using a modern or legacy browser, Defer.js makes it easy to enhance your website's user experience with lightning-fast loading times.
 
-You would be happy, and your customers would be happy, too.
+[![NPM](https://nodei.co/npm/@shinsenter/defer.js.png?downloads=true)](https://www.npmjs.com/package/@shinsenter/defer.js)
 
-> [Japanese] 日本人の方は[こちらの記事](https://www.limosuki.com/2022/06/twitter-lazyload-deferjs.html)をご参考にして頂ければと思います。
+- **Package**: [@shinsenter/defer.js](https://www.npmjs.com/package/@shinsenter/defer.js)
+- **Version**: 3.5.0
+- **Author**: Mai Nhut Tan <shin@shin.company>
+- **Copyright**: 2019-2023 SHIN Company <https://code.shin.company/>
+- **License**: [MIT](https://code.shin.company/defer.js/blob/master/LICENSE)
 
+---
 
-## Why you should consider using Defer.js?
+## Document in other languages
 
-- 🧩 Lazy load almost anything
-- 🚀 Dependency-free, no jQuery, amazing fast
+> [NEED HELP] Let's make the documentation and examples better together!
+
+### 日本語
+
+日本人のはこちらの記事を参考にしていただければ幸いです。
+
+- アタルさんの[Defer.js ドキュメント （日本語訳）](https://blog.gadgets-geek.net/2023/02/deferjs-doc-japanese.html)
+- あトんさんの[記事](https://www.heavy-peat.com/2022/02/defer.html)
+- リモスキさんの[記事](https://www.limosuki.com/2022/06/twitter-lazyload-deferjs.html)
+
+#### Credits
+
+I would like to express warm thanks to [@Ataruchi](https://twitter.com/Ataruchi), [@HeavyPeat](https://twitter.com/HeavyPeat) and [Limosuki](https://www.limosuki.com/) for their articles in Japanese.
+
+***
+
+## Why Choose Defer.js
+
+- 🧩 Lazy load almost anything with ease
+- 🚀 Lightweight and fast, with no dependencies
+- 🤝 Effortlessly integrates with your favorite frameworks
+- 🔰 Easy to use, even for beginners
 - ⚡️ Super tiny (minzipped size is around 1KB)
-- 🦾 Hardened (over 3 years old and used in many apps)
-- 🎯 [Core Web Vitals](https://web.dev/vitals/) friendly
-- 🤝 Works well with your favorite frameworks
-- 🔰 Very easy to use
-- 📱 Smartphone browser friendly
-- ✅ Supports legacy browsers (IE9+)
+- 🦾 Optimized for the latest Web Vitals standards
+- 📱 Optimized for use on smartphones
+- ✅ Supports legacy browsers like Internet Explorer 9
 
+<sup>*Legacy browsers like Internet Explorer 9 require `IntersectionObserver` polyfill.</sup>
 
-## Browser support
+## Browser Support
 
-The library works perfectly on any modern browser.
-It also works on legacy browsers like Internet Explorer 9
-<sup>* (with `IntersectionObserver` polyfill library)</sup>.
-
-- 🖥 IE9+ / Microsoft EDGE
+Defer.js is compatible with all modern browsers, including:
+- 🖥 IE9+ / Edge
 - 🖥 Firefox 4+
 - 🖥 Safari 3+
 - 🖥 Chrome
@@ -67,20 +72,21 @@ It also works on legacy browsers like Internet Explorer 9
 - 📱 Android 4+
 - 📱 iOS 3.2+
 
-
 ## Getting started
+
+Defer.js is an easy-to-use library that will help boost your website's performance by reducing loading times. Here's how to get started:
 
 ### Basic
 
-Just put a `<script>` tag pointing to the library URL just below the opening `<head>` tag of your page.
+Add the Defer.js library to your page by including a `<script>` tag just below the opening `<head>` tag.
 
 ```html
 <head>
   <meta charset="UTF-8" />
   <title>My Awesome Page</title>
 
-  <!-- Put defer.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.4.0/dist/defer.min.js"></script>
+  <!-- Add Defer.js here -->
+  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.5.0/dist/defer.min.js"></script>
 
   <!-- ... -->
 </head>
@@ -88,16 +94,15 @@ Just put a `<script>` tag pointing to the library URL just below the opening `<h
 
 ### Inlining the library
 
-Because `defer.min.js` is optimized to a very tiny file size, you can even inline entire the library to save one HTTP request.
+To save an HTTP request, you can even inline the entire Defer.js library by copying its content from the [defer.min.js](https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.5.0/dist/defer.min.js) and replacing the comments in the script tag with its content.
 
 ```html
 <head>
   <meta charset="UTF-8" />
   <title>My Awesome Page</title>
 
-  <!-- Copy the script from the below URL -->
-  <!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.4.0/dist/defer.min.js -->
-  <script>/* then replace this comment block with the content of defer.min.js */</script>
+  <!-- Add the Inlined Defer.js here -->
+  <script>/* Defer.js content goes here */</script>
 
   <!-- ... -->
 </head>
@@ -105,8 +110,7 @@ Because `defer.min.js` is optimized to a very tiny file size, you can even inlin
 
 ### Compatibility with older versions
 
-If you have no time to upgrade from an older version,
-just use `defer_plus.min.js` instead of `defer.min.js`.
+If you're using an older version of Defer.js, you can use `defer_plus.min.js` instead of `defer.min.js`.
 
 ```html
 <head>
@@ -114,7 +118,7 @@ just use `defer_plus.min.js` instead of `defer.min.js`.
   <title>My Awesome Page</title>
 
   <!-- Put defer_plus.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.4.0/dist/defer_plus.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.5.0/dist/defer_plus.min.js"></script>
 
   <!-- ... -->
 </head>
@@ -122,21 +126,16 @@ just use `defer_plus.min.js` instead of `defer.min.js`.
 
 ### For OLD browsers (such as IE9)
 
-To take advantage of native performance for legacy browsers (such as IE9)
-that don't support `IntersectionObserver` feature,
-you should load `IntersectionObserver` polyfill library
-right after the `defer.min.js` script tag as the following example:
+To enhance performance for legacy browsers that don't support the `IntersectionObserver` feature, you can load the IntersectionObserver polyfill library after the `defer.min.js` script tag.
 
 ```html
-<script>/* the content of defer.min.js */</script>
+<script>/* Defer.js content */</script>
 
-<!-- If legacy browsers like Internet Explorer 9 still need to be supported -->
-<!-- Please put IntersectionObserver polyfill right after the Defer.js script tag -->
-<script>'IntersectionObserver'in window||document.write('<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.4.0/dist/polyfill.min.js"><\/script>');</script>
+<!-- Add the IntersectionObserver Polyfill for legacy browsers -->
+<script>'IntersectionObserver'in window||document.write('<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.5.0/dist/polyfill.min.js"><\/script>');</script>
 ```
 
-*HINT*: Modern browsers support `IntersectionObserver` feature,
-so you don't have to be concerned about it if you don't care about IE users.
+*NOTE*: Modern browsers support the `IntersectionObserver` feature, so you don't have to worry about adding the polyfill if you don't have legacy browsers in mind.
 ## Functions
 
 * [Defer(func, [delay], [waitForUserAction])](#Defer) ⇒ <code>void</code>
@@ -678,7 +677,7 @@ he/she will see a message as soon as an element with `id="surprise-me"` appears.
 ```html
 <script>
   Defer.dom('#surprise-me', 1000, 'seen', function(node) {
-    alert('Yay!\n\nYou have seen all examples.\nHave fun with Defer.js!');
+    alert('Yay!\nYou have seen all examples. Have fun with Defer.js!');
   });
 </script>
 ```
@@ -817,7 +816,8 @@ AddThis add-on will not be loaded until the user starts interacting with the pag
 <div class="demo-addthis"></div>
 
 <script>
-  var fileUrl = 'https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5c68e61cf456f1cb';
+  var ADDTHIS_ID = 'ra-5c68e61cf456f1cb';
+  var fileUrl = 'https://s7.addthis.com/js/300/addthis_widget.js#pubid=' + ADDTHIS_ID;
   var loaded  = false;
 
   Defer.js(fileUrl, 'addthis-js', 0, function() {
@@ -1040,30 +1040,28 @@ A [Function](#Function) receives a DOM [Node](#Node) object as its argument.
 
 ## Community
 
-As an open-source project, we'd appreciate any help and contributions!
+Join our vibrant community of open-source contributors and make your mark on the project! We welcome all forms of contributions and support.
 
-[![Become a stargazer](https://img.shields.io/badge/Become-Stargazer-yellow)](https://code.shin.company/defer.js/stargazers) [![Report an issue](https://img.shields.io/badge/New-Discussions-green)](https://code.shin.company/defer.js/discussions/new) [![Join us on Gitter](https://badges.gitter.im/shinsenter/defer.js.svg)](https://gitter.im/shinsenter/defer.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Join us on Discord](https://img.shields.io/discord/962919929307357234?color=blueviolet)](https://discord.com/channels/962919929307357234/1000635855712559165)
+[![Become a Stargazer](https://img.shields.io/badge/Become-Stargazer-yellow)](https://code.shin.company/defer.js/stargazers) [![Report an issue](https://img.shields.io/badge/New-Discussions-green)](https://code.shin.company/defer.js/discussions/new) [![Join us on Gitter](https://badges.gitter.im/shinsenter/defer.js.svg)](https://gitter.im/shinsenter/defer.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Join us on Discord](https://img.shields.io/discord/962919929307357234?color=blueviolet)](https://discord.com/channels/962919929307357234/1000635855712559165)
 
-We should follow the standard [GitHub pull request process](https://help.github.com/articles/about-pull-requests). I'll try to review your contributions as soon as possible.
+We use the standard [GitHub pull request process](https://help.github.com/articles/about-pull-requests) and our reviewers will be happy to help you get started.
 
+Don't feel confident contributing code? No problem! Improving the documentation, [reporting issues](https://code.shin.company/defer.js/issues/new/choose), and [starting discussions](https://code.shin.company/defer.js/discussions/new) are all valuable contributions that we appreciate.
 
-It is also appreciated when you [report an issue](https://code.shin.company/defer.js/issues/new/choose) or [open a discussion](https://code.shin.company/defer.js/discussions/new).
-
-Not ready to contribute code, but see something that needs work? From contributing to source code to improving the readability of the documentation, all suggestions are welcome!
-
-> [NEED HELP] Please help me improve the documentation and examples.
+> [NEED HELP] Let's make the documentation and examples better together!
 
 * * *
 
-## Support my activities
+## Support the Project
 
-If you like this repository, please [become a stargazer](https://code.shin.company/defer.js/stargazers) on my GitHub or join Gitter to follow further updates.
+Love the project? Show your support by [becoming a stargazer](https://code.shin.company/defer.js/stargazers) on GitHub, joining our Gitter community, or sponsoring the project.
 
-I also love to have your help, please consider [buying me a coffee](https://www.paypal.me/shinsenter), or sponsoring my work so I can create more helpful pieces of stuff 😉.
+Consider [buying the developer a coffee](https://www.paypal.me/shinsenter) or [becoming a sponsor](https://www.patreon.com/appseeds) to help fund future development.
 
 [![Donate via PayPal](https://img.shields.io/badge/Donate-Paypal-blue)](https://www.paypal.me/shinsenter) [![Become a sponsor](https://img.shields.io/badge/Donate-Patreon-orange)](https://www.patreon.com/appseeds)
 
-I appreciate your love and support.
+Your support is greatly appreciated.
+
 
 * * *
 

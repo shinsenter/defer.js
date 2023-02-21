@@ -2,30 +2,28 @@
 
 ## Community
 
-As an open-source project, we'd appreciate any help and contributions!
+Join our vibrant community of open-source contributors and make your mark on the project! We welcome all forms of contributions and support.
 
-[![Become a stargazer](https://img.shields.io/badge/Become-Stargazer-yellow)](https://code.shin.company/defer.js/stargazers) [![Report an issue](https://img.shields.io/badge/New-Discussions-green)](https://code.shin.company/defer.js/discussions/new) [![Join us on Gitter](https://badges.gitter.im/shinsenter/defer.js.svg)](https://gitter.im/shinsenter/defer.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Join us on Discord](https://img.shields.io/discord/962919929307357234?color=blueviolet)](https://discord.com/channels/962919929307357234/1000635855712559165)
+[![Become a Stargazer](https://img.shields.io/badge/Become-Stargazer-yellow)](https://code.shin.company/defer.js/stargazers) [![Report an issue](https://img.shields.io/badge/New-Discussions-green)](https://code.shin.company/defer.js/discussions/new) [![Join us on Gitter](https://badges.gitter.im/shinsenter/defer.js.svg)](https://gitter.im/shinsenter/defer.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Join us on Discord](https://img.shields.io/discord/962919929307357234?color=blueviolet)](https://discord.com/channels/962919929307357234/1000635855712559165)
 
-We should follow the standard [GitHub pull request process](https://help.github.com/articles/about-pull-requests). I'll try to review your contributions as soon as possible.
+We use the standard [GitHub pull request process](https://help.github.com/articles/about-pull-requests) and our reviewers will be happy to help you get started.
 
+Don't feel confident contributing code? No problem! Improving the documentation, [reporting issues](https://code.shin.company/defer.js/issues/new/choose), and [starting discussions](https://code.shin.company/defer.js/discussions/new) are all valuable contributions that we appreciate.
 
-It is also appreciated when you [report an issue](https://code.shin.company/defer.js/issues/new/choose) or [open a discussion](https://code.shin.company/defer.js/discussions/new).
-
-Not ready to contribute code, but see something that needs work? From contributing to source code to improving the readability of the documentation, all suggestions are welcome!
-
-> [NEED HELP] Please help me improve the documentation and examples.
+> [NEED HELP] Let's make the documentation and examples better together!
 
 * * *
 
-## Support my activities
+## Support the Project
 
-If you like this repository, please [become a stargazer](https://code.shin.company/defer.js/stargazers) on my GitHub or join Gitter to follow further updates.
+Love the project? Show your support by [becoming a stargazer](https://code.shin.company/defer.js/stargazers) on GitHub, joining our Gitter community, or sponsoring the project.
 
-I also love to have your help, please consider [buying me a coffee](https://www.paypal.me/shinsenter), or sponsoring my work so I can create more helpful pieces of stuff 😉.
+Consider [buying the developer a coffee](https://www.paypal.me/shinsenter) or [becoming a sponsor](https://www.patreon.com/appseeds) to help fund future development.
 
 [![Donate via PayPal](https://img.shields.io/badge/Donate-Paypal-blue)](https://www.paypal.me/shinsenter) [![Become a sponsor](https://img.shields.io/badge/Donate-Patreon-orange)](https://www.patreon.com/appseeds)
 
-I appreciate your love and support.
+Your support is greatly appreciated.
+
 
 * * *
 

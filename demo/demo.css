@@ -25,7 +25,7 @@ h3,
 h4,
 h5,
 h6,
-p{
+p {
     margin: 0;
     padding: 0;
     font-weight: normal;
@@ -78,6 +78,11 @@ img,
 picture {
     height: auto;
     display: inline-block;
+}
+
+div>img,
+div>picture {
+    margin: 0.5em;
 }
 
 video,
@@ -148,7 +153,7 @@ pre::before {
     content: "Code:";
 }
 
-section > .helper::before {
+section>.helper::before {
     content: "Description:";
 }
 

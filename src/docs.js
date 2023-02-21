@@ -35,8 +35,8 @@
  * Defer.js is zero-dependency, super-efficient, and Web Vitals friendly.
  *
  * @author    Mai Nhut Tan <shin@shin.company>
- * @copyright 2022 AppSeeds <https://code.shin.company/>
- * @version   3.4.0
+ * @copyright 2019-2023 SHIN Company <https://code.shin.company/>
+ * @version   3.5.0
  * @license   {@link https://code.shin.company/defer.js/blob/master/LICENSE|MIT}
  */
 
@@ -594,7 +594,7 @@
  * ```html
  * <script>
  *   Defer.dom('#surprise-me', 1000, 'seen', function(node) {
- *     alert('Yay!\n\nYou have seen all examples.\nHave fun with Defer.js!');
+ *     alert('Yay!\nYou have seen all examples. Have fun with Defer.js!');
  *   });
  * </script>
  * ```
@@ -730,7 +730,8 @@
  * <div class="demo-addthis"></div>
  *
  * <script>
- *   var fileUrl = 'https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5c68e61cf456f1cb';
+ *   var ADDTHIS_ID = 'ra-5c68e61cf456f1cb';
+ *   var fileUrl = 'https://s7.addthis.com/js/300/addthis_widget.js#pubid=' + ADDTHIS_ID;
  *   var loaded  = false;
  *
  *   Defer.js(fileUrl, 'addthis-js', 0, function() {
