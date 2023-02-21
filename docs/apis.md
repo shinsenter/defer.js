@@ -539,7 +539,7 @@ he/she will see a message as soon as an element with `id="surprise-me"` appears.
 ```html
 <script>
   Defer.dom('#surprise-me', 1000, 'seen', function(node) {
-    alert('Yay!\n\nYou have seen all examples.\nHave fun with Defer.js!');
+    alert('Yay!\nYou have seen all examples. Have fun with Defer.js!');
   });
 </script>
 ```
@@ -678,7 +678,8 @@ AddThis add-on will not be loaded until the user starts interacting with the pag
 <div class="demo-addthis"></div>
 
 <script>
-  var fileUrl = 'https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5c68e61cf456f1cb';
+  var ADDTHIS_ID = 'ra-5c68e61cf456f1cb';
+  var fileUrl = 'https://s7.addthis.com/js/300/addthis_widget.js#pubid=' + ADDTHIS_ID;
   var loaded  = false;
 
   Defer.js(fileUrl, 'addthis-js', 0, function() {

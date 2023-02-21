@@ -40,18 +40,18 @@
                 <div class="helper">
                     Just put a <code>&lt;script&gt;</code> tag pointing to
                     <a target="_blank" title="defer.min.js"
-                        href="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.4.0/dist/defer.min.js">the library URL</a>
+                        href="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.5.0/dist/defer.min.js">the library URL</a>
                     just below the opening <code>&lt;head&gt;</code> tag of your page.
                     Because <code>defer.min.js</code> is optimized to a very tiny file size,
                     you can even inline entire the library to save one HTTP request.
                 </div>
                 <div class="demo">
 <!-- Copy the script from the below URL -->
-<!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.4.0/dist/defer.min.js -->
+<!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.5.0/dist/defer.min.js -->
 <script>/* then replace this comment block with the content of defer.min.js here */</script>
 
-<!-- If legacy browsers like Internet Explorer 9 still need to be supported -->
-<script>'IntersectionObserver'in window||document.write('<script defer src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.4.0/dist/polyfill.min.js"><\/script>');</script>
+<!-- If your website still runs on legacy browsers like Internet Explorer 9, -->
+<script>'IntersectionObserver'in window||document.write('<script defer src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.5.0/dist/polyfill.min.js"><\/script>');</script>
                 </div>
             </div>
         </section>
@@ -80,8 +80,9 @@
                     will not execute unless the user starts interacting with your page.
                     <br>
                     <strong>Note: </strong>
-                    <a href="" target="_blank">Resource hints</a> feature was added since v3.2
-                    as it is recommended to prevent issues called <a href="https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall" target="_blank">Taming the Waterfall</a>.
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload" target="_blank">Resource hints</a>
+                    feature was added since v3.2 as it is recommended to prevent issues called
+                    <a href="https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall" target="_blank">Taming the Waterfall</a>.
                     This feature is discussed at <a href="https://code.shin.company/defer.js/issues/112" target="_blank">#112</a>.
                 </div>
                 <div class="demo">
@@ -108,8 +109,9 @@
                     will not execute unless the user starts interacting with your page.
                     <br>
                     <strong>Note: </strong>
-                    <a href="" target="_blank">Resource hints</a> feature was added since v3.2
-                    as it is recommended to prevent issues called <a href="https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall" target="_blank">Taming the Waterfall</a>.
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload" target="_blank">Resource hints</a>
+                    feature was added since v3.2 as it is recommended to prevent issues called
+                    <a href="https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall" target="_blank">Taming the Waterfall</a>.
                     This feature is discussed at <a href="https://code.shin.company/defer.js/issues/112" target="_blank">#112</a>.
                 </div>
                 <div class="demo">
@@ -563,7 +565,7 @@
                 <div class="demo">
 <script>
     Defer.dom('#surprise-me', 1000, 'seen', function(node) {
-        alert('Yay!\n\nYou have seen all examples.\nHave fun with Defer.js!');
+        alert('Yay!\nYou have seen all examples. Have fun with Defer.js!');
     });
 </script>
                 </div>
@@ -741,45 +743,48 @@
     <!-- Dummy -->
     <script>Defer.all('script[type="waterfall-test-defer"]', 10, false);</script>
     <script>Defer.all('script[type="waterfall-test-lazy"]',  10, true);</script>
-    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.38/vue.cjs.js"></script>
-    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/js/bootstrap.min.js"></script>
-    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/create-react-class/15.7.0/create-react-class.min.js"></script>
-    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
-    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/typescript/4.8.2/typescript.min.js"></script>
-    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/antd/4.22.8/antd.min.js"></script>
-    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/react-is/18.2.0/umd/react-is.production.min.js"></script>
-    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/js/bootstrap.min.js"></script>
-    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.6.1/d3.min.js"></script>
-    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.144.0/three.min.js"></script>
-    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/angular/12.2.16/core.umd.min.js"></script>
-    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/material-ui/4.12.4/index.js"></script>
-    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/angular-aria/1.8.3/angular-aria.min.js"></script>
-    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/angular-animate/1.8.3/angular-animate.min.js"></script>
-    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/firacode/6.2.0/fira_code.css"></script>
-    <script type="waterfall-test-defer" src="https://cdnjs.cloudflare.com/ajax/libs/angular-loader/1.8.3/angular-loader.min.js"></script>
-    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/angular-cookies/1.8.3/angular-cookies.min.js"></script>
-    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/angular-message-format/1.8.3/angular-message-format.min.js"></script>
-    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/angular-parse-ext/1.8.3/angular-parse-ext.min.js"></script>
-    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/angular-resource/1.8.3/angular-resource.min.js"></script>
-    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/angular-route/1.8.3/angular-route.min.js"></script>
-    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.8.3/angular-sanitize.min.js"></script>
-    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/angular-touch/1.8.3/angular-touch.min.js"></script>
-    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
-    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.8.3/angular-locale_en-us.min.js"></script>
-    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
-    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.2.0/redux.min.js"></script>
-    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
-    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-compat/3.0.0-alpha1/jquery.min.js"></script>
-    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.15.9/index.js"></script>
-    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.3.3/echarts.min.js"></script>
-    <script type="waterfall-test-lazy" src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.1.6/mermaid.min.js"></script>
-    <script type="waterfall-test-lazy" defer crossorigin="anonymous" referrerpolicy="no-referrer"
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.slim.min.js"
-        integrity="sha512-6ORWJX/LrnSjBzwefdNUyLCMTIsGoNP6NftMy2UAm1JBm6PRZCO1d7OHBStWpVFZLO+RerTvqX/Z9mBFfCJZ4A=="></script>
+    <script type="waterfall-test-defer" data-order="01" src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.38/vue.cjs.js"></script>
+    <script type="waterfall-test-defer" data-order="02" src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script type="waterfall-test-defer" data-order="03" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/js/bootstrap.min.js"></script>
+    <script type="waterfall-test-defer" data-order="04" src="https://cdnjs.cloudflare.com/ajax/libs/create-react-class/15.7.0/create-react-class.min.js"></script>
+    <script type="waterfall-test-defer" data-order="05" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+    <script type="waterfall-test-defer" data-order="05b">console.debug('defer-05b');</script>
+    <script type="waterfall-test-defer" data-order="06" src="https://cdnjs.cloudflare.com/ajax/libs/typescript/4.8.2/typescript.min.js"></script>
+    <script type="waterfall-test-defer" data-order="07" src="https://cdnjs.cloudflare.com/ajax/libs/antd/4.22.8/antd.min.js"></script>
+    <script type="waterfall-test-defer" data-order="08" src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script type="waterfall-test-defer" data-order="09" src="https://cdnjs.cloudflare.com/ajax/libs/react-is/18.2.0/umd/react-is.production.min.js"></script>
+    <script type="waterfall-test-defer" data-order="10" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/js/bootstrap.min.js"></script>
+    <script type="waterfall-test-defer" data-order="10b">console.debug('defer-10b');</script>
+    <script type="waterfall-test-defer" data-order="11" src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.6.1/d3.min.js"></script>
+    <script type="waterfall-test-defer" data-order="12" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.144.0/three.min.js"></script>
+    <script type="waterfall-test-defer" data-order="13" src="https://cdnjs.cloudflare.com/ajax/libs/angular/12.2.16/core.umd.min.js"></script>
+    <script type="waterfall-test-defer" data-order="14" src="https://cdnjs.cloudflare.com/ajax/libs/material-ui/4.12.4/index.js"></script>
+    <script type="waterfall-test-defer" data-order="15" src="https://cdnjs.cloudflare.com/ajax/libs/angular-aria/1.8.3/angular-aria.min.js"></script>
+    <script type="waterfall-test-defer" data-order="15b">console.debug('defer-15b');</script>
+    <script type="waterfall-test-defer" data-order="16" src="https://cdnjs.cloudflare.com/ajax/libs/angular-animate/1.8.3/angular-animate.min.js"></script>
+    <script type="waterfall-test-defer" data-order="17" src="https://cdnjs.cloudflare.com/ajax/libs/angular-loader/1.8.3/angular-loader.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="01" src="https://cdnjs.cloudflare.com/ajax/libs/angular-cookies/1.8.3/angular-cookies.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="02" src="https://cdnjs.cloudflare.com/ajax/libs/angular-message-format/1.8.3/angular-message-format.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="03" src="https://cdnjs.cloudflare.com/ajax/libs/angular-parse-ext/1.8.3/angular-parse-ext.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="04" src="https://cdnjs.cloudflare.com/ajax/libs/angular-resource/1.8.3/angular-resource.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="05" src="https://cdnjs.cloudflare.com/ajax/libs/angular-route/1.8.3/angular-route.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="05b">console.debug('lazy-05b');</script>
+    <script type="waterfall-test-lazy" data-order="06" src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.8.3/angular-sanitize.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="07" src="https://cdnjs.cloudflare.com/ajax/libs/angular-touch/1.8.3/angular-touch.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="08" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="09" src="https://cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.8.3/angular-locale_en-us.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="10" src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+    <script type="waterfall-test-lazy" data-order="10b">console.debug('lazy-10b');</script>
+    <script type="waterfall-test-lazy" data-order="11" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="12" src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.2.0/redux.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="13" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="14" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
+    <script type="waterfall-test-lazy" data-order="15" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-compat/3.0.0-alpha1/jquery.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="15b">console.debug('lazy-15b');</script>
+    <script type="waterfall-test-lazy" data-order="16" src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.15.9/index.js"></script>
+    <script type="waterfall-test-lazy" data-order="17" src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.3.3/echarts.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="18" src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.1.6/mermaid.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="19" src="https://code.jquery.com/jquery-3.6.3.slim.min.js" integrity="sha256-ZwqZIVdD3iXNyGHbSYdsmWP//UBokj2FHAxKuSBKDSo=" crossorigin="anonymous"></script>
 </body>
 
 </html>
