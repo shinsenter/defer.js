@@ -771,6 +771,81 @@
  *   });
  * </script>
  * ```
+ *
+ * @example
+ * Lazy load a Twitter post or timeline.
+ *
+ * This example uses the `Defer.js()` and the `Defer.dom()` method to defer a Twitter post or a timeline.
+ * The `.lazy-timeline` or `.lazy-tweet` blocks on the page will be rendered
+ * only when the user scrolls to the target position.
+ *
+ * ```html
+ * <div id="demo-twitter">
+ *   <a class="lazy-timeline" <!-- the original is class="twitter-timeline" -->
+ *     href="https://twitter.com/TwitterDev"
+ *     data-chrome="nofooter noborders"
+ *     data-height="400" data-dnt="true" data-theme="dark">
+ *     Tweets by @TwitterDev
+ *   </a>
+ *
+ *   <blockquote class="lazy-tweet" <!-- the original is class="twitter-tweet" -->>
+ *     <!-- content is truncated -->
+ *   </blockquote>
+ * </div>
+ * <script>
+ * Defer.js('https://platform.twitter.com/widgets.js', 'twitter-sdk', 0, function() {
+ *   Defer.dom('.lazy-timeline', 0, 'twitter-loaded', function(node) {
+ *     // adds the correct class name for tweet element
+ *     node.className = 'twitter-timeline';
+ *
+ *     // For better performance,
+ *     // we only search within the parent DOM tree for uninitialized widgets
+ *     twttr.widgets.load(node.parentNode);
+ *     console.info('Twitter timeline is loaded.'); // debug
+ *   }, {rootMargin: "120%"});
+ *
+ *   Defer.dom('.lazy-tweet', 0, 'twitter-loaded', function(node) {
+ *     // adds the correct class name for timeline element
+ *     node.className = 'twitter-tweet';
+ *
+ *     // For better performance,
+ *     // we only search within the parent DOM tree for uninitialized widgets
+ *     twttr.widgets.load(node.parentNode);
+ *     console.info('Twitter post is loaded.'); // debug
+ *   }, {rootMargin: "120%"});
+ * });
+ * </script>
+ * ```
+ *
+ * @example
+ * Lazy load an Instgram post.
+ *
+ * This example uses the `Defer.js()` and the `Defer.dom()` method to defer an Instagram post.
+ * The `.lazy-instagram` block on the page will be rendered
+ * only when the user scrolls to the target position.
+ *
+ * ```html
+ * <div id="demo-instagram">
+ *   <blockquote class="lazy-instagram" <!-- the original is class="instagram-media" -->
+ *     data-instgrm-captioned=""
+ *     data-instgrm-permalink="<!-- the URL is omitted -->">
+ *     <!-- content is truncated -->
+ *   </blockquote>
+ * </div>
+ * <script>
+ * Defer.js('https://www.instagram.com/embed.js', 'instagram-sdk', 0, function() {
+ *   Defer.dom('.lazy-instagram', 0, 'instagram-loaded', function(node) {
+ *     // adds the correct class name for instagram post
+ *     node.className = 'instagram-media';
+ *
+ *     // For better performance,
+ *     // we only search within the parent DOM tree for uninitialized widgets
+ *     instgrm.Embeds.process(node.parentNode);
+ *     console.info('Instagram post is loaded.'); // debug
+ *   }, {rootMargin: "120%"});
+ * });
+ * </script>
+ * ```
  */
 
 /**
