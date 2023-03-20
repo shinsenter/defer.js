@@ -256,7 +256,7 @@ Please check out the below examples for more details.
 | [selector] | <code>string</code> | <code>&quot;[data-src]&quot;</code> | A CSS selector selects target HTML elements that will be unveiled later. |
 | [delay] | <code>number</code> | <code>0</code> | The time, in milliseconds that it should wait before lazy loading is applied for target elements. |
 | [unveiledClass] | <code>string</code> |  | Class names that will be added to target elements when they are unveiled. |
-| [resolver] | [<code>NodeHandler</code>](#NodeHandler) |  | A [NodeHandler](#NodeHandler) will check a [Node](#Node) to determine if it will be unveiled or not. If the resolver returns `false`, the node will not be unveiled. |
+| [resolver] | [<code>NodeHandler</code>](#NodeHandler) |  | A [NodeHandler](#NodeHandler) will check a [Node](#Node) to determine if it will be unveiled or not. If the `resolver()` callback returns `false`, the node will not be unveiled. |
 | [observeOptions] | <code>object</code> |  | [Intersection observer options](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API#Intersection_observer_options) |
 
 **Example**  
@@ -748,7 +748,7 @@ Defer.js('https://platform.twitter.com/widgets.js', 'twitter-sdk', 0, function()
     // we only search within the parent DOM tree for uninitialized widgets
     twttr.widgets.load(node.parentNode);
     console.info('Twitter timeline is loaded.'); // debug
-  }, {rootMargin: "120%"});
+  }, {rootMargin: "200%"});
 
   Defer.dom('.lazy-tweet', 0, 'twitter-loaded', function(node) {
     // adds the correct class name for timeline element
@@ -758,7 +758,7 @@ Defer.js('https://platform.twitter.com/widgets.js', 'twitter-sdk', 0, function()
     // we only search within the parent DOM tree for uninitialized widgets
     twttr.widgets.load(node.parentNode);
     console.info('Twitter post is loaded.'); // debug
-  }, {rootMargin: "120%"});
+  }, {rootMargin: "200%"});
 });
 </script>
 ```
@@ -787,7 +787,7 @@ Defer.js('https://www.instagram.com/embed.js', 'instagram-sdk', 0, function() {
     // we only search within the parent DOM tree for uninitialized widgets
     instgrm.Embeds.process(node.parentNode);
     console.info('Instagram post is loaded.'); // debug
-  }, {rootMargin: "120%"});
+  }, {rootMargin: "200%"});
 });
 </script>
 ```

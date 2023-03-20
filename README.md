@@ -23,7 +23,7 @@ By using Defer.js, you can say goodbye to these issues! With its lazy loading ca
 [![NPM](https://nodei.co/npm/@shinsenter/defer.js.png?downloads=true)](https://www.npmjs.com/package/@shinsenter/defer.js)
 
 - **Package**: [@shinsenter/defer.js](https://www.npmjs.com/package/@shinsenter/defer.js)
-- **Version**: 3.5.0
+- **Version**: 3.6.0
 - **Author**: Mai Nhut Tan <shin@shin.company>
 - **Copyright**: 2019-2023 SHIN Company <https://code.shin.company/>
 - **License**: [MIT](https://code.shin.company/defer.js/blob/master/LICENSE)
@@ -86,7 +86,7 @@ Add the Defer.js library to your page by including a `<script>` tag just below t
   <title>My Awesome Page</title>
 
   <!-- Add Defer.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.5.0/dist/defer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.6.0/dist/defer.min.js"></script>
 
   <!-- ... -->
 </head>
@@ -94,7 +94,7 @@ Add the Defer.js library to your page by including a `<script>` tag just below t
 
 ### Inlining the library
 
-To save an HTTP request, you can even inline the entire Defer.js library by copying its content from the [defer.min.js](https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.5.0/dist/defer.min.js) and replacing the comments in the script tag with its content.
+To save an HTTP request, you can even inline the entire Defer.js library by copying its content from the [defer.min.js](https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.6.0/dist/defer.min.js) and replacing the comments in the script tag with its content.
 
 ```html
 <head>
@@ -118,7 +118,7 @@ If you're using an older version of Defer.js, you can use `defer_plus.min.js` in
   <title>My Awesome Page</title>
 
   <!-- Put defer_plus.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.5.0/dist/defer_plus.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.6.0/dist/defer_plus.min.js"></script>
 
   <!-- ... -->
 </head>
@@ -132,7 +132,7 @@ To enhance performance for legacy browsers that don't support the `IntersectionO
 <script>/* Defer.js content */</script>
 
 <!-- Add the IntersectionObserver Polyfill for legacy browsers -->
-<script>'IntersectionObserver'in window||document.write('<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.5.0/dist/polyfill.min.js"><\/script>');</script>
+<script>'IntersectionObserver'in window||document.write('<script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.6.0/dist/polyfill.min.js"><\/script>');</script>
 ```
 
 *NOTE*: Modern browsers support the `IntersectionObserver` feature, so you don't have to worry about adding the polyfill if you don't have legacy browsers in mind.
@@ -394,7 +394,7 @@ Please check out the below examples for more details.
 | [selector] | <code>string</code> | <code>&quot;[data-src]&quot;</code> | A CSS selector selects target HTML elements that will be unveiled later. |
 | [delay] | <code>number</code> | <code>0</code> | The time, in milliseconds that it should wait before lazy loading is applied for target elements. |
 | [unveiledClass] | <code>string</code> |  | Class names that will be added to target elements when they are unveiled. |
-| [resolver] | [<code>NodeHandler</code>](#NodeHandler) |  | A [NodeHandler](#NodeHandler) will check a [Node](#Node) to determine if it will be unveiled or not. If the resolver returns `false`, the node will not be unveiled. |
+| [resolver] | [<code>NodeHandler</code>](#NodeHandler) |  | A [NodeHandler](#NodeHandler) will check a [Node](#Node) to determine if it will be unveiled or not. If the `resolver()` callback returns `false`, the node will not be unveiled. |
 | [observeOptions] | <code>object</code> |  | [Intersection observer options](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API#Intersection_observer_options) |
 
 **Example**  
@@ -886,7 +886,7 @@ Defer.js('https://platform.twitter.com/widgets.js', 'twitter-sdk', 0, function()
     // we only search within the parent DOM tree for uninitialized widgets
     twttr.widgets.load(node.parentNode);
     console.info('Twitter timeline is loaded.'); // debug
-  }, {rootMargin: "120%"});
+  }, {rootMargin: "200%"});
 
   Defer.dom('.lazy-tweet', 0, 'twitter-loaded', function(node) {
     // adds the correct class name for timeline element
@@ -896,7 +896,7 @@ Defer.js('https://platform.twitter.com/widgets.js', 'twitter-sdk', 0, function()
     // we only search within the parent DOM tree for uninitialized widgets
     twttr.widgets.load(node.parentNode);
     console.info('Twitter post is loaded.'); // debug
-  }, {rootMargin: "120%"});
+  }, {rootMargin: "200%"});
 });
 </script>
 ```
@@ -925,7 +925,7 @@ Defer.js('https://www.instagram.com/embed.js', 'instagram-sdk', 0, function() {
     // we only search within the parent DOM tree for uninitialized widgets
     instgrm.Embeds.process(node.parentNode);
     console.info('Instagram post is loaded.'); // debug
-  }, {rootMargin: "120%"});
+  }, {rootMargin: "200%"});
 });
 </script>
 ```

@@ -8,7 +8,7 @@
  *
  * MIT License
  *
- * Copyright (c) 2019 Mai Nhut Tan <shin@shin.company>
+ * Copyright (c) 2019-2023 Mai Nhut Tan <shin@shin.company>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,7 @@
  *
  * @author    Mai Nhut Tan <shin@shin.company>
  * @copyright 2019-2023 SHIN Company <https://code.shin.company/>
- * @version   3.5.0
+ * @version   3.6.0
  * @license   {@link https://code.shin.company/defer.js/blob/master/LICENSE|MIT}
  */
 
@@ -299,7 +299,7 @@
  * @param    {number}       [delay=0] - The time, in milliseconds that it should wait before lazy loading is applied for target elements.
  * @param    {string}       [unveiledClass] - Class names that will be added to target elements when they are unveiled.
  * @param    {NodeHandler}  [resolver] - A {@link NodeHandler} will check a {@link Node} to determine if it will be unveiled or not.
- * If the resolver returns `false`, the node will not be unveiled.
+ * If the `resolver()` callback returns `false`, the node will not be unveiled.
  * @param    {object}       [observeOptions] - [Intersection observer options](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API#Intersection_observer_options)
  * @returns  {void}
  *
@@ -802,7 +802,7 @@
  *     // we only search within the parent DOM tree for uninitialized widgets
  *     twttr.widgets.load(node.parentNode);
  *     console.info('Twitter timeline is loaded.'); // debug
- *   }, {rootMargin: "120%"});
+ *   }, {rootMargin: "200%"});
  *
  *   Defer.dom('.lazy-tweet', 0, 'twitter-loaded', function(node) {
  *     // adds the correct class name for timeline element
@@ -812,7 +812,7 @@
  *     // we only search within the parent DOM tree for uninitialized widgets
  *     twttr.widgets.load(node.parentNode);
  *     console.info('Twitter post is loaded.'); // debug
- *   }, {rootMargin: "120%"});
+ *   }, {rootMargin: "200%"});
  * });
  * </script>
  * ```
@@ -842,7 +842,7 @@
  *     // we only search within the parent DOM tree for uninitialized widgets
  *     instgrm.Embeds.process(node.parentNode);
  *     console.info('Instagram post is loaded.'); // debug
- *   }, {rootMargin: "120%"});
+ *   }, {rootMargin: "200%"});
  * });
  * </script>
  * ```
