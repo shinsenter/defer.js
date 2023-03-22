@@ -169,7 +169,12 @@
     "no-unmodified-loop-condition": "error",
     "no-unneeded-ternary": "error",
     "no-unused-expressions": "off",
-    "no-use-before-define": "error",
+    "no-use-before-define": ["error", {
+      "allowNamedExports": false,
+      "classes": true,
+      "functions": false,
+      "variables": true
+    }],
     "no-useless-call": "error",
     "no-useless-catch": "error",
     "no-useless-computed-key": "error",
