@@ -52,7 +52,10 @@
   */
 
   // aliases for reusable variables
-  var CONST_FALSE   = false;
+  var CONST_FALSE     = false;
+  var CONST_TAP_DELAY = 350;
+
+  // aliases for HTML tags
   var TAG_LINK      = 'link';
   var TAG_SCRIPT    = 'script';
 
@@ -64,12 +67,11 @@
   var EVN_ERROR     = 'error';
   var EVN_LOAD      = 'load';
   var EVN_PAGESHOW  = 'pageshow';
-  var EVN_TOUCH     = 'touchstart';
   var TYPE_ADD      = 'add';
   var TYPE_REMOVE   = 'remove';
 
   // page events
-  var ACTION_EVENTS = 'on' + EVN_TOUCH in window ? EVN_TOUCH : 'mousemove mousedown keydown wheel';
+  var ACTION_EVENTS = 'touchstart mousemove mousedown keydown wheel';
   var WINDOW_EVENT  = 'on' + EVN_PAGESHOW in window ? EVN_PAGESHOW : EVN_LOAD;
 
   // aliases for object methods
@@ -109,9 +111,6 @@
   // helper functions
   var fnServe = window.setTimeout;
   var fnSlice = fastQueue.slice;
-
-  // placeholder variable
-  var defaultHandler;
 
   /*
   |--------------------------------------------------------------------------
@@ -164,11 +163,13 @@
     if (isReady) {
       fnServe(func, delay);
     } else {
-      (
-        (lazy === CONST_UNDEFINED ? $$[META_LAZY] : lazy)
-          ? lazyQueue
-          : fastQueue
-      ).push(func, delay);
+      lazy = lazy === CONST_UNDEFINED ? $$[META_LAZY] : lazy;
+      (lazy ? lazyQueue : fastQueue).push(
+        func,
+        // A temporary fix for the issue #121
+        // See: https://code.shin.company/defer.js/discussions/122
+        Math.max(lazy ? CONST_TAP_DELAY : 0, delay)
+      );
     }
   }
 
@@ -193,9 +194,9 @@
   }
 
   // attaches/detaches event listeners
-  function fnEventHelper(type, events, node, handler) {
+  function fnEventHelper(type, events, callback, target) {
     fnEach(events.split(' '), function (event) {
-      (node || window)[type + 'EventListener'](event, handler || defaultHandler);
+      (target || window)[type + 'EventListener'](event, callback || _boot);
     });
   }
 
@@ -216,7 +217,7 @@
     }
 
     if (onload) {
-      fnEventHelper(TYPE_ADD, EVN_LOAD, _node, onload);
+      fnEventHelper(TYPE_ADD, EVN_LOAD, onload, _node);
     }
 
     return _node;
@@ -353,34 +354,34 @@
       }
 
       // executes queued script tags in the order they were queued
-      function _dequeue(_node, _copy) {
+      function _dequeue(_node, _clone) {
         // shifts the next script tag in the front of the queue
         _node = _scripts[FUNC_SHIFT]();
 
         if (_node) {
           // clones the node
-          _copy = fnCreateNode(TAG_SCRIPT);
+          _clone = fnCreateNode(TAG_SCRIPT);
 
           // copies all attributes from the node
           fnLoopAttributes(_node, function (name, value) {
             if (name != ATTR_TYPE) {
-              _copy[FUNC_SET_ATTR](name, value);
+              _clone[FUNC_SET_ATTR](name, value);
             }
           });
 
           // copies he node's text content
-          _copy.text = _node.text;
+          _clone.text = _node.text;
 
           // replaces the original node with the cloned node
-          debug('A DOM node will be replaced.', _copy);
-          _node.parentNode.replaceChild(_copy, _node);
+          debug('A DOM node will be replaced.', _clone);
+          _node.parentNode.replaceChild(_clone, _node);
 
           // dequeues the next element
           // NOTE 1: the async attribute MUST be checked via getAttribute()
           // NOTE 2: a script tag without src should be loaded async
           // NOTE 3: a script tag with src and async should be loaded async
-          if (_copy.src && !_copy[FUNC_GET_ATTR](ATTR_ASYNC)) {
-            fnEventHelper(TYPE_ADD, EVN_LOAD + ' ' + EVN_ERROR, _copy, _dequeue);
+          if (_clone.src && !_clone[FUNC_GET_ATTR](ATTR_ASYNC)) {
+            fnEventHelper(TYPE_ADD, EVN_LOAD + ' ' + EVN_ERROR, _dequeue, _clone);
           } else {
             _dequeue();
           }
@@ -440,8 +441,8 @@
   |--------------------------------------------------------------------------
   */
 
-  // handles window events
-  defaultHandler = function (event, _queue) {
+  // handles events
+  function _boot(event, _queue) {
     // debug
     log(_DEFER_JS_ + ': "' + event.type + '" event was triggered.', '#90f');
 
@@ -493,7 +494,7 @@
     }
 
     // debug
-    if (_queue == fastQueue) {
+    if (event.type == WINDOW_EVENT) {
       perf_end(_LOADSTEP_);
     } else {
       perf_end(_USERSTEP_);
