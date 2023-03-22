@@ -24,7 +24,6 @@
 
             <ul id="navs">
                 <li><a href="#installation">Getting started</a></li>
-                <li><a href="#examples">View examples</a></li>
             </ul>
 
             <div class="demo-addthis addthis_inline_share_toolbox"></div>
@@ -812,6 +811,20 @@ Defer.js('https://www.instagram.com/embed.js', 'instagram-sdk', 0, function() {
             <p>Have fun with <a href="https://code.shin.company/defer.js" title="@shinsenter/defer.js">@shinsenter/defer.js</a>!</p>
         </footer>
     </main>
+
+    <!-- Issue #121 (https://github.com/shinsenter/defer.js/issues/121) -->
+    <script type="issue-121">
+        document.getElementById('navs').innerHTML = [
+            '<li><a href="#installation">Getting started<\/a><\/li>',
+            '<li><a href="#examples">View examples<\/a><\/li>',
+        ].join('');
+    </script>
+    <script>
+        jQuery('a').on('click', function() {
+            console.debug('Clicked', this);
+        });
+        Defer.all('script[type="issue-121"]', 0, true);
+    </script>
 
     <!-- Dummy -->
     <script>Defer.all('script[type="waterfall-test-defer"]', 10, false);</script>

@@ -122,8 +122,8 @@
   // performance labels
   var _DEFER_JS_ = NAMESPACE + ' v' + VERSION;
   var _BOOTSTEP_ = _DEFER_JS_ + ' boot';
-  var _LOADSTEP_ = _DEFER_JS_ + ' waits: booted -> page load event';
-  var _USERSTEP_ = _DEFER_JS_ + ' waits: page loaded -> user event';
+  var _LOADSTEP_ = _DEFER_JS_ + ' execution: page load event';
+  var _USERSTEP_ = _DEFER_JS_ + ' execution: user events';
 
   function debug() {
     if (console && 'debug' in console) {
@@ -149,8 +149,6 @@
       console.timeEnd('Perf: ⏱️ ' + label);
     }
   }
-
-  perf_begin(_BOOTSTEP_);
 
   /*
   |--------------------------------------------------------------------------
@@ -450,7 +448,7 @@
     if (_isReady) {
       // debug
       log(_DEFER_JS_ + ': a user interaction detected!', '#09f');
-      perf_end(_USERSTEP_);
+      perf_begin(_USERSTEP_);
 
       // removes user events for lazy tasks
       fnEventHelper(TYPE_REMOVE, ACTION_EVENTS);
@@ -463,7 +461,8 @@
     } else {
       // debug
       log(_DEFER_JS_ + ': page has fully loaded!', '#09f');
-      perf_end(_LOADSTEP_);
+      perf_end(_BOOTSTEP_);
+      perf_begin(_LOADSTEP_);
 
       // removes browser event listening
       fnEventHelper(TYPE_REMOVE, WINDOW_EVENT);
@@ -478,7 +477,6 @@
       // adds user event watchers for lazy tasks if it is not empty
       if (_queuedDelay[0]) {
         fnEventHelper(TYPE_ADD, ACTION_EVENTS);
-        perf_begin(_USERSTEP_);
         log(ACTION_EVENTS);
       }
 
@@ -492,6 +490,13 @@
     // serves all queued tasks
     while (_release[0]) {
       fnServe(_release[FUNC_SHIFT](), _release[FUNC_SHIFT]());
+    }
+
+    // debug
+    if (_release == _queuedDefer) {
+      perf_end(_LOADSTEP_);
+    } else {
+      perf_end(_USERSTEP_);
     }
   }
 
@@ -511,14 +516,13 @@
   // exposes the Defer instance
   window[NAMESPACE] = $$;
 
-  // debug
-  log(_DEFER_JS_ + ' was injected!', '#888');
-  perf_end(_BOOTSTEP_);
-
   if (!_isReady) {
+    // debug
+    log(_DEFER_JS_ + ' was injected!', '#888');
+    perf_begin(_BOOTSTEP_);
+
     // adds an event listener for the page load event
     fnEventHelper(TYPE_ADD, WINDOW_EVENT);
-    perf_begin(_LOADSTEP_);
   }
 
   // unveils the script tags with type="deferjs"
