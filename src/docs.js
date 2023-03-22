@@ -191,6 +191,12 @@
  * as it is recommended to prevent issues called "[Taming the Waterfall](https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall)".
  * This feature is discussed at [#112](https://code.shin.company/defer.js/issues/112).
  *
+ * @note (4) Known Issue:
+ * In iOS Safari, the first `click` event may not work
+ * when using `Defer.all()` with `waitForUserAction` set to `true`
+ * and one of deferred scripts make a DOM change.
+ * View the discussion [#122](https://code.shin.company/defer.js/discussions/122) for more details.
+ *
  * @function Defer.all
  * @since    2.0
  * @param    {string} [selector=[type=deferjs]] - A CSS selector selects target script tags that will be Lazy loaded.
@@ -271,7 +277,7 @@
  * </script>
  *
  * <script>
- *   Defer.all('script[type="myscript"]', 0, true);
+ *   Defer.all('script[type="myscript"]', 500, true);
  * </script>
  * ```
  */

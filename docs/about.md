@@ -72,6 +72,15 @@ Defer.js is compatible with all modern browsers, including:
 - 📱 Android 4+
 - 📱 iOS 3.2+
 
+---
+
+## Known issues
+
+- [Discussion #122](https://code.shin.company/defer.js/discussions/122):
+In iOS Safari, the first `click` event may not work when using `Defer.all()` with the `waitForUserAction` argument set to `true` and one of deferred scripts make a DOM change.
+
+---
+
 ## Getting started
 
 Defer.js is an easy-to-use library that will help boost your website's performance by reducing loading times. Here's how to get started:
@@ -136,3 +145,6 @@ To enhance performance for legacy browsers that don't support the `IntersectionO
 ```
 
 *NOTE*: Modern browsers support the `IntersectionObserver` feature, so you don't have to worry about adding the polyfill if you don't have legacy browsers in mind.
+
+---
+

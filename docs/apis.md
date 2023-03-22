@@ -145,6 +145,11 @@ unless the user starts interacting with your page.
 **Note**: (3) [Resource hints](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload) feature was added since v3.2
 as it is recommended to prevent issues called "[Taming the Waterfall](https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall)".
 This feature is discussed at [#112](https://code.shin.company/defer.js/issues/112).  
+**Note**: (4) Known Issue:
+In iOS Safari, the first `click` event may not work
+when using `Defer.all()` with `waitForUserAction` set to `true`
+and one of deferred scripts make a DOM change.
+View the discussion [#122](https://code.shin.company/defer.js/discussions/122) for more details.  
 **Since**: 2.0  
 
 | Param | Type | Default | Description |
@@ -224,7 +229,7 @@ you should call run the `Defer.all()` method with a regular script tag.
 </script>
 
 <script>
-  Defer.all('script[type="myscript"]', 0, true);
+  Defer.all('script[type="myscript"]', 500, true);
 </script>
 ```
 

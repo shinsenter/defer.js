@@ -153,7 +153,7 @@
     tippy('#tooltip-button', { content: 'Hello from Defer.js!' });
 </script>
 <script>
-    Defer.all('script[type="myscript"]', 0, true);
+    Defer.all('script[type="myscript"]', 500, true);
 </script>
                 </div>
             </div>
@@ -812,7 +812,7 @@ Defer.js('https://www.instagram.com/embed.js', 'instagram-sdk', 0, function() {
         </footer>
     </main>
 
-    <!-- Issue #121 (https://github.com/shinsenter/defer.js/issues/121) -->
+    <!-- Issue #121 (https://code.shin.company/defer.js/issues/121) -->
     <script type="issue-121">
         document.getElementById('navs').innerHTML = [
             '<li><a href="#installation">Getting started<\/a><\/li>',
@@ -820,15 +820,12 @@ Defer.js('https://www.instagram.com/embed.js', 'instagram-sdk', 0, function() {
         ].join('');
     </script>
     <script>
-        jQuery('a').on('click', function() {
-            console.debug('Clicked', this);
-        });
         Defer.all('script[type="issue-121"]', 0, true);
     </script>
 
     <!-- Dummy -->
-    <script>Defer.all('script[type="waterfall-test-defer"]', 10, false);</script>
-    <script>Defer.all('script[type="waterfall-test-lazy"]',  10, true);</script>
+    <script>Defer.all('script[type="waterfall-test-defer"]', 1000, false);</script>
+    <script>Defer.all('script[type="waterfall-test-lazy"]',  1000, true);</script>
     <script type="waterfall-test-defer" data-order="01" src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.38/vue.cjs.js"></script>
     <script type="waterfall-test-defer" data-order="02" src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
     <script type="waterfall-test-defer" data-order="03" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/js/bootstrap.min.js"></script>

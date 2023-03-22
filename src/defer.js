@@ -98,17 +98,17 @@
   var IntersectionObserver = window.IntersectionObserver;
 
   // browser features
-  var console       = window.console;
-  var document      = window.document || window;
+  var console   = window.console;
+  var document  = window.document || window;
 
   // variables that hold the state of Defer
-  var _isReady      = (/p/).test(document.readyState);
-  var _queuedDefer  = [];
-  var _queuedDelay  = [];
+  var isReady   = (/p/).test(document.readyState);
+  var fastQueue = [];
+  var lazyQueue = [];
 
   // helper functions
-  var fnServe       = window.setTimeout;
-  var fnSlice       = _queuedDefer.slice;
+  var fnServe = window.setTimeout;
+  var fnSlice = fastQueue.slice;
 
   // placeholder variable
   var defaultHandler;
@@ -161,13 +161,13 @@
 
   // the heart of the library
   function $$(func, delay, lazy) {
-    if (_isReady) {
+    if (isReady) {
       fnServe(func, delay);
     } else {
       (
         (lazy === CONST_UNDEFINED ? $$[META_LAZY] : lazy)
-          ? _queuedDelay
-          : _queuedDefer
+          ? lazyQueue
+          : fastQueue
       ).push(func, delay);
     }
   }
@@ -441,11 +441,11 @@
   */
 
   // handles window events
-  defaultHandler = function (event, _release) {
+  defaultHandler = function (event, _queue) {
     // debug
     log(_DEFER_JS_ + ': "' + event.type + '" event was triggered.', '#90f');
 
-    if (_isReady) {
+    if (isReady) {
       // debug
       log(_DEFER_JS_ + ': a user interaction detected!', '#09f');
       perf_begin(_USERSTEP_);
@@ -454,10 +454,10 @@
       fnEventHelper(TYPE_REMOVE, ACTION_EVENTS);
 
       // debug
-      log(_DEFER_JS_ + ': ' + _queuedDelay.length / 2 + ' lazy task(s) will execute from now!', '#f90');
+      log(_DEFER_JS_ + ': ' + lazyQueue.length / 2 + ' lazy task(s) will execute from now!', '#f90');
 
       // selects the queue to be served
-      _release = _queuedDelay;
+      _queue = lazyQueue;
     } else {
       // debug
       log(_DEFER_JS_ + ': page has fully loaded!', '#09f');
@@ -468,14 +468,14 @@
       fnEventHelper(TYPE_REMOVE, WINDOW_EVENT);
 
       // debug
-      log(_DEFER_JS_ + ': ' + _queuedDefer.length / 2 + ' queued task(s) will execute from now!', '#f09');
-      log(_DEFER_JS_ + ': ' + _queuedDelay.length / 2 + ' other task(s) will be delayed until there is user interaction.', '#f90');
+      log(_DEFER_JS_ + ': ' + fastQueue.length / 2 + ' queued task(s) will execute from now!', '#f09');
+      log(_DEFER_JS_ + ': ' + lazyQueue.length / 2 + ' other task(s) will be delayed until there is user interaction.', '#f90');
 
       // tells the core that the page has fully loaded
-      _isReady = $$;
+      isReady = $$;
 
       // adds user event watchers for lazy tasks if it is not empty
-      if (_queuedDelay[0]) {
+      if (lazyQueue[0]) {
         fnEventHelper(TYPE_ADD, ACTION_EVENTS);
         log(ACTION_EVENTS);
       }
@@ -484,16 +484,16 @@
       log(_DEFER_JS_ + ' is now ready!', '#9a3');
 
       // selects the queue to be served
-      _release = _queuedDefer;
+      _queue = fastQueue;
     }
 
     // serves all queued tasks
-    while (_release[0]) {
-      fnServe(_release[FUNC_SHIFT](), _release[FUNC_SHIFT]());
+    while (_queue[0]) {
+      fnServe(_queue[FUNC_SHIFT](), _queue[FUNC_SHIFT]());
     }
 
     // debug
-    if (_release == _queuedDefer) {
+    if (_queue == fastQueue) {
       perf_end(_LOADSTEP_);
     } else {
       perf_end(_USERSTEP_);
@@ -516,7 +516,7 @@
   // exposes the Defer instance
   window[NAMESPACE] = $$;
 
-  if (!_isReady) {
+  if (!isReady) {
     // debug
     log(_DEFER_JS_ + ' was injected!', '#888');
     perf_begin(_BOOTSTEP_);
