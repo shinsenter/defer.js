@@ -145,6 +145,11 @@ unless the user starts interacting with your page.
 **Note**: (3) [Resource hints](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload) feature was added since v3.2
 as it is recommended to prevent issues called "[Taming the Waterfall](https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall)".
 This feature is discussed at [#112](https://code.shin.company/defer.js/issues/112).  
+**Note**: (4) Known Issue:
+In iOS Safari, the first `click` event may not work
+when using `Defer.all()` with `waitForUserAction` set to `true`
+and one of deferred scripts make a DOM change.
+View the discussion [#122](https://code.shin.company/defer.js/discussions/122) for more details.  
 **Since**: 2.0  
 
 | Param | Type | Default | Description |
@@ -224,7 +229,7 @@ you should call run the `Defer.all()` method with a regular script tag.
 </script>
 
 <script>
-  Defer.all('script[type="myscript"]', 0, true);
+  Defer.all('script[type="myscript"]', 500, true);
 </script>
 ```
 
@@ -256,7 +261,7 @@ Please check out the below examples for more details.
 | [selector] | <code>string</code> | <code>&quot;[data-src]&quot;</code> | A CSS selector selects target HTML elements that will be unveiled later. |
 | [delay] | <code>number</code> | <code>0</code> | The time, in milliseconds that it should wait before lazy loading is applied for target elements. |
 | [unveiledClass] | <code>string</code> |  | Class names that will be added to target elements when they are unveiled. |
-| [resolver] | [<code>NodeHandler</code>](#NodeHandler) |  | A [NodeHandler](#NodeHandler) will check a [Node](#Node) to determine if it will be unveiled or not. If the resolver returns `false`, the node will not be unveiled. |
+| [resolver] | [<code>NodeHandler</code>](#NodeHandler) |  | A [NodeHandler](#NodeHandler) will check a [Node](#Node) to determine if it will be unveiled or not. If the `resolver()` callback returns `false`, the node will not be unveiled. |
 | [observeOptions] | <code>object</code> |  | [Intersection observer options](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API#Intersection_observer_options) |
 
 **Example**  
@@ -716,6 +721,79 @@ only when the user scrolls to any `code` block position.
 
     console.info('Prism.js is loaded.'); // debug
   });
+</script>
+```
+**Example**  
+Lazy load a Twitter post or timeline.
+
+This example uses the `Defer.js()` and the `Defer.dom()` method to defer a Twitter post or a timeline.
+The `.lazy-timeline` or `.lazy-tweet` blocks on the page will be rendered
+only when the user scrolls to the target position.
+
+```html
+<div id="demo-twitter">
+  <a class="lazy-timeline" <!-- the original is class="twitter-timeline" -->
+    href="https://twitter.com/TwitterDev"
+    data-chrome="nofooter noborders"
+    data-height="400" data-dnt="true" data-theme="dark">
+    Tweets by @TwitterDev
+  </a>
+
+  <blockquote class="lazy-tweet" <!-- the original is class="twitter-tweet" -->>
+    <!-- content is truncated -->
+  </blockquote>
+</div>
+<script>
+Defer.js('https://platform.twitter.com/widgets.js', 'twitter-sdk', 0, function() {
+  Defer.dom('.lazy-timeline', 0, 'twitter-loaded', function(node) {
+    // adds the correct class name for tweet element
+    node.className = 'twitter-timeline';
+
+    // For better performance,
+    // we only search within the parent DOM tree for uninitialized widgets
+    twttr.widgets.load(node.parentNode);
+    console.info('Twitter timeline is loaded.'); // debug
+  }, {rootMargin: "200%"});
+
+  Defer.dom('.lazy-tweet', 0, 'twitter-loaded', function(node) {
+    // adds the correct class name for timeline element
+    node.className = 'twitter-tweet';
+
+    // For better performance,
+    // we only search within the parent DOM tree for uninitialized widgets
+    twttr.widgets.load(node.parentNode);
+    console.info('Twitter post is loaded.'); // debug
+  }, {rootMargin: "200%"});
+});
+</script>
+```
+**Example**  
+Lazy load an Instgram post.
+
+This example uses the `Defer.js()` and the `Defer.dom()` method to defer an Instagram post.
+The `.lazy-instagram` block on the page will be rendered
+only when the user scrolls to the target position.
+
+```html
+<div id="demo-instagram">
+  <blockquote class="lazy-instagram" <!-- the original is class="instagram-media" -->
+    data-instgrm-captioned=""
+    data-instgrm-permalink="<!-- the URL is omitted -->">
+    <!-- content is truncated -->
+  </blockquote>
+</div>
+<script>
+Defer.js('https://www.instagram.com/embed.js', 'instagram-sdk', 0, function() {
+  Defer.dom('.lazy-instagram', 0, 'instagram-loaded', function(node) {
+    // adds the correct class name for instagram post
+    node.className = 'instagram-media';
+
+    // For better performance,
+    // we only search within the parent DOM tree for uninitialized widgets
+    instgrm.Embeds.process(node.parentNode);
+    console.info('Instagram post is loaded.'); // debug
+  }, {rootMargin: "200%"});
+});
 </script>
 ```
 

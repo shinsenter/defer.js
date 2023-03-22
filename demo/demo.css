@@ -109,6 +109,17 @@ header>* {
     height: 35px;
 }
 
+#navs {
+    padding: 0;
+    margin: 0;
+    display: block;
+}
+
+#navs li {
+    display: inline-block;
+    margin: 0.25em 0.5em;
+}
+
 section {
     margin: 2em 0;
 }
