@@ -9,7 +9,7 @@
     "SharedArrayBuffer": "readonly"
   },
   "parserOptions": {
-    "ecmaVersion": 3
+    "ecmaVersion": 5
   },
   "rules": {
     "accessor-pairs": "error",
@@ -52,7 +52,7 @@
     "function-paren-newline": "error",
     "generator-star-spacing": "error",
     "global-require": "error",
-    "guard-for-in": "error",
+    "guard-for-in": "off",
     "handle-callback-err": "error",
     "id-blacklist": "error",
     "id-length": "off",
@@ -191,7 +191,7 @@
     "object-curly-newline": "error",
     "object-curly-spacing": "error",
     "object-property-newline": "error",
-    "object-shorthand": "error",
+    "object-shorthand": "off",
     "one-var": "off",
     "one-var-declaration-per-line": "error",
     "operator-assignment": "error",

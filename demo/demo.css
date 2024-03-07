@@ -5,6 +5,7 @@ html {
     box-sizing: border-box;
     font-size: 16px;
     line-height: 1.3;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -98,15 +99,11 @@ main {
     margin: auto;
     padding: 1em;
     background-color: rgba(250, 250, 250, 0.8);
+    box-shadow:  0 2em rgba(100,100,100,0.3);
 }
 
 header>* {
     margin: 0.5em 0;
-}
-
-.addthis_inline_share_toolbox {
-    margin: 0.5em 0;
-    height: 35px;
 }
 
 #navs {

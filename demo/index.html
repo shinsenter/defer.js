@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="./demo.css" media="screen">
     <script src="../src/defer.js"></script>
     <!-- <script src="../dist/defer.min.js"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+    <script defer async src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
 </head>
 
 <body>
@@ -25,8 +25,6 @@
             <ul id="navs">
                 <li><a href="#installation">Getting started</a></li>
             </ul>
-
-            <div class="demo-addthis addthis_inline_share_toolbox"></div>
         </header>
 
         <hr id="installation">
@@ -43,18 +41,18 @@
                 <div class="helper">
                     Just put a <code>&lt;script&gt;</code> tag pointing to
                     <a target="_blank" title="defer.min.js"
-                        href="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.6.0/dist/defer.min.js">the library URL</a>
+                        href="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.7.0/dist/defer.min.js">the library URL</a>
                     just below the opening <code>&lt;head&gt;</code> tag of your page.
                     Because <code>defer.min.js</code> is optimized to a very tiny file size,
                     you can even inline entire the library to save one HTTP request.
                 </div>
                 <div class="demo">
 <!-- Copy the script from the below URL -->
-<!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.6.0/dist/defer.min.js -->
+<!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.7.0/dist/defer.min.js -->
 <script>/* then replace this comment block with the content of defer.min.js here */</script>
 
 <!-- If your website still runs on legacy browsers like Internet Explorer 9, -->
-<script>'IntersectionObserver'in window||document.write('<script defer src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.6.0/dist/polyfill.min.js"><\/script>');</script>
+<script>'IntersectionObserver'in window||document.write('<script defer src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.7.0/dist/polyfill.min.js"><\/script>');</script>
                 </div>
             </div>
         </section>
@@ -213,7 +211,7 @@
     }
 
     body.moving {
-        background: linear-gradient(270deg, #ffffff, #e8f0c3, #ccf0c3);
+        background: linear-gradient(270deg, #c2fff5, #eec3f0, #a1c1ff);
         background-size: 600% 600%;
         animation: moving_bg 30s ease infinite;
     }
@@ -506,12 +504,12 @@
                 </div>
                 <div class="demo">
 <div id="demo-youtube">
-    <iframe title="The new MacBook Air"
+    <iframe title="Understanding performance with Core Web Vitals"
         width="480" height="270" frameborder="0" allowfullscreen=""
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
         src="about:blank"
-        data-src="https://www.youtube.com/embed/jwmS1gc9S5A"
-        data-style="background: transparent url(https://img.youtube.com/vi/jwmS1gc9S5A/hqdefault.jpg) 50% 50% / cover no-repeat;">
+        data-src="https://www.youtube.com/embed/F0NYT7DIlDQ"
+        data-style="background: transparent url(https://img.youtube.com/vi/F0NYT7DIlDQ/hqdefault.jpg) 50% 50% / cover no-repeat;">
     </iframe>
 </div>
 <script>
@@ -578,7 +576,7 @@
         </section>
 
         <section>
-            <h2><code>Defer.css(fileUrl, [id], [delay], [onload], [waitForUserAction])</code></h2>
+            <h2><code>Defer.css(fileUrl, [id / attribute object], [delay], [onload], [waitForUserAction])</code></h2>
 
             <div class="helper">
                 We use the <code>Defer.css()</code> method to defer a load of external CSS files without blocking the page rendering.
@@ -610,7 +608,7 @@
 <script>
     var fileUrl = 'https://pro.fontawesome.com/releases/v5.14.0/css/all.css';
 
-    Defer.css(fileUrl, 'fa5-css', 0, function() {
+    Defer.css(fileUrl, {crossorigin: 'anonymous'}, 0, function() {
         console.info('FontAwesome is loaded.'); // debug
     });
 </script>
@@ -632,8 +630,9 @@
 <script>
     var origin = 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1';
 
-    // This script will lazy load animate.css library.
-    Defer.css(origin + '/animate.min.css', 'animate-css', 0, function () {
+    // This script will lazy load animate.css library
+    // only when the page is displayed on a screen-based device
+    Defer.css(origin + '/animate.min.css', {media: 'screen'}, 0, function () {
         console.info('Animate.css is loaded.'); // debug
 
         // adds animation classes to demo blocks.
@@ -645,7 +644,7 @@
         </section>
 
         <section>
-            <h2><code>Defer.js(fileUrl, [id], [delay], [onload], [waitForUserAction])</code></h2>
+            <h2><code>Defer.js(fileUrl, [id / attribute object], [delay], [onload], [waitForUserAction])</code></h2>
 
             <div class="helper">
                 We use the <code>Defer.js()</code> method to defer a load of 3rd-party JavaScript libraries, add-ons etc. without blocking the page rendering.
@@ -677,29 +676,9 @@
     // Lazy loads the GTM library
     // in this example, we want the GTM to execute as soon as the page is loaded
     // so the waitForUserAction argument (the last argument) is set to false.
-    Defer.js('https://www.googletagmanager.com/gtag/js?id=' + GTM_ID, 'google-tag', 0, function() {
+    Defer.js('https://www.googletagmanager.com/gtag/js?id=' + GTM_ID, {'data-id': GTM_ID}, 0, function() {
         console.info('Google Tag Manager is loaded.'); // debug
     }, false);
-</script>
-                </div>
-            </div>
-
-            <div class="example">
-                <h3>Lazy load AddThis add-on:</h3>
-                <div class="helper">
-                    Using the <code>Defer.js()</code> method to lazy load AddThis add-on and its assets.
-                    <br>
-                    AddThis add-on will not be loaded until the user starts interacting with the page.
-                </div>
-                <div class="demo">
-<div class="demo-addthis addthis_inline_share_toolbox"></div>
-
-<script>
-    var fileUrl = 'https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5c68e61cf456f1cb';
-
-    Defer.js(fileUrl, 'addthis-js', 0, function() {
-        console.info('AddThis add-on is loaded.'); // debug
-    }, true);
 </script>
                 </div>
             </div>
@@ -832,37 +811,38 @@ Defer.js('https://www.instagram.com/embed.js', 'instagram-sdk', 0, function() {
     <script type="waterfall-test-defer" data-order="04" src="https://cdnjs.cloudflare.com/ajax/libs/create-react-class/15.7.0/create-react-class.min.js"></script>
     <script type="waterfall-test-defer" data-order="05" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
     <script type="waterfall-test-defer" data-order="05b">console.debug('defer-05b');</script>
-    <script type="waterfall-test-defer" data-order="06" src="https://cdnjs.cloudflare.com/ajax/libs/typescript/4.8.2/typescript.min.js"></script>
-    <script type="waterfall-test-defer" data-order="07" src="https://cdnjs.cloudflare.com/ajax/libs/antd/4.22.8/antd.min.js"></script>
-    <script type="waterfall-test-defer" data-order="08" src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-    <script type="waterfall-test-defer" data-order="09" src="https://cdnjs.cloudflare.com/ajax/libs/react-is/18.2.0/umd/react-is.production.min.js"></script>
-    <script type="waterfall-test-defer" data-order="10" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/js/bootstrap.min.js"></script>
+    <script type="waterfall-test-defer" data-order="06" async src="https://cdnjs.cloudflare.com/ajax/libs/typescript/4.8.2/typescript.min.js"></script>
+    <script type="waterfall-test-defer" data-order="07" async src="https://cdnjs.cloudflare.com/ajax/libs/antd/4.22.8/antd.min.js"></script>
+    <script type="waterfall-test-defer" data-order="08" async src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script type="waterfall-test-defer" data-order="09" async src="https://cdnjs.cloudflare.com/ajax/libs/react-is/18.2.0/umd/react-is.production.min.js"></script>
+    <script type="waterfall-test-defer" data-order="10" async src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/js/bootstrap.min.js"></script>
     <script type="waterfall-test-defer" data-order="10b">console.debug('defer-10b');</script>
-    <script type="waterfall-test-defer" data-order="11" src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.6.1/d3.min.js"></script>
-    <script type="waterfall-test-defer" data-order="12" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.144.0/three.min.js"></script>
-    <script type="waterfall-test-defer" data-order="13" src="https://cdnjs.cloudflare.com/ajax/libs/angular/12.2.16/core.umd.min.js"></script>
-    <script type="waterfall-test-defer" data-order="14" src="https://cdnjs.cloudflare.com/ajax/libs/material-ui/4.12.4/index.js"></script>
-    <script type="waterfall-test-defer" data-order="15" src="https://cdnjs.cloudflare.com/ajax/libs/angular-aria/1.8.3/angular-aria.min.js"></script>
+    <script type="waterfall-test-defer" data-order="11" defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.6.1/d3.min.js"></script>
+    <script type="waterfall-test-defer" data-order="12" defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.144.0/three.min.js"></script>
+    <script type="waterfall-test-defer" data-order="13" defer src="https://cdnjs.cloudflare.com/ajax/libs/angular/12.2.16/core.umd.min.js"></script>
+    <script type="waterfall-test-defer" data-order="14" defer src="https://cdnjs.cloudflare.com/ajax/libs/material-ui/4.12.4/index.js"></script>
+    <script type="waterfall-test-defer" data-order="15" defer src="https://cdnjs.cloudflare.com/ajax/libs/angular-aria/1.8.3/angular-aria.min.js"></script>
     <script type="waterfall-test-defer" data-order="15b">console.debug('defer-15b');</script>
     <script type="waterfall-test-defer" data-order="16" src="https://cdnjs.cloudflare.com/ajax/libs/angular-animate/1.8.3/angular-animate.min.js"></script>
     <script type="waterfall-test-defer" data-order="17" src="https://cdnjs.cloudflare.com/ajax/libs/angular-loader/1.8.3/angular-loader.min.js"></script>
+    <script type="waterfall-test-defer" data-order="18">console.debug('defer-18', document.currentScript);</script>
     <script type="waterfall-test-lazy" data-order="01" src="https://cdnjs.cloudflare.com/ajax/libs/angular-cookies/1.8.3/angular-cookies.min.js"></script>
     <script type="waterfall-test-lazy" data-order="02" src="https://cdnjs.cloudflare.com/ajax/libs/angular-message-format/1.8.3/angular-message-format.min.js"></script>
     <script type="waterfall-test-lazy" data-order="03" src="https://cdnjs.cloudflare.com/ajax/libs/angular-parse-ext/1.8.3/angular-parse-ext.min.js"></script>
     <script type="waterfall-test-lazy" data-order="04" src="https://cdnjs.cloudflare.com/ajax/libs/angular-resource/1.8.3/angular-resource.min.js"></script>
     <script type="waterfall-test-lazy" data-order="05" src="https://cdnjs.cloudflare.com/ajax/libs/angular-route/1.8.3/angular-route.min.js"></script>
     <script type="waterfall-test-lazy" data-order="05b">console.debug('lazy-05b');</script>
-    <script type="waterfall-test-lazy" data-order="06" src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.8.3/angular-sanitize.min.js"></script>
-    <script type="waterfall-test-lazy" data-order="07" src="https://cdnjs.cloudflare.com/ajax/libs/angular-touch/1.8.3/angular-touch.min.js"></script>
-    <script type="waterfall-test-lazy" data-order="08" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
-    <script type="waterfall-test-lazy" data-order="09" src="https://cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.8.3/angular-locale_en-us.min.js"></script>
-    <script type="waterfall-test-lazy" data-order="10" src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+    <script type="waterfall-test-lazy" data-order="06" async src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.8.3/angular-sanitize.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="07" async src="https://cdnjs.cloudflare.com/ajax/libs/angular-touch/1.8.3/angular-touch.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="08" async src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="09" async src="https://cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.8.3/angular-locale_en-us.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="10" async src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
     <script type="waterfall-test-lazy" data-order="10b">console.debug('lazy-10b');</script>
-    <script type="waterfall-test-lazy" data-order="11" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <script type="waterfall-test-lazy" data-order="12" src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.2.0/redux.min.js"></script>
-    <script type="waterfall-test-lazy" data-order="13" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script type="waterfall-test-lazy" data-order="14" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
-    <script type="waterfall-test-lazy" data-order="15" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-compat/3.0.0-alpha1/jquery.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="11" defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="12" defer src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.2.0/redux.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="13" defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script type="waterfall-test-lazy" data-order="14" defer src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
+    <script type="waterfall-test-lazy" data-order="15" defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery-compat/3.0.0-alpha1/jquery.min.js"></script>
     <script type="waterfall-test-lazy" data-order="15b">console.debug('lazy-15b');</script>
     <script type="waterfall-test-lazy" data-order="16" src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.15.9/index.js"></script>
     <script type="waterfall-test-lazy" data-order="17" src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.3.3/echarts.min.js"></script>
