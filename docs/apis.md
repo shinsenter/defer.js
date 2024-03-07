@@ -4,8 +4,8 @@
     * [.lazy](#Defer.lazy) : <code>boolean</code>
     * [.all([selector], [delay], [waitForUserAction])](#Defer.all) ⇒ <code>void</code>
     * [.dom([selector], [delay], [unveiledClass], [resolver], [observeOptions])](#Defer.dom) ⇒ <code>void</code>
-    * [.css(fileUrl, [id], [delay], [onload], [waitForUserAction])](#Defer.css) ⇒ <code>void</code>
-    * [.js(fileUrl, [id], [delay], [onload], [waitForUserAction])](#Defer.js) ⇒ <code>void</code>
+    * [.css(fileUrl, [id_or_attributes], [delay], [onload], [waitForUserAction])](#Defer.css) ⇒ <code>void</code>
+    * [.js(fileUrl, [id_or_attributes], [delay], [onload], [waitForUserAction])](#Defer.js) ⇒ <code>void</code>
     * [.reveal(node, [unveiledClass])](#Defer.reveal) ⇒ <code>void</code>
 * ~~[defer(func, [delay])](#defer)~~
 * ~~[deferimg([selector], [delay], [unveiledClass], [resolver], [observeOptions])](#deferimg)~~
@@ -31,7 +31,7 @@ Wrapping your script with `Defer()` may help your website prevent render-blockin
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | func | <code>function</code> |  | A function to be executed after page fully loaded. |
-| [delay] | <code>number</code> | <code>0</code> | The time, in milliseconds that it should wait before the function is executed. |
+| [delay] | <code>number</code> | <code>0</code> | A timespan, in milliseconds, that the page should wait before the function is executed. |
 | [waitForUserAction] | <code>boolean</code> | <code>false</code> | This argument tells `Defer()` to delay the execution and wait until there is a user interaction. |
 
 **Example**  
@@ -64,7 +64,7 @@ and wait until the user starts interacting with your page.
 ```html
 <style>
   body.moving {
-    background: linear-gradient(270deg, #ffffff, #e8f0c3, #ccf0c3);
+    background: linear-gradient(270deg, #c2fff5, #eec3f0, #a1c1ff);
     background-size: 600% 600%;
     animation: moving_bg 30s ease infinite;
   }
@@ -85,8 +85,8 @@ and wait until the user starts interacting with your page.
     * [.lazy](#Defer.lazy) : <code>boolean</code>
     * [.all([selector], [delay], [waitForUserAction])](#Defer.all) ⇒ <code>void</code>
     * [.dom([selector], [delay], [unveiledClass], [resolver], [observeOptions])](#Defer.dom) ⇒ <code>void</code>
-    * [.css(fileUrl, [id], [delay], [onload], [waitForUserAction])](#Defer.css) ⇒ <code>void</code>
-    * [.js(fileUrl, [id], [delay], [onload], [waitForUserAction])](#Defer.js) ⇒ <code>void</code>
+    * [.css(fileUrl, [id_or_attributes], [delay], [onload], [waitForUserAction])](#Defer.css) ⇒ <code>void</code>
+    * [.js(fileUrl, [id_or_attributes], [delay], [onload], [waitForUserAction])](#Defer.js) ⇒ <code>void</code>
     * [.reveal(node, [unveiledClass])](#Defer.reveal) ⇒ <code>void</code>
 
 
@@ -155,7 +155,7 @@ View the discussion [#122](https://code.shin.company/defer.js/discussions/122) f
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [selector] | <code>string</code> | <code>&quot;[type&#x3D;deferjs]&quot;</code> | A CSS selector selects target script tags that will be Lazy loaded. |
-| [delay] | <code>number</code> | <code>0</code> | The time, in milliseconds that it should wait before a script tag is executed. |
+| [delay] | <code>number</code> | <code>0</code> | A timespan, in milliseconds, that the page should wait before a script tag is executed. |
 | [waitForUserAction] | <code>boolean</code> | <code>false</code> | This argument tells the `Defer.all()` method to delay the execution of scripts until there is a user interaction. |
 
 **Example**  
@@ -259,7 +259,7 @@ Please check out the below examples for more details.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [selector] | <code>string</code> | <code>&quot;[data-src]&quot;</code> | A CSS selector selects target HTML elements that will be unveiled later. |
-| [delay] | <code>number</code> | <code>0</code> | The time, in milliseconds that it should wait before lazy loading is applied for target elements. |
+| [delay] | <code>number</code> | <code>0</code> | A timespan, in milliseconds, that the page should wait before lazy loading is applied for target elements. |
 | [unveiledClass] | <code>string</code> |  | Class names that will be added to target elements when they are unveiled. |
 | [resolver] | [<code>NodeHandler</code>](#NodeHandler) |  | A [NodeHandler](#NodeHandler) will check a [Node](#Node) to determine if it will be unveiled or not. If the `resolver()` callback returns `false`, the node will not be unveiled. |
 | [observeOptions] | <code>object</code> |  | [Intersection observer options](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API#Intersection_observer_options) |
@@ -484,12 +484,12 @@ This example uses the `Defer.dom()` method to defer a load of a Youtube iframe.
 
 ```html
 <div id="demo-youtube">
-  <iframe title="The new MacBook Air"
+  <iframe title="Understanding performance with Core Web Vitals"
           width="480" height="270" frameborder="0" allowfullscreen=""
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
           src="about:blank"
-          data-src="https://www.youtube.com/embed/jwmS1gc9S5A"
-          data-style="background: transparent url(https://img.youtube.com/vi/jwmS1gc9S5A/hqdefault.jpg) 50% 50% / cover no-repeat;">
+          data-src="https://www.youtube.com/embed/F0NYT7DIlDQ"
+          data-style="background: transparent url(https://img.youtube.com/vi/F0NYT7DIlDQ/hqdefault.jpg) 50% 50% / cover no-repeat;">
   </iframe>
 </div>
 
@@ -553,7 +553,7 @@ he/she will see a message as soon as an element with `id="surprise-me"` appears.
 
 <a name="Defer.css"></a>
 
-### Defer.css(fileUrl, [id], [delay], [onload], [waitForUserAction]) ⇒ <code>void</code>
+### Defer.css(fileUrl, [id_or_attributes], [delay], [onload], [waitForUserAction]) ⇒ <code>void</code>
 We use the `Defer.css()` method to defer a load
 of external CSS files without blocking the page rendering.
 
@@ -565,10 +565,10 @@ The `fileUrl` will not be fetched unless the user starts interacting with your p
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| fileUrl | <code>string</code> |  | URL to the CSS file that should be lazy loaded. |
-| [id] | <code>string</code> |  | The ID will be assigned to the script tag to avoid downloading the same file multiple times. |
-| [delay] | <code>number</code> | <code>0</code> | The time, in milliseconds that the page should wait before the CSS file is fetched. |
-| [onload] | <code>function</code> |  | The callback function will be executed if the CSS file is successfully loaded. |
+| fileUrl | <code>string</code> |  | The URL to the CSS file that should be lazy loaded. |
+| [id_or_attributes] | <code>string</code> \| <code>object</code> |  | An ID string or an attribute object for the link tag that should be added to the page. |
+| [delay] | <code>number</code> | <code>0</code> | A timespan, in milliseconds, that the page should wait before the CSS file is fetched. |
+| [onload] | <code>function</code> |  | A callback function will be executed if the CSS file is successfully loaded. |
 | [waitForUserAction] | <code>boolean</code> | <code>false</code> | This argument tells the `Defer.css()` method to delay downloading the CSS file until there is a user interaction. |
 
 **Example**  
@@ -591,7 +591,7 @@ Using the `Defer.css()` method to lazy load
 <script>
   var fileUrl = 'https://pro.fontawesome.com/releases/v5.14.0/css/all.css';
 
-  Defer.css(fileUrl, 'fa5-css', 0, function() {
+  Defer.css(fileUrl, {crossorigin: 'anonymous'}, 0, function() {
     console.info('FontAwesome is loaded.'); // debug
   });
 </script>
@@ -614,8 +614,9 @@ No tag will be animated unless the user scrolls to its position.
 <script>
   var origin = 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1';
 
-  // This script will lazy load animate.css library.
-  Defer.css(origin + '/animate.min.css', 'animate-css', 0, function () {
+  // This script will lazy load animate.css library
+  // only when the page is displayed on a screen-based device
+  Defer.css(origin + '/animate.min.css', {media: 'screen'}, 0, function () {
     console.info('Animate.css is loaded.'); // debug
 
     // adds animation classes to demo blocks.
@@ -628,7 +629,7 @@ No tag will be animated unless the user scrolls to its position.
 
 <a name="Defer.js"></a>
 
-### Defer.js(fileUrl, [id], [delay], [onload], [waitForUserAction]) ⇒ <code>void</code>
+### Defer.js(fileUrl, [id_or_attributes], [delay], [onload], [waitForUserAction]) ⇒ <code>void</code>
 We use the `Defer.js()` method to defer a load of 3rd-party
 JavaScript libraries, widgets, add-ons, etc. without blocking the page rendering.
 
@@ -644,10 +645,10 @@ The `fileUrl` will not be fetched unless the user starts interacting with your p
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| fileUrl | <code>string</code> |  | URL to the js file that should be lazy loaded. |
-| [id] | <code>string</code> |  | The ID will be assigned to the script tag to avoid downloading the same file multiple times. |
-| [delay] | <code>number</code> | <code>0</code> | The time, in milliseconds that the page should wait before the JS file is fetched. |
-| [onload] | <code>function</code> |  | The callback function will be executed if the js file is successfully loaded. |
+| fileUrl | <code>string</code> |  | The URL to the js file that should be lazy loaded. |
+| [id_or_attributes] | <code>string</code> \| <code>object</code> |  | An ID string or an attribute object for the script tag that should be added to the page. |
+| [delay] | <code>number</code> | <code>0</code> | A timespan, in milliseconds, that the page should wait before the JS file is fetched. |
+| [onload] | <code>function</code> |  | A callback function will be executed if the js file is successfully loaded. |
 | [waitForUserAction] | <code>boolean</code> | <code>false</code> | This argument tells the `Defer.js()` method to delay downloading the JS file until there is a user interaction. |
 
 **Example**  
@@ -665,31 +666,9 @@ so the `waitForUserAction` argument (the fifth argument) is set to `false`.
   dataLayer.push(['js', new Date()]);
   dataLayer.push(['config', GTM_ID]);
 
-  Defer.js('https://www.googletagmanager.com/gtag/js?id=' + GTM_ID, 'google-tag', 0, function() {
+  Defer.js('https://www.googletagmanager.com/gtag/js?id=' + GTM_ID, {'data-id': GTM_ID}, 0, function() {
     console.info('Google Tag Manager is loaded.'); // debug
   }, false);
-</script>
-```
-**Example**  
-Lazy load AddThis add-on.
-
-Using the `Defer.js()` method to lazy load
-[AddThis Share Buttons](https://www.addthis.com/get/share/)
-and its external resources.
-AddThis add-on will not be loaded until the user starts interacting with the page
-(the `waitForUserAction` argument (the fifth argument) is set to `true`).
-
-```html
-<div class="demo-addthis"></div>
-
-<script>
-  var ADDTHIS_ID = 'ra-5c68e61cf456f1cb';
-  var fileUrl = 'https://s7.addthis.com/js/300/addthis_widget.js#pubid=' + ADDTHIS_ID;
-  var loaded  = false;
-
-  Defer.js(fileUrl, 'addthis-js', 0, function() {
-    console.info('AddThis add-on is loaded.'); // debug
-  }, true);
 </script>
 ```
 **Example**  
