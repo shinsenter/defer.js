@@ -8,7 +8,7 @@
  *
  * MIT License
  *
- * Copyright (c) 2019-2023 Mai Nhut Tan <shin@shin.company>
+ * Copyright (c) 2019-2024 Mai Nhut Tan <shin@shin.company>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,12 +31,12 @@
  */
 
 /**
- * 🥇 A JavaScript micro-library that helps you lazy load (almost) anything.
- * Defer.js is zero-dependency, super-efficient, and Web Vitals friendly.
+ * 🥇 A lightweight JavaScript library that helps you lazy load (almost) anything.
+ * Defer.js is dependency-free, super-efficient, and Web Vitals friendly.
  *
  * @author    Mai Nhut Tan <shin@shin.company>
- * @copyright 2019-2023 SHIN Company <https://code.shin.company/>
- * @version   3.7.0
+ * @copyright 2019-2024 SHIN Company <https://code.shin.company/>
+ * @version   3.8.0
  * @license   {@link https://code.shin.company/defer.js/blob/master/LICENSE|MIT}
  */
 
@@ -47,7 +47,7 @@
 */
 
 /**
- * An abstract base class upon which many other DOM API objects are based
+ * An abstract base class upon which many other DOM API objects are based.
  *
  * @typedef
  * @name Node
@@ -55,7 +55,7 @@
  */
 
 /**
- * A code snippet that can be called, or a variable that refers to the function.
+ * A piece of code that can be executed, or a variable that refers to a function.
  *
  * @typedef
  * @name Function
@@ -63,7 +63,7 @@
  */
 
 /**
- * A {@link Function} receives a DOM {@link Node} object as its argument.
+ * A {@link Function} that receives a DOM {@link Node} object as its argument.
  *
  * @typedef
  * @name    NodeHandler
@@ -73,25 +73,25 @@
 
 /*
 |--------------------------------------------------------------------------
-| Definitions Defer JSDoc
+| Defer JSDoc Definitions
 |--------------------------------------------------------------------------
 */
 
 /**
- * Heavy DOM manipulations may cause render-blocking issues in real scenarios.
- * Wrapping your script with `Defer()` may help your website prevent render-blocking issues.
+ * Heavy DOM manipulations can cause render-blocking issues in real-world scenarios.
+ * Wrapping your script with `Defer()` may help prevent render-blocking issues on your website.
  *
  * @function Defer
  * @since    2.0
- * @param    {Function} func - A function to be executed after page fully loaded.
- * @param    {number}   [delay=0] - A timespan, in milliseconds, that the page should wait before the function is executed.
- * @param    {boolean}  [waitForUserAction=false] - This argument tells `Defer()` to delay the execution and wait until there is a user interaction.
+ * @param    {Function}       func - A function to be executed after the page is fully loaded.
+ * @param    {number}         [delay=0] - A timespan, in milliseconds, that the page should wait before executing the function.
+ * @param    {boolean|number} [waitForUserAction=false] - This argument tells `Defer()` to delay execution and wait until there is a user interaction.
  * @returns  {void}
  *
  * @example
- * jQuery is used in this example to perform some DOM manipulations.
- * This will attach `<pre><code></code></pre>` blocks to the document
- * as soon as the page finished loading.
+ * This example uses jQuery to perform some DOM manipulations.
+ * It will attach `<pre><code></code></pre>` blocks to the document
+ * as soon as the page finishes loading.
  *
  * ```html
  * <script>
@@ -111,9 +111,9 @@
  * ```
  *
  * @example
- * Sometimes, you would like your code not to run unless there is user activity.
+ * Sometimes, you may want your code to run only when there is user activity.
  *
- * The third argument tells `Defer()` to delay the execution of the function
+ * The third argument tells `Defer()` to delay executing the function
  * and wait until the user starts interacting with your page.
  *
  * ```html
@@ -137,75 +137,90 @@
  * ```
  */
 
-
 /**
  * The `Defer.lazy` variable was added since v3.0.
  *
- * Setting `Defer.lazy=true` tells the library to delay the execution
- * of deferred scripts until the user starts interacting with the page
+ * Setting `Defer.lazy=true` tells the library to delay executing
+ * deferred scripts until the user starts interacting with the page,
  * regardless of the page load event.
  *
- * It will override the default behavior of `waitForUserAction`
- * argument of the `Defer()` method.
- *
- * Changing this variable will also affect the behavior of these functions:
- * - {@link Defer.all|Defer.all()}
- * - {@link Defer.css|Defer.css()}
- * - {@link Defer.js|Defer.js()}
+ * Changing this variable will also affect the default value
+ * of the `waitForUserAction` argument in these functions:
+ * - {@link Defer|`Defer()`}
+ * - {@link Defer.all|`Defer.all()`}
+ * - {@link Defer.css|`Defer.css()`}
+ * - {@link Defer.js|`Defer.js()`}
  *
  * @access   public
- * @member   {boolean} lazy
+ * @member   {boolean|number} lazy
  * @memberof Defer
  * @since    3.0
  * @default  (not set)
  *
  * @example
- * To override the default behavior of the `Defer()` method.
+ * To override the default behavior of the `Defer()` method:
  *
  * ```html
  * <!-- You can put this right below the script tag containing defer.min.js -->
  * <script>Defer.lazy = true;</script>
  * ```
+ *
+ * @example
+ * You can set a timeout period in milliseconds for the `Defer.lazy`
+ * variable or any `waitForUserAction` argument.
+ * If no user interaction occurs within this timeout period, the scripts will still execute.
+ *
+ * ```html
+ * <!-- You can set a timeout period in milliseconds -->
+ * <script>Defer.lazy = 10000; // 10 seconds</script>
+ * ```
+ *
+ * This feature was added since v3.8.0.
+ * View some use cases in [this discussion](https://github.com/shinsenter/defer.js/discussions/131#discussioncomment-8775870).
  */
-
 
 /**
  * Slow scripts (third-party libraries, add-ons, widgets, etc.)
- * may cause [Web Vitals](https://web.dev/vitals/) issues in real scenarios.
+ * may cause [Web Vitals](https://web.dev/vitals/) issues in real-world scenarios.
  *
- * Fully deferring `<script>` tags may help your page prevent Web Vitals issues.
+ * Fully deferring `<script>` tags may help prevent Web Vitals issues on your page.
  *
  * You can fully defer any script tag by setting its `type` attribute to `deferjs`.
- * This trick also works perfectly with `<script>` tags with an `src` attribute.
+ * This trick also works perfectly with `<script>` tags that have an `src` attribute.
  *
  * @note (1) To avoid unexpected behavior when using
- * the `Defer.all()` method to delay the execution of script tags,
- * you should call run the `Defer.all()` method with a regular script tag.
+ * the `Defer.all()` method to delay executing script tags,
+ * you should call the `Defer.all()` method with a regular script tag.
  *
  * @note (2) Lazy loading behavior changed since v3.0
  * when you set `Defer.lazy=true` or `waitForUserAction=true`.
- * A `<script>` tags with `type="deferjs"` will not execute
+ * A `<script>` tag with `type="deferjs"` will not execute
  * unless the user starts interacting with your page.
  *
- * @note (3) [Resource hints](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload) feature was added since v3.2
- * as it is recommended to prevent issues called "[Taming the Waterfall](https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall)".
- * This feature is discussed at [#112](https://code.shin.company/defer.js/issues/112).
+ * @note (3) Since v3.8.0, you can set a timeout period in milliseconds
+ * for the `Defer.lazy` variable or any `waitForUserAction` argument.
+ * If no user interaction occurs within this timeout period, the scripts will still execute.
+ * View some use cases in [this discussion](https://github.com/shinsenter/defer.js/discussions/131#discussioncomment-8775870).
  *
- * @note (4) Known Issue:
+ * @note (4) The [Resource hints](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload) feature was added since v3.2,
+ * as it is recommended to prevent issues called "[Taming the Waterfall](https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall)".
+ * This feature is discussed in [#112](https://code.shin.company/defer.js/issues/112).
+ *
+ * @note (5) Known Issue:
  * In iOS Safari, the first `click` event may not work
  * when using `Defer.all()` with `waitForUserAction` set to `true`
- * and one of deferred scripts make a DOM change.
+ * and one of the deferred scripts makes a DOM change.
  * View the discussion [#122](https://code.shin.company/defer.js/discussions/122) for more details.
  *
  * @function Defer.all
  * @since    2.0
- * @param    {string} [selector=[type=deferjs]] - A CSS selector selects target script tags that will be Lazy loaded.
- * @param    {number} [delay=0] - A timespan, in milliseconds, that the page should wait before a script tag is executed.
- * @param    {boolean}  [waitForUserAction=false] - This argument tells the `Defer.all()` method to delay the execution of scripts until there is a user interaction.
+ * @param    {string}         [selector=[type=deferjs]] - A CSS selector that selects target script tags that will be lazy loaded.
+ * @param    {number}         [delay=0] - A timespan, in milliseconds, that the page should wait before executing a script tag.
+ * @param    {boolean|number} [waitForUserAction=false] - This argument tells the `Defer.all()` method to delay executing scripts until there is a user interaction.
  * @returns  {void}
  *
  * @example
- * Using magic `type="deferjs"` attribute:
+ * Using the magic `type="deferjs"` attribute:
  *
  * Before:
  * ```html
@@ -227,12 +242,12 @@
  * @example
  * Using your value for the type attribute, such as `type="my-magic"`:
  *
- * If you hate using the `type="deferjs"` attribute,
- * you can even choose yours by using the `Defer.all()` method.
+ * If you don't like using the `type="deferjs"` attribute,
+ * you can choose your own by using the `Defer.all()` method.
  *
  * Notice: To avoid unexpected behavior when using
- * the `Defer.all()` method to delay the execution of script tags,
- * you should call run the `Defer.all()` method with a regular script tag.
+ * the `Defer.all()` method to delay executing script tags,
+ * you should call the `Defer.all()` method with a regular script tag.
  *
  * ```html
  * <script type="my-magic">
@@ -252,19 +267,18 @@
  * ```
  *
  * @example
- * Using the `Defer.all()` method for script tags with `src` attribute:
+ * Using the `Defer.all()` method for script tags with the `src` attribute:
  *
  * Your scripts will work perfectly when you mix inline scripts
- * and script tags with an src attribute, like the below example.
+ * and script tags with a `src` attribute, like the example below.
  *
  * The `waitForUserAction` argument (the fifth argument) is set to `true`,
- * the library will defer the load of the tippy.js library until the user starts
- * interacting, when the user moves his/her mouse on the button, a tooltip will show.
+ * the library will defer loading the tippy.js library until the user starts
+ * interacting. When the user moves their mouse over the button, a tooltip will show.
  *
  * Notice: To avoid unexpected behavior when using
- * the `Defer.all()` method to delay the execution of script tags,
- * you should call run the `Defer.all()` method with a regular script tag.
- *
+ * the `Defer.all()` method to delay executing script tags,
+ * you should call the `Defer.all()` method with a regular script tag.
  *
  * ```html
  * <button id="tooltip-button">My button</button>
@@ -282,29 +296,28 @@
  * ```
  */
 
-
 /**
- * The `Defer.dom()` method is useful in the below use cases:
+ * The `Defer.dom()` method is useful in the following use cases:
  *
  * - Lazy loading images, media, iframe tags, etc. on your website.
- * - Prevent downloading third-party libraries or add-ons unless they are needed.
- * - Scroll-reveal features, such as handling AJAX updating when a block is entering the viewport.
- * - An element that was deferred by Defer.dom() will be unveiled as soon as the page finished loading.
+ * - Preventing the download of third-party libraries or add-ons unless they are needed.
+ * - Scroll-reveal features, such as handling AJAX updates when a block enters the viewport.
+ * - An element deferred by `Defer.dom()` will be unveiled as soon as the page finishes loading.
  *
- * An element that was deferred by the `Defer.dom()` method will be unveiled
- * when it going to enters the browser viewport.
+ * An element deferred by the `Defer.dom()` method will be unveiled
+ * when it is about to enter the browser viewport.
  *
  * The `Defer.dom()` method also converts `data-*` attributes of the elements
- * into non-data attributes (e.g. from `data-src` to `src`).
+ * into non-data attributes (e.g., from `data-src` to `src`).
  *
- * Please check out the below examples for more details.
+ * Please check out the examples below for more details.
  *
  * @function Defer.dom
  * @since    2.0
- * @param    {string}       [selector=[data-src]] - A CSS selector selects target HTML elements that will be unveiled later.
- * @param    {number}       [delay=0] - A timespan, in milliseconds, that the page should wait before lazy loading is applied for target elements.
+ * @param    {string}       [selector=[data-src]] - A CSS selector that selects target HTML elements that will be unveiled later.
+ * @param    {number}       [delay=0] - A timespan, in milliseconds, that the page should wait before applying lazy loading to target elements.
  * @param    {string}       [unveiledClass] - Class names that will be added to target elements when they are unveiled.
- * @param    {NodeHandler}  [resolver] - A {@link NodeHandler} will check a {@link Node} to determine if it will be unveiled or not.
+ * @param    {NodeHandler}  [resolver] - A {@link NodeHandler} that will check a {@link Node} to determine if it will be unveiled or not.
  * If the `resolver()` callback returns `false`, the node will not be unveiled.
  * @param    {object}       [observeOptions] - [Intersection observer options](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API#Intersection_observer_options)
  * @returns  {void}
@@ -343,7 +356,7 @@
  * ```
  *
  * @example
- * Lazy load a responsive image with `data-srcset` and `data-sizes` attributes.
+ * Lazy loading a responsive image with `data-srcset` and `data-sizes` attributes.
  *
  * Using the `srcset` attribute has made
  * [responsive image](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images)
@@ -352,9 +365,8 @@
  * and provide information about the size of each one.
  * Then, the client (browser) gets to make the decision.
  *
- * We can also use the same trick as the above examples.
- * We specify an image URL set in
- * `data-srcset` and `data-sizes` attributes of the image tag.
+ * We can also use the same trick as the above example.
+ * We specify an image URL set in `data-srcset` and `data-sizes` attributes of the image tag.
  *
  * ```html
  * <div id="demo-srcset">
@@ -372,16 +384,12 @@
  * ```
  *
  * @example
- * Lazy load a responsive image with flexible format selection.
+ * Lazy loading a responsive image with flexible format selection.
  *
  * Different browsers support different image formats.
  * We might want to send a fancy new image format such as
  * [WebP](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types#webp_image)
- * to browsers that can render it, and fall back to trusty old JPEGs in browsers that don’t.
- *
- * We can also use the same trick as the above examples for
- * [picture tags](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture),
- * and their children's HTML nodes.
+ * to browsers that can render it, and fall back to trusty old JPEGs in browsers that can't.
  *
  * ```html
  * <div id="demo-picture">
@@ -406,10 +414,10 @@
  * ```
  *
  * @example
- * Basic usage with adding CSS class.
+ * Basic usage with adding CSS classes.
  *
  * The `Defer.dom()` method also allows you to add CSS class names when an element is unveiled.
- * In this example, we will add some CSS class names to make an `<img>` tag animate.
+ * In this example, we will add some CSS classes from Animate.css to make an `<img>` tag animate.
  *
  * ```html
  * <div id="demo-basic2">
@@ -427,7 +435,7 @@
  * ```
  *
  * @example
- * Lazy load inline CSS background images.
+ * Lazy loading inline CSS background images.
  *
  * We can also defer background images for any HTML tag other than `<img>` or `<picture>`.
  *
@@ -454,7 +462,7 @@
  * ```
  *
  * @example
- * Lazy load CSS background images.
+ * Lazy loading CSS background images.
  *
  * Just another example of lazy loading background images for HTML tags,
  * but we can also use CSS class names instead of inline `style` attributes.
@@ -491,9 +499,9 @@
  * ```
  *
  * @example
- * Lazy load a video.
+ * Lazy loading a video.
  *
- * With the `Defer.dom()` method, we can easily defer the load of various media tags, such as a `<video>` tag.
+ * With the `Defer.dom()` method, we can easily defer loading various media tags, such as a `<video>` tag.
  *
  * ```html
  * <div id="demo-video">
@@ -512,9 +520,9 @@
  * ```
  *
  * @example
- * Lazy load an iframe.
+ * Lazy loading an iframe.
  *
- * With the `Defer.dom()` method, we can effortlessly defer the load of iframe tags.
+ * With the `Defer.dom()` method, we can effortlessly defer loading iframe tags.
  *
  * ```html
  * <div id="demo-iframe">
@@ -531,9 +539,9 @@
  * ```
  *
  * @example
- * Lazy load a Youtube video.
+ * Lazy loading a YouTube video.
  *
- * This example uses the `Defer.dom()` method to defer a load of a Youtube iframe.
+ * This example uses the `Defer.dom()` method to defer loading a YouTube iframe.
  *
  * ```html
  * <div id="demo-youtube">
@@ -552,9 +560,9 @@
  * ```
  *
  * @example
- * Lazy load a Facebook post.
+ * Lazy loading a Facebook post.
  *
- * This example uses the `Defer.dom()` method to defer a load of a Facebook post.
+ * This example uses the `Defer.dom()` method to defer loading a [Facebook post](https://developers.facebook.com/docs/plugins/embedded-posts/).
  *
  * ```html
  * <div id="demo-facebook">
@@ -572,9 +580,9 @@
  * ```
  *
  * @example
- * Lazy load a Discord chat box.
+ * Lazy loading a Discord chat box.
  *
- * This example uses the `Defer.dom()` method to defer a load of a Discord chat box.
+ * This example uses the `Defer.dom()` method to defer loading a Discord chat box.
  *
  * ```html
  * <iframe id="discord-widget" title="Discord"
@@ -592,10 +600,10 @@
  * @example
  * Scroll and reveal.
  *
- * The `Defer.dom()` method also helps you do an action when an element is unveiled.
+ * The `Defer.dom()` method also helps you perform an action when an element is unveiled.
  *
  * In this example, when the user scrolls to the bottom of the page,
- * he/she will see a message as soon as an element with `id="surprise-me"` appears.
+ * they will see a message as soon as an element with `id="surprise-me"` appears.
  *
  * ```html
  * <script>
@@ -606,22 +614,24 @@
  * ```
  */
 
-
 /**
- * We use the `Defer.css()` method to defer a load
- * of external CSS files without blocking the page rendering.
+ * We use the `Defer.css()` method to defer loading
+ * external CSS files without blocking the page rendering.
  *
- * @note Lazy loading behavior changed since v3.0
+ * @note (1) Lazy loading behavior changed since v3.0
  * when you set `Defer.lazy=true` or `waitForUserAction=true`.
  * The `fileUrl` will not be fetched unless the user starts interacting with your page.
  *
+ * @note (2) Since v3.8.0, you can set a timeout period in milliseconds for the `waitForUserAction` argument.
+ * If no user interaction occurs within this timeout period, the scripts will still execute.
+ *
  * @function Defer.css
  * @since    2.0
- * @param    {string}        fileUrl - The URL to the CSS file that should be lazy loaded.
- * @param    {string|object} [id_or_attributes] - An ID string or an attribute object for the link tag that should be added to the page.
- * @param    {number}        [delay=0] - A timespan, in milliseconds, that the page should wait before the CSS file is fetched.
- * @param    {Function}      [onload] - A callback function will be executed if the CSS file is successfully loaded.
- * @param    {boolean}       [waitForUserAction=false] - This argument tells the `Defer.css()` method to delay downloading the CSS file until there is a user interaction.
+ * @param    {string}         fileUrl - The URL of the CSS file that should be lazy loaded.
+ * @param    {string|object}  [id_or_attributes] - An ID string or an attribute object for the link tag that should be added to the page.
+ * @param    {number}         [delay=0] - A timespan, in milliseconds, that the page should wait before fetching the CSS file.
+ * @param    {Function}       [onload] - A callback function that will be executed if the CSS file is successfully loaded.
+ * @param    {boolean|number} [waitForUserAction=false] - This argument tells the `Defer.css()` method to delay downloading the CSS file until there is a user interaction.
  * @returns  {void}
  *
  * @example
@@ -651,18 +661,18 @@
  * ```
  *
  * @example
- * Lazy load animate.css library.
+ * Lazy loading the Animate.css library.
  *
+ * In this example,
+ * we set `waitForUserAction=5000` (the 5th parameter of the `Defer.css` function).
+ * This means the website will wait until there is user interaction
+ * before starting to load the [Animate.css library](https://animate.style/#documentation).
+ * If more than 5 seconds pass without any user interaction,
+ * the library will still be loaded and the scripts will execute.
  *
- * In this example, we want the download of the
- * [Animate.css library](https://animate.style/#documentation)
- * to wait for the first user interaction with your page
- * so the `waitForUserAction` argument (the fifth argument) is set to `true`.
- *
- * When the Animate.css library was downloaded,
+ * When the Animate.css library is downloaded,
  * we will add CSS classes from Animate.css to every tag with `class=".demo"` on the page.
  * No tag will be animated unless the user scrolls to its position.
- *
  *
  * ```html
  * <script>
@@ -675,40 +685,42 @@
  *
  *     // adds animation classes to demo blocks.
  *     Defer.dom('.demo', 100, 'animate__animated animate__fadeIn');
- *   }, true);
+ *   }, 5000);
  * </script>
  * ```
  */
 
-
 /**
- * We use the `Defer.js()` method to defer a load of 3rd-party
+ * We use the `Defer.js()` method to defer loading 3rd-party
  * JavaScript libraries, widgets, add-ons, etc. without blocking the page rendering.
  *
  * @note (1) Because the download of a file using the `Defer.js()` method is asynchronous,
- * to avoid dependency error when lazy loading a third-party library using the `Defer.js()` method,
+ * to avoid dependency errors when lazy loading a third-party library using the `Defer.js()` method,
  * it is highly recommended that the `onload` callback function be used
- * to make sure that the library you needed is completely defined.
+ * to ensure that the required library is completely defined.
  *
  * @note (2) Lazy loading behavior changed since v3.0
  * when you set `Defer.lazy=true` or `waitForUserAction=true`.
  * The `fileUrl` will not be fetched unless the user starts interacting with your page.
  *
+ * @note (3) Since v3.8.0, you can set a timeout period in milliseconds for the `waitForUserAction` argument.
+ * If no user interaction occurs within this timeout period, the scripts will still execute.
+ *
  * @function Defer.js
  * @since    2.0
- * @param    {string}        fileUrl - The URL to the js file that should be lazy loaded.
- * @param    {string|object} [id_or_attributes] - An ID string or an attribute object for the script tag that should be added to the page.
- * @param    {number}        [delay=0] - A timespan, in milliseconds, that the page should wait before the JS file is fetched.
- * @param    {Function}      [onload] - A callback function will be executed if the js file is successfully loaded.
- * @param    {boolean}       [waitForUserAction=false] - This argument tells the `Defer.js()` method to delay downloading the JS file until there is a user interaction.
+ * @param    {string}         fileUrl - The URL of the JavaScript file that should be lazy loaded.
+ * @param    {string|object}  [id_or_attributes] - An ID string or an attribute object for the script tag that should be added to the page.
+ * @param    {number}         [delay=0] - A timespan, in milliseconds, that the page should wait before fetching the JavaScript file.
+ * @param    {Function}       [onload] - A callback function that will be executed if the JavaScript file is successfully loaded.
+ * @param    {boolean|number} [waitForUserAction=false] - This argument tells the `Defer.js()` method to delay downloading the JavaScript file until there is a user interaction.
  * @returns  {void}
  *
  * @example
- * An alternative way to lazy load Google Tag Manager script.
+ * An alternative way to lazy load the Google Tag Manager script.
  *
- * Using the `Defer.js()` method to lazy load Google Tag Manager library and its external scripts.
+ * Using the `Defer.js()` method to lazy load the Google Tag Manager library and its external scripts.
  *
- * In this example, we want the GTM to execute as soon as the page is loaded
+ * In this example, we want the GTM to execute as soon as the page is loaded,
  * so the `waitForUserAction` argument (the fifth argument) is set to `false`.
  *
  * ```html
@@ -725,9 +737,9 @@
  * ```
  *
  * @example
- * Lazy load Prism.js library.
+ * Lazy loading the Prism.js library.
  *
- * Using Defer.js to lazy load Prism.js library and its assets.
+ * Using Defer.js to lazy load the Prism.js library and its assets.
  * The `<code>` blocks on the page will be rendered
  * only when the user scrolls to any `code` block position.
  *
@@ -757,22 +769,22 @@
  * ```
  *
  * @example
- * Lazy load a Twitter post or timeline.
+ * Lazy loading a Twitter post or timeline.
  *
- * This example uses the `Defer.js()` and the `Defer.dom()` method to defer a Twitter post or a timeline.
+ * This example uses the `Defer.js()` and the `Defer.dom()` methods to defer loading a [Twitter post or timeline](https://publish.twitter.com).
  * The `.lazy-timeline` or `.lazy-tweet` blocks on the page will be rendered
  * only when the user scrolls to the target position.
  *
  * ```html
  * <div id="demo-twitter">
  *   <a class="lazy-timeline" <!-- the original is class="twitter-timeline" -->
- *     href="https://twitter.com/TwitterDev"
+ *     href="https://twitter.com/xai"
  *     data-chrome="nofooter noborders"
- *     data-height="400" data-dnt="true" data-theme="dark">
- *     Tweets by @TwitterDev
+ *     data-width="480" data-height="600" data-dnt="true" data-theme="dark">
+ *     Tweets by @xAI
  *   </a>
  *
- *   <blockquote class="lazy-tweet" <!-- the original is class="twitter-tweet" -->>
+ *   <blockquote class="lazy-tweet" data-width="480" <!-- the original is class="twitter-tweet" -->>
  *     <!-- content is truncated -->
  *   </blockquote>
  * </div>
@@ -802,9 +814,9 @@
  * ```
  *
  * @example
- * Lazy load an Instgram post.
+ * Lazy loading an Instagram post.
  *
- * This example uses the `Defer.js()` and the `Defer.dom()` method to defer an Instagram post.
+ * This example uses the `Defer.js()` and the `Defer.dom()` methods to defer loading an [Instagram post](https://help.instagram.com/620154495870484).
  * The `.lazy-instagram` block on the page will be rendered
  * only when the user scrolls to the target position.
  *
@@ -837,29 +849,29 @@
  *
  * @function Defer.reveal
  * @since    2.1
- * @param    {Node}   node - An HTML node that will be unveiled
+ * @param    {Node}   node - An HTML node that will be unveiled.
  * @param    {string} [unveiledClass] - Class names that will be added to the node when it is unveiled.
  * @returns  {void}
-   *
-   * @example
-   * ```js
-   * // reveals a single element
-   * var node = document.getElementById('my-video');
-   * Defer.reveal(node);
-   *
-   * // reveals multiple elements
-   * document.querySelectorAll('.multi-lazy')
-   *   .forEach(function(node) {
-   *     Defer.reveal(node);
-   *   });
-   *
-   * // a short-hand for the above code
-   * document.querySelectorAll('.multi-lazy').forEach(Defer.reveal);
-   *
-   * // adds 'unveiled' classname when an element unveiled
-   * document.querySelectorAll('.multi-lazy')
-   *   .forEach(function(node) {
-   *     Defer.reveal(node, 'unveiled');
-   *   });
-   * ```
+ *
+ * @example
+ * ```js
+ * // reveals a single element
+ * var node = document.getElementById('my-video');
+ * Defer.reveal(node);
+ *
+ * // reveals multiple elements
+ * document.querySelectorAll('.multi-lazy')
+ *   .forEach(function(node) {
+ *     Defer.reveal(node);
+ *   });
+ *
+ * // a shorthand for the above code
+ * document.querySelectorAll('.multi-lazy').forEach(Defer.reveal);
+ *
+ * // adds the 'unveiled' classname when an element is unveiled
+ * document.querySelectorAll('.multi-lazy')
+ *   .forEach(function(node) {
+ *     Defer.reveal(node, 'unveiled');
+ *   });
+ * ```
  */
