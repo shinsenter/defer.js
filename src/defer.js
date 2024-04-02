@@ -7,7 +7,7 @@
  *
  * MIT License
  *
- * Copyright (c) 2019-2023 Mai Nhut Tan <shin@shin.company>
+ * Copyright (c) 2019-2024 Mai Nhut Tan <shin@shin.company>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,16 +34,16 @@
  * Defer.js is zero-dependency, super-efficient, and Web Vitals friendly.
  *
  * @author    Mai Nhut Tan <shin@shin.company>
- * @copyright 2019-2023 SHIN Company <https://code.shin.company/>
- * @version   3.7.0
+ * @copyright 2019-2024 SHIN Company <https://code.shin.company/>
+ * @version   3.8.0
  * @license   {@link https://code.shin.company/defer.js/blob/master/LICENSE|MIT}
  */
 
-/*!@shinsenter/defer.js@3.7.0*/
+/*!@shinsenter/defer.js@3.8.0*/
 (function (window, NAMESPACE, VERSION, CONST_UNDEFINED) {
 
   // var NAMESPACE = 'Defer';
-  // var VERSION   = '3.7.0';
+  // var VERSION   = '3.8.0';
 
   /*
   |--------------------------------------------------------------------------
@@ -104,7 +104,7 @@
 
   // browser features
   var console   = window.console;
-  var document  = window.document || window;
+  var document  = window.document;
 
   // variables that hold the state of Defer
   var isReady   = REGEX_READY.test(document.readyState);
@@ -162,11 +162,25 @@
   log(_DEFER_JS_ + ' is initializing...', '#888');
 
   // the heart of the library
-  function $$(func, delay, lazy) {
+  function $$(func, delay, lazy, _callee) {
     if (isReady) {
       fnServe(func, delay);
     } else {
       lazy = lazy === CONST_UNDEFINED ? $$[META_LAZY] : lazy;
+      if (lazy > 1) {
+        _callee = func;
+
+        // create a wrapper function for the original function
+        func = function () {
+          if (_callee) {
+            _callee();
+            _callee = CONST_UNDEFINED;
+          }
+        }
+
+        fastQueue.push(func, lazy);
+      }
+
       (lazy ? lazyQueue : fastQueue).push(
         func,
         // A temporary fix for the issue #121
@@ -231,6 +245,7 @@
 
     if (inject) {
       document.head.appendChild(_node);
+
       // debug
       debug('A DOM node has been attached.', _node);
     }
@@ -336,7 +351,7 @@
       var _debug_ = 'Defer.all(' +
         (selector || SELECTOR_JS) + ', ' +
         (delay || 0) + ', ' +
-        ((lazy === CONST_UNDEFINED ? $$[META_LAZY] : lazy) ? 'true' : 'false') + ')';
+        (lazy === CONST_UNDEFINED ? $$[META_LAZY] : lazy) + ')';
       perf_begin(_debug_);
 
       // executes queued script tags in the order they were queued
@@ -397,7 +412,7 @@
           _clone.rel = META_PRELOAD;
 
           // creates and attaches the new node to the document
-          _fnNewNode(TAG_LINK, _clone, CONST_UNDEFINED, document);
+          _fnNewNode(TAG_LINK, _clone, CONST_UNDEFINED, window);
         }
       }
 
@@ -425,7 +440,7 @@
 
     // attaches the new node to the document
     function ___() {
-      _fnNewNode(TAG_LINK, attributes, onload, document);
+      _fnNewNode(TAG_LINK, attributes, onload, window);
     }
 
     // adds the internal script to the queue
@@ -439,7 +454,7 @@
 
     // attaches the new node to the document
     function ___() {
-      _fnNewNode(TAG_SCRIPT, attributes, onload, document);
+      _fnNewNode(TAG_SCRIPT, attributes, onload, window);
     }
 
     // adds the internal script to the queue
@@ -540,4 +555,4 @@
   // unveils the script tags with type="deferjs"
   fnDeferScripts();
 
-})(this, 'Defer', '3.7.0');
+})(this, 'Defer', '3.8.0');
