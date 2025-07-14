@@ -8,7 +8,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>The Defer.js Library (@shinsenter/defer.js)</title>
-    <meta name="description" content="🥇 A lightweight JavaScript library that helps you lazy load (almost) anything. Defer.js is dependency-free, highly efficient, and optimized for Web Vitals.">
+    <meta name="description" content="🥇 A small JavaScript library to lazy-load almost anything. Defer.js is dependency-free, efficient, and optimized for Web Vitals.">
 
     <link rel="stylesheet" href="./demo.css" media="screen">
     <script src="../src/defer.js"></script>
@@ -20,7 +20,7 @@
     <main>
         <header>
             <h1>The Defer.js (<code>@shinsenter/defer.js</code>)</h1>
-            <p>🥇 A lightweight JavaScript library that helps you lazy load (almost) anything. Defer.js is dependency-free, highly efficient, and optimized for Web Vitals.</p>
+            <p>🥇 A small JavaScript library to lazy-load almost anything. Defer.js is dependency-free, efficient, and optimized for Web Vitals.</p>
 
             <ul id="navs">
                 <li><a href="#installation">Getting Started</a></li>
@@ -33,25 +33,22 @@
             <h2>Get Started:</h2>
 
             <div class="helper">
-                See how easy it is to get Defer.js working on your website!
+                See how easy it is to use Defer.js on your site!
             </div>
 
             <div class="example">
                 <h3>Quick Installation:</h3>
                 <div class="helper">
-                    Simply add a <code>&lt;script&gt;</code> tag pointing to
-                    <a target="_blank" title="defer.min.js" href="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.8.0/dist/defer.min.js">the library URL</a>
-                    just below the opening <code>&lt;head&gt;</code> tag of your page.
-                    Since <code>defer.min.js</code> is optimized to a very small file size,
-                    you can even inline the entire library to save one HTTP request.
+                    Just add a <code>&lt;script&gt;</code> tag linking to the library right after your opening <code>&lt;head&gt;</code> tag.
+                    The file <code>defer.min.js</code> is very small, and you can even inline it to avoid an extra HTTP request.
                 </div>
                 <div class="demo">
 <!-- Copy the script from the below URL -->
-<!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.8.0/dist/defer.min.js -->
+<!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.9.0/dist/defer.min.js -->
 <script>/* then replace this comment block with the content of defer.min.js here */</script>
 
 <!-- If your website still supports legacy browsers like Internet Explorer 9, -->
-<script>'IntersectionObserver' in window || document.write('<script defer src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.8.0/dist/polyfill.min.js"><\/script>');</script>
+<script>'IntersectionObserver' in window || document.write('<script defer src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.9.0/dist/polyfill.min.js"><\/script>');</script>
                 </div>
             </div>
         </section>
@@ -60,24 +57,20 @@
             <h2>Fully Defer <code>&lt;script&gt;</code> Tags:</h2>
 
             <div class="helper">
-                Slow scripts (third-party add-ons etc.) may cause
-                <a target="_blank" title="Learn more about Web Vitals" href="https://web.dev/vitals/">Web Vitals</a>
-                issues in real-world scenarios.
+                Slow scripts (like third-party add-ons) can affect site performance.
                 <br>
-                Fully deferring <code>&lt;script&gt;</code> tags may help your website prevent those Web Vitals issues.
+                Fully deferring <code>&lt;script&gt;</code> tags can help avoid Web Vitals issues.
             </div>
 
             <div class="example">
-                <h3>Using the magic <mark><code>type="deferjs"</code></mark> attribute:</h3>
+                <h3>Using the special attribute <mark><code>type="deferjs"</code></mark>:</h3>
                 <div class="helper">
                     You can easily fully defer any <code>script</code> tag by setting its <code>type</code> attribute to <code>deferjs</code>.
                     <br>
                     This trick also works perfectly with <code>&lt;script src&gt;</code> tags.
                     <br>
                     <strong>Note: </strong>
-                    Lazy loading behavior changed since v3.0 when you set <code>Defer.lazy=true</code>. <br>
-                    <code>&lt;script&gt;</code> tags with <code>type="deferjs"</code>
-                    will not execute unless the user starts interacting with your page.
+                    Since version 3.0, scripts using <code>type="deferjs"</code> only run after user interaction if <code>Defer.lazy=true</code>.
                     <br>
                     <strong>Note: </strong>
                     <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload" target="_blank">Resource hints</a>
@@ -95,7 +88,7 @@
             </div>
 
             <div class="example">
-                <h3>Using your value for the type attribute, such as <mark><code>type="my-magic"</code></mark>:</h3>
+                <h3>Using your own attribute value, like <mark><code>type="my-magic"</code></mark>:</h3>
                 <div class="helper">
                     If you prefer not to use the <mark><code>type="deferjs"</code></mark> attribute,
                     you can choose your own value.
@@ -103,10 +96,7 @@
                     <code>Defer.all(cssSelector, [delay], [waitForUserAction])</code>
                     <br>
                     <strong>Note: </strong>
-                    Lazy loading behavior changed since v3.0
-                    when you set <code>Defer.lazy=true</code> or <code>waitForUserAction=true</code>. <br>
-                    <code>&lt;script&gt;</code> tags deferred with this technique
-                    will not execute unless the user starts interacting with your page.
+                    Since version 3.0, scripts using <code>type="deferjs"</code> only run after user interaction if <code>Defer.lazy=true</code>.
                     <br>
                     <strong>Note: </strong>
                     <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload" target="_blank">Resource hints</a>
@@ -135,9 +125,7 @@
             <div class="example">
                 <h3>Using the <code>Defer.all()</code> method for script tags with <code>src</code> attribute:</h3>
                 <div class="helper">
-                    Your scripts will work perfectly when mixing inline scripts
-                    and script tags with a <code>src</code> attribute,
-                    like the example below.
+                    You can easily mix inline scripts and external scripts, as shown below.
                     <br>
                     The library will defer the load of tippy.js until the user starts interacting.
                     When the user moves their mouse over the button, a tooltip will show.
@@ -194,7 +182,7 @@
             </div>
 
             <div class="example">
-                <h3>Wait Until the User Starts Interacting:</h3>
+                <h3>Run After User Interaction:</h3>
                 <div class="helper">
                     Sometimes, you may want your code to run only when there is user activity.
                     <br>
@@ -295,16 +283,11 @@
             <div class="example">
                 <h3>Basic Usage:</h3>
                 <div class="helper">
-                    The browser uses the <code>src</code> attribute of the tag to trigger the image load.
-                    It doesn't matter if it is the first or the 1,000th image in your HTML.
-                    If the browser gets the <code>src</code> attribute, it will trigger the image to be downloaded,
-                    regardless of whether it is in or out of the current view.
+                    Browsers load images when they see the <code>src</code> attribute, even if images are not visible.
                     <br>
-                    To defer the load, put the image URL in an attribute other than <code>src</code>.
-                    We specify the image URL in the <code>data-src</code> attribute of the image tag.
+                    To defer loading, put the image URL in a different attribute like <code>data-src</code>.
                     <br>
-                    Sometimes, the <code>src</code> attribute could be used
-                    to download a very small placeholder image before the real image gets downloaded.
+                    Sometimes, the <code>src</code> attribute can load a tiny placeholder image first.
                 </div>
                 <div class="demo">
 <div id="demo-basic">
@@ -320,7 +303,7 @@
             </div>
 
             <div class="example">
-                <h3>Lazy Load a Responsive Image with <code>data-srcset</code> and <code>data-sizes</code> Attributes:</h3>
+                <h3>Lazy Loading Responsive Images with <code>data-srcset</code> and <code>data-sizes</code>:</h3>
                 <div class="helper">
                     Using the <code>srcset</code> attribute has made responsive image sizing much simpler.
                     It allows you to define a list of differently-sized versions of the same image
@@ -345,7 +328,7 @@
             </div>
 
             <div class="example">
-                <h3>Lazy Load a Responsive Image with Flexible Format Selection:</h3>
+                <h3>Lazy Loading Responsive Images with Different Formats:</h3>
                 <div class="helper">
                     Different browsers support different image formats.
                     We might want to send a fancy new image format such as WebP
@@ -375,7 +358,7 @@
             </div>
 
             <div class="example">
-                <h3>Basic Usage with Adding CSS Classes:</h3>
+                <h3>Basic Usage by Adding CSS Classes:</h3>
                 <div class="helper">
                     The <code>Defer.dom()</code> method also allows you to add CSS class names when a node is unveiled.
                     <br>
@@ -396,7 +379,7 @@
             </div>
 
             <div class="example">
-                <h3>Lazy Load Inline CSS Background Images:</h3>
+                <h3>Lazy Loading CSS Background Images Inline:</h3>
                 <div class="helper">
                     We can also defer background images for any HTML tag other than <code>img</code> or <code>picture</code>.
                 </div>
@@ -422,7 +405,7 @@
             </div>
 
             <div class="example">
-                <h3>Lazy Load CSS Background Images:</h3>
+                <h3>Lazy Loading CSS Background Images:</h3>
                 <div class="helper">
                     Still deferring background images for HTML tags, but we can use CSS class names instead of inline <code>style</code> attributes.
                 </div>
@@ -451,7 +434,7 @@
             </div>
 
             <div class="example">
-                <h3>Lazy Load a Video:</h3>
+                <h3>Lazy Loading Videos:</h3>
                 <div class="helper">
                     With the <code>Defer.dom()</code> method, we can also defer the load of various media tags, such as a <code>video</code> tag.
                 </div>
@@ -471,7 +454,7 @@
             </div>
 
             <div class="example">
-                <h3>Lazy Load an Iframe:</h3>
+                <h3>Lazy Loading Iframes:</h3>
                 <div class="helper">
                     With the <code>Defer.dom()</code> method, we can effortlessly defer the load of <code>iframe</code> tags.
                 </div>
@@ -488,7 +471,7 @@
             </div>
 
             <div class="example">
-                <h3>Lazy Load a YouTube Video:</h3>
+                <h3>Lazy Loading YouTube Videos:</h3>
                 <div class="helper">
                     This example uses the <code>Defer.dom()</code> method to defer the load of a YouTube iframe.
                 </div>
@@ -508,7 +491,7 @@
             </div>
 
             <div class="example">
-                <h3>Lazy Load a Facebook Post:</h3>
+                <h3>Lazy Loading Facebook Posts:</h3>
                 <div class="helper">
                     This example uses the <code>Defer.dom()</code> method to defer the load of a Facebook post.
                 </div>
@@ -527,7 +510,7 @@
             </div>
 
             <div class="example">
-                <h3>Lazy Load a Discord Chat Box:</h3>
+                <h3>Lazy Loading Discord Chat Boxes:</h3>
                 <div class="helper">
                     This example uses the <code>Defer.dom()</code> method to defer the load of a Discord chat box.
                 </div>
@@ -544,7 +527,7 @@
             </div>
 
             <div class="example">
-                <h3>Scroll and Reveal:</h3>
+                <h3>Reveal on Scroll:</h3>
                 <div class="helper">
                     The <code>Defer.dom()</code> method also helps you perform an action when an element is unveiled.
                     <br>
@@ -554,7 +537,7 @@
                 <div class="demo">
 <script>
     Defer.dom('#surprise-me', 1000, 'seen', function (node) {
-        alert('Yay!\nYou have seen all examples. Have fun with Defer.js!');
+        alert('Yay!\nYou have seen all examples. Enjoy using Defer.js!');
     });
 </script>
                 </div>
@@ -568,13 +551,11 @@
                 We use the <code>Defer.css()</code> method to defer the load of external CSS files without blocking the page rendering.
                 <br>
                 <strong>Note: </strong>
-                Lazy loading behavior changed since v3.0
-                when you set <code>Defer.lazy=true</code> or <code>waitForUserAction=true</code>. <br>
-                The <code>fileUrl</code> will not be fetched unless the user starts interacting with your page.
+                Since version 3.0, scripts using <code>type="deferjs"</code> only run after user interaction if <code>Defer.lazy=true</code>.
             </div>
 
             <div class="example">
-                <h3>Lazy Load FontAwesome Library:</h3>
+                <h3>Lazy Loading FontAwesome:</h3>
                 <div class="helper">
                     Using the <code>Defer.css()</code> method to lazy load FontAwesome (CSS and some font files).
                 </div>
@@ -602,7 +583,7 @@
             </div>
 
             <div class="example">
-                <h3>Lazy Loading the animate.css Library:</h3>
+                <h3>Lazy Loading animate.css:</h3>
                 <div class="helper">
                     In this example, we set <code>waitForUserAction=5000</code> (the 5th parameter of the <code>Defer.css</code> function).
                     This means the website will wait until there is user interaction before starting to load the animate.css library.
@@ -643,13 +624,11 @@
                 to ensure the third-party library you need is completely defined.
                 <br>
                 <strong>Note 2: </strong>
-                Lazy loading behavior changed since v3.0 when you set
-                <code>Defer.lazy=true</code> or <code>waitForUserAction=true</code>. <br>
-                The <code>fileUrl</code> will not be fetched unless the user starts interacting with your page.
+                Since version 3.0, scripts using <code>type="deferjs"</code> only run after user interaction if <code>Defer.lazy=true</code>.
             </div>
 
             <div class="example">
-                <h3>An Alternative Way to Lazy Load the Google Tag Manager Script:</h3>
+                <h3>Another Way to Lazy Load Google Tag Manager:</h3>
                 <div class="helper">
                     Using the <code>Defer.js()</code> method to lazy load the Google Tag Manager library and its external scripts.
                 </div>
@@ -671,7 +650,7 @@
             </div>
 
             <div class="example">
-                <h3>Lazy Loading the Prism.js Library:</h3>
+                <h3>Lazy Loading Prism.js:</h3>
                 <div class="helper">
                     Using the <code>Defer.js()</code> method to lazy load the Prism.js library and its assets.
                     <br>
@@ -704,7 +683,7 @@
             </div>
 
             <div class="example">
-                <h3>Lazy Loading a Twitter Post or Timeline:</h3>
+                <h3>Lazy Loading Twitter Posts or Timelines:</h3>
                 <div class="helper">
                     This example uses the <code>Defer.js()</code> and the <code>Defer.dom()</code> methods to defer loading a Twitter post or timeline.
                 </div>
@@ -751,7 +730,7 @@ Defer.js('https://platform.twitter.com/widgets.js', 'twitter-sdk', 0, function()
             </div>
 
             <div class="example">
-                <h3>Lazy Loading an Instagram Post:</h3>
+                <h3>Lazy Loading Instagram Posts:</h3>
                 <div class="helper">
                     This example uses the <code>Defer.js()</code> and the <code>Defer.dom()</code> methods to defer loading an Instagram post.
                 </div>
@@ -779,7 +758,7 @@ Defer.js('https://www.instagram.com/embed.js', 'instagram-sdk', 0, function() {
         <hr>
 
         <footer id="surprise-me">
-            <p>Have fun with <a href="https://code.shin.company/defer.js" title="@shinsenter/defer.js">@shinsenter/defer.js</a>!</p>
+            <p>Enjoy using <a href="https://code.shin.company/defer.js" title="@shinsenter/defer.js">@shinsenter/defer.js</a>!</p>
         </footer>
     </main>
 
