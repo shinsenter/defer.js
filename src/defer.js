@@ -304,7 +304,13 @@
     function ___(_observer) {
       // unveils an observed node
       function _unveil(node) {
+        if (_observer) {
+          // stops observing the target element
+          _observer.unobserve(node);
+        }
+
         if (!resolver || resolver(node) !== CONST_FALSE) {
+          // reveals the node
           fnDeferReveal(node, unveiledClass);
         }
       }
@@ -323,13 +329,10 @@
       // creates intersection observer
       if (IntersectionObserver) {
         _observer = new IntersectionObserver(function (nodes) {
-          _fnForEach(nodes, function (entry, _node) {
+          _fnForEach(nodes, function (entry) {
+            // reveals the node
             if (entry.isIntersecting) {
-              // stops observing the target element
-              _observer.unobserve(_node = entry.target);
-
-              // reveals the node
-              _unveil(_node);
+              _unveil(entry.target);
             }
           });
         }, observeOptions);
