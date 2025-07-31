@@ -193,11 +193,11 @@
  * @note (2) From v3.0, scripts using `type="deferjs"` wait until user interaction if `Defer.lazy=true`.
  * View some use cases in [this discussion](https://github.com/shinsenter/defer.js/discussions/131#discussioncomment-8775870).
  *
- * @note (4) The [Resource hints](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload) feature was added since v3.2,
+ * @note (3) The [Resource hints](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload) feature was added since v3.2,
  * as it is recommended to prevent issues called "[Taming the Waterfall](https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall)".
  * This feature is discussed in [#112](https://code.shin.company/defer.js/issues/112).
  *
- * @note (5) Known Issue:
+ * @note (4) Known Issue:
  * In iOS Safari, the first `click` event may not work
  * when using `Defer.all()` with `waitForUserAction` set to `true`
  * and one of the deferred scripts makes a DOM change.
@@ -229,6 +229,8 @@
  *   console.info('This script is lazy loaded with type="deferjs" attribute.');
  * </script>
  * ```
+ *
+ * Notice: <span style="color:red">By default, the library automatically lazy-loads all `<script type="deferjs" />` tags. Calling `Defer.all()` again without parameters may cause those `<script type="deferjs" />` tags to execute out of the intended order.</span><br/><br/>
  *
  * @example
  * Using your value for the type attribute, such as `type="my-magic"`:

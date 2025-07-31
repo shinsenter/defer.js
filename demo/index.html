@@ -773,6 +773,31 @@ Defer.js('https://www.instagram.com/embed.js', 'instagram-sdk', 0, function() {
         Defer.all('script[type="issue-121"]', 0, true);
     </script>
 
+    <!-- Issue #145 (https://github.com/shinsenter/defer.js/issues/145) -->
+    <script type="issue-145" src="https://www.abmry2trk.com/scripts/sdk/everflow.js" onload="console.log('everflow loaded', event);"></script>
+    <script type="issue-145">
+        console.log("everflow initializing...");
+        EF.configure({
+            tld: 'example.org',
+        });
+        EF.click({
+            offer_id: EF.urlParameter('oid'),
+            affiliate_id: EF.urlParameter('affid'),
+            sub1: EF.urlParameter('sub1'),
+            sub2: EF.urlParameter('sub2'),
+            sub3: EF.urlParameter('sub3'),
+            sub4: EF.urlParameter('sub4'),
+            sub5: EF.urlParameter('sub5'),
+            uid: EF.urlParameter('uid'),
+            source_id: EF.urlParameter('source_id'),
+            transaction_id: EF.urlParameter('_ef_transaction_id'),
+        });
+        console.log("did it :::");
+    </script>
+    <script>
+        Defer.all('script[type="issue-145"]', 0, true);
+    </script>
+
     <!-- Dummy -->
     <script>Defer.all('script[type="waterfall-test-defer"]', 1000, false);</script>
     <script>Defer.all('script[type="waterfall-test-lazy"]',  1000, 10000);</script>
