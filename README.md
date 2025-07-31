@@ -57,6 +57,8 @@ Defer.js is an easy-to-use library that will help boost your website's performan
 
 Add the Defer.js library to your page by including a `<script>` tag just below the opening `<head>` tag.
 
+**Note**: The library will automatically all `Defer.all();` upon loading.
+
 ```html
 <head>
   <meta charset="UTF-8" />
