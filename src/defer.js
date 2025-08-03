@@ -52,46 +52,46 @@
   */
 
   // aliases for reusable variables
-  var CONST_FALSE     = false;
+  var CONST_FALSE = false;
   var CONST_TAP_DELAY = 350;
 
   // aliases for regular expressions
-  var REGEX_READY  = /p/;
-  var REGEX_DATA   = /^data-(.+)/;
+  var REGEX_READY = /p/;
+  var REGEX_DATA = /^data-(.+)/;
 
   // aliases for HTML tags
-  var TAG_LINK      = 'link';
-  var TAG_SCRIPT    = 'script';
+  var TAG_LINK = 'link';
+  var TAG_SCRIPT = 'script';
 
   // default CSS selectors
-  var SELECTOR_DOM  = '[data-src]';
-  var SELECTOR_JS   = TAG_SCRIPT + '[type=deferjs]';
+  var SELECTOR_DOM = '[data-src]';
+  var SELECTOR_JS = TAG_SCRIPT + '[type=deferjs]';
 
   // aliases for events
-  var EVENT_ERROR     = 'error';
-  var EVENT_LOAD      = 'load';
-  var EVENT_PAGESHOW  = 'pageshow';
-  var TYPE_ADD        = 'add';
-  var TYPE_REMOVE     = 'remove';
+  var EVENT_ERROR = 'error';
+  var EVENT_LOAD = 'load';
+  var EVENT_PAGESHOW = 'pageshow';
+  var TYPE_ADD = 'add';
+  var TYPE_REMOVE = 'remove';
 
   // page events
   var ACTION_EVENTS = 'touchstart mousemove mousedown keydown wheel';
-  var WINDOW_EVENT  = 'on' + EVENT_PAGESHOW in window ? EVENT_PAGESHOW : EVENT_LOAD;
+  var WINDOW_EVENT = 'on' + EVENT_PAGESHOW in window ? EVENT_PAGESHOW : EVENT_LOAD;
 
   // aliases for object methods
   var FUNC_SET_ATTR = 'setAttribute';
-  var FUNC_SHIFT    = 'shift';
+  var FUNC_SHIFT = 'shift';
 
   // aliases for object attributes
-  var ATTR_ASYNC    = 'async';
-  var ATTR_HREF     = 'href';
-  var ATTR_SRC      = 'src';
-  var ATTR_TYPE     = 'type';
+  var ATTR_ASYNC = 'async';
+  var ATTR_HREF = 'href';
+  var ATTR_SRC = 'src';
+  var ATTR_TYPE = 'type';
 
   // aliases for meta types
-  var META_CSS      = 'stylesheet';
-  var META_LAZY     = 'lazy';
-  var META_PRELOAD  = 'preload';
+  var META_CSS = 'stylesheet';
+  var META_LAZY = 'lazy';
+  var META_PRELOAD = 'preload';
 
   /*
   |--------------------------------------------------------------------------
@@ -103,11 +103,11 @@
   var IntersectionObserver = window.IntersectionObserver;
 
   // browser features
-  var console   = window.console;
-  var document  = window.document;
+  var console = window.console;
+  var document = window.document;
 
   // variables that hold the state of Defer
-  var isReady   = REGEX_READY.test(document.readyState);
+  var isReady = REGEX_READY.test(document.readyState);
   var fastQueue = [];
   var lazyQueue = [];
 
@@ -201,7 +201,7 @@
     attributes = attributes || {};
 
     if (typeof attributes == 'string') {
-      attributes = {'id': attributes};
+      attributes = { 'id': attributes };
     }
 
     return attributes;
@@ -240,6 +240,10 @@
     if (attributes) {
       for (_attr in attributes) {
         _node[FUNC_SET_ATTR](_attr, attributes[_attr]);
+
+        if (_node.tagName === 'SCRIPT' && _attr === 'data-deferjs-type') {
+          _node[FUNC_SET_ATTR]('type', attributes[_attr]);
+        }
       }
     }
 
@@ -408,7 +412,7 @@
           });
 
           // overrides its preload attributes
-          _clone.as  = TAG_SCRIPT;
+          _clone.as = TAG_SCRIPT;
           _clone.rel = META_PRELOAD;
 
           // creates and attaches the new node to the document
@@ -434,9 +438,9 @@
 
   // the core of the Defer.css
   function fnDeferCss(fileUrl, attributes, delay, onload, lazy) {
-    attributes      = _fnAttributes(attributes);
+    attributes = _fnAttributes(attributes);
     attributes.href = fileUrl;
-    attributes.rel  = META_CSS;
+    attributes.rel = META_CSS;
 
     // attaches the new node to the document
     function ___() {
@@ -449,7 +453,7 @@
 
   // the core of the Defer.js
   function fnDeferJs(fileUrl, attributes, delay, onload, lazy) {
-    attributes     = _fnAttributes(attributes);
+    attributes = _fnAttributes(attributes);
     attributes.src = fileUrl;
 
     // attaches the new node to the document
@@ -534,10 +538,10 @@
   */
 
   // exposes public methods
-  $$.all    = fnDeferScripts;
-  $$.dom    = fnDeferDom;
-  $$.css    = fnDeferCss;
-  $$.js     = fnDeferJs;
+  $$.all = fnDeferScripts;
+  $$.dom = fnDeferDom;
+  $$.css = fnDeferCss;
+  $$.js = fnDeferJs;
   $$.reveal = fnDeferReveal;
 
   // exposes the Defer instance
