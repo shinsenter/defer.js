@@ -16,7 +16,7 @@ their websites have advertisements that could potentially deceive users.
 
 > I would like to express warm gratitude to [@Ataruchi](https://twitter.com/Ataruchi), [@HeavyPeat](https://twitter.com/HeavyPeat), and [Limosuki](https://www.limosuki.com/) for their helpful articles in Japanese.
 
-## Browser Support
+## Supported Browsers
 
 Defer.js is compatible with all modern browsers, including:
 - 🖥 IE9+ / Edge <sup>(*)</sup>
@@ -27,7 +27,7 @@ Defer.js is compatible with all modern browsers, including:
 - 📱 Android 4+
 - 📱 iOS 3.2+
 
-<sup>(*) Legacy browsers like Internet Explorer 9 require the `IntersectionObserver` polyfill.</sup>
+<sup>(*) Older browsers like Internet Explorer 9 require the `IntersectionObserver` polyfill.</sup>
 
 ## Known Issues
 

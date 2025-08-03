@@ -1,8 +1,8 @@
 {
   "name": "@shinsenter/defer.js",
   "title": "Defer.js",
-  "version": "3.8.0",
-  "description": "🥇 A lightweight JavaScript library that helps you lazy load (almost) anything. Defer.js is dependency-free, highly efficient, and optimized for Web Vitals.",
+  "version": "3.9.0",
+  "description": "🥇 A small JavaScript library to lazy-load almost anything. Defer.js is dependency-free, efficient, and optimized for Web Vitals.",
   "homepage": "https://shinsenter.github.io/defer.js/",
   "license": "MIT",
   "author": {
@@ -25,10 +25,6 @@
     {
       "type": "paypal",
       "url": "https://www.paypal.me/shinsenter"
-    },
-    {
-      "type": "patreon",
-      "url": "https://www.patreon.com/appseeds"
     }
   ],
   "keywords": [
@@ -78,7 +74,7 @@
     "build": "npm run s1 && npm run s2 && npm run s3",
     "postbuild": "npm run docs && npm run summary --silent",
     "prepull": "rm -rf ./node_modules package-lock.json && npm -g cache clear -f",
-    "pull": "npm -g install npm jsdoc-to-markdown eslint js-beautify uglify-js@3 && npm i && npm up",
+    "pull": "npm -g install npm jsdoc-to-markdown@9 eslint@8 js-beautify@1 uglify-js@3.19 && npm i && npm up",
     "postpull": "npm audit fix",
     "predocs": "rm -f README.md ./docs/index.md ./docs/apis.md",
     "docs": "jsdoc2md --separators -l html -g grouped ./src/*.js > ./docs/apis.md",
