@@ -30,20 +30,20 @@
  */
 
 /**
- * 🥇 A JavaScript micro-library that helps you lazy load (almost) anything.
- * Defer.js is zero-dependency, super-efficient, and Web Vitals friendly.
+ * 🥇 A small JavaScript library to lazy-load almost anything.
+ * Defer.js is dependency-free, efficient, and optimized for Web Vitals.
  *
  * @author    Mai Nhut Tan <shin@shin.company>
  * @copyright 2019-2024 SHIN Company <https://code.shin.company/>
- * @version   3.8.0
+ * @version   3.9.0
  * @license   {@link https://code.shin.company/defer.js/blob/master/LICENSE|MIT}
  */
 
-/*!@shinsenter/defer.js@3.8.0*/
+/*!@shinsenter/defer.js@3.9.0*/
 (function (window, NAMESPACE, VERSION, CONST_UNDEFINED) {
 
   // var NAMESPACE = 'Defer';
-  // var VERSION   = '3.8.0';
+  // var VERSION   = '3.9.0';
 
   /*
   |--------------------------------------------------------------------------
@@ -52,8 +52,7 @@
   */
 
   // aliases for reusable variables
-  var CONST_FALSE     = false;
-  var CONST_TAP_DELAY = 350;
+  var CONST_FALSE = false;
 
   // aliases for regular expressions
   var REGEX_READY  = /p/;
@@ -75,7 +74,7 @@
   var TYPE_REMOVE     = 'remove';
 
   // page events
-  var ACTION_EVENTS = 'touchstart mousemove mousedown keydown wheel';
+  var ACTION_EVENTS = 'keydown mousemove mousedown touchstart wheel';
   var WINDOW_EVENT  = 'on' + EVENT_PAGESHOW in window ? EVENT_PAGESHOW : EVENT_LOAD;
 
   // aliases for object methods
@@ -90,7 +89,6 @@
 
   // aliases for meta types
   var META_CSS      = 'stylesheet';
-  var META_LAZY     = 'lazy';
   var META_PRELOAD  = 'preload';
 
   /*
@@ -166,7 +164,7 @@
     if (isReady) {
       fnServe(func, delay);
     } else {
-      lazy = lazy === CONST_UNDEFINED ? $$[META_LAZY] : lazy;
+      lazy = lazy === CONST_UNDEFINED ? $$.lazy : lazy;
       if (lazy > 1) {
         _callee = func;
 
@@ -185,7 +183,8 @@
         func,
         // A temporary fix for the issue #121
         // See: https://code.shin.company/defer.js/discussions/122
-        Math.max(lazy ? CONST_TAP_DELAY : 0, delay)
+        // Further reading: https://webkit.org/blog/5610/more-responsive-tapping-on-ios/
+        Math.max(lazy ? 350 : 0, delay)
       );
     }
   }
@@ -201,7 +200,9 @@
     attributes = attributes || {};
 
     if (typeof attributes == 'string') {
-      attributes = {'id': attributes};
+      attributes = {
+        'id': attributes
+      };
     }
 
     return attributes;
@@ -227,7 +228,7 @@
   }
 
   // creates a new fresh DOM node
-  function _fnNewNode(nodeName, attributes, callback, inject, _node, _attr) {
+  function _fnNewNode(nodeName, attributes, callback, attach, _node, _attr) {
     // debug
     debug('Creating a new DOM node.', nodeName, attributes);
 
@@ -243,7 +244,7 @@
       }
     }
 
-    if (inject) {
+    if (attach) {
       document.head.appendChild(_node);
 
       // debug
@@ -303,7 +304,13 @@
     function ___(_observer) {
       // unveils an observed node
       function _unveil(node) {
+        if (_observer) {
+          // stops observing the target element
+          _observer.unobserve(node);
+        }
+
         if (!resolver || resolver(node) !== CONST_FALSE) {
+          // reveals the node
           fnDeferReveal(node, unveiledClass);
         }
       }
@@ -322,13 +329,10 @@
       // creates intersection observer
       if (IntersectionObserver) {
         _observer = new IntersectionObserver(function (nodes) {
-          _fnForEach(nodes, function (entry, _node) {
+          _fnForEach(nodes, function (entry) {
+            // reveals the node
             if (entry.isIntersecting) {
-              // stops observing the target element
-              _observer.unobserve(_node = entry.target);
-
-              // reveals the node
-              _unveil(_node);
+              _unveil(entry.target);
             }
           });
         }, observeOptions);
@@ -351,7 +355,7 @@
       var _debug_ = 'Defer.all(' +
         (selector || SELECTOR_JS) + ', ' +
         (delay || 0) + ', ' +
-        (lazy === CONST_UNDEFINED ? $$[META_LAZY] : lazy) + ')';
+        (lazy === CONST_UNDEFINED ? $$.lazy : lazy) + ')';
       perf_begin(_debug_);
 
       // executes queued script tags in the order they were queued
@@ -361,6 +365,9 @@
 
         if (_node) {
           _clone = {};
+
+          // apply "data-*" attributes to the node
+          fnDeferReveal(_node);
 
           // copies the attributes from the original node
           _fnLoopAttributes(_node, function (name, value) {
@@ -419,7 +426,7 @@
       // collects target script tags for lazy loading
       _scripts = _fnQueryAll(selector || SELECTOR_JS);
 
-      // if ($$[META_PRELOAD] !== CONST_FALSE) {
+      // if (!isReady) {
       // adds preload nodes
       _fnForEach(_scripts, _preload);
       // }
@@ -555,4 +562,4 @@
   // unveils the script tags with type="deferjs"
   fnDeferScripts();
 
-})(this, 'Defer', '3.8.0');
+})(this, 'Defer', '3.9.0');
