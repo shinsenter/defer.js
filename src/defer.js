@@ -228,7 +228,7 @@
   }
 
   // creates a new fresh DOM node
-  function _fnNewNode(nodeName, attributes, callback, inject, _node, _attr) {
+  function _fnNewNode(nodeName, attributes, callback, attach, _node, _attr) {
     // debug
     debug('Creating a new DOM node.', nodeName, attributes);
 
@@ -244,7 +244,7 @@
       }
     }
 
-    if (inject) {
+    if (attach) {
       document.head.appendChild(_node);
 
       // debug
@@ -366,6 +366,9 @@
         if (_node) {
           _clone = {};
 
+          // apply "data-*" attributes to the node
+          fnDeferReveal(_node);
+
           // copies the attributes from the original node
           _fnLoopAttributes(_node, function (name, value) {
             if (name != ATTR_TYPE) {
@@ -423,7 +426,7 @@
       // collects target script tags for lazy loading
       _scripts = _fnQueryAll(selector || SELECTOR_JS);
 
-      // if ($$[META_PRELOAD] !== CONST_FALSE) {
+      // if (!isReady) {
       // adds preload nodes
       _fnForEach(_scripts, _preload);
       // }

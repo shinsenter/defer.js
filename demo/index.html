@@ -774,8 +774,9 @@ Defer.js('https://www.instagram.com/embed.js', 'instagram-sdk', 0, function() {
     </script>
 
     <!-- Issue #145 (https://github.com/shinsenter/defer.js/issues/145) -->
-    <script type="issue-145" src="https://www.abmry2trk.com/scripts/sdk/everflow.js" onload="console.log('everflow loaded', event);"></script>
-    <script type="issue-145">
+    <!-- Issue #148 (https://github.com/shinsenter/defer.js/issues/148) -->
+    <script type="issue-145" src="https://www.abmry2trk.com/scripts/sdk/everflow.js" onload="console.log('everflow loaded', event);" data-xxx="test1"></script>
+    <script type="issue-145" data-type="text/javascript" data-yyy="test2">
         console.log("everflow initializing...");
         EF.configure({
             tld: 'example.org',
@@ -795,7 +796,7 @@ Defer.js('https://www.instagram.com/embed.js', 'instagram-sdk', 0, function() {
         console.log("did it :::");
     </script>
     <script>
-        Defer.all('script[type="issue-145"]', 0, true);
+        Defer.all('script[type="issue-145"]', 0, false);
     </script>
 
     <!-- Dummy -->

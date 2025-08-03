@@ -187,6 +187,38 @@ After:
 
 Notice: <span style="color:red">By default, the library automatically lazy-loads all `<script type="deferjs" />` tags. Calling `Defer.all()` again without parameters may cause those `<script type="deferjs" />` tags to execute out of the intended order.</span><br/><br/>
 **Example**  
+Using the `Defer.all()` method for script tags with the `src` attribute:
+
+Your scripts will work perfectly when you mix inline scripts
+and script tags with a `src` attribute, like the example below.
+
+```html
+<button id="tooltip-button">My button</button>
+
+<script type="deferjs" src="https://unpkg.com/@popperjs/core@2"></script>
+<script type="deferjs" src="https://unpkg.com/tippy.js@6"></script>
+
+<script type="deferjs">
+  tippy('#tooltip-button', { content: 'Hello from Defer.js!' });
+</script>
+```
+**Example**  
+To use the `Defer.all()` method for script tags with a different `type`
+attribute value (such as `type="module"`), similar to how `Defer.dom()` works,
+you need to add an extra attribute `data-type` so that Defer.js can handle it for you.
+
+The original script:
+```html
+<!-- Before: -->
+<script type="module" src="example.com/module.js"></script>
+```
+
+Now you can do this and they will maintain the `module` type:
+```html
+<!-- After: -->
+<script type="deferjs" data-type="module" src="example.com/module.js"></script>
+```
+**Example**  
 Using your value for the type attribute, such as `type="my-magic"`:
 
 If you don't like using the `type="deferjs"` attribute,
@@ -196,7 +228,11 @@ Notice: To avoid unexpected behavior when using
 the `Defer.all()` method to delay executing script tags,
 you should call the `Defer.all()` method with a regular script tag.
 
+FYI: In this example, the `waitForUserAction` argument (the third argument) is set to `true`,
+the library will defer loading script tags until the user starts interacting.
+
 ```html
+<script type="my-magic" data-type="module" src="example.com/my-magic-module.js"></script>
 <script type="my-magic">
   // your JavaScript will still be here,
   // but it will not run unless the user starts interacting with your page.
@@ -209,35 +245,7 @@ you should call the `Defer.all()` method with a regular script tag.
 <!-- Place the below line after all other script tags -->
 <!-- The 2nd argument means those script tags will be delayed 5000ms -->
 <script>
-  Defer.all('script[type="my-magic"]', 5000);
-</script>
-```
-**Example**  
-Using the `Defer.all()` method for script tags with the `src` attribute:
-
-Your scripts will work perfectly when you mix inline scripts
-and script tags with a `src` attribute, like the example below.
-
-The `waitForUserAction` argument (the fifth argument) is set to `true`,
-the library will defer loading the tippy.js library until the user starts
-interacting. When the user moves their mouse over the button, a tooltip will show.
-
-Notice: To avoid unexpected behavior when using
-the `Defer.all()` method to delay executing script tags,
-you should call the `Defer.all()` method with a regular script tag.
-
-```html
-<button id="tooltip-button">My button</button>
-
-<script type="myscript" src="https://unpkg.com/@popperjs/core@2"></script>
-<script type="myscript" src="https://unpkg.com/tippy.js@6"></script>
-
-<script type="myscript">
-  tippy('#tooltip-button', { content: 'Hello from Defer.js!' });
-</script>
-
-<script>
-  Defer.all('script[type="myscript"]', 500, true);
+  Defer.all('script[type="my-magic"]', 5000, true);
 </script>
 ```
 
