@@ -1,7 +1,7 @@
 {
   "name": "@shinsenter/defer.js",
   "title": "Defer.js",
-  "version": "3.9.0",
+  "version": "3.10.0",
   "description": "🥇 A small JavaScript library to lazy-load almost anything. Defer.js is dependency-free, efficient, and optimized for Web Vitals.",
   "homepage": "https://shinsenter.github.io/defer.js/",
   "license": "MIT",
@@ -60,9 +60,6 @@
   "workspaces": [
     "dist/"
   ],
-  "devDependencies": {
-    "intersection-observer": "latest"
-  },
   "scripts": {
     "format": "js-beautify --config .build/.beautify -r -f src/*.js",
     "minify": "uglifyjs --name-cache node_modules/name-cache.json --config-file .build/.minify -o",
@@ -73,8 +70,8 @@
     "prebuild": "npm run test",
     "build": "npm run s1 && npm run s2 && npm run s3",
     "postbuild": "npm run docs && npm run summary --silent",
-    "prepull": "rm -rf ./node_modules package-lock.json && npm -g cache clear -f",
-    "pull": "npm -g install npm jsdoc-to-markdown@9 eslint@8 js-beautify@1 uglify-js@3.19 && npm i && npm up",
+    "prepull": "rm -rf ./node_modules package-lock.json && npm cache clear -f",
+    "pull": "npm install --dev npm jsdoc-to-markdown@9 eslint@8 js-beautify@1 uglify-js@3.19 && npm i && npm up",
     "postpull": "npm audit fix",
     "predocs": "rm -f README.md ./docs/index.md ./docs/apis.md",
     "docs": "jsdoc2md --separators -l html -g grouped ./src/*.js > ./docs/apis.md",
@@ -84,5 +81,13 @@
     "presummary": "echo Original size : $(cat src/defer.js | uglifyjs | gzip | wc -c) bytes \\(gzipped\\)",
     "summary": "echo Minified size : $(cat dist/defer.min.js | wc -c) bytes",
     "postsummary": "echo Minzipped size: $(cat dist/defer.min.js | gzip | wc -c) bytes"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "intersection-observer": "latest",
+    "js-beautify": "^1.15.4",
+    "jsdoc-to-markdown": "^9.1.2",
+    "npm": "^11.6.0",
+    "uglify-js": "3.19"
   }
 }

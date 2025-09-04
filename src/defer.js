@@ -35,15 +35,15 @@
  *
  * @author    Mai Nhut Tan <shin@shin.company>
  * @copyright 2019-2024 SHIN Company <https://code.shin.company/>
- * @version   3.9.0
+ * @version   3.10.0
  * @license   {@link https://code.shin.company/defer.js/blob/master/LICENSE|MIT}
  */
 
-/*!@shinsenter/defer.js@3.9.0*/
+/*!@shinsenter/defer.js@3.10.0*/
 (function (window, NAMESPACE, VERSION, CONST_UNDEFINED) {
 
   // var NAMESPACE = 'Defer';
-  // var VERSION   = '3.9.0';
+  // var VERSION   = '3.10.0';
 
   /*
   |--------------------------------------------------------------------------
@@ -562,4 +562,4 @@
   // unveils the script tags with type="deferjs"
   fnDeferScripts();
 
-})(this, 'Defer', '3.9.0');
+})(this, 'Defer', '3.10.0');
