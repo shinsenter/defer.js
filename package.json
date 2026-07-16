@@ -86,8 +86,8 @@
     "eslint": "^8.57.1",
     "intersection-observer": "latest",
     "js-beautify": "^1.15.4",
-    "jsdoc-to-markdown": "^9.1.2",
-    "npm": "^11.6.0",
+    "jsdoc-to-markdown": "^9.1.3",
+    "npm": "^11.18.0",
     "uglify-js": "3.19"
   }
 }

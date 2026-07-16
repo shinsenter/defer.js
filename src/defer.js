@@ -47,69 +47,69 @@
 
   /*
   |--------------------------------------------------------------------------
-  | Defines internal variables for a better minification rate
+  | Define internal variables for better minification efficiency
   |--------------------------------------------------------------------------
   */
 
-  // aliases for reusable variables
+  // Aliases for reusable variables
   var CONST_FALSE = false;
 
-  // aliases for regular expressions
+  // Aliases for regular expressions
   var REGEX_READY  = /p/;
   var REGEX_DATA   = /^data-(.+)/;
 
-  // aliases for HTML tags
+  // Aliases for HTML tags
   var TAG_LINK      = 'link';
   var TAG_SCRIPT    = 'script';
 
-  // default CSS selectors
+  // Default CSS selectors
   var SELECTOR_DOM  = '[data-src]';
   var SELECTOR_JS   = TAG_SCRIPT + '[type=deferjs]';
 
-  // aliases for events
+  // Aliases for events
   var EVENT_ERROR     = 'error';
   var EVENT_LOAD      = 'load';
   var EVENT_PAGESHOW  = 'pageshow';
   var TYPE_ADD        = 'add';
   var TYPE_REMOVE     = 'remove';
 
-  // page events
+  // Page events
   var ACTION_EVENTS = 'keydown mousemove mousedown touchstart wheel';
   var WINDOW_EVENT  = 'on' + EVENT_PAGESHOW in window ? EVENT_PAGESHOW : EVENT_LOAD;
 
-  // aliases for object methods
+  // Aliases for object methods
   var FUNC_SET_ATTR = 'setAttribute';
   var FUNC_SHIFT    = 'shift';
 
-  // aliases for object attributes
+  // Aliases for object attributes
   var ATTR_ASYNC    = 'async';
   var ATTR_HREF     = 'href';
   var ATTR_SRC      = 'src';
   var ATTR_TYPE     = 'type';
 
-  // aliases for meta types
+  // Aliases for meta types
   var META_CSS      = 'stylesheet';
   var META_PRELOAD  = 'preload';
 
   /*
   |--------------------------------------------------------------------------
-  | Defines internal variables for holding state of the library
+  | Define internal variables for holding library state
   |--------------------------------------------------------------------------
   */
 
-  // the IntersectionObserver feature
+  // The IntersectionObserver feature
   var IntersectionObserver = window.IntersectionObserver;
 
-  // browser features
+  // Browser features
   var console   = window.console;
   var document  = window.document;
 
-  // variables that hold the state of Defer
+  // Variables that hold the state of Defer
   var isReady   = REGEX_READY.test(document.readyState);
   var fastQueue = [];
   var lazyQueue = [];
 
-  // helper functions
+  // Helper functions
   var fnServe = window.setTimeout;
   var fnSlice = fastQueue.slice;
 
@@ -119,7 +119,7 @@
   |--------------------------------------------------------------------------
   */
 
-  // performance labels
+  // Performance labels
   var _DEFER_JS_ = NAMESPACE + ' v' + VERSION;
   var _BOOTSTEP_ = _DEFER_JS_ + ' boot';
   var _LOADSTEP_ = _DEFER_JS_ + ' execution: page load event';
@@ -152,14 +152,14 @@
 
   /*
   |--------------------------------------------------------------------------
-  | Defines the defer function
+  | Define the defer function
   |--------------------------------------------------------------------------
   */
 
-  // debug
+  // Debug message
   log(_DEFER_JS_ + ' is initializing...', '#888');
 
-  // the heart of the library
+  // The core of the library
   function $$(func, delay, lazy, _callee) {
     if (isReady) {
       fnServe(func, delay);
@@ -168,7 +168,7 @@
       if (lazy > 1) {
         _callee = func;
 
-        // create a wrapper function for the original function
+        // Create a wrapper function for the original function
         func = function () {
           if (_callee) {
             _callee();
@@ -181,7 +181,7 @@
 
       (lazy ? lazyQueue : fastQueue).push(
         func,
-        // A temporary fix for the issue #121
+        // A temporary fix for issue #121
         // See: https://code.shin.company/defer.js/discussions/122
         // Further reading: https://webkit.org/blog/5610/more-responsive-tapping-on-ios/
         Math.max(lazy ? 350 : 0, delay)
@@ -191,11 +191,11 @@
 
   /*
   |--------------------------------------------------------------------------
-  | Defines internal functions
+  | Define internal functions
   |--------------------------------------------------------------------------
   */
 
-  // normalizes attributes of a DOM node
+  // Normalize attributes of a DOM node
   function _fnAttributes(attributes) {
     attributes = attributes || {};
 
@@ -208,28 +208,28 @@
     return attributes;
   }
 
-  // attaches/detaches event listeners
+  // Attach/detach event listeners
   function _fnEventHelper(type, events, callback, target) {
     _fnForEach(events.split(' '), function (event) {
       (target || window)[type + 'EventListener'](event, callback || _boot);
     });
   }
 
-  // loops and passes each item in a list to a callback function
+  // Loop through each item in a list and pass it to a callback function
   function _fnForEach(list, callback) {
     list.map(callback);
   }
 
-  // loops through all attributes of a DOM node
+  // Loop through all attributes of a DOM node
   function _fnLoopAttributes(node, callback) {
     _fnForEach(fnSlice.call(node.attributes), function (attribute) {
       callback(attribute.name, attribute.value);
     });
   }
 
-  // creates a new fresh DOM node
+  // Create a new fresh DOM node
   function _fnNewNode(nodeName, attributes, callback, attach, _node, _attr) {
-    // debug
+    // Debug message
     debug('Creating a new DOM node.', nodeName, attributes);
 
     _node = document.createElement(nodeName);
@@ -247,14 +247,14 @@
     if (attach) {
       document.head.appendChild(_node);
 
-      // debug
+      // Debug message
       debug('A DOM node has been attached.', _node);
     }
 
     return _node;
   }
 
-  // a simple DOM query selector
+  // Simple DOM query selector
   function _fnQueryAll(selector, context) {
     return fnSlice.call((context || document).querySelectorAll(selector));
   }
@@ -265,12 +265,12 @@
   |--------------------------------------------------------------------------
   */
 
-  // reveals a DOM node deferred by the library
+  // Reveal a DOM node deferred by the library
   function fnDeferReveal(node, unveiledClass) {
-    // reveals descendant children nodes
+    // Reveal descendant children nodes
     _fnForEach(_fnQueryAll('source,img', node), fnDeferReveal);
 
-    // transforms "data-xxx" attributes to non-"data-" attributes
+    // Transform "data-xxx" attributes to non-"data-" attributes
     _fnLoopAttributes(node, function (name, value, _matches) {
       _matches = REGEX_DATA.exec(name);
 
@@ -279,21 +279,21 @@
       }
     });
 
-    // debug
+    // Debug message
     debug('A DOM node has been unveiled.', node);
 
-    // appends new class names
+    // Append new class names
     if (typeof unveiledClass == 'string') {
       node.className += ' ' + unveiledClass;
     }
 
-    // calls load() method to reset the media
+    // Call the load() method to reset the media
     if (node[EVENT_LOAD]) {
       node[EVENT_LOAD]();
     }
   }
 
-  // the core of the Defer.dom
+  // The core of the Defer.dom method
   function fnDeferDom(
     selector,
     delay,
@@ -302,35 +302,35 @@
     observeOptions
   ) {
     function ___(_observer) {
-      // unveils an observed node
+      // Reveal an observed node
       function _unveil(node) {
         if (_observer) {
-          // stops observing the target element
+          // Stop observing the target element
           _observer.unobserve(node);
         }
 
         if (!resolver || resolver(node) !== CONST_FALSE) {
-          // reveals the node
+          // Reveal the node
           fnDeferReveal(node, unveiledClass);
         }
       }
 
-      // watches a node for its appeal
+      // Watch a node for intersection with the viewport
       function _watch(node) {
         if (!node[NAMESPACE]) {
-          // marks this element is initialized
+          // Mark this element as initialized
           node[NAMESPACE] = $$;
 
-          // observes or unveils a node
+          // Observe or reveal a node
           _observer ? _observer.observe(node) : _unveil(node);
         }
       }
 
-      // creates intersection observer
+      // Create intersection observer
       if (IntersectionObserver) {
         _observer = new IntersectionObserver(function (nodes) {
           _fnForEach(nodes, function (entry) {
-            // reveals the node
+            // Reveal the node when it intersects with the viewport
             if (entry.isIntersecting) {
               _unveil(entry.target);
             }
@@ -340,16 +340,16 @@
         _observer = CONST_UNDEFINED;
       }
 
-      // collects target nodes and registers them to the observer
+      // Collect target nodes and register them to the observer
       _fnForEach(_fnQueryAll(selector || SELECTOR_DOM), _watch);
     }
 
-    // adds the internal script to the queue
-    // NOTE: the lazy mode should be disable for DOM manipulations
+    // Add the internal script to the queue
+    // NOTE: lazy mode should be disabled for DOM manipulations
     $$(___, delay, CONST_FALSE);
   }
 
-  // the core of the Defer.all
+  // The core of the Defer.all method
   function fnDeferScripts(selector, delay, lazy) {
     function ___(_scripts) {
       var _debug_ = 'Defer.all(' +
@@ -358,43 +358,43 @@
         (lazy === CONST_UNDEFINED ? $$.lazy : lazy) + ')';
       perf_begin(_debug_);
 
-      // executes queued script tags in the order they were queued
+      // Execute queued script tags in the order they were queued
       function _dequeue(_node, _clone, _download) {
-        // shifts the next script tag in the front of the queue
+        // Shift the next script tag from the front of the queue
         _node = _scripts[FUNC_SHIFT]();
 
         if (_node) {
           _clone = {};
 
-          // apply "data-*" attributes to the node
+          // Apply "data-*" attributes to the node
           fnDeferReveal(_node);
 
-          // copies the attributes from the original node
+          // Copy the attributes from the original node
           _fnLoopAttributes(_node, function (name, value) {
             if (name != ATTR_TYPE) {
               _clone[name] = value;
             }
           });
 
-          // if the script contains an src attribute and is not an async script
-          // then sets the download flag to true
+          // If the script contains an src attribute and is not an async script,
+          // then set the download flag to true
           _download = _clone[ATTR_SRC] && !(ATTR_ASYNC in _clone);
 
-          // clones the node
+          // Clone the node
           _clone = _fnNewNode(TAG_SCRIPT, _clone);
 
-          // copies he node's text content
+          // Copy the node's text content
           _clone.text = _node.text;
 
-          // replaces the original node with the cloned node
+          // Replace the original node with the cloned node
           debug('A DOM node will be replaced.', _download ? 'WAIT' : '', _clone);
           _node.parentNode.replaceChild(_clone, _node);
 
           if (_download) {
-            // dequeues the next script after the download is completed
+            // Dequeue the next script after the download is completed
             _fnEventHelper(TYPE_ADD, EVENT_LOAD + ' ' + EVENT_ERROR, _dequeue, _clone);
           } else {
-            // executes the next script
+            // Execute the next script
             _dequeue();
           }
         } else {
@@ -402,131 +402,131 @@
         }
       }
 
-      // creates preload hint for a script node
+      // Create preload hint for a script node
       function _preload(node, _clone) {
         if (node[ATTR_SRC]) {
           _clone = {};
 
-          // copies the attributes from the original node
+          // Copy the attributes from the original node
           _fnLoopAttributes(node, function (name, value) {
             if (name != ATTR_TYPE) {
               _clone[name == ATTR_SRC ? ATTR_HREF : name] = value;
             }
           });
 
-          // overrides its preload attributes
+          // Override preload attributes
           _clone.as  = TAG_SCRIPT;
           _clone.rel = META_PRELOAD;
 
-          // creates and attaches the new node to the document
+          // Create and attach the new node to the document
           _fnNewNode(TAG_LINK, _clone, CONST_UNDEFINED, window);
         }
       }
 
-      // collects target script tags for lazy loading
+      // Collect target script tags for lazy loading
       _scripts = _fnQueryAll(selector || SELECTOR_JS);
 
       // if (!isReady) {
-      // adds preload nodes
+      // Add preload nodes
       _fnForEach(_scripts, _preload);
       // }
 
-      // starts the lazy loading script tags
+      // Start lazy loading script tags
       _dequeue();
     }
 
-    // adds the internal script to the queue
+    // Add the internal script to the queue
     $$(___, delay, lazy);
   }
 
-  // the core of the Defer.css
+  // The core of the Defer.css method
   function fnDeferCss(fileUrl, attributes, delay, onload, lazy) {
     attributes      = _fnAttributes(attributes);
     attributes.href = fileUrl;
     attributes.rel  = META_CSS;
 
-    // attaches the new node to the document
+    // Attach the new node to the document
     function ___() {
       _fnNewNode(TAG_LINK, attributes, onload, window);
     }
 
-    // adds the internal script to the queue
+    // Add the internal script to the queue
     $$(___, delay, lazy);
   }
 
-  // the core of the Defer.js
+  // The core of the Defer.js method
   function fnDeferJs(fileUrl, attributes, delay, onload, lazy) {
     attributes     = _fnAttributes(attributes);
     attributes.src = fileUrl;
 
-    // attaches the new node to the document
+    // Attach the new node to the document
     function ___() {
       _fnNewNode(TAG_SCRIPT, attributes, onload, window);
     }
 
-    // adds the internal script to the queue
+    // Add the internal script to the queue
     $$(___, delay, lazy);
   }
 
   /*
   |--------------------------------------------------------------------------
-  | Boot function (on page load / user interactions)
+  | Boot function (on page load or user interactions)
   |--------------------------------------------------------------------------
   */
 
-  // handles events
+  // Handle events
   function _boot(event, _queue) {
-    // debug
+    // Debug message
     log(_DEFER_JS_ + ': "' + event.type + '" event was triggered.', '#90f');
 
     if (isReady) {
-      // debug
+      // Debug message
       log(_DEFER_JS_ + ': a user interaction detected!', '#09f');
       perf_begin(_USERSTEP_);
 
-      // removes user events for lazy tasks
+      // Remove user events for lazy tasks
       _fnEventHelper(TYPE_REMOVE, ACTION_EVENTS);
 
-      // debug
+      // Debug message
       log(_DEFER_JS_ + ': ' + lazyQueue.length / 2 + ' lazy task(s) will execute from now!', '#f90');
 
-      // selects the queue to be served
+      // Select the queue to be served
       _queue = lazyQueue;
     } else {
-      // debug
+      // Debug message
       log(_DEFER_JS_ + ': page has fully loaded!', '#09f');
       perf_end(_BOOTSTEP_);
       perf_begin(_LOADSTEP_);
 
-      // removes browser event listening
+      // Remove browser event listening
       _fnEventHelper(TYPE_REMOVE, WINDOW_EVENT);
 
-      // debug
+      // Debug message
       log(_DEFER_JS_ + ': ' + fastQueue.length / 2 + ' queued task(s) will execute from now!', '#f09');
-      log(_DEFER_JS_ + ': ' + lazyQueue.length / 2 + ' other task(s) will be delayed until there is user interaction.', '#f90');
+      log(_DEFER_JS_ + ': ' + lazyQueue.length / 2 + ' other task(s) will be delayed until user interaction.', '#f90');
 
-      // tells the core that the page has fully loaded
+      // Tell the core that the page has fully loaded
       isReady = $$;
 
-      // adds user event watchers for lazy tasks if it is not empty
+      // Add user event watchers for lazy tasks if not empty
       if (lazyQueue[0]) {
         _fnEventHelper(TYPE_ADD, ACTION_EVENTS);
         log(ACTION_EVENTS);
       }
 
-      // debug
+      // Debug message
       log(_DEFER_JS_ + ' is now ready!', '#9a3');
 
-      // selects the queue to be served
+      // Select the queue to be served
       _queue = fastQueue;
     }
 
-    // serves all queued tasks
+    // Serve all queued tasks
     while (_queue[0]) {
       fnServe(_queue[FUNC_SHIFT](), _queue[FUNC_SHIFT]());
     }
 
-    // debug
+    // Debug message
     if (event.type == WINDOW_EVENT) {
       perf_end(_LOADSTEP_);
     } else {
@@ -536,30 +536,30 @@
 
   /*
   |--------------------------------------------------------------------------
-  | Defines defer utility functions will be publicly exposed
+  | Define defer utility functions to be publicly exposed
   |--------------------------------------------------------------------------
   */
 
-  // exposes public methods
+  // Expose public methods
   $$.all    = fnDeferScripts;
   $$.dom    = fnDeferDom;
   $$.css    = fnDeferCss;
   $$.js     = fnDeferJs;
   $$.reveal = fnDeferReveal;
 
-  // exposes the Defer instance
+  // Expose the Defer instance
   window[NAMESPACE] = $$;
 
   if (!isReady) {
-    // debug
+    // Debug message
     log(_DEFER_JS_ + ' was injected!', '#888');
     perf_begin(_BOOTSTEP_);
 
-    // adds an event listener for the page load event
+    // Add an event listener for the page load event
     _fnEventHelper(TYPE_ADD, WINDOW_EVENT);
   }
 
-  // unveils the script tags with type="deferjs"
+  // Reveal script tags with type="deferjs"
   fnDeferScripts();
 
 })(this, 'Defer', '3.10.0');
