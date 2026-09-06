@@ -67,14 +67,14 @@
                 <div class="helper">
                     You can easily fully defer any <code>script</code> tag by setting its <code>type</code> attribute to <code>deferjs</code>.
                     <br>
-                    This trick also works perfectly with <code>&lt;script src&gt;</code> tags.
+                    This technique also works perfectly with <code>&lt;script src&gt;</code> tags.
                     <br>
                     <strong>Note: </strong>
                     Since version 3.0, scripts using <code>type="deferjs"</code> only run after user interaction if <code>Defer.lazy=true</code>.
                     <br>
                     <strong>Note: </strong>
                     <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload" target="_blank">Resource hints</a>
-                    feature was added since v3.2 as it is recommended to prevent issues called
+                    feature was added in v3.2 to help prevent issues known as
                     <a href="https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall" target="_blank">Taming the Waterfall</a>.
                     This feature is discussed at <a href="https://code.shin.company/defer.js/issues/112" target="_blank">#112</a>.
                 </div>
@@ -100,7 +100,7 @@
                     <br>
                     <strong>Note: </strong>
                     <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload" target="_blank">Resource hints</a>
-                    feature was added since v3.2 as it is recommended to prevent issues called
+                    feature was added in v3.2 to help prevent issues known as
                     <a href="https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall" target="_blank">Taming the Waterfall</a>.
                     This feature is discussed at <a href="https://code.shin.company/defer.js/issues/112" target="_blank">#112</a>.
                 </div>
@@ -239,9 +239,9 @@
             <h2><code>Defer.dom([selector], [delay], [unveiledClass], [resolver], [observeOptions])</code></h2>
 
             <div class="helper">
-                The <code>Defer.dom()</code> method is useful in the following use cases:
+                The <code>Defer.dom()</code> method is useful in the following scenarios:
                 <ul>
-                    <li>Lazy loading images, media, iframe tags, etc. on your website.</li>
+                    <li>Lazy-loading images, videos, iframes, and other media on your website.</li>
                     <li>Preventing the download of third-party libraries or add-ons unless they are needed.</li>
                     <li>Scroll-reveal features, such as handling AJAX updates when a block enters the viewport.</li>
                 </ul>
@@ -310,7 +310,7 @@
                     and provide information about the size of each one.
                     Then, the client (browser) gets to decide which one to use.
                     <br>
-                    We can use the same trick as the above examples.
+                    We can use the same approach as the above examples.
                     We specify an image URL set in the <code>data-srcset</code> attribute of the image tag.
                 </div>
                 <div class="demo">
@@ -335,7 +335,7 @@
                     to browsers that can render it,
                     and fall back to trusty old JPEGs in browsers that can't.
                     <br>
-                    We can also use the same trick as the above examples for <code>picture</code> tags
+                    We can also use the same approach as the above examples for <code>picture</code> tags
                     and their child HTML nodes.
                 </div>
                 <div class="demo">
@@ -407,7 +407,7 @@
             <div class="example">
                 <h3>Lazy Loading CSS Background Images:</h3>
                 <div class="helper">
-                    Still deferring background images for HTML tags, but we can use CSS class names instead of inline <code>style</code> attributes.
+                    Here is another example of lazy loading background images for HTML tags, but using CSS class names instead of inline <code>style</code> attributes.
                 </div>
                 <div class="demo">
 <style>
