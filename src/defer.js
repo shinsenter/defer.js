@@ -221,6 +221,8 @@
   }
 
   // Loop through all attributes of a DOM node
+  // A snapshot array is required: some callbacks (e.g. fnDeferReveal) call
+  // setAttribute() mid-loop, which would mutate a live NamedNodeMap.
   function _fnLoopAttributes(node, callback) {
     _fnForEach(fnSlice.call(node.attributes), function (attribute) {
       callback(attribute.name, attribute.value);

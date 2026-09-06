@@ -9,11 +9,12 @@
         "passes":       10,
         "pure_getters": true,
         "pure_funcs":   ["log", "debug", "perf_begin", "perf_end"],
-        "reduce_funcs": true
+        "reduce_funcs": true,
+        "negate_iife":  false
     },
     "output": {
         "comments":     "/^!/",
-        "wrap_iife":    true
+        "wrap_iife":    false
     },
     "annotations":      false,
     "ie":               true,
