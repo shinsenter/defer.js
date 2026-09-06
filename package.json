@@ -61,14 +61,14 @@
     "dist/"
   ],
   "scripts": {
-    "format": "js-beautify --config .build/.beautify -r -f src/*.js",
+    "format": "js-beautify --config .build/.beautify -r -f src/*.js -f test/*.js",
     "minify": "uglifyjs --name-cache node_modules/name-cache.json --config-file .build/.minify -o",
-    "s1": "npm run minify dist/defer.min.js      src/defer.js",
-    "s2": "npm run minify dist/defer_plus.min.js src/defer.js src/fallback.js",
-    "s3": "npm run minify dist/polyfill.min.js   node_modules/intersection-observer/intersection-observer.js",
-    "test": "eslint --config .build/.eslintrc --ext .js src --fix",
-    "prebuild": "npm run test",
-    "build": "npm run s1 && npm run s2 && npm run s3",
+    "s1": "npm run minify dist/defer.min.js    src/defer.js",
+    "s2": "npm run minify dist/polyfill.min.js node_modules/intersection-observer/intersection-observer.js",
+    "lint": "eslint --config .build/.eslintrc --ext .js src --fix",
+    "test": "node --test \"test/*.test.js\"",
+    "prebuild": "npm run lint && npm run test",
+    "build": "npm run s1 && npm run s2",
     "postbuild": "npm run docs && npm run summary --silent",
     "prepull": "rm -rf ./node_modules package-lock.json && npm cache clear -f",
     "pull": "npm install --dev npm jsdoc-to-markdown@9 eslint@8 js-beautify@1 uglify-js@3.19 && npm i && npm up",
@@ -87,7 +87,7 @@
     "intersection-observer": "latest",
     "js-beautify": "^1.15.4",
     "jsdoc-to-markdown": "^9.1.3",
-    "npm": "^11.18.0",
+    "jsdom": "^30.0.1",
     "uglify-js": "3.19"
   }
 }

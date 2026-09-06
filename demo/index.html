@@ -555,28 +555,28 @@
             </div>
 
             <div class="example">
-                <h3>Lazy Loading FontAwesome:</h3>
+                <h3>Lazy Loading Font Awesome:</h3>
                 <div class="helper">
-                    Using the <code>Defer.css()</code> method to lazy load FontAwesome (CSS and some font files).
+                    Using the <code>Defer.css()</code> method to lazy load Font Awesome Free (CSS and font files).
                 </div>
                 <div class="demo">
 <style>
-    #demo-fontawesome .far {
+    #demo-fontawesome .fas {
         font-size: 3em;
         color: green;
     }
 </style>
 
 <div id="demo-fontawesome">
-    <i class="far fa-thumbs-up"></i>
+    <i class="fas fa-thumbs-up"></i>
     <code>@shinsenter/defer.js</code>
 </div>
 
 <script>
-    var fileUrl = 'https://pro.fontawesome.com/releases/v5.14.0/css/all.css';
+    var fileUrl = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css';
 
     Defer.css(fileUrl, { crossorigin: 'anonymous' }, 0, function () {
-        console.info('FontAwesome is loaded.'); // debug
+        console.info('Font Awesome is loaded.'); // debug
     });
 </script>
                 </div>
@@ -630,19 +630,18 @@
             <div class="example">
                 <h3>Another Way to Lazy Load Google Tag Manager:</h3>
                 <div class="helper">
-                    Using the <code>Defer.js()</code> method to lazy load the Google Tag Manager library and its external scripts.
+                    Using the <code>Defer.js()</code> method to lazy load the Google Tag Manager container script and its external scripts.
                 </div>
                 <div class="demo">
 <script>
-    var GTM_ID = 'UA-34520609-2';
+    var GTM_ID = 'GTM-XXXXXXX';
     window.dataLayer = window.dataLayer || [];
-    dataLayer.push(['js', new Date()]);
-    dataLayer.push(['config', GTM_ID]);
+    dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
 
     // Lazy loads the GTM library
     // in this example, we want the GTM to execute as soon as the page is loaded
     // so the waitForUserAction argument (the last argument) is set to false.
-    Defer.js('https://www.googletagmanager.com/gtag/js?id=' + GTM_ID, {'data-id': GTM_ID}, 0, function() {
+    Defer.js('https://www.googletagmanager.com/gtm.js?id=' + GTM_ID, {'data-id': GTM_ID}, 0, function() {
         console.info('Google Tag Manager is loaded.'); // debug
     }, false);
 </script>

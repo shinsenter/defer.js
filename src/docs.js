@@ -266,6 +266,15 @@
  * <script type="deferjs" data-type="module" src="example.com/module.js"></script>
  * ```
  *
+ * Why `data-type` is needed: when `Defer.all()` executes a script tag, it always
+ * removes the placeholder type (`deferjs`, `my-magic`, or any other custom value
+ * you used as a selector), because browsers refuse to run a `<script>` whose
+ * `type` attribute isn't a recognized JavaScript MIME type. Without `data-type`,
+ * the executed script simply ends up with no `type` attribute at all (which browsers
+ * treat as a normal, classic script). If you need the browser to treat it as
+ * something else, such as `type="module"`, put that value in `data-type` and
+ * `Defer.all()` will apply it to the executed script for you.
+ *
  * @example
  * Using a custom value for the type attribute, such as `type="my-magic"`:
  *
@@ -633,26 +642,26 @@
  *
  * @example
  * Using the `Defer.css()` method to lazy load
- * [FontAwesome](https://fontawesome.com/docs/web/setup/get-started) (CSS and font files).
+ * [Font Awesome Free](https://fontawesome.com/docs/web/setup/get-started) (CSS and font files).
  *
  * ```html
  * <style>
- *   #demo-fontawesome .far {
+ *   #demo-fontawesome .fas {
  *     font-size: 3em;
  *     color: green;
  *   }
  * </style>
  *
  * <div id="demo-fontawesome">
- *   <i class="far fa-thumbs-up"></i>
+ *   <i class="fas fa-thumbs-up"></i>
  *   <code>@shinsenter/defer.js</code>
  * </div>
  *
  * <script>
- *   var fileUrl = 'https://pro.fontawesome.com/releases/v5.14.0/css/all.css';
+ *   var fileUrl = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css';
  *
  *   Defer.css(fileUrl, {crossorigin: 'anonymous'}, 0, function() {
- *     console.info('FontAwesome is loaded.'); // debug
+ *     console.info('Font Awesome is loaded.'); // debug
  *   });
  * </script>
  * ```
@@ -710,19 +719,19 @@
  * @example
  * Another way to lazy-load Google Tag Manager.
  *
- * Use the `Defer.js()` method to lazy load the Google Tag Manager library and its external scripts.
+ * Use the `Defer.js()` method to lazy load the Google Tag Manager container script
+ * (the `GTM-XXXXXXX` ID from your GTM workspace, not a Google Analytics measurement ID).
  *
  * In this example, we want GTM to execute as soon as the page is loaded,
  * so the `waitForUserAction` argument (the fifth argument) is set to `false`.
  *
  * ```html
  * <script>
- *   var GTM_ID = 'UA-XXXXXXX-Y';
+ *   var GTM_ID = 'GTM-XXXXXXX';
  *   window.dataLayer = window.dataLayer || [];
- *   dataLayer.push(['js', new Date()]);
- *   dataLayer.push(['config', GTM_ID]);
+ *   dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
  *
- *   Defer.js('https://www.googletagmanager.com/gtag/js?id=' + GTM_ID, {'data-id': GTM_ID}, 0, function() {
+ *   Defer.js('https://www.googletagmanager.com/gtm.js?id=' + GTM_ID, {'data-id': GTM_ID}, 0, function() {
  *     console.info('Google Tag Manager is loaded.'); // debug
  *   }, false);
  * </script>

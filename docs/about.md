@@ -27,6 +27,13 @@ By using Defer.js, you can eliminate these issues! With its lazy loading capabil
 - 📱 Mobile-friendly and optimized for smartphones
 - ✅ Supports older browsers, including Internet Explorer 9 <sup>[(*)](#supported-browsers)</sup>
 
+## How Defer.js Works
+
+Every `Defer()`, `Defer.all()`, `Defer.dom()`, `Defer.css()`, and `Defer.js()` call is just a task pushed onto one of two internal queues, released at the right moment instead of blocking the page:
+
+- **`fastQueue`** runs as soon as the page finishes loading — no user action required.
+- **`lazyQueue`** waits for the visitor's first interaction (or an optional timeout), then runs with a small built-in delay to avoid stealing the very first tap/click (see [Known Issues](#known-issues)).
+
 ## Contributing
 
 [![NPM](https://nodei.co/npm/@shinsenter/defer.js.png?downloads=true)](https://www.npmjs.com/package/@shinsenter/defer.js)
@@ -80,22 +87,6 @@ To save an HTTP request, you can inline the entire Defer.js library by copying i
 
   <!-- Add the inlined Defer.js here -->
   <script>/* Defer.js content goes here */</script>
-
-  <!-- ... -->
-</head>
-```
-
-### Compatibility with Older Versions
-
-If you're using Defer.js v1.x, you can use `defer_plus.min.js` instead of `defer.min.js` for backward compatibility without requiring migration.
-
-```html
-<head>
-  <meta charset="UTF-8" />
-  <title>My Awesome Page</title>
-
-  <!-- Include defer_plus.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.10.0/dist/defer_plus.min.js"></script>
 
   <!-- ... -->
 </head>

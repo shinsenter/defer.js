@@ -372,9 +372,12 @@
           fnDeferReveal(_node);
 
           // Copy the attributes from the original node
+          // A "data-type" attribute lets the clone keep a real type (e.g.
+          // "module"); otherwise the original sentinel (deferjs, my-magic,
+          // ...) must not reach the clone.
           _fnLoopAttributes(_node, function (name, value) {
             if (name != ATTR_TYPE) {
-              _clone[name] = value;
+              _clone[name == 'data-type' ? ATTR_TYPE : name] = value;
             }
           });
 

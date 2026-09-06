@@ -85,22 +85,6 @@ To save an HTTP request, you can inline the entire Defer.js library by copying i
 </head>
 ```
 
-### Compatibility with Older Versions
-
-If you're using Defer.js v1.x, you can use `defer_plus.min.js` instead of `defer.min.js` for backward compatibility without requiring migration.
-
-```html
-<head>
-  <meta charset="UTF-8" />
-  <title>My Awesome Page</title>
-
-  <!-- Include defer_plus.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.10.0/dist/defer_plus.min.js"></script>
-
-  <!-- ... -->
-</head>
-```
-
 ### For Older Browsers (such as IE9)
 
 To optimize performance for older browsers that don't support the `IntersectionObserver` feature, you can load the IntersectionObserver polyfill library after the `defer.min.js` script tag.
@@ -124,11 +108,6 @@ To optimize performance for older browsers that don't support the `IntersectionO
     * [.css(fileUrl, [id_or_attributes], [delay], [onload], [waitForUserAction])](#Defer.css) ⇒ <code>void</code>
     * [.js(fileUrl, [id_or_attributes], [delay], [onload], [waitForUserAction])](#Defer.js) ⇒ <code>void</code>
     * [.reveal(node, [unveiledClass])](#Defer.reveal) ⇒ <code>void</code>
-* ~~[defer(func, [delay])](#defer)~~
-* ~~[deferimg([selector], [delay], [unveiledClass], [resolver], [observeOptions])](#deferimg)~~
-* ~~[deferiframe([selector], [delay], [unveiledClass], [resolver], [observeOptions])](#deferiframe)~~
-* ~~[deferstyle(src, [id], [delay], [onload])](#deferstyle)~~
-* ~~[deferscript(src, [id], [delay], [onload])](#deferscript)~~
 
 ## Typedefs
 
@@ -335,6 +314,15 @@ Now you can do this and they will maintain the `module` type:
 <!-- After: -->
 <script type="deferjs" data-type="module" src="example.com/module.js"></script>
 ```
+
+Why `data-type` is needed: when `Defer.all()` executes a script tag, it always
+removes the placeholder type (`deferjs`, `my-magic`, or any other custom value
+you used as a selector), because browsers refuse to run a `<script>` whose
+`type` attribute isn't a recognized JavaScript MIME type. Without `data-type`,
+the executed script simply ends up with no `type` attribute at all (which browsers
+treat as a normal, classic script). If you need the browser to treat it as
+something else, such as `type="module"`, put that value in `data-type` and
+`Defer.all()` will apply it to the executed script for you.
 **Example**  
 Using a custom value for the type attribute, such as `type="my-magic"`:
 
@@ -699,26 +687,26 @@ external CSS files without blocking page rendering.
 
 **Example**  
 Using the `Defer.css()` method to lazy load
-[FontAwesome](https://fontawesome.com/docs/web/setup/get-started) (CSS and font files).
+[Font Awesome Free](https://fontawesome.com/docs/web/setup/get-started) (CSS and font files).
 
 ```html
 <style>
-  #demo-fontawesome .far {
+  #demo-fontawesome .fas {
     font-size: 3em;
     color: green;
   }
 </style>
 
 <div id="demo-fontawesome">
-  <i class="far fa-thumbs-up"></i>
+  <i class="fas fa-thumbs-up"></i>
   <code>@shinsenter/defer.js</code>
 </div>
 
 <script>
-  var fileUrl = 'https://pro.fontawesome.com/releases/v5.14.0/css/all.css';
+  var fileUrl = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css';
 
   Defer.css(fileUrl, {crossorigin: 'anonymous'}, 0, function() {
-    console.info('FontAwesome is loaded.'); // debug
+    console.info('Font Awesome is loaded.'); // debug
   });
 </script>
 ```
@@ -778,19 +766,19 @@ to ensure the required library is fully defined.
 **Example**  
 Another way to lazy-load Google Tag Manager.
 
-Use the `Defer.js()` method to lazy load the Google Tag Manager library and its external scripts.
+Use the `Defer.js()` method to lazy load the Google Tag Manager container script
+(the `GTM-XXXXXXX` ID from your GTM workspace, not a Google Analytics measurement ID).
 
 In this example, we want GTM to execute as soon as the page is loaded,
 so the `waitForUserAction` argument (the fifth argument) is set to `false`.
 
 ```html
 <script>
-  var GTM_ID = 'UA-XXXXXXX-Y';
+  var GTM_ID = 'GTM-XXXXXXX';
   window.dataLayer = window.dataLayer || [];
-  dataLayer.push(['js', new Date()]);
-  dataLayer.push(['config', GTM_ID]);
+  dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
 
-  Defer.js('https://www.googletagmanager.com/gtag/js?id=' + GTM_ID, {'data-id': GTM_ID}, 0, function() {
+  Defer.js('https://www.googletagmanager.com/gtm.js?id=' + GTM_ID, {'data-id': GTM_ID}, 0, function() {
     console.info('Google Tag Manager is loaded.'); // debug
   }, false);
 </script>
@@ -936,111 +924,6 @@ document.querySelectorAll('.multi-lazy')
     Defer.reveal(node, 'unveiled');
   });
 ```
-
-* * *
-
-<a name="defer"></a>
-
-## ~~defer(func, [delay])~~
-***Deprecated***
-
-Deprecated from version 2.0
-
-**Kind**: global function  
-**See**: [Defer](#Defer)  
-**Since**: 1.0  
-
-| Param | Type | Default |
-| --- | --- | --- |
-| func | <code>function</code> |  | 
-| [delay] | <code>number</code> | <code>0</code> | 
-
-
-* * *
-
-<a name="deferimg"></a>
-
-## ~~deferimg([selector], [delay], [unveiledClass], [resolver], [observeOptions])~~
-***Deprecated***
-
-Deprecated from version 2.0
-
-**Kind**: global function  
-**See**: [dom](#Defer.dom)  
-**Since**: 1.0  
-
-| Param | Type | Default |
-| --- | --- | --- |
-| [selector] | <code>string</code> | <code>&quot;[data-src]&quot;</code> | 
-| [delay] | <code>number</code> | <code>0</code> | 
-| [unveiledClass] | <code>string</code> |  | 
-| [resolver] | [<code>NodeHandler</code>](#NodeHandler) |  | 
-| [observeOptions] | <code>object</code> |  | 
-
-
-* * *
-
-<a name="deferiframe"></a>
-
-## ~~deferiframe([selector], [delay], [unveiledClass], [resolver], [observeOptions])~~
-***Deprecated***
-
-Deprecated from version 2.0
-
-**Kind**: global function  
-**See**: [dom](#Defer.dom)  
-**Since**: 1.0  
-
-| Param | Type | Default |
-| --- | --- | --- |
-| [selector] | <code>string</code> | <code>&quot;[data-src]&quot;</code> | 
-| [delay] | <code>number</code> | <code>0</code> | 
-| [unveiledClass] | <code>string</code> |  | 
-| [resolver] | [<code>NodeHandler</code>](#NodeHandler) |  | 
-| [observeOptions] | <code>object</code> |  | 
-
-
-* * *
-
-<a name="deferstyle"></a>
-
-## ~~deferstyle(src, [id], [delay], [onload])~~
-***Deprecated***
-
-Deprecated from version 2.0
-
-**Kind**: global function  
-**See**: [css](#Defer.css)  
-**Since**: 1.0  
-
-| Param | Type | Default |
-| --- | --- | --- |
-| src | <code>string</code> |  | 
-| [id] | <code>string</code> |  | 
-| [delay] | <code>number</code> | <code>0</code> | 
-| [onload] | <code>function</code> |  | 
-
-
-* * *
-
-<a name="deferscript"></a>
-
-## ~~deferscript(src, [id], [delay], [onload])~~
-***Deprecated***
-
-Deprecated from version 2.0
-
-**Kind**: global function  
-**See**: [js](#Defer.js)  
-**Since**: 1.0  
-
-| Param | Type | Default |
-| --- | --- | --- |
-| src | <code>string</code> |  | 
-| [id] | <code>string</code> |  | 
-| [delay] | <code>number</code> | <code>0</code> | 
-| [onload] | <code>function</code> |  | 
-
 
 * * *
 
