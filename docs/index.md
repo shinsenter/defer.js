@@ -44,15 +44,14 @@ Every `Defer()`, `Defer.all()`, `Defer.dom()`, `Defer.css()`, and `Defer.js()` c
 - **Copyright**: 2019-2024 SHIN Company <https://code.shin.company/>
 - **License**: [MIT](https://code.shin.company/defer.js/blob/master/LICENSE)
 
-If you find this project useful, please give it a star or consider supporting us via [PayPal](https://www.paypal.me/shinsenter).
-You can also [open a discussion](https://github.com/shinsenter/defer.js/discussions/new/choose) on GitHub if you have any ideas for improving the library.
-
-[![Donate via PayPal](https://img.shields.io/badge/Donate-Paypal-blue)](https://www.paypal.me/shinsenter) [![Become a Stargazer](https://img.shields.io/badge/Become-Stargazer-yellow)](https://code.shin.company/defer.js)
-
 Your support helps us maintain and improve this project for the community.
+
+- ☕ [Donate via PayPal](https://www.paypal.me/shinsenter)
+- 💖 [Sponsor on GitHub](https://github.com/sponsors/shinsenter)
 
 We appreciate you respecting the effort that has gone into creating this library.
 If you intend to copy or use ideas from this project, please provide proper attribution.
+You can also [open a discussion](https://github.com/shinsenter/defer.js/discussions/new/choose) on GitHub if you have any ideas for improving the library.
 
 ---
 
@@ -1002,8 +1001,7 @@ Defer.js is compatible with all modern browsers, including:
 
 ## Known Issues
 
-- [Discussion #122](https://code.shin.company/defer.js/discussions/122):
-In iOS Safari, the first `click` event may not work as expected when using `Defer.all()` with the `waitForUserAction` argument set to `true` and one of the deferred scripts makes a DOM change.
+See [KNOWN_ISSUES.md](https://github.com/shinsenter/defer.js/blob/main/KNOWN_ISSUES.md).
 
 ---
 

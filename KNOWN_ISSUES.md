@@ -115,6 +115,8 @@ Workaround: give both groups the same `type`, so one `Defer.all()` call handles 
 - [#121](https://github.com/shinsenter/defer.js/issues/121):
   the first tap on a link did not work on mobile Safari.
   Lazy tasks now wait at least 350 ms after the trigger.
+  Related: [discussion #122](https://code.shin.company/defer.js/discussions/122).
+  On iOS Safari, the first click may still be missed when a deferred script changes the DOM.
 - [#145](https://github.com/shinsenter/defer.js/issues/145), [#148](https://github.com/shinsenter/defer.js/issues/148):
   script order and type were lost for some clones.
   Use `data-type` to keep a real type such as `module`.

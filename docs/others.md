@@ -31,8 +31,7 @@ Defer.js is compatible with all modern browsers, including:
 
 ## Known Issues
 
-- [Discussion #122](https://code.shin.company/defer.js/discussions/122):
-In iOS Safari, the first `click` event may not work as expected when using `Defer.all()` with the `waitForUserAction` argument set to `true` and one of the deferred scripts makes a DOM change.
+See [KNOWN_ISSUES.md](https://github.com/shinsenter/defer.js/blob/main/KNOWN_ISSUES.md).
 
 ---
 
