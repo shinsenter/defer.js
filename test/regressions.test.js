@@ -122,3 +122,43 @@ test('discussion #131: Defer.lazy=<ms> auto-runs deferred tasks without requirin
 
   dom.window.close();
 });
+
+// KNOWN_ISSUES.md (fixed): Defer.js() and Defer.css() used to write the URL
+// into the attributes object right away.
+// Two calls sharing one object then both loaded the last URL.
+test('a shared attributes object still gives each Defer.js() call its own URL', async () => {
+  const dom = createEnv();
+  const { window } = dom;
+  const shared = { id: 'sdk' };
+
+  window.Defer.js('a.js', shared);
+  window.Defer.js('b.js', shared);
+  firePageShow(window);
+  await tick(20);
+
+  const srcs = Array.from(window.document.head.querySelectorAll('script'))
+    .map((s) => s.getAttribute('src'));
+  assert.deepEqual(srcs, ['a.js', 'b.js']);
+  dom.window.close();
+});
+
+// KNOWN_ISSUES.md (fixed): an element rejected by the resolver used to stay
+// marked, so a later Defer.dom() call skipped it for good.
+test('an element rejected by the resolver can be retried by a later Defer.dom() call', async () => {
+  const dom = createEnv({
+    html: '<!doctype html><html><body><img id="i" data-src="a.png"></body></html>',
+  });
+  const { window } = dom;
+  let allow = false;
+
+  window.Defer.dom('#i', 0, '', () => allow);
+  firePageShow(window);
+  await tick(20);
+  assert.equal(window.document.getElementById('i').getAttribute('src'), null);
+
+  allow = true;
+  window.Defer.dom('#i');
+  await tick(20);
+  assert.equal(window.document.getElementById('i').getAttribute('src'), 'a.png');
+  dom.window.close();
+});
