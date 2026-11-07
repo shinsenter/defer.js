@@ -44,11 +44,11 @@
                 </div>
                 <div class="demo">
 <!-- Copy the script from the below URL -->
-<!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.9.0/dist/defer.min.js -->
+<!-- https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.10.0/dist/defer.min.js -->
 <script>/* then replace this comment block with the content of defer.min.js here */</script>
 
 <!-- If your website still supports legacy browsers like Internet Explorer 9, -->
-<script>'IntersectionObserver' in window || document.write('<script defer src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.9.0/dist/polyfill.min.js"><\/script>');</script>
+<script>'IntersectionObserver' in window || document.write('<script defer src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.10.0/dist/polyfill.min.js"><\/script>');</script>
                 </div>
             </div>
         </section>
@@ -67,14 +67,14 @@
                 <div class="helper">
                     You can easily fully defer any <code>script</code> tag by setting its <code>type</code> attribute to <code>deferjs</code>.
                     <br>
-                    This trick also works perfectly with <code>&lt;script src&gt;</code> tags.
+                    This technique also works perfectly with <code>&lt;script src&gt;</code> tags.
                     <br>
                     <strong>Note: </strong>
                     Since version 3.0, scripts using <code>type="deferjs"</code> only run after user interaction if <code>Defer.lazy=true</code>.
                     <br>
                     <strong>Note: </strong>
                     <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload" target="_blank">Resource hints</a>
-                    feature was added since v3.2 as it is recommended to prevent issues called
+                    feature was added in v3.2 to help prevent issues known as
                     <a href="https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall" target="_blank">Taming the Waterfall</a>.
                     This feature is discussed at <a href="https://code.shin.company/defer.js/issues/112" target="_blank">#112</a>.
                 </div>
@@ -100,7 +100,7 @@
                     <br>
                     <strong>Note: </strong>
                     <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload" target="_blank">Resource hints</a>
-                    feature was added since v3.2 as it is recommended to prevent issues called
+                    feature was added in v3.2 to help prevent issues known as
                     <a href="https://blog.cloudflare.com/too-old-to-rocket-load-too-young-to-die/#quirksitamingthewaterfall" target="_blank">Taming the Waterfall</a>.
                     This feature is discussed at <a href="https://code.shin.company/defer.js/issues/112" target="_blank">#112</a>.
                 </div>
@@ -239,9 +239,9 @@
             <h2><code>Defer.dom([selector], [delay], [unveiledClass], [resolver], [observeOptions])</code></h2>
 
             <div class="helper">
-                The <code>Defer.dom()</code> method is useful in the following use cases:
+                The <code>Defer.dom()</code> method is useful in the following scenarios:
                 <ul>
-                    <li>Lazy loading images, media, iframe tags, etc. on your website.</li>
+                    <li>Lazy-loading images, videos, iframes, and other media on your website.</li>
                     <li>Preventing the download of third-party libraries or add-ons unless they are needed.</li>
                     <li>Scroll-reveal features, such as handling AJAX updates when a block enters the viewport.</li>
                 </ul>
@@ -310,7 +310,7 @@
                     and provide information about the size of each one.
                     Then, the client (browser) gets to decide which one to use.
                     <br>
-                    We can use the same trick as the above examples.
+                    We can use the same approach as the above examples.
                     We specify an image URL set in the <code>data-srcset</code> attribute of the image tag.
                 </div>
                 <div class="demo">
@@ -335,7 +335,7 @@
                     to browsers that can render it,
                     and fall back to trusty old JPEGs in browsers that can't.
                     <br>
-                    We can also use the same trick as the above examples for <code>picture</code> tags
+                    We can also use the same approach as the above examples for <code>picture</code> tags
                     and their child HTML nodes.
                 </div>
                 <div class="demo">
@@ -407,7 +407,7 @@
             <div class="example">
                 <h3>Lazy Loading CSS Background Images:</h3>
                 <div class="helper">
-                    Still deferring background images for HTML tags, but we can use CSS class names instead of inline <code>style</code> attributes.
+                    Here is another example of lazy loading background images for HTML tags, but using CSS class names instead of inline <code>style</code> attributes.
                 </div>
                 <div class="demo">
 <style>
@@ -555,28 +555,28 @@
             </div>
 
             <div class="example">
-                <h3>Lazy Loading FontAwesome:</h3>
+                <h3>Lazy Loading Font Awesome:</h3>
                 <div class="helper">
-                    Using the <code>Defer.css()</code> method to lazy load FontAwesome (CSS and some font files).
+                    Using the <code>Defer.css()</code> method to lazy load Font Awesome Free (CSS and font files).
                 </div>
                 <div class="demo">
 <style>
-    #demo-fontawesome .far {
+    #demo-fontawesome .fas {
         font-size: 3em;
         color: green;
     }
 </style>
 
 <div id="demo-fontawesome">
-    <i class="far fa-thumbs-up"></i>
+    <i class="fas fa-thumbs-up"></i>
     <code>@shinsenter/defer.js</code>
 </div>
 
 <script>
-    var fileUrl = 'https://pro.fontawesome.com/releases/v5.14.0/css/all.css';
+    var fileUrl = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css';
 
     Defer.css(fileUrl, { crossorigin: 'anonymous' }, 0, function () {
-        console.info('FontAwesome is loaded.'); // debug
+        console.info('Font Awesome is loaded.'); // debug
     });
 </script>
                 </div>
@@ -630,19 +630,18 @@
             <div class="example">
                 <h3>Another Way to Lazy Load Google Tag Manager:</h3>
                 <div class="helper">
-                    Using the <code>Defer.js()</code> method to lazy load the Google Tag Manager library and its external scripts.
+                    Using the <code>Defer.js()</code> method to lazy load the Google Tag Manager container script and its external scripts.
                 </div>
                 <div class="demo">
 <script>
-    var GTM_ID = 'UA-34520609-2';
+    var GTM_ID = 'GTM-XXXXXXX';
     window.dataLayer = window.dataLayer || [];
-    dataLayer.push(['js', new Date()]);
-    dataLayer.push(['config', GTM_ID]);
+    dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
 
     // Lazy loads the GTM library
     // in this example, we want the GTM to execute as soon as the page is loaded
     // so the waitForUserAction argument (the last argument) is set to false.
-    Defer.js('https://www.googletagmanager.com/gtag/js?id=' + GTM_ID, {'data-id': GTM_ID}, 0, function() {
+    Defer.js('https://www.googletagmanager.com/gtm.js?id=' + GTM_ID, {'data-id': GTM_ID}, 0, function() {
         console.info('Google Tag Manager is loaded.'); // debug
     }, false);
 </script>
