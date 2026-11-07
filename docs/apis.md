@@ -7,11 +7,6 @@
     * [.css(fileUrl, [id_or_attributes], [delay], [onload], [waitForUserAction])](#Defer.css) ⇒ <code>void</code>
     * [.js(fileUrl, [id_or_attributes], [delay], [onload], [waitForUserAction])](#Defer.js) ⇒ <code>void</code>
     * [.reveal(node, [unveiledClass])](#Defer.reveal) ⇒ <code>void</code>
-* ~~[defer(func, [delay])](#defer)~~
-* ~~[deferimg([selector], [delay], [unveiledClass], [resolver], [observeOptions])](#deferimg)~~
-* ~~[deferiframe([selector], [delay], [unveiledClass], [resolver], [observeOptions])](#deferiframe)~~
-* ~~[deferstyle(src, [id], [delay], [onload])](#deferstyle)~~
-* ~~[deferscript(src, [id], [delay], [onload])](#deferscript)~~
 
 ## Typedefs
 
@@ -819,111 +814,6 @@ document.querySelectorAll('.multi-lazy')
     Defer.reveal(node, 'unveiled');
   });
 ```
-
-* * *
-
-<a name="defer"></a>
-
-## ~~defer(func, [delay])~~
-***Deprecated***
-
-Deprecated from version 2.0
-
-**Kind**: global function  
-**See**: [Defer](#Defer)  
-**Since**: 1.0  
-
-| Param | Type | Default |
-| --- | --- | --- |
-| func | <code>function</code> |  | 
-| [delay] | <code>number</code> | <code>0</code> | 
-
-
-* * *
-
-<a name="deferimg"></a>
-
-## ~~deferimg([selector], [delay], [unveiledClass], [resolver], [observeOptions])~~
-***Deprecated***
-
-Deprecated from version 2.0
-
-**Kind**: global function  
-**See**: [dom](#Defer.dom)  
-**Since**: 1.0  
-
-| Param | Type | Default |
-| --- | --- | --- |
-| [selector] | <code>string</code> | <code>&quot;[data-src]&quot;</code> | 
-| [delay] | <code>number</code> | <code>0</code> | 
-| [unveiledClass] | <code>string</code> |  | 
-| [resolver] | [<code>NodeHandler</code>](#NodeHandler) |  | 
-| [observeOptions] | <code>object</code> |  | 
-
-
-* * *
-
-<a name="deferiframe"></a>
-
-## ~~deferiframe([selector], [delay], [unveiledClass], [resolver], [observeOptions])~~
-***Deprecated***
-
-Deprecated from version 2.0
-
-**Kind**: global function  
-**See**: [dom](#Defer.dom)  
-**Since**: 1.0  
-
-| Param | Type | Default |
-| --- | --- | --- |
-| [selector] | <code>string</code> | <code>&quot;[data-src]&quot;</code> | 
-| [delay] | <code>number</code> | <code>0</code> | 
-| [unveiledClass] | <code>string</code> |  | 
-| [resolver] | [<code>NodeHandler</code>](#NodeHandler) |  | 
-| [observeOptions] | <code>object</code> |  | 
-
-
-* * *
-
-<a name="deferstyle"></a>
-
-## ~~deferstyle(src, [id], [delay], [onload])~~
-***Deprecated***
-
-Deprecated from version 2.0
-
-**Kind**: global function  
-**See**: [css](#Defer.css)  
-**Since**: 1.0  
-
-| Param | Type | Default |
-| --- | --- | --- |
-| src | <code>string</code> |  | 
-| [id] | <code>string</code> |  | 
-| [delay] | <code>number</code> | <code>0</code> | 
-| [onload] | <code>function</code> |  | 
-
-
-* * *
-
-<a name="deferscript"></a>
-
-## ~~deferscript(src, [id], [delay], [onload])~~
-***Deprecated***
-
-Deprecated from version 2.0
-
-**Kind**: global function  
-**See**: [js](#Defer.js)  
-**Since**: 1.0  
-
-| Param | Type | Default |
-| --- | --- | --- |
-| src | <code>string</code> |  | 
-| [id] | <code>string</code> |  | 
-| [delay] | <code>number</code> | <code>0</code> | 
-| [onload] | <code>function</code> |  | 
-
 
 * * *
 

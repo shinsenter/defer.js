@@ -85,21 +85,6 @@ To save an HTTP request, you can even inline the entire Defer.js library by copy
 </head>
 ```
 
-### Compatibility with Older Versions
-
-If you're using Defer.js v1.x, you can use `defer_plus.min.js` instead of `defer.min.js` without wondering about migrations.
-
-```html
-<head>
-  <meta charset="UTF-8" />
-  <title>My Awesome Page</title>
-
-  <!-- Put defer_plus.min.js here -->
-  <script src="https://cdn.jsdelivr.net/npm/@shinsenter/defer.js@3.9.0/dist/defer_plus.min.js"></script>
-
-  <!-- ... -->
-</head>
-```
 
 ### For OLD Browsers (such as IE9)
 
